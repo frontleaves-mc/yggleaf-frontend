@@ -9,12 +9,36 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as AboutRouteImport } from './routes/about'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as CallbackRouteImport } from './routes/callback'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as AdminUsersIndexRouteImport } from './routes/admin/users/index'
+import { Route as AdminSkinsIndexRouteImport } from './routes/admin/skins/index'
+import { Route as AdminProfileIndexRouteImport } from './routes/admin/profile/index'
+import { Route as AdminGameProfilesIndexRouteImport } from './routes/admin/game-profiles/index'
+import { Route as AdminCapesIndexRouteImport } from './routes/admin/capes/index'
+import { Route as AdminUsersUserIdRouteImport } from './routes/admin/users/$userId'
+import { Route as AdminSkinsCreateRouteImport } from './routes/admin/skins/create'
+import { Route as AdminSkinsSkinIdRouteImport } from './routes/admin/skins/$skinId'
+import { Route as AdminGameProfilesProfileIdRouteImport } from './routes/admin/game-profiles/$profileId'
+import { Route as AdminCapesCreateRouteImport } from './routes/admin/capes/create'
+import { Route as AdminCapesCapeIdRouteImport } from './routes/admin/capes/$capeId'
 
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CallbackRoute = CallbackRouteImport.update({
+  id: '/callback',
+  path: '/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -22,40 +46,206 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminUsersIndexRoute = AdminUsersIndexRouteImport.update({
+  id: '/users/',
+  path: '/users/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSkinsIndexRoute = AdminSkinsIndexRouteImport.update({
+  id: '/skins/',
+  path: '/skins/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminProfileIndexRoute = AdminProfileIndexRouteImport.update({
+  id: '/profile/',
+  path: '/profile/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminGameProfilesIndexRoute = AdminGameProfilesIndexRouteImport.update({
+  id: '/game-profiles/',
+  path: '/game-profiles/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCapesIndexRoute = AdminCapesIndexRouteImport.update({
+  id: '/capes/',
+  path: '/capes/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminUsersUserIdRoute = AdminUsersUserIdRouteImport.update({
+  id: '/users/$userId',
+  path: '/users/$userId',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSkinsCreateRoute = AdminSkinsCreateRouteImport.update({
+  id: '/skins/create',
+  path: '/skins/create',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSkinsSkinIdRoute = AdminSkinsSkinIdRouteImport.update({
+  id: '/skins/$skinId',
+  path: '/skins/$skinId',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminGameProfilesProfileIdRoute =
+  AdminGameProfilesProfileIdRouteImport.update({
+    id: '/game-profiles/$profileId',
+    path: '/game-profiles/$profileId',
+    getParentRoute: () => AdminRoute,
+  } as any)
+const AdminCapesCreateRoute = AdminCapesCreateRouteImport.update({
+  id: '/capes/create',
+  path: '/capes/create',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCapesCapeIdRoute = AdminCapesCapeIdRouteImport.update({
+  id: '/capes/$capeId',
+  path: '/capes/$capeId',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/callback': typeof CallbackRoute
+  '/login': typeof LoginRoute
+  '/admin/': typeof AdminIndexRoute
+  '/admin/capes/$capeId': typeof AdminCapesCapeIdRoute
+  '/admin/capes/create': typeof AdminCapesCreateRoute
+  '/admin/game-profiles/$profileId': typeof AdminGameProfilesProfileIdRoute
+  '/admin/skins/$skinId': typeof AdminSkinsSkinIdRoute
+  '/admin/skins/create': typeof AdminSkinsCreateRoute
+  '/admin/users/$userId': typeof AdminUsersUserIdRoute
+  '/admin/capes/': typeof AdminCapesIndexRoute
+  '/admin/game-profiles/': typeof AdminGameProfilesIndexRoute
+  '/admin/profile/': typeof AdminProfileIndexRoute
+  '/admin/skins/': typeof AdminSkinsIndexRoute
+  '/admin/users/': typeof AdminUsersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/callback': typeof CallbackRoute
+  '/login': typeof LoginRoute
+  '/admin': typeof AdminIndexRoute
+  '/admin/capes/$capeId': typeof AdminCapesCapeIdRoute
+  '/admin/capes/create': typeof AdminCapesCreateRoute
+  '/admin/game-profiles/$profileId': typeof AdminGameProfilesProfileIdRoute
+  '/admin/skins/$skinId': typeof AdminSkinsSkinIdRoute
+  '/admin/skins/create': typeof AdminSkinsCreateRoute
+  '/admin/users/$userId': typeof AdminUsersUserIdRoute
+  '/admin/capes': typeof AdminCapesIndexRoute
+  '/admin/game-profiles': typeof AdminGameProfilesIndexRoute
+  '/admin/profile': typeof AdminProfileIndexRoute
+  '/admin/skins': typeof AdminSkinsIndexRoute
+  '/admin/users': typeof AdminUsersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/callback': typeof CallbackRoute
+  '/login': typeof LoginRoute
+  '/admin/': typeof AdminIndexRoute
+  '/admin/capes/$capeId': typeof AdminCapesCapeIdRoute
+  '/admin/capes/create': typeof AdminCapesCreateRoute
+  '/admin/game-profiles/$profileId': typeof AdminGameProfilesProfileIdRoute
+  '/admin/skins/$skinId': typeof AdminSkinsSkinIdRoute
+  '/admin/skins/create': typeof AdminSkinsCreateRoute
+  '/admin/users/$userId': typeof AdminUsersUserIdRoute
+  '/admin/capes/': typeof AdminCapesIndexRoute
+  '/admin/game-profiles/': typeof AdminGameProfilesIndexRoute
+  '/admin/profile/': typeof AdminProfileIndexRoute
+  '/admin/skins/': typeof AdminSkinsIndexRoute
+  '/admin/users/': typeof AdminUsersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/callback'
+    | '/login'
+    | '/admin/'
+    | '/admin/capes/$capeId'
+    | '/admin/capes/create'
+    | '/admin/game-profiles/$profileId'
+    | '/admin/skins/$skinId'
+    | '/admin/skins/create'
+    | '/admin/users/$userId'
+    | '/admin/capes/'
+    | '/admin/game-profiles/'
+    | '/admin/profile/'
+    | '/admin/skins/'
+    | '/admin/users/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about'
-  id: '__root__' | '/' | '/about'
+  to:
+    | '/'
+    | '/callback'
+    | '/login'
+    | '/admin'
+    | '/admin/capes/$capeId'
+    | '/admin/capes/create'
+    | '/admin/game-profiles/$profileId'
+    | '/admin/skins/$skinId'
+    | '/admin/skins/create'
+    | '/admin/users/$userId'
+    | '/admin/capes'
+    | '/admin/game-profiles'
+    | '/admin/profile'
+    | '/admin/skins'
+    | '/admin/users'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/callback'
+    | '/login'
+    | '/admin/'
+    | '/admin/capes/$capeId'
+    | '/admin/capes/create'
+    | '/admin/game-profiles/$profileId'
+    | '/admin/skins/$skinId'
+    | '/admin/skins/create'
+    | '/admin/users/$userId'
+    | '/admin/capes/'
+    | '/admin/game-profiles/'
+    | '/admin/profile/'
+    | '/admin/skins/'
+    | '/admin/users/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
+  AdminRoute: typeof AdminRouteWithChildren
+  CallbackRoute: typeof CallbackRoute
+  LoginRoute: typeof LoginRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/callback': {
+      id: '/callback'
+      path: '/callback'
+      fullPath: '/callback'
+      preLoaderRoute: typeof CallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -65,12 +255,130 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/users/': {
+      id: '/admin/users/'
+      path: '/users'
+      fullPath: '/admin/users/'
+      preLoaderRoute: typeof AdminUsersIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/skins/': {
+      id: '/admin/skins/'
+      path: '/skins'
+      fullPath: '/admin/skins/'
+      preLoaderRoute: typeof AdminSkinsIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/profile/': {
+      id: '/admin/profile/'
+      path: '/profile'
+      fullPath: '/admin/profile/'
+      preLoaderRoute: typeof AdminProfileIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/game-profiles/': {
+      id: '/admin/game-profiles/'
+      path: '/game-profiles'
+      fullPath: '/admin/game-profiles/'
+      preLoaderRoute: typeof AdminGameProfilesIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/capes/': {
+      id: '/admin/capes/'
+      path: '/capes'
+      fullPath: '/admin/capes/'
+      preLoaderRoute: typeof AdminCapesIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/users/$userId': {
+      id: '/admin/users/$userId'
+      path: '/users/$userId'
+      fullPath: '/admin/users/$userId'
+      preLoaderRoute: typeof AdminUsersUserIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/skins/create': {
+      id: '/admin/skins/create'
+      path: '/skins/create'
+      fullPath: '/admin/skins/create'
+      preLoaderRoute: typeof AdminSkinsCreateRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/skins/$skinId': {
+      id: '/admin/skins/$skinId'
+      path: '/skins/$skinId'
+      fullPath: '/admin/skins/$skinId'
+      preLoaderRoute: typeof AdminSkinsSkinIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/game-profiles/$profileId': {
+      id: '/admin/game-profiles/$profileId'
+      path: '/game-profiles/$profileId'
+      fullPath: '/admin/game-profiles/$profileId'
+      preLoaderRoute: typeof AdminGameProfilesProfileIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/capes/create': {
+      id: '/admin/capes/create'
+      path: '/capes/create'
+      fullPath: '/admin/capes/create'
+      preLoaderRoute: typeof AdminCapesCreateRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/capes/$capeId': {
+      id: '/admin/capes/$capeId'
+      path: '/capes/$capeId'
+      fullPath: '/admin/capes/$capeId'
+      preLoaderRoute: typeof AdminCapesCapeIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
+interface AdminRouteChildren {
+  AdminIndexRoute: typeof AdminIndexRoute
+  AdminCapesCapeIdRoute: typeof AdminCapesCapeIdRoute
+  AdminCapesCreateRoute: typeof AdminCapesCreateRoute
+  AdminGameProfilesProfileIdRoute: typeof AdminGameProfilesProfileIdRoute
+  AdminSkinsSkinIdRoute: typeof AdminSkinsSkinIdRoute
+  AdminSkinsCreateRoute: typeof AdminSkinsCreateRoute
+  AdminUsersUserIdRoute: typeof AdminUsersUserIdRoute
+  AdminCapesIndexRoute: typeof AdminCapesIndexRoute
+  AdminGameProfilesIndexRoute: typeof AdminGameProfilesIndexRoute
+  AdminProfileIndexRoute: typeof AdminProfileIndexRoute
+  AdminSkinsIndexRoute: typeof AdminSkinsIndexRoute
+  AdminUsersIndexRoute: typeof AdminUsersIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminIndexRoute: AdminIndexRoute,
+  AdminCapesCapeIdRoute: AdminCapesCapeIdRoute,
+  AdminCapesCreateRoute: AdminCapesCreateRoute,
+  AdminGameProfilesProfileIdRoute: AdminGameProfilesProfileIdRoute,
+  AdminSkinsSkinIdRoute: AdminSkinsSkinIdRoute,
+  AdminSkinsCreateRoute: AdminSkinsCreateRoute,
+  AdminUsersUserIdRoute: AdminUsersUserIdRoute,
+  AdminCapesIndexRoute: AdminCapesIndexRoute,
+  AdminGameProfilesIndexRoute: AdminGameProfilesIndexRoute,
+  AdminProfileIndexRoute: AdminProfileIndexRoute,
+  AdminSkinsIndexRoute: AdminSkinsIndexRoute,
+  AdminUsersIndexRoute: AdminUsersIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AboutRoute: AboutRoute,
+  AdminRoute: AdminRouteWithChildren,
+  CallbackRoute: CallbackRoute,
+  LoginRoute: LoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
