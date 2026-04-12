@@ -4,6 +4,8 @@ import {
   createRootRouteWithContext,
 } from '@tanstack/react-router'
 
+import { TooltipProvider } from '#/components/ui/tooltip'
+
 import appCss from '../styles.css?url'
 
 import type { QueryClient } from '@tanstack/react-query'
@@ -52,7 +54,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body className="font-sans antialiased [overflow-wrap:anywhere]">
-        {children}
+        <TooltipProvider>{children}</TooltipProvider>
         <Scripts />
       </body>
     </html>
