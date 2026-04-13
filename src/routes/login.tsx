@@ -38,8 +38,8 @@ function LoginPage() {
       <div className="relative hidden w-[480px] shrink-0 items-center justify-center overflow-hidden bg-[#111f23] md:flex">
         {/* 背景装饰 */}
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -left-20 -top-20 h-[300px] w-[300px] rounded-full bg-[var(--lagoon)]/8 blur-[80px]" />
-          <div className="absolute -bottom-16 -right-16 h-[250px] w-[250px] rounded-full bg-[var(--lagoon-deep)]/6 blur-[60px]" />
+          <div className="absolute -left-20 -top-20 h-[300px] w-[300px] rounded-full bg-[var(--diamond)]/8 blur-[80px]" />
+          <div className="absolute -bottom-16 -right-16 h-[250px] w-[250px] rounded-full bg-[var(--diamond-deep)]/6 blur-[60px]" />
           {/* 网格纹理 */}
           <div
             className="absolute inset-0 opacity-[0.03]"
@@ -55,7 +55,7 @@ function LoginPage() {
           {/* Logo */}
           <div className="flex flex-col items-center gap-4">
             <div
-              className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-[var(--lagoon)] to-[var(--lagoon-deep)] text-white text-2xl font-bold shadow-xl shadow-[var(--lagoon)]/20"
+              className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-[var(--diamond)] to-[var(--diamond-deep)] text-white text-2xl font-bold shadow-xl shadow-[var(--diamond)]/20"
               style={{ clipPath: 'polygon(8% 0%, 100% 0%, 92% 100%, 0% 100%)' }}
             >
               Y
@@ -67,7 +67,7 @@ function LoginPage() {
           </div>
 
           {/* 分隔线 */}
-          <div className="h-px w-16 bg-gradient-to-r from-transparent via-[var(--lagoon)]/30 to-transparent" />
+          <div className="h-px w-16 bg-gradient-to-r from-transparent via-[var(--diamond)]/30 to-transparent" />
 
           {/* 功能亮点 */}
           <div className="w-full max-w-[280px] space-y-4">
@@ -101,7 +101,7 @@ function LoginPage() {
           {/* 移动端 Logo（桌面端隐藏） */}
           <div className="mb-8 flex items-center gap-3 md:hidden">
             <div
-              className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[var(--lagoon)] to-[var(--lagoon-deep)] text-white text-sm font-bold shadow-lg shadow-[var(--lagoon)]/15"
+              className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[var(--diamond)] to-[var(--diamond-deep)] text-white text-sm font-bold shadow-lg shadow-[var(--diamond)]/15"
               style={{ clipPath: 'polygon(8% 0%, 100% 0%, 92% 100%, 0% 100%)' }}
             >
               Y
@@ -122,7 +122,7 @@ function LoginPage() {
             <Button
               type="button"
               onClick={handleSSOLogin}
-              className="h-12 w-full bg-gradient-to-r from-[var(--lagoon)] to-[var(--lagoon-deep)] text-white text-[15px] font-semibold hover:opacity-90 transition-opacity"
+              className="h-12 w-full bg-gradient-to-r from-[var(--diamond)] to-[var(--diamond-deep)] text-white text-[15px] font-semibold hover:opacity-90 transition-opacity"
             >
               <ExternalLink className="mr-2 h-4 w-4" />
               SSO 安全登录
@@ -137,7 +137,7 @@ function LoginPage() {
             {/* 安全提示 */}
             <div className="rounded-lg border border-[var(--border)]/50 bg-[var(--card)] p-3">
               <div className="flex items-start gap-2.5">
-                <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[var(--lagoon)]" />
+                <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[var(--diamond)]" />
                 <div>
                   <p className="text-[12px] font-medium text-[var(--foreground)]">安全登录</p>
                   <p className="text-[11px] text-[var(--muted-foreground)]">
@@ -164,7 +164,7 @@ function FeatureItem({ icon, label, desc }: { icon: React.ReactNode; label: stri
   return (
     <div className="flex items-start gap-3">
       <div
-        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[var(--lagoon)]/10 text-[var(--lagoon)]"
+        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[var(--diamond)]/10 text-[var(--diamond)]"
         style={{ clipPath: 'polygon(8% 0%, 100% 0%, 92% 100%, 0% 100%)' }}
       >
         {icon}

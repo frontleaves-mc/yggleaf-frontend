@@ -1,6 +1,8 @@
 /**
- * 管理后台菜单配置 + 面包屑映射
- * 基于 Lucide React 图标 + API 模块映射
+ * 菜单配置 + 面包屑映射
+ *
+ * 统一管理用户端和管理员端的导航菜单。
+ * 类型导出供 AppLayout / SidebarMenuRenderer 使用。
  */
 
 import type { LucideIcon } from 'lucide-react'
@@ -12,9 +14,10 @@ import {
   Flag,
   UserCircle,
   Settings,
+  Home,
 } from 'lucide-react'
 
-// ─── 菜单项类型 ────────────────────────────────────────────
+// ─── 类型定义 ────────────────────────────────────────────
 
 export interface MenuItem {
   /** 唯一标识 */
@@ -86,9 +89,45 @@ export const adminMenuItems: MenuItem[] = [
   },
 ]
 
+// ─── 用户端菜单配置 ───────────────────────────────────────
+
+export const userMenuItems: MenuItem[] = [
+  {
+    key: 'home',
+    label: '首页',
+    icon: Home,
+    to: '/app',
+  },
+  {
+    key: 'skins',
+    label: '皮肤库',
+    icon: Shirt,
+    to: '/app/skins',
+  },
+  {
+    key: 'capes',
+    label: '披风库',
+    icon: Flag,
+    to: '/app/capes',
+  },
+  {
+    key: 'profiles',
+    label: '游戏档案',
+    icon: Gamepad2,
+    to: '/app/profiles',
+  },
+]
+
 // ─── 面包屑标签映射（路由路径 → 显示名称） ─────────────────
 
 export const breadcrumbLabels: Record<string, string> = {
+  // ── 用户端 ──
+  '/app': '首页',
+  '/app/skins': '皮肤库',
+  '/app/capes': '披风库',
+  '/app/profiles': '游戏档案',
+
+  // ── 管理端 ──
   '/admin': '仪表盘',
   '/admin/users': '用户管理',
   '/admin/users/$userId': '用户详情',

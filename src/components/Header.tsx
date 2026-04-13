@@ -16,7 +16,7 @@ export default function Header() {
           {/* 方块图标 — 用 clip-path 切出 Minecraft 感的斜角 */}
           <span className="relative flex h-8 w-8 items-center justify-center">
             <span
-              className="absolute inset-0 rounded-sm bg-gradient-to-br from-[var(--lagoon)] to-[var(--lagoon-deep)] shadow-sm transition-transform duration-300 group-hover:rotate-12"
+              className="absolute inset-0 rounded-sm bg-gradient-to-br from-[var(--diamond)] to-[var(--diamond-deep)] shadow-sm transition-transform duration-300 group-hover:rotate-12"
               style={{ clipPath: 'polygon(8% 0%, 100% 0%, 92% 100%, 0% 100%)' }}
             />
             <span className="relative text-xs font-bold text-white leading-none select-none">Y</span>
@@ -46,7 +46,7 @@ export default function Header() {
           {/* 管理后台按钮 */}
           <a
             href="/admin"
-            className="ml-2 inline-flex items-center gap-1.5 rounded-md bg-gradient-to-r from-[var(--lagoon)] to-[var(--lagoon-deep)] px-4 py-2 text-[13px] font-semibold text-white no-shadow transition-all duration-200 hover:-translate-y-px hover:shadow-lg hover:shadow-[var(--lagoon)]/20 active:translate-y-0"
+            className="ml-2 inline-flex items-center gap-1.5 rounded-md bg-gradient-to-r from-[var(--diamond)] to-[var(--diamond-deep)] px-4 py-2 text-[13px] font-semibold text-white no-shadow transition-all duration-200 hover:-translate-y-px hover:shadow-lg hover:shadow-[var(--diamond)]/20 active:translate-y-0"
           >
             管理后台
             <ArrowUpRight className="h-3.5 w-3.5" />
@@ -85,7 +85,7 @@ export default function Header() {
             <div className="mt-2 pt-2 border-t border-[var(--line)]/50">
               <a
                 href="/admin"
-                className="inline-flex items-center gap-2 rounded-md bg-gradient-to-r from-[var(--lagoon)] to-[var(--lagoon-deep)] px-4 py-2.5 text-[13px] font-semibold text-white no-underline"
+                className="inline-flex items-center gap-2 rounded-md bg-gradient-to-r from-[var(--diamond)] to-[var(--diamond-deep)] px-4 py-2.5 text-[13px] font-semibold text-white no-underline"
                 onClick={() => setMobileOpen(false)}
               >
                 管理后台

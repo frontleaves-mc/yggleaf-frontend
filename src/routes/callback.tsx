@@ -59,7 +59,7 @@ function CallbackPage() {
           <p className="text-sm text-[var(--muted-foreground)]">{error}</p>
           <a
             href="/login"
-            className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-[var(--lagoon)] to-[var(--lagoon-deep)] px-5 py-2.5 text-sm font-semibold text-white no-underline hover:opacity-90"
+            className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-[var(--diamond)] to-[var(--diamond-deep)] px-5 py-2.5 text-sm font-semibold text-white no-underline hover:opacity-90"
           >
             返回登录
           </a>
@@ -71,7 +71,7 @@ function CallbackPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-[var(--background)]">
       <div className="flex flex-col items-center gap-4">
-        <Loader2 className="h-8 w-8 animate-spin text-[var(--lagoon)]" />
+        <Loader2 className="h-8 w-8 animate-spin text-[var(--diamond)]" />
         <div className="text-center">
           <p className="text-[15px] font-medium text-[var(--foreground)]">正在完成登录...</p>
           <p className="mt-1 text-[13px] text-[var(--muted-foreground)]">正在获取授权凭证并验证身份</p>

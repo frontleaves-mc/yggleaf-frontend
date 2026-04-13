@@ -8,7 +8,7 @@ export default function Footer() {
         <div className="flex items-center gap-2.5">
           {/* 小方块 Logo */}
           <span
-            className="flex h-6 w-6 items-center justify-center rounded-sm bg-gradient-to-br from-[var(--lagoon)] to-[var(--lagoon-deep)]"
+            className="flex h-6 w-6 items-center justify-center rounded-sm bg-gradient-to-br from-[var(--diamond)] to-[var(--diamond-deep)]"
             style={{ clipPath: 'polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%)' }}
           >
             <span className="text-[9px] font-bold text-white leading-none select-none">Y</span>
@@ -22,14 +22,14 @@ export default function Footer() {
         <div className="flex items-center gap-4">
           <a
             href="/"
-            className="text-[12px] text-[var(--sea-ink-soft)] no-underline transition-colors hover:text-[var(--lagoon-deep)]"
+            className="text-[12px] text-[var(--sea-ink-soft)] no-underline transition-colors hover:text-[var(--diamond-deep)]"
           >
             首页
           </a>
           <span className="h-3 w-px bg-[var(--line)]" />
           <a
             href="/admin"
-            className="text-[12px] text-[var(--sea-ink-soft)] no-underline transition-colors hover:text-[var(--lagoon-deep)]"
+            className="text-[12px] text-[var(--sea-ink-soft)] no-underline transition-colors hover:text-[var(--diamond-deep)]"
           >
             管理后台
           </a>

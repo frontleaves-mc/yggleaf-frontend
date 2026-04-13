@@ -112,7 +112,7 @@ function CreateCapePage() {
               <Button
                 type="submit"
                 disabled={createMutation.isPending || !name || !texture}
-                className="bg-gradient-to-r from-[var(--lagoon)] to-[var(--lagoon-deep)] text-white hover:opacity-90 flex-1 sm:flex-none"
+                className="bg-gradient-to-r from-[var(--diamond)] to-[var(--diamond-deep)] text-white hover:opacity-90 flex-1 sm:flex-none"
               >
                 {createMutation.isPending ? (
                   <><Loader2 className="mr-2 h-4 w-4 animate-spin" />创建中...</>

@@ -22,7 +22,7 @@ const mockUsers: User[] = []
 /** 角色名称映射 */
 const roleLabels: Record<string, { label: string; color: string }> = {
   SUPER_ADMIN: { label: '超管', color: 'bg-red-500/10 text-red-600 dark:text-red-400' },
-  ADMIN: { label: '管理员', color: 'bg-[var(--lagoon)]/10 text-[var(--lagoon-deep)]' },
+  ADMIN: { label: '管理员', color: 'bg-[var(--diamond)]/10 text-[var(--diamond-deep)]' },
   PLAYER: { label: '玩家', color: 'bg-gray-500/10 text-gray-600 dark:text-gray-400' },
 }
 
@@ -45,7 +45,7 @@ function UserListPage() {
       header: '用户名',
       render: (row) => (
         <div className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-[var(--lagoon)]/20 to-[var(--lagoon-deep)]/10 text-xs font-bold text-[var(--lagoon-deep)]">
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-[var(--diamond)]/20 to-[var(--diamond-deep)]/10 text-xs font-bold text-[var(--diamond-deep)]">
             {row.username.charAt(0).toUpperCase()}
           </div>
           <div className="min-w-0">

@@ -54,8 +54,8 @@ function CapeListPage() {
       header: '名称',
       render: (row) => (
         <div className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--lagoon-deep)]/10">
-            <Flag className="h-4 w-4 text-[var(--lagoon-deep)]" />
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--diamond-deep)]/10">
+            <Flag className="h-4 w-4 text-[var(--diamond-deep)]" />
           </div>
           <span className="font-medium">{row.name}</span>
         </div>
@@ -129,7 +129,7 @@ function CapeListPage() {
     <div className="admin-page-enter space-y-6">
       <PageHeader title="披风库管理" description="管理和预览所有 Minecraft 披风资源">
         <Link to="/admin/capes/create">
-          <Button className="gap-1.5 bg-gradient-to-r from-[var(--lagoon)] to-[var(--lagoon-deep)] text-white hover:opacity-90 text-sm">
+          <Button className="gap-1.5 bg-gradient-to-r from-[var(--diamond)] to-[var(--diamond-deep)] text-white hover:opacity-90 text-sm">
             <Plus className="h-4 w-4" />
             新建披风
           </Button>

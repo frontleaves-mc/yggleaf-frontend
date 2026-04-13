@@ -152,7 +152,7 @@ function EditSkinPage() {
                 <Button
                   type="submit"
                   disabled={updateMutation.isPending || !name}
-                  className="bg-gradient-to-r from-[var(--lagoon)] to-[var(--lagoon-deep)] text-white hover:opacity-90 flex-1 sm:flex-none"
+                  className="bg-gradient-to-r from-[var(--diamond)] to-[var(--diamond-deep)] text-white hover:opacity-90 flex-1 sm:flex-none"
                 >
                   {updateMutation.isPending ? (
                     <><Loader2 className="mr-2 h-4 w-4 animate-spin" />保存中...</>

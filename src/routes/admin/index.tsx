@@ -40,10 +40,10 @@ function DashboardPage() {
   return (
     <div className="admin-page-enter space-y-8">
       {/* 欢迎区域 */}
-      <section className="relative overflow-hidden rounded-2xl border border-[var(--border)]/30 bg-gradient-to-br from-[var(--lagoon)]/6 via-[var(--card)] to-[var(--card)] p-6 sm:p-8">
+      <section className="relative overflow-hidden rounded-2xl border border-[var(--border)]/30 bg-gradient-to-br from-[var(--diamond)]/6 via-[var(--card)] to-[var(--card)] p-6 sm:p-8">
         {/* 背景装饰 */}
-        <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-[var(--lagoon)]/8 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-12 -left-12 h-32 w-32 rounded-full bg-[var(--lagoon-deep)]/6 blur-2xl" />
+        <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-[var(--diamond)]/8 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-12 -left-12 h-32 w-32 rounded-full bg-[var(--diamond-deep)]/6 blur-2xl" />
 
         <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="space-y-1.5">
@@ -55,8 +55,8 @@ function DashboardPage() {
             </p>
           </div>
           <div className="flex items-center gap-2 text-xs text-[var(--muted-foreground)]">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--lagoon)]/15 bg-[var(--lagoon)]/5 px-3 py-1.5 font-medium text-[var(--lagoon-deep)]">
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--lagoon)]" />
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--diamond)]/15 bg-[var(--diamond)]/5 px-3 py-1.5 font-medium text-[var(--diamond-deep)]">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--diamond)]" />
               系统运行正常
             </span>
           </div>
@@ -102,7 +102,7 @@ function DashboardPage() {
       {/* 快捷操作 */}
       <section>
         <h2 className="mb-4 flex items-center gap-2 text-base font-semibold text-[var(--foreground)]">
-          <TrendingUp className="h-4 w-4 text-[var(--lagoon)]" />
+          <TrendingUp className="h-4 w-4 text-[var(--diamond)]" />
           快捷操作
         </h2>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -111,14 +111,14 @@ function DashboardPage() {
             description="浏览、上传、编辑皮肤资源"
             icon={Palette}
             to="/admin/skins/"
-            accent="from-[var(--lagoon)]/10 to-[var(--lagoon)]/4"
+            accent="from-[var(--diamond)]/10 to-[var(--diamond)]/4"
           />
           <QuickAction
             title="披风库管理"
             description="浏览、上传、编辑披风资源"
             icon={Shield}
             to="/admin/capes/"
-            accent="from-[var(--lagoon-deep)]/10 to-[var(--lagoon-deep)]/4"
+            accent="from-[var(--diamond-deep)]/10 to-[var(--diamond-deep)]/4"
           />
           <QuickAction
             title="个人设置"
@@ -162,17 +162,17 @@ function QuickAction({
   return (
     <Link
       to={to as any}
-      className="group flex items-start gap-4 rounded-xl border border-[var(--border)]/50 bg-[var(--card)] p-5 transition-all duration-200 hover:border-[var(--lagoon)]/30 hover:shadow-md hover:shadow-[var(--lagoon)]/5"
+      className="group flex items-start gap-4 rounded-xl border border-[var(--border)]/50 bg-[var(--card)] p-5 transition-all duration-200 hover:border-[var(--diamond)]/30 hover:shadow-md hover:shadow-[var(--diamond)]/5"
     >
       <div
         className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br ${accent} transition-transform duration-200 group-hover:scale-105`}
       >
-        <Icon className="h-5 w-5 text-[var(--lagoon-deep)]" />
+        <Icon className="h-5 w-5 text-[var(--diamond-deep)]" />
       </div>
       <div className="min-w-0 flex-1 space-y-1">
         <div className="flex items-center justify-between gap-2">
           <h3 className="text-sm font-semibold text-[var(--foreground)]">{title}</h3>
-          <ArrowRight className="h-4 w-4 shrink-0 text-[var(--muted-foreground)]/40 transition-transform group-hover:translate-x-0.5 group-hover:text-[var(--lagoon)]" />
+          <ArrowRight className="h-4 w-4 shrink-0 text-[var(--muted-foreground)]/40 transition-transform group-hover:translate-x-0.5 group-hover:text-[var(--diamond)]" />
         </div>
         <p className="text-[13px] leading-relaxed text-[var(--muted-foreground)]">{description}</p>
       </div>

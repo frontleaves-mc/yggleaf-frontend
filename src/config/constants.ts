@@ -40,7 +40,7 @@ export const SIDEBAR_COLLAPSED_KEY = 'yggleaf_sidebar_collapsed'
 // ─── 应用信息 ──────────────────────────────────────────────
 
 /** 应用名称 */
-export const APP_NAME = 'Yggleaf Admin'
+export const APP_NAME = 'Yggleaf'
 
 /** 应用版本 */
 export const APP_VERSION = '1.0.0'

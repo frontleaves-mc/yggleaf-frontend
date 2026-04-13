@@ -36,12 +36,12 @@ export function StatCard({
       className={cn(
         "group relative overflow-hidden rounded-xl border border-[var(--border)]/60 bg-[var(--card)] p-5 sm:p-6",
         "transition-all duration-200 ease-out",
-        "hover:border-[var(--border)] hover:shadow-lg hover:shadow-[var(--lagoon)]/5",
+        "hover:border-[var(--border)] hover:shadow-lg hover:shadow-[var(--diamond)]/5",
         className,
       )}
     >
       {/* 顶部装饰线 — lagoon 渐变 */}
-      <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-[var(--lagoon)]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-[var(--diamond)]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
       <div className="flex items-center justify-between gap-4">
         {/* 左侧：数据 */}
@@ -84,10 +84,10 @@ export function StatCard({
           className={cn(
             "flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition-transform duration-200 group-hover:scale-110",
             // 图标背景：柔和的 lagoon 色调
-            "bg-gradient-to-br from-[var(--lagoon)]/10 via-[var(--lagoon-deep)]/8 to-[var(--lagoon)]/5",
+            "bg-gradient-to-br from-[var(--diamond)]/10 via-[var(--diamond-deep)]/8 to-[var(--diamond)]/5",
           )}
         >
-          <Icon className="h-5.5 w-5.5 text-[var(--lagoon-deep)]" />
+          <Icon className="h-5.5 w-5.5 text-[var(--diamond-deep)]" />
         </div>
       </div>
     </div>
