@@ -11,6 +11,8 @@ import { Card, CardContent } from '#/components/ui/card'
 import { Button } from '#/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '#/components/ui/avatar'
 import { Badge } from '#/components/ui/badge'
+import { motion } from 'motion/react'
+import { cardHoverVariants, hoverLiftTransition } from '#/lib/motion-presets'
 
 export const Route = createFileRoute('/user/profiles/')({
   component: ProfilesPage,
@@ -102,8 +104,14 @@ export default function ProfilesPage() {
 
 function ProfileCard({ profile }: { profile: GameProfile }) {
   return (
-    <Card className="transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_6px_-1px_oklch(from_var(--foreground)_l_c_h_/_0.06),0_12px_24px_-4px_oklch(from_var(--foreground)_l_c_h_/_0.04)] overflow-hidden">
-      <CardContent className="p-5">
+    <motion.div
+      variants={cardHoverVariants}
+      initial="rest"
+      whileHover="hover"
+      transition={hoverLiftTransition}
+    >
+      <Card className="ring-0 overflow-hidden">
+        <CardContent className="p-5">
         <div className="flex items-start gap-4">
           {/* 头像 / 皮肤预览 */}
           <Avatar className="size-16 rounded-xl ring-2 ring-primary/15">
@@ -156,5 +164,6 @@ function ProfileCard({ profile }: { profile: GameProfile }) {
         </div>
       </CardContent>
     </Card>
+    </motion.div>
   )
 }

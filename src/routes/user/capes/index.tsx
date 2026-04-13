@@ -11,6 +11,8 @@ import { Card, CardContent } from '#/components/ui/card'
 import { Input } from '#/components/ui/input'
 import { Button } from '#/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '#/components/ui/avatar'
+import { motion } from 'motion/react'
+import { cardHoverVariants, hoverLiftTransition } from '#/lib/motion-presets'
 
 export const Route = createFileRoute('/user/capes/')({
   component: CapesPage,
@@ -92,8 +94,15 @@ export default function CapesPage() {
 function CapeCard({ cape, viewMode }: { cape: CapeItem; viewMode: 'grid' | 'list' }) {
   if (viewMode === 'list') {
     return (
-      <Card className="transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_6px_-1px_oklch(from_var(--foreground)_l_c_h_/_0.06),0_12px_24px_-4px_oklch(from_var(--foreground)_l_c_h_/_0.04)] cursor-pointer">
-        <CardContent className="flex items-center gap-4 p-4">
+      <motion.div
+        variants={cardHoverVariants}
+        initial="rest"
+        whileHover="hover"
+        transition={hoverLiftTransition}
+        className="cursor-pointer"
+      >
+        <Card className="ring-0 overflow-hidden">
+          <CardContent className="flex items-center gap-4 p-4">
           <Avatar className="size-14 rounded-lg">
             <AvatarImage src={cape.thumbnail} alt={cape.name} />
             <AvatarFallback className="rounded-lg bg-chart-4/10">
@@ -106,12 +115,20 @@ function CapeCard({ cape, viewMode }: { cape: CapeItem; viewMode: 'grid' | 'list
           </div>
         </CardContent>
       </Card>
+    </motion.div>
     )
   }
 
   return (
-    <Card className="transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_6px_-1px_oklch(from_var(--foreground)_l_c_h_/_0.06),0_12px_24px_-4px_oklch(from_var(--foreground)_l_c_h_/_0.04)] cursor-pointer group overflow-hidden">
-      <CardContent className="p-4">
+    <motion.div
+      variants={cardHoverVariants}
+      initial="rest"
+      whileHover="hover"
+      transition={hoverLiftTransition}
+      className="cursor-pointer"
+    >
+      <Card className="ring-0 overflow-hidden group">
+        <CardContent className="p-4">
         {/* 披风预览区 — 竖长比例模拟披风 */}
         <div className="aspect-[2/3] rounded-lg bg-gradient-to-b from-chart-4/5 via-chart-4/8 to-chart-4/15 mb-3 flex items-center justify-center relative overflow-hidden">
           <Avatar className="size-16 rounded-lg ring-2 ring-chart-4/20 group-hover:ring-chart-4/40 transition-all">
@@ -129,5 +146,6 @@ function CapeCard({ cape, viewMode }: { cape: CapeItem; viewMode: 'grid' | 'list
         <p className="text-xs text-muted-foreground mt-0.5">{cape.author}</p>
       </CardContent>
     </Card>
+    </motion.div>
   )
 }

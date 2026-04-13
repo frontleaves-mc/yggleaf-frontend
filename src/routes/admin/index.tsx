@@ -25,6 +25,8 @@ import {
 } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
 import { PageTransition } from '#/components/ui/page-transition'
+import { motion } from 'motion/react'
+import { cardHoverVariants, hoverLiftTransition, iconScaleSmallVariants, arrowSlideSmallVariants, childMotionTransition } from '#/lib/motion-presets'
 
 export const Route = createFileRoute('/admin/')({
   component: DashboardPage,
@@ -200,22 +202,37 @@ function QuickAction({
   accent: string
 }) {
   return (
-    <Link
-      to={to as any}
-      className="transition-[transform,border-color,box-shadow] duration-220 hover:-translate-y-0.5 hover:border-primary/24 hover:shadow-[0_18px_32px_-26px_oklch(from_var(--primary)_l_c_h_/_0.2)] border border-border/70 bg-card/95 backdrop-blur-[10px] shadow-[0_16px_40px_-28px_oklch(0.18_0.025_195_/_0.18)] group flex items-start gap-4 rounded-[18px] p-4.5"
+    <motion.div
+      variants={cardHoverVariants}
+      initial="rest"
+      whileHover="hover"
+      transition={hoverLiftTransition}
+      className="cursor-pointer"
     >
-      <div
-        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br ${accent} transition-transform duration-200 group-hover:scale-105`}
+      <Link
+        to={to as any}
+        className="border border-border/70 bg-card/95 backdrop-blur-[10px] shadow-[0_16px_40px_-28px_oklch(0.18_0.025_195_/_0.18)] hover:border-primary/24 group flex items-start gap-4 rounded-[18px] p-4.5"
       >
-        <Icon className="h-5 w-5 text-primary" />
-      </div>
-      <div className="min-w-0 flex-1 space-y-1">
-        <div className="flex items-center justify-between gap-2">
-          <h3 className="text-sm font-semibold text-foreground">{title}</h3>
-          <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground/40 transition-transform group-hover:translate-x-0.5 group-hover:text-primary" />
+        <motion.div
+          variants={iconScaleSmallVariants}
+          transition={childMotionTransition}
+          className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br ${accent}`}
+        >
+          <Icon className="h-5 w-5 text-primary" />
+        </motion.div>
+        <div className="min-w-0 flex-1 space-y-1">
+          <div className="flex items-center justify-between gap-2">
+            <h3 className="text-sm font-semibold text-foreground">{title}</h3>
+            <motion.span
+              variants={arrowSlideSmallVariants}
+              transition={childMotionTransition}
+            >
+              <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground/40 transition-colors group-hover:text-primary" />
+            </motion.span>
+          </div>
+          <p className="text-[13px] leading-relaxed text-muted-foreground">{description}</p>
         </div>
-        <p className="text-[13px] leading-relaxed text-muted-foreground">{description}</p>
-      </div>
-    </Link>
+      </Link>
+    </motion.div>
   )
 }

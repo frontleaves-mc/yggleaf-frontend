@@ -12,6 +12,8 @@ import { Card, CardContent } from '#/components/ui/card'
 import { Input } from '#/components/ui/input'
 import { Button } from '#/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '#/components/ui/avatar'
+import { motion } from 'motion/react'
+import { cardHoverVariants, hoverLiftTransition } from '#/lib/motion-presets'
 
 export const Route = createFileRoute('/user/skins/')({
   component: SkinsPage,
@@ -94,8 +96,15 @@ export default function SkinsPage() {
 function SkinCard({ skin, viewMode }: { skin: SkinItem; viewMode: 'grid' | 'list' }) {
   if (viewMode === 'list') {
     return (
-      <Card className="transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_6px_-1px_oklch(from_var(--foreground)_l_c_h_/_0.06),0_12px_24px_-4px_oklch(from_var(--foreground)_l_c_h_/_0.04)] cursor-pointer">
-        <CardContent className="flex items-center gap-4 p-4">
+      <motion.div
+        variants={cardHoverVariants}
+        initial="rest"
+        whileHover="hover"
+        transition={hoverLiftTransition}
+        className="cursor-pointer"
+      >
+        <Card className="ring-0 overflow-hidden">
+          <CardContent className="flex items-center gap-4 p-4">
           <Avatar className="size-14 rounded-lg">
             <AvatarImage src={skin.thumbnail} alt={skin.name} />
             <AvatarFallback className="rounded-lg bg-primary/10">
@@ -115,12 +124,20 @@ function SkinCard({ skin, viewMode }: { skin: SkinItem; viewMode: 'grid' | 'list
           </div>
         </CardContent>
       </Card>
+    </motion.div>
     )
   }
 
   return (
-    <Card className="transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_6px_-1px_oklch(from_var(--foreground)_l_c_h_/_0.06),0_12px_24px_-4px_oklch(from_var(--foreground)_l_c_h_/_0.04)] cursor-pointer group overflow-hidden">
-      <CardContent className="p-4">
+    <motion.div
+      variants={cardHoverVariants}
+      initial="rest"
+      whileHover="hover"
+      transition={hoverLiftTransition}
+      className="cursor-pointer"
+    >
+      <Card className="ring-0 overflow-hidden group">
+        <CardContent className="p-4">
         {/* 皮肤预览区 */}
         <div className="aspect-[3/4] rounded-lg bg-gradient-to-br from-primary/5 to-primary/10 mb-3 flex items-center justify-center relative overflow-hidden">
           <Avatar className="size-20 rounded-xl ring-2 ring-primary/20 group-hover:ring-primary/40 transition-all">
@@ -140,5 +157,6 @@ function SkinCard({ skin, viewMode }: { skin: SkinItem; viewMode: 'grid' | 'list
         <p className="text-xs text-muted-foreground mt-0.5">{skin.author}</p>
       </CardContent>
     </Card>
+    </motion.div>
   )
 }

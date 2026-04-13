@@ -13,6 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from '#/components/ui/table'
+import { Card } from '#/components/ui/card'
 import { cn } from '#/lib/utils'
 
 export interface Column<T> {
@@ -41,22 +42,22 @@ export function DataTable<T>({
 }: DataTableProps<T>) {
   if (isLoading) {
     return (
-      <div className={cn("rounded-xl border border-border bg-card", className)}>
+      <Card className={cn("rounded-xl ring-0 border border-border overflow-hidden", className)}>
         <div className="p-8 text-center text-sm text-muted-foreground">加载中...</div>
-      </div>
+      </Card>
     )
   }
 
   if (data.length === 0) {
     return (
-      <div className={cn("rounded-xl border border-border bg-card", className)}>
+      <Card className={cn("rounded-xl ring-0 border border-border overflow-hidden", className)}>
         <div className="py-12 text-center text-sm text-muted-foreground">{emptyMessage}</div>
-      </div>
+      </Card>
     )
   }
 
   return (
-    <div className={cn("rounded-xl border border-border bg-card overflow-hidden", className)}>
+    <Card className={cn("rounded-xl ring-0 border border-border overflow-hidden", className)}>
       <Table>
         <TableHeader>
           <TableRow>
@@ -79,6 +80,6 @@ export function DataTable<T>({
           ))}
         </TableBody>
       </Table>
-    </div>
+    </Card>
   )
 }

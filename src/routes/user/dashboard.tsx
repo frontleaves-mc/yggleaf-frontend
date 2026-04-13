@@ -12,6 +12,8 @@ import { authStore } from '#/stores/auth-store'
 import { Shirt, Flag, Gamepad2, ArrowRight, Sparkles, ShieldCheck, Server } from 'lucide-react'
 import { useNavigate } from '@tanstack/react-router'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '#/components/ui/card'
+import { motion } from 'motion/react'
+import { cardHoverVariants, hoverLiftTransition, arrowSlideVariants, childMotionTransition } from '#/lib/motion-presets'
 
 export const Route = createFileRoute('/user/dashboard')({
   component: DashboardPage,
@@ -118,16 +120,25 @@ function DashboardPage() {
 
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {quickLinks.map((link) => (
-            <button
+            <motion.button
               key={link.key}
+              variants={cardHoverVariants}
+              initial="rest"
+              whileHover="hover"
+              transition={hoverLiftTransition}
               onClick={() => navigate({ to: link.to as any })}
-              className="transition-[transform,border-color,box-shadow] duration-220 hover:-translate-y-0.5 hover:border-primary/24 hover:shadow-lg hover:shadow-primary/12 border border-border/70 bg-card/95 backdrop-blur-[10px] shadow-[0_16px_40px_-28px_oklch(0.18_0.025_195_/_0.18)] group flex flex-col gap-4 rounded-[18px] p-5 text-left"
+              className="border border-border/70 bg-card/95 backdrop-blur-[10px] shadow-[0_16px_40px_-28px_oklch(0.18_0.025_195_/_0.18)] hover:border-primary/24 group flex flex-col gap-4 rounded-[18px] p-5 text-left"
             >
               <div className="flex items-start justify-between gap-4">
                 <div className={`flex size-11 items-center justify-center rounded-xl bg-gradient-to-br ${link.accent}`}>
                   <link.icon className="size-5 text-primary" />
                 </div>
-                <ArrowRight className="size-4 text-muted-foreground/50 transition-transform group-hover:translate-x-1 group-hover:text-primary" />
+                <motion.span
+                  variants={arrowSlideVariants}
+                  transition={childMotionTransition}
+                >
+                  <ArrowRight className="size-4 text-muted-foreground/50 transition-colors group-hover:text-primary" />
+                </motion.span>
               </div>
 
               <div className="flex flex-1 flex-col gap-2">
@@ -136,7 +147,7 @@ function DashboardPage() {
                 </h3>
                 <p className="text-sm leading-7 text-muted-foreground">{link.desc}</p>
               </div>
-            </button>
+            </motion.button>
           ))}
         </div>
       </section>

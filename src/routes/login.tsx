@@ -18,6 +18,8 @@ import { checkIsAuthenticated } from '#/hooks/use-auth-guard'
 import { Button } from '#/components/ui/button'
 import { ShieldCheck, Shirt, Flag, ExternalLink, Sparkles } from 'lucide-react'
 import { RiseTransition } from '#/components/ui/page-transition'
+import { motion } from 'motion/react'
+import { hoverLiftTransition } from '#/lib/motion-presets'
 
 export const Route = createFileRoute('/login')({
   beforeLoad: () => {
@@ -110,14 +112,24 @@ function LoginPage() {
           </div>
 
           {/* SSO 登录按钮 */}
-          <Button
-            type="button"
-            onClick={handleSSOLogin}
-            className="h-12 w-full bg-gradient-to-r from-primary to-primary text-[15px] font-semibold text-white shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5 hover:opacity-95"
+          <motion.div
+            initial="rest"
+            whileHover="hover"
+            transition={hoverLiftTransition}
+            variants={{
+              rest: { y: 0, opacity: 1 },
+              hover: { y: -2, opacity: 0.95 },
+            }}
           >
-            <ExternalLink className="mr-2 h-4 w-4" />
-            SSO 安全登录
-          </Button>
+            <Button
+              type="button"
+              onClick={handleSSOLogin}
+              className="h-12 w-full bg-gradient-to-r from-primary to-primary text-[15px] font-semibold text-white shadow-lg shadow-primary/20"
+            >
+              <ExternalLink className="mr-2 h-4 w-4" />
+              SSO 安全登录
+            </Button>
+          </motion.div>
 
           {/* 安全说明 */}
           <div className="rounded-2xl border border-border/60 bg-card/70 p-4">
