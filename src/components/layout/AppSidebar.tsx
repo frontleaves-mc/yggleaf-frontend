@@ -24,11 +24,13 @@ interface AppSidebarProps {
 
 export function AppSidebar({ mode, items }: AppSidebarProps) {
   return (
-    <Sidebar collapsible="icon" variant="floating">
+    <Sidebar collapsible="icon" variant="floating" style={{ '--sidebar-width-icon': '4rem' } as React.CSSProperties}>
       {/* Logo 区域 */}
       <AppSidebarHeader mode={mode} />
 
-      <SidebarSeparator />
+      <div className="flex flex-col items-center px-4 pb-1">
+        <SidebarSeparator className='p-0.5 rounded-full' />
+      </div>
 
       {/* 菜单内容区 */}
       <SidebarContent>

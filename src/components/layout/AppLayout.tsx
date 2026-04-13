@@ -66,11 +66,11 @@ export function AppLayout({ children, mode, items }: AppLayoutProps) {
       <AppSidebar mode={mode} items={items} />
 
       <SidebarInset>
-        <div className="relative flex min-h-[100svh] flex-col">
-          <AppTopBar mode={mode} />
+        <div className="relative flex min-h-svh flex-col">
+          <AppTopBar />
 
           <main className="flex-1 px-3.5 py-3.5 pb-7 sm:px-5 sm:pb-8 lg:px-6 lg:py-4 lg:pb-10">
-            <PageTransition className="relative mx-auto max-w-[var(--page-max)]">{children}</PageTransition>
+            <PageTransition className="relative mx-auto max-w-(--page-max)">{children}</PageTransition>
           </main>
         </div>
       </SidebarInset>

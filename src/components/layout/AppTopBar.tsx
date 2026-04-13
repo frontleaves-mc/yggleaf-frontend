@@ -2,29 +2,14 @@
  * AppTopBar - 顶部导航栏
  *
  * 包含：
- *   - 左侧：移动端菜单触发器 (SidebarTrigger)
- *   - 中间：面包屑导航 (BreadcrumbNav)
- *   - 右侧：主题切换 + 用户下拉菜单
+ *   - 左侧：侧边栏切换按钮 (SidebarTrigger)
+ *   - 中间：页面标题 + 面包屑导航 (BreadcrumbNav)
  */
 
-import { useSidebar, SidebarTrigger } from '#/components/ui/sidebar'
-import { Separator } from '#/components/ui/separator'
+import { SidebarTrigger } from '#/components/ui/sidebar'
 import { Link, useMatches } from '@tanstack/react-router'
-import { Home, ChevronRight, Sparkles } from 'lucide-react'
+import { Home, ChevronRight } from 'lucide-react'
 import { breadcrumbLabels } from '#/config/menu'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '#/components/ui/dropdown-menu'
-import { Avatar, AvatarFallback } from '#/components/ui/avatar'
-import { authStore } from '#/stores/auth-store'
-import { useNavigate } from '@tanstack/react-router'
-import { clearAuth } from '#/stores/auth-store'
-import { LogOut, Settings, UserCircle } from 'lucide-react'
-import { cn } from '#/lib/utils'
 
 function useBreadcrumbs() {
   const matches = useMatches()
@@ -73,103 +58,23 @@ function BreadcrumbNav({ crumbs }: { crumbs: ReturnType<typeof useBreadcrumbs> }
   )
 }
 
-// ─── 用户下拉菜单 ───────────────────────────────────────
-
-function UserDropdown() {
-  const navigate = useNavigate()
-  const user = authStore.state.user
-
-  const initials = user?.username?.slice(0, 2).toUpperCase() ?? 'YK'
-
-  const handleLogout = () => {
-    clearAuth()
-    navigate({ to: '/login' })
-  }
-
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <button className="flex items-center gap-2 rounded-xl border border-border/60 bg-background/70 px-2.5 py-2 text-sm transition-colors hover:bg-accent outline-hidden">
-          <Avatar className="size-7">
-            <AvatarFallback className="rounded-md bg-[var(--diamond)]/10 text-[var(--diamond-deep)] text-[10px] font-semibold">
-              {initials}
-            </AvatarFallback>
-          </Avatar>
-          <span className="hidden sm:inline max-w-[120px] truncate font-medium">
-            {user?.username ?? '用户'}
-          </span>
-        </button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-52">
-        <div className="px-2 py-1.5 border-b border-border mb-1">
-          <p className="text-sm font-medium truncate">{user?.username ?? '用户'}</p>
-          <p className="text-xs text-muted-foreground truncate">{user?.email ?? '未登录'}</p>
-        </div>
-
-        <DropdownMenuItem onClick={() => navigate({ to: '/app/profile' as any })}>
-          <UserCircle className="mr-2 size-4" />
-          个人中心
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => navigate({ to: '/admin/profile' as any })}>
-          <Settings className="mr-2 size-4" />
-          账号设置
-        </DropdownMenuItem>
-
-        <DropdownMenuSeparator />
-
-        <DropdownMenuItem onClick={handleLogout} className="text-destructive focus:text-destructive">
-          <LogOut className="mr-2 size-4" />
-          退出登录
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  )
-}
-
 // ─── 主组件 ──────────────────────────────────────────────
 
-export function AppTopBar({ mode }: { mode: 'user' | 'admin' }) {
-  const { isMobile, state } = useSidebar()
+export function AppTopBar() {
   const crumbs = useBreadcrumbs()
   const current = crumbs[crumbs.length - 1]
-  const modeLabel = mode === 'admin' ? '管理后台' : '用户中心'
 
   return (
-    <header className="sticky top-0 z-30 px-4 pt-3 sm:px-6 lg:px-8 lg:pt-4">
-      <div className="mx-auto flex max-w-(--page-max) items-center gap-3 rounded-[18px] border border-border/65 bg-background/82 px-3 py-2.5 shadow-[0_14px_30px_-24px_oklch(0.18_0.03_195_/_0.2)] backdrop-blur-xl sm:px-4">
-        {(isMobile || state === 'collapsed') && (
-          <SidebarTrigger className="shrink-0 rounded-lg border border-border/60 bg-background/90" />
-        )}
-
-        {!isMobile && state === 'collapsed' && (
-          <Separator orientation="vertical" className="h-8" />
-        )}
+    <header className="border-b border-border/40 bg-background/60 backdrop-blur-md pt-2">
+      <div className="mx-auto flex max-w-(--page-max) items-center gap-3 p-3 sm:p-3.5">
+        <SidebarTrigger className="shrink-0 rounded-lg" />
 
         <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-2">
-            <span
-              className={cn(
-                'inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.18em]',
-                mode === 'admin'
-                  ? 'border-[var(--diamond)]/20 bg-[var(--diamond)]/8 text-[var(--diamond-deep)]'
-                  : 'border-[var(--gold)]/25 bg-[var(--gold)]/10 text-[var(--diamond-deep)]',
-              )}
-            >
-              <Sparkles className="size-3" />
-              {modeLabel}
-            </span>
-          </div>
-          <div className="mt-1.5 flex min-w-0 flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-            <div className="min-w-0">
-              <p className="truncate text-base font-semibold text-foreground sm:text-lg">
-                {current?.label ?? '概览'}
-              </p>
-              <BreadcrumbNav crumbs={crumbs} />
-            </div>
-          </div>
+          <p className="truncate text-base font-semibold text-foreground sm:text-lg">
+            {current?.label ?? '概览'}
+          </p>
+          <BreadcrumbNav crumbs={crumbs} />
         </div>
-
-        <UserDropdown />
       </div>
     </header>
   )
