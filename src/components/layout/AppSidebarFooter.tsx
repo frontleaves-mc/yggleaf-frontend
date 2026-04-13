@@ -51,7 +51,7 @@ export function AppSidebarFooter() {
                   className="border border-sidebar-border/60 bg-sidebar-accent/30 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                 >
                   <Avatar className="size-8">
-                    <AvatarFallback className="rounded-lg bg-linear-to-br from-(--diamond)/15 to-(--diamond-deep)/10 text-(--diamond-deep) text-xs font-bold border border-(--diamond)/15">
+                    <AvatarFallback className="rounded-lg bg-linear-to-br from-primary/15 to-primary/10 text-primary text-xs font-bold border border-primary/15">
                       {initials}
                     </AvatarFallback>
                   </Avatar>

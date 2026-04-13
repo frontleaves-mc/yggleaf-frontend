@@ -22,9 +22,9 @@ const mockUsers: User[] = []
 
 /** 角色名称映射 */
 const roleLabels: Record<string, { label: string; color: string }> = {
-  SUPER_ADMIN: { label: '超管', color: 'bg-red-500/10 text-red-600 dark:text-red-400' },
-  ADMIN: { label: '管理员', color: 'bg-[var(--diamond)]/10 text-[var(--diamond-deep)]' },
-  PLAYER: { label: '玩家', color: 'bg-gray-500/10 text-gray-600 dark:text-gray-400' },
+  SUPER_ADMIN: { label: '超管', color: 'bg-destructive/10 text-destructive' },
+  ADMIN: { label: '管理员', color: 'bg-primary/10 text-primary' },
+  PLAYER: { label: '玩家', color: 'bg-secondary text-secondary-foreground' },
 }
 
 export const Route = createFileRoute('/admin/users/')({
@@ -37,7 +37,7 @@ function UserListPage() {
       key: 'id',
       header: 'ID',
       render: (row) => (
-        <span className="tabular-nums text-[var(--muted-foreground)]">#{row.id}</span>
+        <span className="tabular-nums text-muted-foreground">#{row.id}</span>
       ),
       className: 'w-16',
     },
@@ -46,12 +46,12 @@ function UserListPage() {
       header: '用户名',
       render: (row) => (
         <div className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-[var(--diamond)]/20 to-[var(--diamond-deep)]/10 text-xs font-bold text-[var(--diamond-deep)]">
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-primary/20 to-primary/10 text-xs font-bold text-primary">
             {row.username.charAt(0).toUpperCase()}
           </div>
           <div className="min-w-0">
             <p className="font-medium truncate">{row.username}</p>
-            <p className="text-[11px] text-[var(--muted-foreground)] truncate">{row.email}</p>
+            <p className="text-[11px] text-muted-foreground truncate">{row.email}</p>
           </div>
         </div>
       ),

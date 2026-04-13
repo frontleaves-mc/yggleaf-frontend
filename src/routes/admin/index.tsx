@@ -44,10 +44,10 @@ function DashboardPage() {
   return (
     <PageTransition className="flex flex-col gap-6">
       <section className="rounded-[1.25rem] border border-border/70 p-4.5 sm:p-6 bg-gradient-to-b from-card to-card/95 shadow-[0_16px_40px_-28px_oklch(0.18_0.025_195_/_0.18)] relative overflow-hidden">
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-1/2 bg-[radial-gradient(circle_at_top_right,var(--hero-a),transparent_62%)]" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-1/2 bg-[radial-gradient(circle_at_top_right,oklch(from_var(--primary)_l_c_h_/_0.05),transparent_62%)]" />
         <div className="relative grid gap-4 xl:grid-cols-[minmax(0,1.3fr)_minmax(300px,0.95fr)]">
           <div className="flex flex-col gap-4">
-            <div className="inline-flex w-fit items-center gap-2 rounded-full border border-[var(--diamond)]/15 bg-background/75 px-3 py-1.5 text-xs font-semibold text-[var(--diamond-deep)] shadow-sm">
+            <div className="inline-flex w-fit items-center gap-2 rounded-full border border-primary/15 bg-background/75 px-3 py-1.5 text-xs font-semibold text-primary shadow-sm">
               <LayoutDashboard className="size-3.5" />
               Admin Overview
             </div>
@@ -61,17 +61,17 @@ function DashboardPage() {
             </div>
             <div className="flex flex-wrap gap-2.5">
               <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-background/80 px-3 py-2 shadow-[inset_0_1px_0_oklch(1_0_0_/_0.45)]">
-                <Shirt className="size-4 text-[var(--diamond)]" />
+                <Shirt className="size-4 text-primary" />
                 <span className="text-xs text-muted-foreground">皮肤资源</span>
                 <span className="text-sm font-semibold text-foreground">{skinCount}</span>
               </div>
               <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-background/80 px-3 py-2 shadow-[inset_0_1px_0_oklch(1_0_0_/_0.45)]">
-                <Flag className="size-4 text-[var(--diamond)]" />
+                <Flag className="size-4 text-primary" />
                 <span className="text-xs text-muted-foreground">披风资源</span>
                 <span className="text-sm font-semibold text-foreground">{capeCount}</span>
               </div>
               <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-background/80 px-3 py-2 shadow-[inset_0_1px_0_oklch(1_0_0_/_0.45)]">
-                <Activity className="size-4 text-[var(--diamond)]" />
+                <Activity className="size-4 text-primary" />
                 <span className="text-xs text-muted-foreground">系统状态</span>
                 <span className="text-sm font-semibold text-foreground">Healthy</span>
               </div>
@@ -84,8 +84,8 @@ function DashboardPage() {
               <CardDescription>后台运维与资源管理的简要提示。</CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col gap-3 py-5">
-              <div className="inline-flex w-fit items-center gap-2 rounded-full border border-[var(--diamond)]/15 bg-[var(--diamond)]/5 px-3 py-1.5 text-sm font-medium text-[var(--diamond-deep)]">
-                <span className="size-2 rounded-full bg-[var(--diamond)] animate-pulse" />
+              <div className="inline-flex w-fit items-center gap-2 rounded-full border border-primary/15 bg-primary/5 px-3 py-1.5 text-sm font-medium text-primary">
+                <span className="size-2 rounded-full bg-primary animate-pulse" />
                 系统运行正常
               </div>
               <p className="text-sm leading-6.5 text-muted-foreground">
@@ -136,7 +136,7 @@ function DashboardPage() {
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">Operations</p>
             <h2 className="flex items-center gap-2 text-xl font-semibold text-foreground">
-              <TrendingUp className="h-4 w-4 text-[var(--diamond)]" />
+              <TrendingUp className="h-4 w-4 text-primary" />
               快捷操作
             </h2>
           </div>
@@ -147,21 +147,21 @@ function DashboardPage() {
             description="浏览、上传、编辑皮肤资源"
             icon={Palette}
             to="/admin/skins/"
-            accent="from-[var(--diamond)]/10 to-[var(--diamond)]/4"
+            accent="from-primary/10 to-primary/4"
           />
           <QuickAction
             title="披风库管理"
             description="浏览、上传、编辑披风资源"
             icon={Shield}
             to="/admin/capes/"
-            accent="from-[var(--diamond-deep)]/10 to-[var(--diamond-deep)]/4"
+            accent="from-primary/10 to-primary/4"
           />
           <QuickAction
             title="个人设置"
             description="修改密码、账户信息"
             icon={Settings}
             to="/admin/profile/"
-            accent="from-[var(--gold)]/12 to-[var(--gold)]/4"
+            accent="from-chart-4/12 to-chart-4/4"
           />
         </div>
       </section>
@@ -202,19 +202,19 @@ function QuickAction({
   return (
     <Link
       to={to as any}
-      className="transition-[transform,border-color,box-shadow] duration-220 hover:-translate-y-0.5 hover:border-[oklch(from_var(--diamond)_l_c_h_/_0.24)] hover:shadow-[0_18px_32px_-26px_oklch(from_var(--diamond-deep)_l_c_h_/_0.2)] border border-border/70 bg-card/95 backdrop-blur-[10px] shadow-[0_16px_40px_-28px_oklch(0.18_0.025_195_/_0.18)] group flex items-start gap-4 rounded-[18px] p-4.5"
+      className="transition-[transform,border-color,box-shadow] duration-220 hover:-translate-y-0.5 hover:border-primary/24 hover:shadow-[0_18px_32px_-26px_oklch(from_var(--primary)_l_c_h_/_0.2)] border border-border/70 bg-card/95 backdrop-blur-[10px] shadow-[0_16px_40px_-28px_oklch(0.18_0.025_195_/_0.18)] group flex items-start gap-4 rounded-[18px] p-4.5"
     >
       <div
         className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br ${accent} transition-transform duration-200 group-hover:scale-105`}
       >
-        <Icon className="h-5 w-5 text-[var(--diamond-deep)]" />
+        <Icon className="h-5 w-5 text-primary" />
       </div>
       <div className="min-w-0 flex-1 space-y-1">
         <div className="flex items-center justify-between gap-2">
-          <h3 className="text-sm font-semibold text-[var(--foreground)]">{title}</h3>
-          <ArrowRight className="h-4 w-4 shrink-0 text-[var(--muted-foreground)]/40 transition-transform group-hover:translate-x-0.5 group-hover:text-[var(--diamond)]" />
+          <h3 className="text-sm font-semibold text-foreground">{title}</h3>
+          <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground/40 transition-transform group-hover:translate-x-0.5 group-hover:text-primary" />
         </div>
-        <p className="text-[13px] leading-relaxed text-[var(--muted-foreground)]">{description}</p>
+        <p className="text-[13px] leading-relaxed text-muted-foreground">{description}</p>
       </div>
     </Link>
   )

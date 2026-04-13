@@ -46,7 +46,7 @@ function LoginPage() {
           {/* Logo */}
           <div className="flex items-center gap-3.5">
             <div
-              className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[var(--diamond)] to-[var(--diamond-deep)] text-xl font-bold text-white shadow-lg shadow-[var(--diamond)]/20"
+              className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-primary text-xl font-bold text-white shadow-lg shadow-primary/20"
               style={{ clipPath: 'polygon(8% 0%, 100% 0%, 92% 100%, 0% 100%)' }}
             >
               Y
@@ -87,7 +87,7 @@ function LoginPage() {
           {/* 移动端 Logo */}
           <div className="flex items-center gap-3 lg:hidden">
             <div
-              className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[var(--diamond)] to-[var(--diamond-deep)] text-sm font-bold text-white shadow-lg shadow-[var(--diamond)]/15"
+              className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary text-sm font-bold text-white shadow-lg shadow-primary/15"
               style={{ clipPath: 'polygon(8% 0%, 100% 0%, 92% 100%, 0% 100%)' }}
             >
               Y
@@ -113,7 +113,7 @@ function LoginPage() {
           <Button
             type="button"
             onClick={handleSSOLogin}
-            className="h-12 w-full bg-gradient-to-r from-[var(--diamond)] to-[var(--diamond-deep)] text-[15px] font-semibold text-white shadow-lg shadow-[var(--diamond)]/20 transition-all hover:-translate-y-0.5 hover:opacity-95"
+            className="h-12 w-full bg-gradient-to-r from-primary to-primary text-[15px] font-semibold text-white shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5 hover:opacity-95"
           >
             <ExternalLink className="mr-2 h-4 w-4" />
             SSO 安全登录
@@ -149,7 +149,7 @@ function FeatureItem({ icon, label, desc }: { icon: React.ReactNode; label: stri
     <div className="rounded-2xl border border-white/[0.06] bg-white/[0.04] p-3.5">
       <div className="flex items-start gap-3">
         <div
-          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/[0.08] text-[oklch(0.70_0.12_200)]"
+          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/[0.08] text-primary"
           style={{ clipPath: 'polygon(8% 0%, 100% 0%, 92% 100%, 0% 100%)' }}
         >
           {icon}

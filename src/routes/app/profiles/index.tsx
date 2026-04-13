@@ -59,7 +59,7 @@ export default function ProfilesPage() {
           </p>
         </div>
         <Button
-          className="gap-1.5 shrink-0 bg-gradient-to-r from-[var(--diamond)] to-[var(--diamond-deep)] text-white hover:opacity-90"
+          className="gap-1.5 shrink-0 bg-gradient-to-r from-primary to-primary text-white hover:opacity-90"
         >
           <Plus className="size-4" />
           绑定档案
@@ -81,7 +81,7 @@ export default function ProfilesPage() {
               <p className="mt-1 text-sm text-muted-foreground">
                 绑定你的 Minecraft 角色以开始使用皮肤和披风
               </p>
-              <Button className="mt-4 gap-1.5 bg-gradient-to-r from-[var(--diamond)] to-[var(--diamond-deep)] text-white hover:opacity-90">
+              <Button className="mt-4 gap-1.5 bg-gradient-to-r from-primary to-primary text-white hover:opacity-90">
                 <Plus className="size-4" />
                 绑定第一个档案
               </Button>
@@ -101,9 +101,9 @@ function ProfileCard({ profile }: { profile: GameProfile }) {
       <CardContent className="p-5">
         <div className="flex items-start gap-4">
           {/* 头像 / 皮肤预览 */}
-          <Avatar className="size-16 rounded-xl ring-2 ring-[var(--diamond)]/15">
+          <Avatar className="size-16 rounded-xl ring-2 ring-primary/15">
             <AvatarImage src={profile.skinUrl} alt={profile.playerName} />
-            <AvatarFallback className="rounded-xl bg-[var(--diamond)]/10 text-xl font-bold text-[var(--diamond-deep)]">
+            <AvatarFallback className="rounded-xl bg-primary/10 text-xl font-bold text-primary">
               {profile.playerName.slice(0, 2).toUpperCase()}
             </AvatarFallback>
           </Avatar>

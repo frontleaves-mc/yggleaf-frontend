@@ -27,9 +27,9 @@ export function AppSidebarHeader({ mode }: AppSidebarHeaderProps) {
         <div
           className={cn(
             'flex shrink-0 items-center justify-center',
-            'bg-linear-to-br from-(--diamond) to-(--diamond-deep)',
-            'text-white font-bold shadow-md shadow-(--diamond)/20',
-            'transition-all duration-300 hover:shadow-lg hover:shadow-(--diamond)/30',
+            'bg-linear-to-br from-primary to-primary',
+            'text-white font-bold shadow-md shadow-primary/20',
+            'transition-all duration-300 hover:shadow-lg hover:shadow-primary/30',
             isCollapsed ? 'mx-auto size-8 text-xs' : 'size-9 text-sm',
           )}
           style={{ clipPath: 'polygon(8% 0%, 100% 0%, 92% 100%, 0% 100%)' }}

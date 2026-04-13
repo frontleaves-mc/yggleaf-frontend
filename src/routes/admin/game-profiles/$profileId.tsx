@@ -18,7 +18,7 @@ function GameProfileDetailPage() {
     <PageTransition className="space-y-6">
       <Link
         to="/admin/game-profiles"
-        className="inline-flex items-center gap-1.5 text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors"
+        className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
       >
         <ArrowLeft className="h-4 w-4" />
         返回档案列表
@@ -30,7 +30,7 @@ function GameProfileDetailPage() {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            <p className="text-sm text-[var(--muted-foreground)]">
+            <p className="text-sm text-muted-foreground">
               档案详情接口正在对接中，完成后将展示完整的档案信息、关联皮肤、关联披风等数据。
             </p>
             <div className="grid gap-3 sm:grid-cols-2">
@@ -42,8 +42,8 @@ function GameProfileDetailPage() {
                 ['关联披风', '--'],
                 ['更新时间', '--'],
               ].map(([label, value]) => (
-                <div key={label} className="flex items-center justify-between rounded-lg border border-[var(--border)] px-4 py-3">
-                  <span className="text-[13px] text-[var(--muted-foreground)]">{label}</span>
+                <div key={label} className="flex items-center justify-between rounded-lg border border-border px-4 py-3">
+                  <span className="text-[13px] text-muted-foreground">{label}</span>
                   <span className="text-[13px] font-mono font-medium">{value}</span>
                 </div>
               ))}

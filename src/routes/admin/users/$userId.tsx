@@ -18,7 +18,7 @@ function UserDetailPage() {
     <PageTransition className="space-y-6">
       <Link
         to="/admin/users"
-        className="inline-flex items-center gap-1.5 text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors"
+        className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
       >
         <ArrowLeft className="h-4 w-4" />
         返回用户列表
@@ -30,7 +30,7 @@ function UserDetailPage() {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            <p className="text-sm text-[var(--muted-foreground)]">
+            <p className="text-sm text-muted-foreground">
               用户详情接口正在对接中，完成后将展示完整的用户信息、角色权限、关联资源等。
             </p>
             <div className="grid gap-3 sm:grid-cols-2">
@@ -44,8 +44,8 @@ function UserDetailPage() {
                 ['注册时间', '--'],
                 ['最后登录', '--'],
               ].map(([label, value]) => (
-                <div key={label} className="flex items-center justify-between rounded-lg border border-[var(--border)] px-4 py-3">
-                  <span className="text-[13px] text-[var(--muted-foreground)]">{label}</span>
+                <div key={label} className="flex items-center justify-between rounded-lg border border-border px-4 py-3">
+                  <span className="text-[13px] text-muted-foreground">{label}</span>
                   <span className="text-[13px] font-medium">{value}</span>
                 </div>
               ))}

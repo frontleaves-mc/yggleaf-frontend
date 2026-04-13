@@ -50,16 +50,16 @@ function CallbackPage() {
 
   if (error) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[var(--background)]">
+      <div className="flex min-h-screen items-center justify-center bg-background">
         <div className="w-full max-w-sm space-y-4 px-6 text-center">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30">
-            <span className="text-xl text-red-500">!</span>
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-destructive/10">
+            <span className="text-xl text-destructive">!</span>
           </div>
-          <h2 className="text-lg font-semibold text-[var(--foreground)]">登录失败</h2>
-          <p className="text-sm text-[var(--muted-foreground)]">{error}</p>
+          <h2 className="text-lg font-semibold text-foreground">登录失败</h2>
+          <p className="text-sm text-muted-foreground">{error}</p>
           <a
             href="/login"
-            className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-[var(--diamond)] to-[var(--diamond-deep)] px-5 py-2.5 text-sm font-semibold text-white no-underline hover:opacity-90"
+            className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-primary to-primary px-5 py-2.5 text-sm font-semibold text-white no-underline hover:opacity-90"
           >
             返回登录
           </a>
@@ -69,12 +69,12 @@ function CallbackPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[var(--background)]">
+    <div className="flex min-h-screen items-center justify-center bg-background">
       <div className="flex flex-col items-center gap-4">
-        <Loader2 className="h-8 w-8 animate-spin text-[var(--diamond)]" />
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
         <div className="text-center">
-          <p className="text-[15px] font-medium text-[var(--foreground)]">正在完成登录...</p>
-          <p className="mt-1 text-[13px] text-[var(--muted-foreground)]">正在获取授权凭证并验证身份</p>
+          <p className="text-[15px] font-medium text-foreground">正在完成登录...</p>
+          <p className="mt-1 text-[13px] text-muted-foreground">正在获取授权凭证并验证身份</p>
         </div>
       </div>
     </div>

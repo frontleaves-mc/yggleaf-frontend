@@ -34,22 +34,22 @@ export function StatCard({
   return (
     <div
       className={cn(
-        "group relative overflow-hidden rounded-xl border border-[var(--border)]/60 bg-[var(--card)] p-5 sm:p-6",
+        "group relative overflow-hidden rounded-xl border border-border/60 bg-card p-5 sm:p-6",
         "transition-all duration-200 ease-out",
-        "hover:border-[var(--border)] hover:shadow-lg hover:shadow-[var(--diamond)]/5",
+        "hover:border-border hover:shadow-lg hover:shadow-primary/5",
         className,
       )}
     >
       {/* 顶部装饰线 — lagoon 渐变 */}
-      <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-[var(--diamond)]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
       <div className="flex items-center justify-between gap-4">
         {/* 左侧：数据 */}
         <div className="space-y-1.5 min-w-0">
-          <p className="text-[12px] font-medium uppercase tracking-wide text-[var(--muted-foreground)]/80">
+          <p className="text-[12px] font-medium uppercase tracking-wide text-muted-foreground/80">
             {title}
           </p>
-          <p className="text-[28px] font-bold tracking-tight text-[var(--foreground)] tabular-nums leading-none sm:text-[32px]">
+          <p className="text-[28px] font-bold tracking-tight text-foreground tabular-nums leading-none sm:text-[32px]">
             {value}
           </p>
           {(trendValue || description) && (
@@ -59,11 +59,11 @@ export function StatCard({
                   className={cn(
                     "inline-flex items-center gap-0.5 rounded-full px-2 py-0.5 text-[11px] font-semibold tabular-nums",
                     trend === 'up' &&
-                      "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
+                      "bg-chart-2/10 text-chart-2",
                     trend === 'down' &&
-                      "bg-red-500/10 text-red-500 dark:text-red-400",
+                      "bg-destructive/10 text-destructive",
                     (!trend || trend === 'neutral') &&
-                      "bg-[var(--muted)] text-[var(--muted-foreground)]",
+                      "bg-muted text-muted-foreground",
                   )}
                 >
                   {trend === 'up' && '↑'}
@@ -73,7 +73,7 @@ export function StatCard({
                 </span>
               )}
               {description && !trendValue && (
-                <span className="text-[12px] text-[var(--muted-foreground)]/70">{description}</span>
+                <span className="text-[12px] text-muted-foreground/70">{description}</span>
               )}
             </div>
           )}
@@ -84,10 +84,10 @@ export function StatCard({
           className={cn(
             "flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition-transform duration-200 group-hover:scale-110",
             // 图标背景：柔和的 lagoon 色调
-            "bg-gradient-to-br from-[var(--diamond)]/10 via-[var(--diamond-deep)]/8 to-[var(--diamond)]/5",
+            "bg-gradient-to-br from-primary/10 via-primary/8 to-primary/5",
           )}
         >
-          <Icon className="h-5.5 w-5.5 text-[var(--diamond-deep)]" />
+          <Icon className="h-5.5 w-5.5 text-primary" />
         </div>
       </div>
     </div>

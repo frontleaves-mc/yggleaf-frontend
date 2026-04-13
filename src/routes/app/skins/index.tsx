@@ -93,8 +93,8 @@ function SkinCard({ skin, viewMode }: { skin: SkinItem; viewMode: 'grid' | 'list
         <CardContent className="flex items-center gap-4 p-4">
           <Avatar className="size-14 rounded-lg">
             <AvatarImage src={skin.thumbnail} alt={skin.name} />
-            <AvatarFallback className="rounded-lg bg-[var(--diamond)]/10">
-              <Shirt className="size-6 text-[var(--diamond-deep)]" />
+            <AvatarFallback className="rounded-lg bg-primary/10">
+              <Shirt className="size-6 text-primary" />
             </AvatarFallback>
           </Avatar>
           <div className="flex-1 min-w-0">
@@ -117,11 +117,11 @@ function SkinCard({ skin, viewMode }: { skin: SkinItem; viewMode: 'grid' | 'list
     <Card className="transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_6px_-1px_oklch(from_var(--foreground)_l_c_h_/_0.06),0_12px_24px_-4px_oklch(from_var(--foreground)_l_c_h_/_0.04)] cursor-pointer group overflow-hidden">
       <CardContent className="p-4">
         {/* 皮肤预览区 */}
-        <div className="aspect-[3/4] rounded-lg bg-gradient-to-br from-[var(--diamond)]/5 to-[var(--diamond)]/10 mb-3 flex items-center justify-center relative overflow-hidden">
-          <Avatar className="size-20 rounded-xl ring-2 ring-[var(--diamond)]/20 group-hover:ring-[var(--diamond)]/40 transition-all">
+        <div className="aspect-[3/4] rounded-lg bg-gradient-to-br from-primary/5 to-primary/10 mb-3 flex items-center justify-center relative overflow-hidden">
+          <Avatar className="size-20 rounded-xl ring-2 ring-primary/20 group-hover:ring-primary/40 transition-all">
             <AvatarImage src={skin.thumbnail} alt={skin.name} />
-            <AvatarFallback className="rounded-xl bg-[var(--diamond)]/10 text-2xl">
-              <Shirt className="size-10 text-[var(--diamond-deep)]" />
+            <AvatarFallback className="rounded-xl bg-primary/10 text-2xl">
+              <Shirt className="size-10 text-primary" />
             </AvatarFallback>
           </Avatar>
           {/* Hover 遮罩 */}
@@ -129,7 +129,7 @@ function SkinCard({ skin, viewMode }: { skin: SkinItem; viewMode: 'grid' | 'list
         </div>
 
         {/* 信息 */}
-        <h3 className="font-medium text-sm text-foreground truncate group-hover:text-[var(--diamond)] transition-colors">
+        <h3 className="font-medium text-sm text-foreground truncate group-hover:text-primary transition-colors">
           {skin.name}
         </h3>
         <p className="text-xs text-muted-foreground mt-0.5">{skin.author}</p>

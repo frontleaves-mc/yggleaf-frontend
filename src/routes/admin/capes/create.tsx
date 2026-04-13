@@ -50,7 +50,7 @@ function CreateCapePage() {
     <PageTransition className="space-y-6">
       <Link
         to="/admin/capes"
-        className="inline-flex items-center gap-1.5 text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors"
+        className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
       >
         <ArrowLeft className="h-4 w-4" />
         返回披风列表
@@ -86,15 +86,15 @@ function CreateCapePage() {
                 required
                 disabled={createMutation.isPending}
               />
-              <p className="text-[12px] text-[var(--muted-foreground)]">
+              <p className="text-[12px] text-muted-foreground">
                 上传纹理文件后系统会返回文件 ID，在此填入即可
               </p>
             </div>
 
-            <div className="flex items-center justify-between rounded-lg border border-[var(--border)] p-3.5">
+            <div className="flex items-center justify-between rounded-lg border border-border p-3.5">
               <div className="space-y-0.5">
                 <Label htmlFor="cape-public" className="text-sm">公开披风</Label>
-                <p className="text-[12px] text-[var(--muted-foreground)]">
+                <p className="text-[12px] text-muted-foreground">
                   开启后所有用户均可使用此披风
                 </p>
               </div>
@@ -113,7 +113,7 @@ function CreateCapePage() {
               <Button
                 type="submit"
                 disabled={createMutation.isPending || !name || !texture}
-                className="bg-gradient-to-r from-[var(--diamond)] to-[var(--diamond-deep)] text-white hover:opacity-90 flex-1 sm:flex-none"
+                className="bg-gradient-to-r from-primary to-primary text-white hover:opacity-90 flex-1 sm:flex-none"
               >
                 {createMutation.isPending ? (
                   <><Loader2 className="mr-2 h-4 w-4 animate-spin" />创建中...</>

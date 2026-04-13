@@ -41,22 +41,22 @@ export function DataTable<T>({
 }: DataTableProps<T>) {
   if (isLoading) {
     return (
-      <div className={cn("rounded-xl border border-[var(--border)] bg-[var(--card)]", className)}>
-        <div className="p-8 text-center text-sm text-[var(--muted-foreground)]">加载中...</div>
+      <div className={cn("rounded-xl border border-border bg-card", className)}>
+        <div className="p-8 text-center text-sm text-muted-foreground">加载中...</div>
       </div>
     )
   }
 
   if (data.length === 0) {
     return (
-      <div className={cn("rounded-xl border border-[var(--border)] bg-[var(--card)]", className)}>
-        <div className="py-12 text-center text-sm text-[var(--muted-foreground)]">{emptyMessage}</div>
+      <div className={cn("rounded-xl border border-border bg-card", className)}>
+        <div className="py-12 text-center text-sm text-muted-foreground">{emptyMessage}</div>
       </div>
     )
   }
 
   return (
-    <div className={cn("rounded-xl border border-[var(--border)] bg-[var(--card)] overflow-hidden", className)}>
+    <div className={cn("rounded-xl border border-border bg-card overflow-hidden", className)}>
       <Table>
         <TableHeader>
           <TableRow>

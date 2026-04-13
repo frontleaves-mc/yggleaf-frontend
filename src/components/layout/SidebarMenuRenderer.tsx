@@ -114,7 +114,7 @@ function FlatMenuItem({
         tooltip={item.label}
       >
         <a href={item.to}>
-          <Icon className={cn("size-4", active && "text-[var(--diamond)]")} />
+          <Icon className={cn("size-4", active && "text-sidebar-primary")} />
           <span>{item.label}</span>
         </a>
       </SidebarMenuButton>
@@ -153,7 +153,7 @@ function CollapsibleMenuItem({
               <SidebarMenuSubItem key={child.key}>
                 <SidebarMenuSubButton asChild isActive={isActiveChild(child.to)}>
                   <a href={child.to}>
-                    <child.icon className={cn("size-4", isActiveChild(child.to) && "text-[var(--diamond)]")} />
+                    <child.icon className={cn("size-4", isActiveChild(child.to) && "text-sidebar-primary")} />
                     <span>{child.label}</span>
                   </a>
                 </SidebarMenuSubButton>

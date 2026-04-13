@@ -46,7 +46,7 @@ function CapeListPage() {
       key: 'id',
       header: 'ID',
       render: (row) => (
-        <span className="tabular-nums text-[var(--muted-foreground)]">#{row.id}</span>
+        <span className="tabular-nums text-muted-foreground">#{row.id}</span>
       ),
       className: 'w-16',
     },
@@ -55,8 +55,8 @@ function CapeListPage() {
       header: '名称',
       render: (row) => (
         <div className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--diamond-deep)]/10">
-            <Flag className="h-4 w-4 text-[var(--diamond-deep)]" />
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
+            <Flag className="h-4 w-4 text-primary" />
           </div>
           <span className="font-medium">{row.name}</span>
         </div>
@@ -70,7 +70,7 @@ function CapeListPage() {
           variant={row.is_public ? 'default' : 'secondary'}
           className={
             row.is_public
-              ? 'bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500/15 dark:text-emerald-400 border-emerald-500/20'
+              ? 'bg-chart-2/10 text-chart-2 hover:bg-chart-2/15 border-chart-2/20'
               : ''
           }
         >
@@ -83,7 +83,7 @@ function CapeListPage() {
       key: 'texture_hash',
       header: '纹理哈希',
       render: (row) => (
-        <span className="font-mono text-xs text-[var(--muted-foreground)]">
+        <span className="font-mono text-xs text-muted-foreground">
           {row.texture_hash.slice(0, 10)}...
         </span>
       ),
@@ -92,7 +92,7 @@ function CapeListPage() {
       key: 'updated_at',
       header: '更新时间',
       render: (row) => (
-        <span className="text-[13px] text-[var(--muted-foreground)]">
+        <span className="text-[13px] text-muted-foreground">
           {new Date(row.updated_at).toLocaleDateString('zh-CN')}
         </span>
       ),
@@ -112,7 +112,7 @@ function CapeListPage() {
           <Button
             variant="ghost"
             size="sm"
-            className="h-7 px-2 text-xs text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30"
+            className="h-7 px-2 text-xs text-destructive hover:text-destructive/90 hover:bg-destructive/10"
             onClick={() => setDeleteTarget(row)}
           >
             <Trash2 className="mr-1 h-3 w-3" />
@@ -130,7 +130,7 @@ function CapeListPage() {
     <PageTransition className="space-y-6">
       <PageHeader title="披风库管理" description="管理和预览所有 Minecraft 披风资源">
         <Link to="/admin/capes/create">
-          <Button className="gap-1.5 bg-gradient-to-r from-[var(--diamond)] to-[var(--diamond-deep)] text-white hover:opacity-90 text-sm">
+          <Button className="gap-1.5 bg-gradient-to-r from-primary to-primary text-white hover:opacity-90 text-sm">
             <Plus className="h-4 w-4" />
             新建披风
           </Button>

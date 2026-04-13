@@ -79,13 +79,13 @@ function EditCapePage() {
 
   if (isLoading) return <PageTransition><LoadingSkeleton /></PageTransition>
 
-  if (!cape) return <PageTransition className="text-center py-12 text-[var(--muted-foreground)]">披风不存在</PageTransition>
+  if (!cape) return <PageTransition className="text-center py-12 text-muted-foreground">披风不存在</PageTransition>
 
   return (
     <PageTransition className="space-y-6">
       <Link
         to="/admin/capes"
-        className="inline-flex items-center gap-1.5 text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors"
+        className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
       >
         <ArrowLeft className="h-4 w-4" />
         返回披风列表
@@ -117,10 +117,10 @@ function EditCapePage() {
                 />
               </div>
 
-              <div className="flex items-center justify-between rounded-lg border border-[var(--border)] p-3.5">
+              <div className="flex items-center justify-between rounded-lg border border-border p-3.5">
                 <div className="space-y-0.5">
                   <Label className="text-sm">公开披风</Label>
-                  <p className="text-[12px] text-[var(--muted-foreground)]">
+                  <p className="text-[12px] text-muted-foreground">
                     开启后所有用户均可使用
                   </p>
                 </div>
@@ -134,7 +134,7 @@ function EditCapePage() {
                 <Button
                   type="submit"
                   disabled={updateMutation.isPending || !name}
-                  className="bg-gradient-to-r from-[var(--diamond)] to-[var(--diamond-deep)] text-white hover:opacity-90 flex-1 sm:flex-none"
+                  className="bg-gradient-to-r from-primary to-primary text-white hover:opacity-90 flex-1 sm:flex-none"
                 >
                   {updateMutation.isPending ? (
                     <><Loader2 className="mr-2 h-4 w-4 animate-spin" />保存中...</>
@@ -160,7 +160,7 @@ function EditCapePage() {
               value={new Date(cape.updated_at).toLocaleString('zh-CN')}
             />
 
-            <div className="pt-4 border-t border-[var(--border)]">
+            <div className="pt-4 border-t border-border">
               <Button
                 variant="destructive"
                 className="w-full gap-1.5 text-sm"
@@ -191,7 +191,7 @@ function EditCapePage() {
 function InfoRow({ label, value, mono }: { label: string; value: string; mono?: boolean }) {
   return (
     <div className="flex items-start justify-between gap-3">
-      <span className="text-[13px] text-[var(--muted-foreground)] shrink-0">{label}</span>
+      <span className="text-[13px] text-muted-foreground shrink-0">{label}</span>
       <span className={`text-[13px] font-medium break-all ${mono ? 'font-mono text-xs' : ''}`}>{value}</span>
     </div>
   )
@@ -202,8 +202,8 @@ function LoadingSkeleton() {
     <div className="space-y-4 max-w-xl">
       {[...Array(3)].map((_, i) => (
         <div key={i} className="space-y-2">
-          <div className="h-4 w-20 rounded bg-[var(--muted)] animate-pulse" />
-          <div className="h-10 w-full rounded-md border border-[var(--border)] bg-[var(--card)] animate-pulse" />
+          <div className="h-4 w-20 rounded bg-muted animate-pulse" />
+          <div className="h-10 w-full rounded-md border border-border bg-card animate-pulse" />
         </div>
       ))}
     </div>

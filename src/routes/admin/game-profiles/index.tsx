@@ -29,7 +29,7 @@ function GameProfileListPage() {
       key: 'id',
       header: 'ID',
       render: (row) => (
-        <span className="tabular-nums text-[var(--muted-foreground)]">#{row.id}</span>
+        <span className="tabular-nums text-muted-foreground">#{row.id}</span>
       ),
       className: 'w-16',
     },
@@ -38,8 +38,8 @@ function GameProfileListPage() {
       header: '玩家名称',
       render: (row) => (
         <div className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--diamond)]/10">
-            <UserCircle className="h-4 w-4 text-[var(--diamond-deep)]" />
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
+            <UserCircle className="h-4 w-4 text-primary" />
           </div>
           <span className="font-medium">{row.name}</span>
         </div>
@@ -49,7 +49,7 @@ function GameProfileListPage() {
       key: 'uuid',
       header: 'UUID',
       render: (row) => (
-        <span className="font-mono text-xs text-[var(--muted-foreground)]">
+        <span className="font-mono text-xs text-muted-foreground">
           {row.uuid.slice(0, 8)}...
         </span>
       ),
@@ -58,7 +58,7 @@ function GameProfileListPage() {
       key: 'updated_at',
       header: '更新时间',
       render: (row) => (
-        <span className="text-[13px] text-[var(--muted-foreground)]">
+        <span className="text-[13px] text-muted-foreground">
           {new Date(row.updated_at).toLocaleDateString('zh-CN')}
         </span>
       ),

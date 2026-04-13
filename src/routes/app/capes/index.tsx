@@ -91,8 +91,8 @@ function CapeCard({ cape, viewMode }: { cape: CapeItem; viewMode: 'grid' | 'list
         <CardContent className="flex items-center gap-4 p-4">
           <Avatar className="size-14 rounded-lg">
             <AvatarImage src={cape.thumbnail} alt={cape.name} />
-            <AvatarFallback className="rounded-lg bg-[var(--gold)]/10">
-              <Flag className="size-6 text-[oklch(0.75 0.12 75)]" />
+            <AvatarFallback className="rounded-lg bg-chart-4/10">
+              <Flag className="size-6 text-chart-4" />
             </AvatarFallback>
           </Avatar>
           <div className="flex-1 min-w-0">
@@ -108,17 +108,17 @@ function CapeCard({ cape, viewMode }: { cape: CapeItem; viewMode: 'grid' | 'list
     <Card className="transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_6px_-1px_oklch(from_var(--foreground)_l_c_h_/_0.06),0_12px_24px_-4px_oklch(from_var(--foreground)_l_c_h_/_0.04)] cursor-pointer group overflow-hidden">
       <CardContent className="p-4">
         {/* 披风预览区 — 竖长比例模拟披风 */}
-        <div className="aspect-[2/3] rounded-lg bg-gradient-to-b from-[var(--gold)]/5 via-[var(--gold)]/8 to-[var(--gold)]/15 mb-3 flex items-center justify-center relative overflow-hidden">
-          <Avatar className="size-16 rounded-lg ring-2 ring-[var(--gold)]/20 group-hover:ring-[var(--gold)]/40 transition-all">
+        <div className="aspect-[2/3] rounded-lg bg-gradient-to-b from-chart-4/5 via-chart-4/8 to-chart-4/15 mb-3 flex items-center justify-center relative overflow-hidden">
+          <Avatar className="size-16 rounded-lg ring-2 ring-chart-4/20 group-hover:ring-chart-4/40 transition-all">
             <AvatarImage src={cape.thumbnail} alt={cape.name} />
-            <AvatarFallback className="rounded-lg bg-[var(--gold)]/10 text-xl">
-              <Flag className="size-8 text-[oklch(0.75 0.12 75)]" />
+            <AvatarFallback className="rounded-lg bg-chart-4/10 text-xl">
+              <Flag className="size-8 text-chart-4" />
             </AvatarFallback>
           </Avatar>
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors rounded-lg" />
         </div>
 
-        <h3 className="font-medium text-sm text-foreground truncate group-hover:text-[var(--gold)] transition-colors">
+        <h3 className="font-medium text-sm text-foreground truncate group-hover:text-chart-4 transition-colors">
           {cape.name}
         </h3>
         <p className="text-xs text-muted-foreground mt-0.5">{cape.author}</p>

@@ -19,11 +19,11 @@ export function ErrorPage({
 }: ErrorPageProps) {
   return (
     <div className="flex flex-col items-center justify-center py-16 text-center">
-      <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/20">
-        <AlertCircle className="h-8 w-8 text-red-500" />
+      <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-destructive/10">
+        <AlertCircle className="h-8 w-8 text-destructive" />
       </div>
-      <h2 className="mb-2 text-lg font-semibold text-[var(--foreground)]">{title}</h2>
-      <p className="mb-6 max-w-md text-sm text-[var(--muted-foreground)]">{message}</p>
+      <h2 className="mb-2 text-lg font-semibold text-foreground">{title}</h2>
+      <p className="mb-6 max-w-md text-sm text-muted-foreground">{message}</p>
       {onRetry && (
         <Button onClick={onRetry} variant="outline">
           <RefreshCw className="mr-2 h-4 w-4" />
