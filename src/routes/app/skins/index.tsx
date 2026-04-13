@@ -40,7 +40,7 @@ export default function SkinsPage() {
     <div className="space-y-6">
       {/* 页面标题 */}
       <div>
-        <h1 className="text-2xl font-bold text-foreground display-title">皮肤库</h1>
+        <h1 className="text-2xl font-bold text-foreground font-display">皮肤库</h1>
         <p className="mt-1 text-sm text-muted-foreground">浏览并选择你喜欢的角色皮肤</p>
       </div>
 
@@ -89,7 +89,7 @@ export default function SkinsPage() {
 function SkinCard({ skin, viewMode }: { skin: SkinItem; viewMode: 'grid' | 'list' }) {
   if (viewMode === 'list') {
     return (
-      <Card className="card-hover cursor-pointer">
+      <Card className="transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_6px_-1px_oklch(from_var(--foreground)_l_c_h_/_0.06),0_12px_24px_-4px_oklch(from_var(--foreground)_l_c_h_/_0.04)] cursor-pointer">
         <CardContent className="flex items-center gap-4 p-4">
           <Avatar className="size-14 rounded-lg">
             <AvatarImage src={skin.thumbnail} alt={skin.name} />
@@ -114,7 +114,7 @@ function SkinCard({ skin, viewMode }: { skin: SkinItem; viewMode: 'grid' | 'list
   }
 
   return (
-    <Card className="card-hover cursor-pointer group overflow-hidden">
+    <Card className="transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_6px_-1px_oklch(from_var(--foreground)_l_c_h_/_0.06),0_12px_24px_-4px_oklch(from_var(--foreground)_l_c_h_/_0.04)] cursor-pointer group overflow-hidden">
       <CardContent className="p-4">
         {/* 皮肤预览区 */}
         <div className="aspect-[3/4] rounded-lg bg-gradient-to-br from-[var(--diamond)]/5 to-[var(--diamond)]/10 mb-3 flex items-center justify-center relative overflow-hidden">

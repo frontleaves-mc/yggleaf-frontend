@@ -20,6 +20,7 @@ import {
 import { AppSidebar } from './AppSidebar'
 import { AppTopBar } from './AppTopBar'
 import type { MenuConfig } from './SidebarMenuRenderer'
+import { PageTransition } from '#/components/ui/page-transition'
 
 // ─── 类型定义 ────────────────────────────────────────────
 
@@ -62,20 +63,16 @@ export function AppLayout({ children, mode, items }: AppLayoutProps) {
 
   return (
     <SidebarProvider defaultOpen={getInitialOpen()}>
-      {/* 侧边栏 */}
       <AppSidebar mode={mode} items={items} />
 
-      {/* 主内容区 */}
-      <SidebarInset className="app-layout">
-        {/* 顶部导航栏 */}
-        <AppTopBar mode={mode} />
+      <SidebarInset>
+        <div className="relative flex min-h-[100svh] flex-col">
+          <AppTopBar mode={mode} />
 
-        {/* 页面内容 */}
-        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
-          <div className="mx-auto max-w-6xl page-enter">
-            {children}
-          </div>
-        </main>
+          <main className="flex-1 px-3.5 py-3.5 pb-7 sm:px-5 sm:pb-8 lg:px-6 lg:py-4 lg:pb-10">
+            <PageTransition className="relative mx-auto max-w-[var(--page-max)]">{children}</PageTransition>
+          </main>
+        </div>
       </SidebarInset>
     </SidebarProvider>
   )

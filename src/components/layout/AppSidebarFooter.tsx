@@ -29,20 +29,18 @@ export function AppSidebarFooter() {
 
   return (
     <>
-      {/* 边缘拖拽触发条 */}
       <SidebarRail />
 
-      <SidebarFooter className="border-t border-sidebar-border">
+      <SidebarFooter className="p-3 pt-0">
         <SidebarMenu>
-          {/* 用户信息区 */}
           <SidebarMenuItem>
             <SidebarMenuButton
               size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              className="rounded-2xl border border-sidebar-border/60 bg-sidebar-accent/30 px-2.5 py-2.5 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
               onClick={() => navigate({ to: '/admin/profile' as any })}
             >
               <Avatar className="size-8">
-                <AvatarFallback className="rounded-lg bg-[var(--diamond)]/10 text-[var(--diamond-deep)] text-xs font-semibold">
+                <AvatarFallback className="rounded-lg bg-gradient-to-br from-[var(--diamond)]/15 to-[var(--diamond-deep)]/10 text-[var(--diamond-deep)] text-xs font-bold border border-[var(--diamond)]/15">
                   {initials}
                 </AvatarFallback>
               </Avatar>
@@ -55,12 +53,10 @@ export function AppSidebarFooter() {
             </SidebarMenuButton>
           </SidebarMenuItem>
 
-          {/* 操作行：折叠切换 + 登出 */}
-          <div className="flex items-center gap-1 mt-1 px-2">
-            {/* 折叠/展开按钮 */}
+          <div className="mt-2 flex items-center gap-2 px-1">
             <button
               onClick={toggleSidebar}
-              className="flex size-7 items-center justify-center rounded-md text-sidebar-foreground/60 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+              className="flex h-8 flex-1 items-center justify-center gap-1 rounded-xl border border-sidebar-border/60 text-sidebar-foreground/60 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
               title={state === 'collapsed' ? '展开侧边栏' : '收起侧边栏'}
             >
               {state === 'collapsed' ? (
@@ -68,12 +64,12 @@ export function AppSidebarFooter() {
               ) : (
                 <ChevronLeft className="size-4" />
               )}
+              <span className="text-xs font-medium">{state === 'collapsed' ? '展开' : '收起'}</span>
             </button>
 
-            {/* 登出按钮 */}
             <button
               onClick={handleLogout}
-              className="flex size-7 items-center justify-center rounded-md text-sidebar-foreground/60 transition-colors hover:bg-destructive/10 hover:text-destructive"
+              className="flex size-8 items-center justify-center rounded-xl border border-sidebar-border/60 text-sidebar-foreground/50 transition-colors hover:bg-destructive/10 hover:text-destructive"
               title="退出登录"
             >
               <LogOut className="size-4" />

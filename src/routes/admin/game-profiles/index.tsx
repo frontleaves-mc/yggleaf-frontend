@@ -14,6 +14,7 @@ import {
 } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
 import type { GameProfile } from '#/api/types'
+import { PageTransition } from '#/components/ui/page-transition'
 
 // 临时数据（API 对接后替换为真实查询）
 const mockProfiles: GameProfile[] = []
@@ -79,7 +80,7 @@ function GameProfileListPage() {
   ]
 
   return (
-    <div className="admin-page-enter space-y-6">
+    <PageTransition className="space-y-6">
       <PageHeader title="游戏档案管理" description="管理所有玩家的 Minecraft 游戏档案">
         <Badge variant="secondary" className="text-xs">接口开发中</Badge>
       </PageHeader>
@@ -90,6 +91,6 @@ function GameProfileListPage() {
         rowKey={(row) => row.id}
         emptyMessage="暂无游戏档案数据，完整列表接口开发中"
       />
-    </div>
+    </PageTransition>
   )
 }

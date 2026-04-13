@@ -53,7 +53,7 @@ export default function ProfilesPage() {
       {/* 页面标题 + 操作 */}
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-foreground display-title">游戏档案</h1>
+          <h1 className="text-2xl font-bold text-foreground font-display">游戏档案</h1>
           <p className="mt-1 text-sm text-muted-foreground">
             管理你的 Minecraft 角色档案
           </p>
@@ -97,7 +97,7 @@ export default function ProfilesPage() {
 
 function ProfileCard({ profile }: { profile: GameProfile }) {
   return (
-    <Card className="card-hover overflow-hidden">
+    <Card className="transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_6px_-1px_oklch(from_var(--foreground)_l_c_h_/_0.06),0_12px_24px_-4px_oklch(from_var(--foreground)_l_c_h_/_0.04)] overflow-hidden">
       <CardContent className="p-5">
         <div className="flex items-start gap-4">
           {/* 头像 / 皮肤预览 */}

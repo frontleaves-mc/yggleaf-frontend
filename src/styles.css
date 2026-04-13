@@ -13,11 +13,11 @@
    ═══════════════════════════════════════════════════════════ */
 
 :root {
-  /* ─── 品牌色 (Diamond Blue 主题) ─── */
+  /* ─── 品牌色 (Diamond Blue 主题 — hue 200 经典钢蓝) ─── */
   --sea-ink: #1a3a4e;
   --sea-ink-soft: #5a7a8e;
-  --diamond: oklch(0.55 0.15 195);
-  --diamond-deep: oklch(0.45 0.13 195);
+  --diamond: oklch(0.55 0.15 200);
+  --diamond-deep: oklch(0.45 0.13 200);
   --gold: oklch(0.75 0.12 75);
   --sand: #eef4f8;
   --foam: #f5f9fc;
@@ -37,9 +37,12 @@
   /* ─── Hero 装饰色 ─── */
   --hero-a: oklch(0.55 0.15 195 / 0.18);
   --hero-b: oklch(0.75 0.12 75 / 0.10);
+  --header-bg: rgba(255, 255, 255, 0.78);
+  --panel-shadow: 0 16px 40px -28px oklch(0.18 0.025 195 / 0.18);
+  --page-max: 88rem;
 
   /* ─── shadcn/ui 色彩变量 (Light) ─── */
-  --background: oklch(0.985 0.003 195);
+  --background: #ffffff;
   --foreground: oklch(0.18 0.025 195);
   --card: oklch(0.995 0.002 195);
   --card-foreground: oklch(0.18 0.025 195);
@@ -65,23 +68,23 @@
   --chart-5: oklch(0.60 0.22 25);              /* 红石 */
   --radius: 0.625rem;
 
-  /* ─── Sidebar 变量 (Light — 跟随主题) ─── */
-  --sidebar: oklch(0.97 0.005 195);
-  --sidebar-foreground: oklch(0.20 0.025 195);
-  --sidebar-primary: oklch(0.50 0.14 195);
+  /* ─── Sidebar 变量 (Light — Refined Diamond) ─── */
+  --sidebar: #ffffff;
+  --sidebar-foreground: oklch(0.175 0.030 220);
+  --sidebar-primary: oklch(0.52 0.15 200);
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.93 0.015 195);
-  --sidebar-accent-foreground: oklch(0.20 0.025 195);
-  --sidebar-border: oklch(0.890 0.015 195);
-  --sidebar-ring: oklch(0.55 0.15 195);
+  --sidebar-accent: oklch(0.920 0.040 210);
+  --sidebar-accent-foreground: oklch(0.20 0.035 215);
+  --sidebar-border: oklch(0.905 0.018 210);
+  --sidebar-ring: oklch(0.52 0.15 200);
 }
 
 .dark {
-  /* ─── 品牌色 (Dark) ─── */
+  /* ─── 品牌色 (Dark — hue 200 经典钢蓝) ─── */
   --sea-ink: #d8e8f0;
   --sea-ink-soft: #8aa8c0;
-  --diamond: oklch(0.65 0.14 195);
-  --diamond-deep: oklch(0.52 0.12 195);
+  --diamond: oklch(0.65 0.14 200);
+  --diamond-deep: oklch(0.52 0.12 200);
   --gold: oklch(0.80 0.11 75);
   --sand: #0c1820;
   --foam: #090e14;
@@ -101,6 +104,8 @@
   /* ─── Hero 装饰色 (Dark) ─── */
   --hero-a: oklch(0.65 0.14 195 / 0.08);
   --hero-b: oklch(0.80 0.11 75 / 0.05);
+  --header-bg: rgba(12, 24, 32, 0.76);
+  --panel-shadow: 0 18px 48px -30px oklch(0 0 0 / 0.4);
 
   /* ─── shadcn/ui 色彩变量 (Dark) ─── */
   --background: oklch(0.135 0.02 195);
@@ -128,19 +133,20 @@
   --chart-4: oklch(0.65 0.14 155);
   --chart-5: oklch(0.63 0.20 25);
 
-  /* ─── Sidebar 变量 (Dark — 跟随主题) ─── */
-  --sidebar: oklch(0.13 0.025 195);
-  --sidebar-foreground: oklch(0.93 0.008 195);
-  --sidebar-primary: oklch(0.65 0.14 195);
-  --sidebar-primary-foreground: oklch(0.12 0.03 195);
-  --sidebar-accent: oklch(0.22 0.04 195);
-  --sidebar-accent-foreground: oklch(0.93 0.008 195);
-  --sidebar-border: oklch(0.22 0.03 195);
-  --sidebar-ring: oklch(0.65 0.14 195);
+  /* ─── Sidebar 变量 (Dark — Refined Diamond) ─── */
+  --sidebar: oklch(0.135 0.02 195);
+  --sidebar-foreground: oklch(0.935 0.010 210);
+  --sidebar-primary: oklch(0.62 0.15 200);
+  --sidebar-primary-foreground: oklch(0.10 0.035 215);
+  --sidebar-accent: oklch(0.20 0.050 215);
+  --sidebar-accent-foreground: oklch(0.94 0.010 210);
+  --sidebar-border: oklch(0.21 0.035 215);
+  --sidebar-ring: oklch(0.62 0.15 200);
 }
 
 @theme inline {
   --font-sans: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Fraunces', Georgia, serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -177,202 +183,4 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-}
-
-/* ═══════════════════════════════════════════════════════════
-   Base & Reset
-   ═══════════════════════════════════════════════════════════ */
-
-html,
-body,
-#app {
-  min-height: 100%;
-}
-
-body {
-  margin: 0;
-  color: var(--foreground);
-  font-family: var(--font-sans);
-  background-color: var(--background);
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  color: var(--diamond);
-  text-decoration-color: oklch(from var(--diamond) l c h / 0.35);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 2px;
-}
-
-code {
-  font-size: 0.9em;
-  border: 1px solid var(--border);
-  background: var(--secondary);
-  border-radius: 7px;
-  padding: 2px 7px;
-}
-
-pre code {
-  border: 0;
-  background: transparent;
-  padding: 0;
-  border-radius: 0;
-  font-size: inherit;
-  color: inherit;
-}
-
-/* ═══════════════════════════════════════════════════════════
-   Typography
-   ═══════════════════════════════════════════════════════════ */
-
-.display-title {
-  font-family: 'Fraunces', Georgia, serif;
-}
-
-/* ═══════════════════════════════════════════════════════════
-   Animations
-   ═══════════════════════════════════════════════════════════ */
-
-button,
-a {
-  transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease,
-    transform 180ms ease;
-}
-
-.rise-in {
-  animation: rise-in 600ms cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-@keyframes rise-in {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* ═══════════════════════════════════════════════════════════
-   App Layout — Sidebar + Content Area
-   ═══════════════════════════════════════════════════════════ */
-
-/* 登录页背景光晕 */
-.login-page {
-  background: var(--bg-base);
-}
-
-.login-page::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background:
-    radial-gradient(ellipse 600px 400px at 20% 20%, var(--bg-glow-a), transparent 60%),
-    radial-gradient(ellipse 500px 350px at 80% 80%, var(--bg-glow-b), transparent 60%);
-}
-
-/* App 布局 — 覆盖 body 背景 */
-.app-layout {
-  background: var(--background);
-}
-
-/* 侧边栏区域：隐藏滚动条 */
-.scrollbar-none {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-.scrollbar-none::-webkit-scrollbar {
-  display: none;
-}
-
-/* 内容区：超细滚动条 */
-.app-layout ::-webkit-scrollbar {
-  width: 3px;
-}
-.app-layout ::-webkit-scrollbar-track {
-  background: transparent;
-}
-.app-layout ::-webkit-scrollbar-thumb {
-  background: oklch(from var(--border) l c h / 0.6);
-  border-radius: 10px;
-}
-.app-layout ::-webkit-scrollbar-thumb:hover {
-  background: oklch(from var(--muted-foreground) l c h / 0.4);
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes slideInLeft {
-  from { transform: translateX(-100%); }
-  to { transform: translateX(0); }
-}
-
-.page-enter {
-  animation: page-enter 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-@keyframes page-enter {
-  from {
-    opacity: 0;
-    transform: translateY(6px) scale(0.998);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-.table-row-hover {
-  transition: background-color 150ms ease;
-}
-.table-row-hover:hover td {
-  background-color: oklch(from var(--accent) l c h / 0.4);
-}
-
-.card-hover {
-  transition:
-    transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 200ms ease,
-    border-color 200ms ease;
-}
-.card-hover:hover {
-  transform: translateY(-2px);
-  box-shadow:
-    0 4px 6px -1px oklch(from var(--foreground) l c h / 0.06),
-    0 12px 24px -4px oklch(from var(--foreground) l c h / 0.04);
-}
-
-/* ═══════════════════════════════════════════════════════════
-   Focus & Selection
-   ═══════════════════════════════════════════════════════════ */
-
-*:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 2px var(--background), 0 0 0 4px var(--ring);
-}
-
-::selection {
-  background: oklch(from var(--diamond) l c h / 0.2);
-}
-
-/* ═══════════════════════════════════════════════════════════
-   Base Layer
-   ═══════════════════════════════════════════════════════════ */
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    background-color: var(--background);
-    color: var(--foreground);
-  }
 }

@@ -7,11 +7,10 @@
  *   - 右侧：主题切换 + 用户下拉菜单
  */
 
-import { useSidebar } from '#/components/ui/sidebar'
-import { SidebarTrigger } from '#/components/ui/sidebar'
+import { useSidebar, SidebarTrigger } from '#/components/ui/sidebar'
 import { Separator } from '#/components/ui/separator'
-import { useMatches } from '@tanstack/react-router'
-import { Home, ChevronRight } from 'lucide-react'
+import { Link, useMatches } from '@tanstack/react-router'
+import { Home, ChevronRight, Sparkles } from 'lucide-react'
 import { breadcrumbLabels } from '#/config/menu'
 import {
   DropdownMenu,
@@ -25,33 +24,33 @@ import { authStore } from '#/stores/auth-store'
 import { useNavigate } from '@tanstack/react-router'
 import { clearAuth } from '#/stores/auth-store'
 import { LogOut, Settings, UserCircle } from 'lucide-react'
+import { cn } from '#/lib/utils'
 
-// ─── 面包屑子组件 ─────────────────────────────────────
-
-function BreadcrumbNav() {
+function useBreadcrumbs() {
   const matches = useMatches()
 
-  // 过滤掉根路由和无路径的路由
-  const crumbs = matches
+  return matches
     .filter((match) => match.pathname !== '/' && match.pathname)
     .map((match) => ({
       label: breadcrumbLabels[match.pathname] ?? match.pathname.split('/').pop() ?? '页面',
       href: match.pathname,
       isCurrent: match.pathname === matches[matches.length - 1]?.pathname,
     }))
-    .filter((crumb) => !crumb.isCurrent || true)
+}
 
+function BreadcrumbNav({ crumbs }: { crumbs: ReturnType<typeof useBreadcrumbs> }) {
   if (crumbs.length === 0) return null
+
+  const rootHref = crumbs[0]?.href ?? '/'
 
   return (
     <nav className="flex items-center gap-1.5 text-sm" aria-label="面包屑导航">
-      {/* 首页图标 */}
-      <a
-        href={crumbs[0]?.href ?? '/'}
-        className="text-muted-foreground hover:text-foreground transition-colors"
+      <Link
+        to={rootHref as any}
+        className="rounded-md p-1 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
       >
         <Home className="size-4" />
-      </a>
+      </Link>
 
       {crumbs.map((crumb, idx) => (
         <span key={crumb.href} className="flex items-center gap-1.5">
@@ -61,12 +60,12 @@ function BreadcrumbNav() {
               {crumb.label}
             </span>
           ) : (
-            <a
-              href={crumb.href}
-              className="text-muted-foreground hover:text-foreground transition-colors max-w-[180px] truncate"
+            <Link
+              to={crumb.href as any}
+              className="max-w-[180px] truncate rounded-md px-1.5 py-1 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
             >
               {crumb.label}
-            </a>
+            </Link>
           )}
         </span>
       ))}
@@ -90,7 +89,7 @@ function UserDropdown() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm hover:bg-accent transition-colors outline-hidden">
+        <button className="flex items-center gap-2 rounded-xl border border-border/60 bg-background/70 px-2.5 py-2 text-sm transition-colors hover:bg-accent outline-hidden">
           <Avatar className="size-7">
             <AvatarFallback className="rounded-md bg-[var(--diamond)]/10 text-[var(--diamond-deep)] text-[10px] font-semibold">
               {initials}
@@ -130,29 +129,48 @@ function UserDropdown() {
 // ─── 主组件 ──────────────────────────────────────────────
 
 export function AppTopBar({ mode }: { mode: 'user' | 'admin' }) {
-  // mode 可用于未来区分用户端/管理端顶部栏行为
-  void mode
   const { isMobile, state } = useSidebar()
+  const crumbs = useBreadcrumbs()
+  const current = crumbs[crumbs.length - 1]
+  const modeLabel = mode === 'admin' ? '管理后台' : '用户中心'
 
   return (
-    <header className="sticky top-0 z-30 flex h-14 shrink-0 items-center gap-2 border-b bg-background/80 backdrop-blur-xl px-4 transition-all duration-200">
-      {/* 左侧：移动端菜单按钮 */}
-      {(isMobile || state === 'collapsed') && (
-        <SidebarTrigger className="-ml-1" />
-      )}
+    <header className="sticky top-0 z-30 px-4 pt-3 sm:px-6 lg:px-8 lg:pt-4">
+      <div className="mx-auto flex max-w-(--page-max) items-center gap-3 rounded-[18px] border border-border/65 bg-background/82 px-3 py-2.5 shadow-[0_14px_30px_-24px_oklch(0.18_0.03_195_/_0.2)] backdrop-blur-xl sm:px-4">
+        {(isMobile || state === 'collapsed') && (
+          <SidebarTrigger className="shrink-0 rounded-lg border border-border/60 bg-background/90" />
+        )}
 
-      {/* 分隔线（桌面端折叠时显示） */}
-      {!isMobile && state === 'collapsed' && (
-        <Separator orientation="vertical" className="mx-1 h-5" />
-      )}
+        {!isMobile && state === 'collapsed' && (
+          <Separator orientation="vertical" className="h-8" />
+        )}
 
-      {/* 中间：面包屑导航 */}
-      <div className="flex-1 min-w-0">
-        <BreadcrumbNav />
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-2">
+            <span
+              className={cn(
+                'inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.18em]',
+                mode === 'admin'
+                  ? 'border-[var(--diamond)]/20 bg-[var(--diamond)]/8 text-[var(--diamond-deep)]'
+                  : 'border-[var(--gold)]/25 bg-[var(--gold)]/10 text-[var(--diamond-deep)]',
+              )}
+            >
+              <Sparkles className="size-3" />
+              {modeLabel}
+            </span>
+          </div>
+          <div className="mt-1.5 flex min-w-0 flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+            <div className="min-w-0">
+              <p className="truncate text-base font-semibold text-foreground sm:text-lg">
+                {current?.label ?? '概览'}
+              </p>
+              <BreadcrumbNav crumbs={crumbs} />
+            </div>
+          </div>
+        </div>
+
+        <UserDropdown />
       </div>
-
-      {/* 右侧：用户信息 */}
-      <UserDropdown />
     </header>
   )
 }

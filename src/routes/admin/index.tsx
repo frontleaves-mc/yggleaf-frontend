@@ -9,6 +9,7 @@ import { useSkins } from '#/api/endpoints/skin-library'
 import { useCapes } from '#/api/endpoints/cape-library'
 import { StatCard } from '#/components/admin/shared/StatCard'
 import { LoadingPage } from '#/components/admin/shared/LoadingPage'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '#/components/ui/card'
 import {
   Users,
   Gamepad2,
@@ -19,8 +20,11 @@ import {
   Shield,
   Settings,
   TrendingUp,
+  Activity,
+  LayoutDashboard,
 } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
+import { PageTransition } from '#/components/ui/page-transition'
 
 export const Route = createFileRoute('/admin/')({
   component: DashboardPage,
@@ -38,32 +42,60 @@ function DashboardPage() {
   const capeCount = capes?.length ?? 0
 
   return (
-    <div className="admin-page-enter space-y-8">
-      {/* 欢迎区域 */}
-      <section className="relative overflow-hidden rounded-2xl border border-[var(--border)]/30 bg-gradient-to-br from-[var(--diamond)]/6 via-[var(--card)] to-[var(--card)] p-6 sm:p-8">
-        {/* 背景装饰 */}
-        <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-[var(--diamond)]/8 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-12 -left-12 h-32 w-32 rounded-full bg-[var(--diamond-deep)]/6 blur-2xl" />
+    <PageTransition className="flex flex-col gap-6">
+      <section className="rounded-[1.25rem] border border-border/70 p-4.5 sm:p-6 bg-gradient-to-b from-card to-card/95 shadow-[0_16px_40px_-28px_oklch(0.18_0.025_195_/_0.18)] relative overflow-hidden">
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-1/2 bg-[radial-gradient(circle_at_top_right,var(--hero-a),transparent_62%)]" />
+        <div className="relative grid gap-4 xl:grid-cols-[minmax(0,1.3fr)_minmax(300px,0.95fr)]">
+          <div className="flex flex-col gap-4">
+            <div className="inline-flex w-fit items-center gap-2 rounded-full border border-[var(--diamond)]/15 bg-background/75 px-3 py-1.5 text-xs font-semibold text-[var(--diamond-deep)] shadow-sm">
+              <LayoutDashboard className="size-3.5" />
+              Admin Overview
+            </div>
+            <div className="flex flex-col gap-2">
+              <h1 className="text-[1.9rem] font-bold tracking-tight text-foreground sm:text-[2.35rem]">
+                欢迎回来，{user?.username ?? '管理员'}
+              </h1>
+              <p className="max-w-2xl text-sm leading-6.5 text-muted-foreground">
+                这里集中展示当前系统概况与常用入口，方便你继续处理皮肤、披风和账号相关工作。
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2.5">
+              <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-background/80 px-3 py-2 shadow-[inset_0_1px_0_oklch(1_0_0_/_0.45)]">
+                <Shirt className="size-4 text-[var(--diamond)]" />
+                <span className="text-xs text-muted-foreground">皮肤资源</span>
+                <span className="text-sm font-semibold text-foreground">{skinCount}</span>
+              </div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-background/80 px-3 py-2 shadow-[inset_0_1px_0_oklch(1_0_0_/_0.45)]">
+                <Flag className="size-4 text-[var(--diamond)]" />
+                <span className="text-xs text-muted-foreground">披风资源</span>
+                <span className="text-sm font-semibold text-foreground">{capeCount}</span>
+              </div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-background/80 px-3 py-2 shadow-[inset_0_1px_0_oklch(1_0_0_/_0.45)]">
+                <Activity className="size-4 text-[var(--diamond)]" />
+                <span className="text-xs text-muted-foreground">系统状态</span>
+                <span className="text-sm font-semibold text-foreground">Healthy</span>
+              </div>
+            </div>
+          </div>
 
-        <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="space-y-1.5">
-            <h1 className="text-xl font-bold text-[var(--foreground)] sm:text-2xl">
-              欢迎回来，{user?.username ?? '管理员'}
-            </h1>
-            <p className="text-[14px] text-[var(--muted-foreground)]">
-              管理你的 Minecraft 皮肤、披风与游戏档案资源。
-            </p>
-          </div>
-          <div className="flex items-center gap-2 text-xs text-[var(--muted-foreground)]">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--diamond)]/15 bg-[var(--diamond)]/5 px-3 py-1.5 font-medium text-[var(--diamond-deep)]">
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--diamond)]" />
-              系统运行正常
-            </span>
-          </div>
+          <Card className="border border-border/70 bg-card/95 backdrop-blur-[10px] shadow-[0_16px_40px_-28px_oklch(0.18_0.025_195_/_0.18)] border-border/60 py-0">
+            <CardHeader className="border-b border-border/50 py-5">
+              <CardTitle className="text-base">今日焦点</CardTitle>
+              <CardDescription>后台运维与资源管理的简要提示。</CardDescription>
+            </CardHeader>
+            <CardContent className="flex flex-col gap-3 py-5">
+              <div className="inline-flex w-fit items-center gap-2 rounded-full border border-[var(--diamond)]/15 bg-[var(--diamond)]/5 px-3 py-1.5 text-sm font-medium text-[var(--diamond-deep)]">
+                <span className="size-2 rounded-full bg-[var(--diamond)] animate-pulse" />
+                系统运行正常
+              </div>
+              <p className="text-sm leading-6.5 text-muted-foreground">
+                当前后台状态稳定。若后续继续细化界面，建议优先统一列表页、详情页和表单页的间距节奏。
+              </p>
+            </CardContent>
+          </Card>
         </div>
       </section>
 
-      {/* 统计卡片 */}
       <section>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <StatCard
@@ -99,12 +131,16 @@ function DashboardPage() {
         </div>
       </section>
 
-      {/* 快捷操作 */}
-      <section>
-        <h2 className="mb-4 flex items-center gap-2 text-base font-semibold text-[var(--foreground)]">
-          <TrendingUp className="h-4 w-4 text-[var(--diamond)]" />
-          快捷操作
-        </h2>
+      <section className="flex flex-col gap-3">
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">Operations</p>
+            <h2 className="flex items-center gap-2 text-xl font-semibold text-foreground">
+              <TrendingUp className="h-4 w-4 text-[var(--diamond)]" />
+              快捷操作
+            </h2>
+          </div>
+        </div>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           <QuickAction
             title="皮肤库管理"
@@ -125,23 +161,27 @@ function DashboardPage() {
             description="修改密码、账户信息"
             icon={Settings}
             to="/admin/profile/"
-            accent="from-[var(--palm)]/10 to-[var(--palm)]/4"
+            accent="from-[var(--gold)]/12 to-[var(--gold)]/4"
           />
         </div>
       </section>
 
-      {/* 最近活动（占位） */}
       <section>
-        <h2 className="mb-4 text-base font-semibold text-[var(--foreground)]">
-          动态概览
-        </h2>
-        <div className="rounded-xl border border-dashed border-[var(--border)]/40 p-8 text-center">
-          <p className="text-sm text-[var(--muted-foreground)]">
-            详细的活动日志和系统监控功能正在开发中...
-          </p>
-        </div>
+        <Card className="border border-border/70 bg-card/95 backdrop-blur-[10px] shadow-[0_16px_40px_-28px_oklch(0.18_0.025_195_/_0.18)] border-dashed border-border/50 py-0">
+          <CardHeader className="py-6">
+            <CardTitle className="text-base">动态概览</CardTitle>
+            <CardDescription>这里预留给后续的活动日志、审计记录与系统监控。</CardDescription>
+          </CardHeader>
+          <CardContent className="py-6">
+            <div className="rounded-2xl border border-dashed border-border/50 bg-background/55 p-8 text-center">
+              <p className="text-sm text-muted-foreground">
+                详细的活动日志和系统监控功能正在开发中。
+              </p>
+            </div>
+          </CardContent>
+        </Card>
       </section>
-    </div>
+    </PageTransition>
   )
 }
 
@@ -162,7 +202,7 @@ function QuickAction({
   return (
     <Link
       to={to as any}
-      className="group flex items-start gap-4 rounded-xl border border-[var(--border)]/50 bg-[var(--card)] p-5 transition-all duration-200 hover:border-[var(--diamond)]/30 hover:shadow-md hover:shadow-[var(--diamond)]/5"
+      className="transition-[transform,border-color,box-shadow] duration-220 hover:-translate-y-0.5 hover:border-[oklch(from_var(--diamond)_l_c_h_/_0.24)] hover:shadow-[0_18px_32px_-26px_oklch(from_var(--diamond-deep)_l_c_h_/_0.2)] border border-border/70 bg-card/95 backdrop-blur-[10px] shadow-[0_16px_40px_-28px_oklch(0.18_0.025_195_/_0.18)] group flex items-start gap-4 rounded-[18px] p-4.5"
     >
       <div
         className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br ${accent} transition-transform duration-200 group-hover:scale-105`}

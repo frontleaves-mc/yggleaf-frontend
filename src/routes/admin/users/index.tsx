@@ -15,6 +15,7 @@ import {
 } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
 import type { User } from '#/api/types'
+import { PageTransition } from '#/components/ui/page-transition'
 
 // 临时数据（API 对接后替换为真实查询）
 const mockUsers: User[] = []
@@ -96,7 +97,7 @@ function UserListPage() {
   ]
 
   return (
-    <div className="admin-page-enter space-y-6">
+    <PageTransition className="space-y-6">
       <PageHeader title="用户管理" description="管理系统中的所有用户账号">
         <Badge variant="secondary" className="text-xs">接口开发中</Badge>
       </PageHeader>
@@ -107,6 +108,6 @@ function UserListPage() {
         rowKey={(row) => row.id}
         emptyMessage="用户列表接口开发中，完成对接后将显示全部用户数据"
       />
-    </div>
+    </PageTransition>
   )
 }

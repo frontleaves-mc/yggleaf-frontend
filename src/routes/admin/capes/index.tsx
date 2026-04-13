@@ -20,6 +20,7 @@ import {
 import { Link } from '@tanstack/react-router'
 import { useState } from 'react'
 import type { CapeLibrary } from '#/api/types'
+import { PageTransition } from '#/components/ui/page-transition'
 
 export const Route = createFileRoute('/admin/capes/')({
   component: CapeListPage,
@@ -126,7 +127,7 @@ function CapeListPage() {
   if (isLoading) return <LoadingPage />
 
   return (
-    <div className="admin-page-enter space-y-6">
+    <PageTransition className="space-y-6">
       <PageHeader title="披风库管理" description="管理和预览所有 Minecraft 披风资源">
         <Link to="/admin/capes/create">
           <Button className="gap-1.5 bg-gradient-to-r from-[var(--diamond)] to-[var(--diamond-deep)] text-white hover:opacity-90 text-sm">
@@ -154,6 +155,6 @@ function CapeListPage() {
         loading={deleteMutation.isPending}
         variant="destructive"
       />
-    </div>
+    </PageTransition>
   )
 }

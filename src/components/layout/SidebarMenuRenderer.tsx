@@ -16,6 +16,7 @@ import {
   ChevronRight,
   type LucideIcon as LucideIconType,
 } from 'lucide-react'
+import { cn } from '#/lib/utils'
 import {
   Collapsible,
   CollapsibleContent,
@@ -72,8 +73,8 @@ export function SidebarMenuRenderer({ items }: SidebarMenuRendererProps) {
   }
 
   return (
-    <SidebarGroup>
-      <SidebarMenu>
+    <SidebarGroup className="px-3 py-2">
+      <SidebarMenu className="gap-0.5">
         {items.map((item) =>
           item.children ? (
             <CollapsibleMenuItem
@@ -113,7 +114,7 @@ function FlatMenuItem({
         tooltip={item.label}
       >
         <a href={item.to}>
-          <Icon className="size-4" />
+          <Icon className={cn("size-4", active && "text-[var(--diamond)]")} />
           <span>{item.label}</span>
         </a>
       </SidebarMenuButton>
@@ -152,7 +153,7 @@ function CollapsibleMenuItem({
               <SidebarMenuSubItem key={child.key}>
                 <SidebarMenuSubButton asChild isActive={isActiveChild(child.to)}>
                   <a href={child.to}>
-                    <child.icon className="size-4" />
+                    <child.icon className={cn("size-4", isActiveChild(child.to) && "text-[var(--diamond)]")} />
                     <span>{child.label}</span>
                   </a>
                 </SidebarMenuSubButton>

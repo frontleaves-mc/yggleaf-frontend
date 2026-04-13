@@ -20,6 +20,7 @@ import { Label } from '#/components/ui/label'
 import { Switch } from '#/components/ui/switch'
 import { Badge } from '#/components/ui/badge'
 import { ConfirmDialog } from '#/components/admin/shared/ConfirmDialog'
+import { PageTransition } from '#/components/ui/page-transition'
 import { Loader2, ArrowLeft, Save, Trash2 } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
 import { useParams } from '@tanstack/react-router'
@@ -76,12 +77,12 @@ function EditCapePage() {
     }
   }
 
-  if (isLoading) return <div className="admin-page-enter"><LoadingSkeleton /></div>
+  if (isLoading) return <PageTransition><LoadingSkeleton /></PageTransition>
 
-  if (!cape) return <div className="admin-page-enter text-center py-12 text-[var(--muted-foreground)]">披风不存在</div>
+  if (!cape) return <PageTransition className="text-center py-12 text-[var(--muted-foreground)]">披风不存在</PageTransition>
 
   return (
-    <div className="admin-page-enter space-y-6">
+    <PageTransition className="space-y-6">
       <Link
         to="/admin/capes"
         className="inline-flex items-center gap-1.5 text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors"
@@ -183,7 +184,7 @@ function EditCapePage() {
         loading={deleteMutation.isPending}
         variant="destructive"
       />
-    </div>
+    </PageTransition>
   )
 }
 

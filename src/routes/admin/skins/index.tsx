@@ -20,6 +20,7 @@ import {
 import { Link } from '@tanstack/react-router'
 import { useState } from 'react'
 import type { SkinLibrary } from '#/api/types'
+import { PageTransition } from '#/components/ui/page-transition'
 
 export const Route = createFileRoute('/admin/skins/')({
   component: SkinListPage,
@@ -127,7 +128,7 @@ function SkinListPage() {
   if (isLoading) return <LoadingPage />
 
   return (
-    <div className="admin-page-enter space-y-6">
+    <PageTransition className="space-y-6">
       <PageHeader title="皮肤库管理" description="管理和预览所有 Minecraft 皮肤资源">
         <Link to="/admin/skins/create">
           <Button className="gap-1.5 bg-gradient-to-r from-[var(--diamond)] to-[var(--diamond-deep)] text-white hover:opacity-90 text-sm">
@@ -155,6 +156,6 @@ function SkinListPage() {
         loading={deleteMutation.isPending}
         variant="destructive"
       />
-    </div>
+    </PageTransition>
   )
 }

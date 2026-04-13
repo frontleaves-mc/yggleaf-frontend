@@ -21,6 +21,7 @@ import { Switch } from '#/components/ui/switch'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '#/components/ui/select'
 import { Badge } from '#/components/ui/badge'
 import { ConfirmDialog } from '#/components/admin/shared/ConfirmDialog'
+import { PageTransition } from '#/components/ui/page-transition'
 import { Loader2, ArrowLeft, Save, Trash2 } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
 import { useParams } from '@tanstack/react-router'
@@ -80,12 +81,12 @@ function EditSkinPage() {
     }
   }
 
-  if (isLoading) return <div className="admin-page-enter"><LoadingSkeleton /></div>
+  if (isLoading) return <PageTransition><LoadingSkeleton /></PageTransition>
 
-  if (!skin) return <div className="admin-page-enter text-center py-12 text-[var(--muted-foreground)]">皮肤不存在</div>
+  if (!skin) return <PageTransition className="text-center py-12 text-[var(--muted-foreground)]">皮肤不存在</PageTransition>
 
   return (
-    <div className="admin-page-enter space-y-6">
+    <PageTransition className="space-y-6">
       {/* 返回导航 */}
       <Link
         to="/admin/skins"
@@ -203,7 +204,7 @@ function EditSkinPage() {
         loading={deleteMutation.isPending}
         variant="destructive"
       />
-    </div>
+    </PageTransition>
   )
 }
 

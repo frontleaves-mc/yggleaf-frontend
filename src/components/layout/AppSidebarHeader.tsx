@@ -19,28 +19,25 @@ const MODE_LABELS: Record<string, string> = {
 
 export function AppSidebarHeader({ mode }: AppSidebarHeaderProps) {
   return (
-    <SidebarHeader className="border-b border-sidebar-border">
-      {/* Logo + 品牌名 */}
-      <div className="flex h-[60px] items-center gap-3 overflow-hidden px-2">
-        {/* Logo：切角方块 + 钻石蓝渐变 */}
+    <SidebarHeader className="p-3">
+      <div className="flex items-center gap-3 rounded-2xl border border-sidebar-border/60 bg-sidebar-accent/35 px-3 py-3 shadow-[inset_0_1px_0_oklch(1_0_0_/_0.45)]">
         <div
           className={cn(
-            "flex size-9 shrink-0 items-center justify-center rounded-xl",
+            "flex size-9 shrink-0 items-center justify-center",
             "bg-gradient-to-br from-[var(--diamond)] to-[var(--diamond-deep)]",
-            "text-white text-sm font-bold shadow-lg shadow-[var(--diamond)]/15",
-            "transition-all duration-300 hover:rotate-6 hover:shadow-xl hover:shadow-[var(--diamond)]/25",
+            "text-white text-sm font-bold shadow-md shadow-[var(--diamond)]/20",
+            "transition-all duration-300 hover:shadow-lg hover:shadow-[var(--diamond)]/30",
           )}
           style={{ clipPath: 'polygon(8% 0%, 100% 0%, 92% 100%, 0% 100%)' }}
         >
           Y
         </div>
 
-        {/* 品牌名 */}
         <div className="min-w-0 flex-1">
-          <p className="truncate text-[15px] font-semibold tracking-tight leading-tight text-sidebar-foreground">
+          <p className="truncate text-[15px] font-bold tracking-tight leading-tight text-sidebar-foreground">
             Yggleaf
           </p>
-          <p className="text-[11px] leading-tight mt-0.5 text-sidebar-foreground/30">
+          <p className="mt-0.5 text-[11px] font-medium leading-tight uppercase tracking-[0.16em] text-sidebar-foreground/50">
             {MODE_LABELS[mode]}
           </p>
         </div>

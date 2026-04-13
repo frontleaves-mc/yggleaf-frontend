@@ -19,6 +19,7 @@ import { Switch } from '#/components/ui/switch'
 import { Loader2, ArrowLeft, Save } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
 import { useState } from 'react'
+import { PageTransition } from '#/components/ui/page-transition'
 
 export const Route = createFileRoute('/admin/capes/create')({
   component: CreateCapePage,
@@ -46,7 +47,7 @@ function CreateCapePage() {
   }
 
   return (
-    <div className="admin-page-enter space-y-6">
+    <PageTransition className="space-y-6">
       <Link
         to="/admin/capes"
         className="inline-flex items-center gap-1.5 text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors"
@@ -124,6 +125,6 @@ function CreateCapePage() {
           </form>
         </CardContent>
       </Card>
-    </div>
+    </PageTransition>
   )
 }

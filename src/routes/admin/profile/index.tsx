@@ -15,6 +15,7 @@ import {
 } from '#/components/ui/card'
 import { Badge } from '#/components/ui/badge'
 import { Button } from '#/components/ui/button'
+import { PageTransition } from '#/components/ui/page-transition'
 import {
   User as UserIcon,
   Shield,
@@ -39,18 +40,18 @@ function ProfilePage() {
   }
 
   if (userLoading) return (
-    <div className="admin-page-enter animate-pulse space-y-6">
+    <PageTransition className="animate-pulse space-y-6">
       <div className="h-8 w-40 rounded bg-[var(--muted)]" />
       <div className="max-w-xl space-y-4 rounded-xl border border-[var(--border)] p-6">
         {[...Array(4)].map((_, i) => (
           <div key={i} className="h-12 w-full rounded bg-[var(--muted)]/50" />
         ))}
       </div>
-    </div>
+    </PageTransition>
   )
 
   return (
-    <div className="admin-page-enter space-y-6">
+    <PageTransition className="space-y-6">
       {/* 个人信息卡片 */}
       <Card>
         <CardHeader>
@@ -110,7 +111,7 @@ function ProfilePage() {
           </Button>
         </CardContent>
       </Card>
-    </div>
+    </PageTransition>
   )
 }
 

@@ -20,6 +20,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '#
 import { Loader2, ArrowLeft, Save } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
 import { useState } from 'react'
+import { PageTransition } from '#/components/ui/page-transition'
 
 export const Route = createFileRoute('/admin/skins/create')({
   component: CreateSkinPage,
@@ -50,7 +51,7 @@ function CreateSkinPage() {
   }
 
   return (
-    <div className="admin-page-enter space-y-6">
+    <PageTransition className="space-y-6">
       {/* 返回导航 */}
       <Link
         to="/admin/skins"
@@ -155,6 +156,6 @@ function CreateSkinPage() {
           </form>
         </CardContent>
       </Card>
-    </div>
+    </PageTransition>
   )
 }

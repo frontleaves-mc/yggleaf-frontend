@@ -24,7 +24,7 @@ interface AppSidebarProps {
 
 export function AppSidebar({ mode, items }: AppSidebarProps) {
   return (
-    <Sidebar collapsible="icon" variant="inset">
+    <Sidebar collapsible="icon" variant="floating">
       {/* Logo 区域 */}
       <AppSidebarHeader mode={mode} />
 

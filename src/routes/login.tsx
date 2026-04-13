@@ -1,7 +1,8 @@
 /**
  * 登录页 - OAuth2 SSO 入口
- * 左侧: 深色品牌展示面板（与 Admin 侧边栏统一视觉）
- * 右侧: SSO 登录按钮
+ * 沉浸式左右分屏布局
+ * 左侧: 深色品牌展示区（全屏沉浸）
+ * 右侧: 登录操作区（简洁聚焦）
  * 移动端: 仅显示右侧
  *
  * 流程:
@@ -15,7 +16,8 @@ import { createFileRoute, redirect } from '@tanstack/react-router'
 import { getOAuthLoginUrl } from '#/api/endpoints/auth'
 import { checkIsAuthenticated } from '#/hooks/use-auth-guard'
 import { Button } from '#/components/ui/button'
-import { ShieldCheck, Shirt, Flag, ExternalLink } from 'lucide-react'
+import { ShieldCheck, Shirt, Flag, ExternalLink, Sparkles } from 'lucide-react'
+import { RiseTransition } from '#/components/ui/page-transition'
 
 export const Route = createFileRoute('/login')({
   beforeLoad: () => {
@@ -28,150 +30,134 @@ export const Route = createFileRoute('/login')({
 
 function LoginPage() {
   const handleSSOLogin = () => {
-    // 直接导航到后端 OAuth 登录接口，后端返回 302 到 SSO 提供商
     window.location.href = getOAuthLoginUrl()
   }
 
   return (
     <div className="flex min-h-screen">
-      {/* ═══ 左侧品牌面板 (≥md 可见) ═══ */}
-      <div className="relative hidden w-[480px] shrink-0 items-center justify-center overflow-hidden bg-[#111f23] md:flex">
-        {/* 背景装饰 */}
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -left-20 -top-20 h-[300px] w-[300px] rounded-full bg-[var(--diamond)]/8 blur-[80px]" />
-          <div className="absolute -bottom-16 -right-16 h-[250px] w-[250px] rounded-full bg-[var(--diamond-deep)]/6 blur-[60px]" />
-          {/* 网格纹理 */}
-          <div
-            className="absolute inset-0 opacity-[0.03]"
-            style={{
-              backgroundImage:
-                'radial-gradient(circle, white 1px, transparent 1px)',
-              backgroundSize: '24px 24px',
-            }}
-          />
-        </div>
+      {/* ─── 左侧: 品牌沉浸区 ─── */}
+      <div className="relative hidden w-[55%] overflow-hidden lg:flex lg:flex-col bg-gradient-to-br from-[oklch(0.15_0.05_220)] via-[oklch(0.12_0.045_215)] to-[oklch(0.08_0.04_230)]">
+        {/* 装饰光晕 */}
+        <div className="pointer-events-none absolute -left-32 -top-32 h-[500px] w-[500px] rounded-full bg-[oklch(0.45_0.12_200)] opacity-[0.08] blur-[120px]" />
+        <div className="pointer-events-none absolute -right-20 bottom-[10%] h-[350px] w-[350px] rounded-full bg-[oklch(0.55_0.10_75)] opacity-[0.04] blur-[100px]" />
 
-        <div className="relative z-10 flex flex-col items-center gap-8 px-12">
+        {/* 内容 */}
+        <RiseTransition className="relative z-10 flex flex-1 flex-col justify-center gap-10 px-14 py-12">
           {/* Logo */}
-          <div className="flex flex-col items-center gap-4">
+          <div className="flex items-center gap-3.5">
             <div
-              className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-[var(--diamond)] to-[var(--diamond-deep)] text-white text-2xl font-bold shadow-xl shadow-[var(--diamond)]/20"
+              className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[var(--diamond)] to-[var(--diamond-deep)] text-xl font-bold text-white shadow-lg shadow-[var(--diamond)]/20"
               style={{ clipPath: 'polygon(8% 0%, 100% 0%, 92% 100%, 0% 100%)' }}
             >
               Y
             </div>
-            <div className="text-center">
-              <h1 className="text-2xl font-bold text-white tracking-tight">Yggleaf</h1>
-              <p className="mt-1 text-[13px] text-white/30">Minecraft Resource Platform</p>
+            <div className="flex flex-col gap-0.5">
+              <span className="text-2xl font-bold tracking-tight text-white">Yggleaf</span>
+              <span className="text-sm text-white/40">Minecraft 资源平台</span>
             </div>
-          </div>
-
-          {/* 分隔线 */}
-          <div className="h-px w-16 bg-gradient-to-r from-transparent via-[var(--diamond)]/30 to-transparent" />
-
-          {/* 功能亮点 */}
-          <div className="w-full max-w-[280px] space-y-4">
-            <FeatureItem
-              icon={<Shirt className="h-4 w-4" />}
-              label="皮肤管理"
-              desc="上传和管理 Minecraft 皮肤资源"
-            />
-            <FeatureItem
-              icon={<Flag className="h-4 w-4" />}
-              label="披风管理"
-              desc="完整的披风资源管理与纹理追踪"
-            />
-            <FeatureItem
-              icon={<ShieldCheck className="h-4 w-4" />}
-              label="安全认证"
-              desc="OAuth 2.0 + PKCE 安全认证体系"
-            />
-          </div>
-
-          {/* 底部版权 */}
-          <p className="mt-auto text-[11px] text-white/15">
-            &copy; {new Date().getFullYear()} FrontLeaves MC
-          </p>
-        </div>
-      </div>
-
-      {/* ═══ 右侧登录区域 ═══ */}
-      <div className="flex flex-1 items-center justify-center bg-[var(--background)] px-6 py-12">
-        <div className="w-full max-w-[380px]">
-          {/* 移动端 Logo（桌面端隐藏） */}
-          <div className="mb-8 flex items-center gap-3 md:hidden">
-            <div
-              className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[var(--diamond)] to-[var(--diamond-deep)] text-white text-sm font-bold shadow-lg shadow-[var(--diamond)]/15"
-              style={{ clipPath: 'polygon(8% 0%, 100% 0%, 92% 100%, 0% 100%)' }}
-            >
-              Y
-            </div>
-            <span className="text-lg font-bold text-[var(--foreground)]">Yggleaf</span>
           </div>
 
           {/* 标题 */}
-          <div className="mb-8">
-            <h2 className="text-2xl font-bold text-[var(--foreground)]">欢迎回来</h2>
-            <p className="mt-2 text-[14px] text-[var(--muted-foreground)]">
-              通过 SSO 安全登录 Minecraft 资源管理平台
+          <div className="max-w-lg">
+            <h1 className="font-display mb-3 text-[2rem] font-bold leading-tight tracking-tight text-white">
+              安全登录，<br />继续管理你的<br />游戏资源。
+            </h1>
+            <p className="text-sm leading-relaxed text-white/45">
+              使用统一认证平台完成登录，进入后即可继续管理皮肤、披风和游戏档案。
             </p>
           </div>
 
-          {/* SSO 登录入口 */}
-          <div className="space-y-4">
-            <Button
-              type="button"
-              onClick={handleSSOLogin}
-              className="h-12 w-full bg-gradient-to-r from-[var(--diamond)] to-[var(--diamond-deep)] text-white text-[15px] font-semibold hover:opacity-90 transition-opacity"
+          {/* 功能条目 */}
+          <div className="grid gap-3 sm:grid-cols-3">
+            <FeatureItem icon={<Shirt className="h-4 w-4" />} label="皮肤管理" desc="上传与整理角色形象资源" />
+            <FeatureItem icon={<Flag className="h-4 w-4" />} label="披风管理" desc="统一维护披风资源与分发" />
+            <FeatureItem icon={<ShieldCheck className="h-4 w-4" />} label="安全认证" desc="OAuth 2.0 + PKCE 登录流程" />
+          </div>
+        </RiseTransition>
+
+        {/* 底部版权 */}
+        <div className="relative z-10 px-14 pb-8 text-xs text-white/20">
+          &copy; {new Date().getFullYear()} FrontLeaves &middot; Yggleaf
+        </div>
+      </div>
+
+      {/* ─── 右侧: 登录操作区 ─── */}
+      <div className="flex flex-1 items-center justify-center bg-background p-6">
+        <RiseTransition className="flex w-full max-w-[400px] flex-col gap-6">
+          {/* 移动端 Logo */}
+          <div className="flex items-center gap-3 lg:hidden">
+            <div
+              className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[var(--diamond)] to-[var(--diamond-deep)] text-sm font-bold text-white shadow-lg shadow-[var(--diamond)]/15"
+              style={{ clipPath: 'polygon(8% 0%, 100% 0%, 92% 100%, 0% 100%)' }}
             >
-              <ExternalLink className="mr-2 h-4 w-4" />
-              SSO 安全登录
-            </Button>
-
-            <div className="flex items-center gap-3 py-2">
-              <div className="h-px flex-1 bg-[var(--border)]" />
-              <span className="text-[11px] text-[var(--muted-foreground)]">通过统一认证平台</span>
-              <div className="h-px flex-1 bg-[var(--border)]" />
+              Y
             </div>
+            <span className="text-lg font-bold text-foreground">Yggleaf</span>
+          </div>
 
-            {/* 安全提示 */}
-            <div className="rounded-lg border border-[var(--border)]/50 bg-[var(--card)] p-3">
-              <div className="flex items-start gap-2.5">
-                <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[var(--diamond)]" />
-                <div>
-                  <p className="text-[12px] font-medium text-[var(--foreground)]">安全登录</p>
-                  <p className="text-[11px] text-[var(--muted-foreground)]">
-                    使用 OAuth 2.0 安全认证，密码由 SSO 提供商托管，本平台不存储密码
-                  </p>
-                </div>
+          {/* 标签 */}
+          <div className="inline-flex w-fit items-center gap-2 rounded-full border border-primary/15 bg-primary/6 px-3 py-1 text-xs font-semibold text-primary">
+            <Sparkles className="h-3.5 w-3.5" />
+            Unified SSO
+          </div>
+
+          {/* 标题 */}
+          <div className="flex flex-col gap-2">
+            <h2 className="text-[1.75rem] font-bold tracking-tight text-foreground">欢迎回来</h2>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              通过统一认证平台登录 Yggleaf，继续管理 Minecraft 资源与账号数据。
+            </p>
+          </div>
+
+          {/* SSO 登录按钮 */}
+          <Button
+            type="button"
+            onClick={handleSSOLogin}
+            className="h-12 w-full bg-gradient-to-r from-[var(--diamond)] to-[var(--diamond-deep)] text-[15px] font-semibold text-white shadow-lg shadow-[var(--diamond)]/20 transition-all hover:-translate-y-0.5 hover:opacity-95"
+          >
+            <ExternalLink className="mr-2 h-4 w-4" />
+            SSO 安全登录
+          </Button>
+
+          {/* 安全说明 */}
+          <div className="rounded-2xl border border-border/60 bg-card/70 p-4">
+            <div className="flex items-start gap-3">
+              <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+              <div className="flex flex-col gap-1">
+                <p className="text-sm font-semibold text-foreground">安全认证说明</p>
+                <p className="text-xs leading-relaxed text-muted-foreground">
+                  使用 OAuth 2.0 统一认证。密码由 SSO 提供商保管，登录完成后会自动回跳当前应用。
+                </p>
               </div>
             </div>
           </div>
 
           {/* 底部提示 */}
-          <p className="mt-8 text-center text-[12px] text-[var(--muted-foreground)]">
-            还没有账号？请先在 SSO 平台注册
+          <p className="text-center text-xs leading-relaxed text-muted-foreground">
+            还没有账号？请先在 SSO 平台完成注册与授权。
           </p>
-        </div>
+        </RiseTransition>
       </div>
     </div>
   )
 }
 
-/* ─── 左侧面板功能条目 ─── */
+/* ─── 功能条目组件 ─── */
 
 function FeatureItem({ icon, label, desc }: { icon: React.ReactNode; label: string; desc: string }) {
   return (
-    <div className="flex items-start gap-3">
-      <div
-        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[var(--diamond)]/10 text-[var(--diamond)]"
-        style={{ clipPath: 'polygon(8% 0%, 100% 0%, 92% 100%, 0% 100%)' }}
-      >
-        {icon}
-      </div>
-      <div>
-        <p className="text-[13px] font-medium text-white/70">{label}</p>
-        <p className="text-[12px] text-white/25">{desc}</p>
+    <div className="rounded-2xl border border-white/[0.06] bg-white/[0.04] p-3.5">
+      <div className="flex items-start gap-3">
+        <div
+          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/[0.08] text-[oklch(0.70_0.12_200)]"
+          style={{ clipPath: 'polygon(8% 0%, 100% 0%, 92% 100%, 0% 100%)' }}
+        >
+          {icon}
+        </div>
+        <div>
+          <p className="text-sm font-medium text-white/80">{label}</p>
+          <p className="text-xs text-white/35">{desc}</p>
+        </div>
       </div>
     </div>
   )

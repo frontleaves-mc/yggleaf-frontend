@@ -7,6 +7,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
 import { ArrowLeft } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
+import { PageTransition } from '#/components/ui/page-transition'
 
 export const Route = createFileRoute('/admin/game-profiles/$profileId')({
   component: GameProfileDetailPage,
@@ -14,7 +15,7 @@ export const Route = createFileRoute('/admin/game-profiles/$profileId')({
 
 function GameProfileDetailPage() {
   return (
-    <div className="admin-page-enter space-y-6">
+    <PageTransition className="space-y-6">
       <Link
         to="/admin/game-profiles"
         className="inline-flex items-center gap-1.5 text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors"
@@ -50,6 +51,6 @@ function GameProfileDetailPage() {
           </div>
         </CardContent>
       </Card>
-    </div>
+    </PageTransition>
   )
 }
