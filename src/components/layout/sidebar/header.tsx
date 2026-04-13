@@ -1,14 +1,14 @@
 /**
- * AppSidebarHeader - 侧边栏顶部 Logo 区域
+ * SidebarHeader - 侧边栏顶部 Logo 区域
  *
  * 展开时：Logo + 标题 + 副标题
  * 折叠时：仅显示 Logo 图标
  */
 
-import { useSidebar, SidebarHeader } from '#/components/ui/sidebar'
+import { useSidebar, SidebarHeader as SidebarHeaderRoot } from '#/components/ui/sidebar'
 import { cn } from '#/lib/utils'
 
-interface AppSidebarHeaderProps {
+interface SidebarHeaderProps {
   mode: 'user' | 'admin'
 }
 
@@ -17,12 +17,12 @@ const MODE_LABELS: Record<string, string> = {
   admin: '管理控制台',
 }
 
-export function AppSidebarHeader({ mode }: AppSidebarHeaderProps) {
+export function SidebarHeader({ mode }: SidebarHeaderProps) {
   const { state } = useSidebar()
   const isCollapsed = state === 'collapsed'
 
   return (
-    <SidebarHeader className="p-3">
+    <SidebarHeaderRoot className="p-3">
       <div className={cn('flex items-center gap-3', !isCollapsed && 'px-1')}>
         <div
           className={cn(
@@ -48,6 +48,6 @@ export function AppSidebarHeader({ mode }: AppSidebarHeaderProps) {
           </div>
         )}
       </div>
-    </SidebarHeader>
+    </SidebarHeaderRoot>
   )
 }

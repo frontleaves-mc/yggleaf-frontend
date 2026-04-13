@@ -5,12 +5,17 @@
  * 后续可接入 API 获取真实数据
  */
 
+import { createFileRoute } from '@tanstack/react-router'
 import { Shirt, Search, Grid3X3, List } from 'lucide-react'
 import { useState } from 'react'
 import { Card, CardContent } from '#/components/ui/card'
 import { Input } from '#/components/ui/input'
 import { Button } from '#/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '#/components/ui/avatar'
+
+export const Route = createFileRoute('/user/skins/')({
+  component: SkinsPage,
+})
 
 // ─── 占位数据（后续替换为 API 数据） ───────────────────
 

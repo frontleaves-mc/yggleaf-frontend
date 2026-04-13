@@ -1,5 +1,5 @@
 /**
- * AppSidebarFooter - 侧边栏底部区域
+ * SidebarFooter - 侧边栏底部区域
  *
  * 用户头像卡片 + 点击展开下拉菜单（个人中心 / 退出登录）
  */
@@ -7,7 +7,7 @@
 import { authStore } from '#/stores/auth-store'
 import { Avatar, AvatarFallback } from '#/components/ui/avatar'
 import {
-  SidebarFooter,
+  SidebarFooter as SidebarFooterRoot,
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
@@ -24,7 +24,7 @@ import {
   DropdownMenuTrigger,
 } from '#/components/ui/dropdown-menu'
 
-export function AppSidebarFooter() {
+export function SidebarFooter() {
   const navigate = useNavigate()
   const user = authStore.state.user
 
@@ -41,7 +41,7 @@ export function AppSidebarFooter() {
     <>
       <SidebarRail />
 
-      <SidebarFooter className="p-3 pt-0 group-data-[collapsible=icon]:p-2">
+      <SidebarFooterRoot className="p-3 pt-0 group-data-[collapsible=icon]:p-2">
         <SidebarMenu className="group-data-[collapsible=icon]:items-center">
           <SidebarMenuItem>
             <DropdownMenu>
@@ -80,7 +80,7 @@ export function AppSidebarFooter() {
             </DropdownMenu>
           </SidebarMenuItem>
         </SidebarMenu>
-      </SidebarFooter>
+      </SidebarFooterRoot>
     </>
   )
 }

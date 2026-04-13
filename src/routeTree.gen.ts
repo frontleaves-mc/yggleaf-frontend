@@ -9,12 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as UserRouteImport } from './routes/user'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as CallbackRouteImport } from './routes/callback'
-import { Route as AppRouteImport } from './routes/app'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as UserIndexRouteImport } from './routes/user/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as UserDashboardRouteImport } from './routes/user/dashboard'
+import { Route as UserSkinsIndexRouteImport } from './routes/user/skins/index'
+import { Route as UserProfilesIndexRouteImport } from './routes/user/profiles/index'
+import { Route as UserCapesIndexRouteImport } from './routes/user/capes/index'
 import { Route as AdminUsersIndexRouteImport } from './routes/admin/users/index'
 import { Route as AdminSkinsIndexRouteImport } from './routes/admin/skins/index'
 import { Route as AdminProfileIndexRouteImport } from './routes/admin/profile/index'
@@ -27,6 +32,11 @@ import { Route as AdminGameProfilesProfileIdRouteImport } from './routes/admin/g
 import { Route as AdminCapesCreateRouteImport } from './routes/admin/capes/create'
 import { Route as AdminCapesCapeIdRouteImport } from './routes/admin/capes/$capeId'
 
+const UserRoute = UserRouteImport.update({
+  id: '/user',
+  path: '/user',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -35,11 +45,6 @@ const LoginRoute = LoginRouteImport.update({
 const CallbackRoute = CallbackRouteImport.update({
   id: '/callback',
   path: '/callback',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AppRoute = AppRouteImport.update({
-  id: '/app',
-  path: '/app',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -52,10 +57,35 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UserIndexRoute = UserIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => UserRoute,
+} as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AdminRoute,
+} as any)
+const UserDashboardRoute = UserDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => UserRoute,
+} as any)
+const UserSkinsIndexRoute = UserSkinsIndexRouteImport.update({
+  id: '/skins/',
+  path: '/skins/',
+  getParentRoute: () => UserRoute,
+} as any)
+const UserProfilesIndexRoute = UserProfilesIndexRouteImport.update({
+  id: '/profiles/',
+  path: '/profiles/',
+  getParentRoute: () => UserRoute,
+} as any)
+const UserCapesIndexRoute = UserCapesIndexRouteImport.update({
+  id: '/capes/',
+  path: '/capes/',
+  getParentRoute: () => UserRoute,
 } as any)
 const AdminUsersIndexRoute = AdminUsersIndexRouteImport.update({
   id: '/users/',
@@ -117,10 +147,12 @@ const AdminCapesCapeIdRoute = AdminCapesCapeIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
-  '/app': typeof AppRoute
   '/callback': typeof CallbackRoute
   '/login': typeof LoginRoute
+  '/user': typeof UserRouteWithChildren
+  '/user/dashboard': typeof UserDashboardRoute
   '/admin/': typeof AdminIndexRoute
+  '/user/': typeof UserIndexRoute
   '/admin/capes/$capeId': typeof AdminCapesCapeIdRoute
   '/admin/capes/create': typeof AdminCapesCreateRoute
   '/admin/game-profiles/$profileId': typeof AdminGameProfilesProfileIdRoute
@@ -132,13 +164,17 @@ export interface FileRoutesByFullPath {
   '/admin/profile/': typeof AdminProfileIndexRoute
   '/admin/skins/': typeof AdminSkinsIndexRoute
   '/admin/users/': typeof AdminUsersIndexRoute
+  '/user/capes/': typeof UserCapesIndexRoute
+  '/user/profiles/': typeof UserProfilesIndexRoute
+  '/user/skins/': typeof UserSkinsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/app': typeof AppRoute
   '/callback': typeof CallbackRoute
   '/login': typeof LoginRoute
+  '/user/dashboard': typeof UserDashboardRoute
   '/admin': typeof AdminIndexRoute
+  '/user': typeof UserIndexRoute
   '/admin/capes/$capeId': typeof AdminCapesCapeIdRoute
   '/admin/capes/create': typeof AdminCapesCreateRoute
   '/admin/game-profiles/$profileId': typeof AdminGameProfilesProfileIdRoute
@@ -150,15 +186,20 @@ export interface FileRoutesByTo {
   '/admin/profile': typeof AdminProfileIndexRoute
   '/admin/skins': typeof AdminSkinsIndexRoute
   '/admin/users': typeof AdminUsersIndexRoute
+  '/user/capes': typeof UserCapesIndexRoute
+  '/user/profiles': typeof UserProfilesIndexRoute
+  '/user/skins': typeof UserSkinsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
-  '/app': typeof AppRoute
   '/callback': typeof CallbackRoute
   '/login': typeof LoginRoute
+  '/user': typeof UserRouteWithChildren
+  '/user/dashboard': typeof UserDashboardRoute
   '/admin/': typeof AdminIndexRoute
+  '/user/': typeof UserIndexRoute
   '/admin/capes/$capeId': typeof AdminCapesCapeIdRoute
   '/admin/capes/create': typeof AdminCapesCreateRoute
   '/admin/game-profiles/$profileId': typeof AdminGameProfilesProfileIdRoute
@@ -170,16 +211,21 @@ export interface FileRoutesById {
   '/admin/profile/': typeof AdminProfileIndexRoute
   '/admin/skins/': typeof AdminSkinsIndexRoute
   '/admin/users/': typeof AdminUsersIndexRoute
+  '/user/capes/': typeof UserCapesIndexRoute
+  '/user/profiles/': typeof UserProfilesIndexRoute
+  '/user/skins/': typeof UserSkinsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/admin'
-    | '/app'
     | '/callback'
     | '/login'
+    | '/user'
+    | '/user/dashboard'
     | '/admin/'
+    | '/user/'
     | '/admin/capes/$capeId'
     | '/admin/capes/create'
     | '/admin/game-profiles/$profileId'
@@ -191,13 +237,17 @@ export interface FileRouteTypes {
     | '/admin/profile/'
     | '/admin/skins/'
     | '/admin/users/'
+    | '/user/capes/'
+    | '/user/profiles/'
+    | '/user/skins/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/app'
     | '/callback'
     | '/login'
+    | '/user/dashboard'
     | '/admin'
+    | '/user'
     | '/admin/capes/$capeId'
     | '/admin/capes/create'
     | '/admin/game-profiles/$profileId'
@@ -209,14 +259,19 @@ export interface FileRouteTypes {
     | '/admin/profile'
     | '/admin/skins'
     | '/admin/users'
+    | '/user/capes'
+    | '/user/profiles'
+    | '/user/skins'
   id:
     | '__root__'
     | '/'
     | '/admin'
-    | '/app'
     | '/callback'
     | '/login'
+    | '/user'
+    | '/user/dashboard'
     | '/admin/'
+    | '/user/'
     | '/admin/capes/$capeId'
     | '/admin/capes/create'
     | '/admin/game-profiles/$profileId'
@@ -228,18 +283,28 @@ export interface FileRouteTypes {
     | '/admin/profile/'
     | '/admin/skins/'
     | '/admin/users/'
+    | '/user/capes/'
+    | '/user/profiles/'
+    | '/user/skins/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
-  AppRoute: typeof AppRoute
   CallbackRoute: typeof CallbackRoute
   LoginRoute: typeof LoginRoute
+  UserRoute: typeof UserRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/user': {
+      id: '/user'
+      path: '/user'
+      fullPath: '/user'
+      preLoaderRoute: typeof UserRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -252,13 +317,6 @@ declare module '@tanstack/react-router' {
       path: '/callback'
       fullPath: '/callback'
       preLoaderRoute: typeof CallbackRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/app': {
-      id: '/app'
-      path: '/app'
-      fullPath: '/app'
-      preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -275,12 +333,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/user/': {
+      id: '/user/'
+      path: '/'
+      fullPath: '/user/'
+      preLoaderRoute: typeof UserIndexRouteImport
+      parentRoute: typeof UserRoute
+    }
     '/admin/': {
       id: '/admin/'
       path: '/'
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/user/dashboard': {
+      id: '/user/dashboard'
+      path: '/dashboard'
+      fullPath: '/user/dashboard'
+      preLoaderRoute: typeof UserDashboardRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/user/skins/': {
+      id: '/user/skins/'
+      path: '/skins'
+      fullPath: '/user/skins/'
+      preLoaderRoute: typeof UserSkinsIndexRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/user/profiles/': {
+      id: '/user/profiles/'
+      path: '/profiles'
+      fullPath: '/user/profiles/'
+      preLoaderRoute: typeof UserProfilesIndexRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/user/capes/': {
+      id: '/user/capes/'
+      path: '/capes'
+      fullPath: '/user/capes/'
+      preLoaderRoute: typeof UserCapesIndexRouteImport
+      parentRoute: typeof UserRoute
     }
     '/admin/users/': {
       id: '/admin/users/'
@@ -394,12 +487,30 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
+interface UserRouteChildren {
+  UserDashboardRoute: typeof UserDashboardRoute
+  UserIndexRoute: typeof UserIndexRoute
+  UserCapesIndexRoute: typeof UserCapesIndexRoute
+  UserProfilesIndexRoute: typeof UserProfilesIndexRoute
+  UserSkinsIndexRoute: typeof UserSkinsIndexRoute
+}
+
+const UserRouteChildren: UserRouteChildren = {
+  UserDashboardRoute: UserDashboardRoute,
+  UserIndexRoute: UserIndexRoute,
+  UserCapesIndexRoute: UserCapesIndexRoute,
+  UserProfilesIndexRoute: UserProfilesIndexRoute,
+  UserSkinsIndexRoute: UserSkinsIndexRoute,
+}
+
+const UserRouteWithChildren = UserRoute._addFileChildren(UserRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
-  AppRoute: AppRoute,
   CallbackRoute: CallbackRoute,
   LoginRoute: LoginRoute,
+  UserRoute: UserRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

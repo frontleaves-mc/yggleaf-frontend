@@ -2,7 +2,7 @@
  * 菜单配置 + 面包屑映射
  *
  * 统一管理用户端和管理员端的导航菜单。
- * 类型导出供 AppLayout / SidebarMenuRenderer 使用。
+ * 类型导出供 Layout / SidebarMenuRenderer 使用。
  */
 
 import type { LucideIcon } from 'lucide-react'
@@ -14,7 +14,6 @@ import {
   Flag,
   UserCircle,
   Settings,
-  Home,
 } from 'lucide-react'
 
 // ─── 类型定义 ────────────────────────────────────────────
@@ -93,28 +92,28 @@ export const adminMenuItems: MenuItem[] = [
 
 export const userMenuItems: MenuItem[] = [
   {
-    key: 'home',
-    label: '首页',
-    icon: Home,
-    to: '/app',
+    key: 'dashboard',
+    label: '仪表盘',
+    icon: LayoutDashboard,
+    to: '/user/dashboard',
   },
   {
     key: 'skins',
     label: '皮肤库',
     icon: Shirt,
-    to: '/app/skins',
+    to: '/user/skins',
   },
   {
     key: 'capes',
     label: '披风库',
     icon: Flag,
-    to: '/app/capes',
+    to: '/user/capes',
   },
   {
     key: 'profiles',
     label: '游戏档案',
     icon: Gamepad2,
-    to: '/app/profiles',
+    to: '/user/profiles',
   },
 ]
 
@@ -122,10 +121,11 @@ export const userMenuItems: MenuItem[] = [
 
 export const breadcrumbLabels: Record<string, string> = {
   // ── 用户端 ──
-  '/app': '首页',
-  '/app/skins': '皮肤库',
-  '/app/capes': '披风库',
-  '/app/profiles': '游戏档案',
+  '/user': '用户中心',
+  '/user/dashboard': '仪表盘',
+  '/user/skins': '皮肤库',
+  '/user/capes': '披风库',
+  '/user/profiles': '游戏档案',
 
   // ── 管理端 ──
   '/admin': '仪表盘',

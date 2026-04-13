@@ -4,8 +4,8 @@
  */
 
 import { createFileRoute } from '@tanstack/react-router'
-import { PageHeader } from '#/components/admin/shared/PageHeader'
-import { DataTable, type Column } from '#/components/admin/shared/DataTable'
+import { PageHeader } from '#/components/public/page-header'
+import { DataTable, type Column } from '#/components/public/data-table'
 import { Button } from '#/components/ui/button'
 import { Badge } from '#/components/ui/badge'
 import {

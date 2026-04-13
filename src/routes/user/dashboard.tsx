@@ -1,5 +1,5 @@
 /**
- * 用户端首页 - 简洁欢迎页
+ * 用户端仪表盘 - 简洁欢迎页
  *
  * 展示：
  *   - 欢迎信息（用户名 + 服务器名）
@@ -7,10 +7,15 @@
  *   - 快速导航卡片（皮肤库、披风库、游戏档案）
  */
 
+import { createFileRoute } from '@tanstack/react-router'
 import { authStore } from '#/stores/auth-store'
 import { Shirt, Flag, Gamepad2, ArrowRight, Sparkles, ShieldCheck, Server } from 'lucide-react'
 import { useNavigate } from '@tanstack/react-router'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '#/components/ui/card'
+
+export const Route = createFileRoute('/user/dashboard')({
+  component: DashboardPage,
+})
 
 // ─── 快速导航配置 ───────────────────────────────────────
 
@@ -20,7 +25,7 @@ const quickLinks = [
     title: '皮肤库',
     desc: '浏览和选择你的角色皮肤',
     icon: Shirt,
-    to: '/app/skins',
+    to: '/user/skins',
     accent: 'from-primary/10 to-transparent',
   },
   {
@@ -28,7 +33,7 @@ const quickLinks = [
     title: '披风库',
     desc: '挑选独一无二的披风',
     icon: Flag,
-    to: '/app/capes',
+    to: '/user/capes',
     accent: 'from-chart-4/10 to-transparent',
   },
   {
@@ -36,14 +41,14 @@ const quickLinks = [
     title: '游戏档案',
     desc: '管理你的游戏角色档案',
     icon: Gamepad2,
-    to: '/app/profiles',
+    to: '/user/profiles',
     accent: 'from-primary/10 to-transparent',
   },
 ]
 
 // ─── 页面组件 ─────────────────────────────────────────────
 
-export default function HomePage() {
+function DashboardPage() {
   const navigate = useNavigate()
   const user = authStore.state.user
   const spotlightStats = [

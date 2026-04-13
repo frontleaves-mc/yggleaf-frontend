@@ -1,14 +1,14 @@
 /**
- * AppLayout - 统一布局容器
+ * Layout - 统一布局容器
  *
  * 基于 shadcn SidebarProvider 构建完整的页面框架。
  * 用户端和管理员端共用此布局，通过 `mode` prop 区分菜单和功能。
  *
  * 结构:
  *   SidebarProvider
- *   ├── AppSidebar (shadcn Sidebar)
+ *   ├── Sidebar (shadcn Sidebar)
  *   └── SidebarInset (主内容区)
- *       ├── AppTopBar (顶部栏)
+ *       ├── TopBar (顶部栏)
  *       └── main (内容)
  */
 
@@ -17,14 +17,14 @@ import {
   SidebarProvider,
   SidebarInset,
 } from '#/components/ui/sidebar'
-import { AppSidebar } from './AppSidebar'
-import { AppTopBar } from './AppTopBar'
-import type { MenuConfig } from './SidebarMenuRenderer'
+import { Sidebar } from './sidebar'
+import { TopBar } from './top-bar'
+import type { MenuConfig } from './sidebar/menu-renderer'
 import { PageTransition } from '#/components/ui/page-transition'
 
 // ─── 类型定义 ────────────────────────────────────────────
 
-export interface AppLayoutProps {
+export interface LayoutProps {
   children: React.ReactNode
   /** 布局模式：决定显示哪套菜单 */
   mode: 'user' | 'admin'
@@ -48,7 +48,7 @@ function getInitialOpen(): boolean {
 
 // ─── 主组件 ──────────────────────────────────────────────
 
-export function AppLayout({ children, mode, items }: AppLayoutProps) {
+export function Layout({ children, mode, items }: LayoutProps) {
   // 同步旧版 localStorage key 到新版 cookie（兼容性）
   useEffect(() => {
     try {
@@ -63,11 +63,11 @@ export function AppLayout({ children, mode, items }: AppLayoutProps) {
 
   return (
     <SidebarProvider defaultOpen={getInitialOpen()}>
-      <AppSidebar mode={mode} items={items} />
+      <Sidebar mode={mode} items={items} />
 
       <SidebarInset>
         <div className="relative flex min-h-svh flex-col">
-          <AppTopBar />
+          <TopBar />
 
           <main className="flex-1 px-3.5 py-3.5 pb-7 sm:px-5 sm:pb-8 lg:px-6 lg:py-4 lg:pb-10">
             <PageTransition className="relative mx-auto max-w-(--page-max)">{children}</PageTransition>

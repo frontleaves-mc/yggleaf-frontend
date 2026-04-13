@@ -5,11 +5,16 @@
  * 包含当前使用的皮肤和披风信息
  */
 
+import { createFileRoute } from '@tanstack/react-router'
 import { Gamepad2, Plus, Shirt, Flag, ExternalLink } from 'lucide-react'
 import { Card, CardContent } from '#/components/ui/card'
 import { Button } from '#/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '#/components/ui/avatar'
 import { Badge } from '#/components/ui/badge'
+
+export const Route = createFileRoute('/user/profiles/')({
+  component: ProfilesPage,
+})
 
 // ─── 占位数据 ─────────────────────────────────────────────
 

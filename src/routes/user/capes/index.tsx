@@ -4,12 +4,17 @@
  * 结构同皮肤浏览页，展示可用披风
  */
 
+import { createFileRoute } from '@tanstack/react-router'
 import { Flag, Search, Grid3X3, List } from 'lucide-react'
 import { useState } from 'react'
 import { Card, CardContent } from '#/components/ui/card'
 import { Input } from '#/components/ui/input'
 import { Button } from '#/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '#/components/ui/avatar'
+
+export const Route = createFileRoute('/user/capes/')({
+  component: CapesPage,
+})
 
 // ─── 占位数据 ─────────────────────────────────────────────
 

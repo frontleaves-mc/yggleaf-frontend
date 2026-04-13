@@ -1,5 +1,5 @@
 /**
- * AppTopBar - 顶部导航栏
+ * TopBar - 顶部导航栏
  *
  * 包含：
  *   - 左侧：侧边栏切换按钮 (SidebarTrigger)
@@ -60,7 +60,7 @@ function BreadcrumbNav({ crumbs }: { crumbs: ReturnType<typeof useBreadcrumbs> }
 
 // ─── 主组件 ──────────────────────────────────────────────
 
-export function AppTopBar() {
+export function TopBar() {
   const crumbs = useBreadcrumbs()
   const current = crumbs[crumbs.length - 1]
 

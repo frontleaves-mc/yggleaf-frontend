@@ -14,7 +14,7 @@ export const Route = createFileRoute('/callback')({
   beforeLoad: () => {
     // 已认证直接跳转（SSR 阶段跳过，等客户端 hydration 处理）
     if (typeof document !== 'undefined' && checkIsAuthenticated()) {
-      throw redirect({ to: '/admin/' as any })
+      throw redirect({ to: '/user/dashboard' as any })
     }
   },
   component: CallbackPage,
@@ -40,7 +40,7 @@ function CallbackPage() {
     handleOAuthCallback(code, state)
       .then(() => {
         // 使用客户端路由跳转，保留内存中的 authStore 状态，避免 SSR 重新初始化
-        const redirectTo = params.get('redirect') || '/admin/'
+        const redirectTo = params.get('redirect') || '/user/dashboard'
         navigate({ to: redirectTo as any })
       })
       .catch((err) => {

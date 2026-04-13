@@ -22,7 +22,7 @@ import { RiseTransition } from '#/components/ui/page-transition'
 export const Route = createFileRoute('/login')({
   beforeLoad: () => {
     if (checkIsAuthenticated()) {
-      throw redirect({ to: '/admin/' as any })
+      throw redirect({ to: '/user/dashboard' as any })
     }
   },
   component: LoginPage,

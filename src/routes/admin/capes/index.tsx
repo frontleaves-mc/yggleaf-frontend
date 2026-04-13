@@ -5,10 +5,10 @@
 
 import { createFileRoute } from '@tanstack/react-router'
 import { useCapes, useDeleteCapeMutation } from '#/api/endpoints/cape-library'
-import { PageHeader } from '#/components/admin/shared/PageHeader'
-import { DataTable, type Column } from '#/components/admin/shared/DataTable'
-import { LoadingPage } from '#/components/admin/shared/LoadingPage'
-import { ConfirmDialog } from '#/components/admin/shared/ConfirmDialog'
+import { PageHeader } from '#/components/public/page-header'
+import { DataTable, type Column } from '#/components/public/data-table'
+import { LoadingPage } from '#/components/public/loading-page'
+import { ConfirmDialog } from '#/components/public/confirm-dialog'
 import { Button } from '#/components/ui/button'
 import { Badge } from '#/components/ui/badge'
 import {

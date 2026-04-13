@@ -7,8 +7,8 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useUserInfo } from '#/api/endpoints/user'
 import { useSkins } from '#/api/endpoints/skin-library'
 import { useCapes } from '#/api/endpoints/cape-library'
-import { StatCard } from '#/components/admin/shared/StatCard'
-import { LoadingPage } from '#/components/admin/shared/LoadingPage'
+import { StatCard } from '#/components/public/stat-card'
+import { LoadingPage } from '#/components/public/loading-page'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '#/components/ui/card'
 import {
   Users,
