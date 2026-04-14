@@ -123,6 +123,12 @@ export const userMenuItems: MenuItem[] = [
       },
     ],
   },
+  {
+    key: 'my',
+    label: '我的',
+    icon: UserCircle,
+    to: '/user/my',
+  },
 ]
 
 // ─── 面包屑标签映射（路由路径 → 显示名称） ─────────────────

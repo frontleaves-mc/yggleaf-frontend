@@ -19,6 +19,7 @@ import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as UserDashboardRouteImport } from './routes/user/dashboard'
 import { Route as UserSkinsIndexRouteImport } from './routes/user/skins/index'
 import { Route as UserProfilesIndexRouteImport } from './routes/user/profiles/index'
+import { Route as UserMyIndexRouteImport } from './routes/user/my/index'
 import { Route as UserCapesIndexRouteImport } from './routes/user/capes/index'
 import { Route as AdminUsersIndexRouteImport } from './routes/admin/users/index'
 import { Route as AdminSkinsIndexRouteImport } from './routes/admin/skins/index'
@@ -80,6 +81,11 @@ const UserSkinsIndexRoute = UserSkinsIndexRouteImport.update({
 const UserProfilesIndexRoute = UserProfilesIndexRouteImport.update({
   id: '/profiles/',
   path: '/profiles/',
+  getParentRoute: () => UserRoute,
+} as any)
+const UserMyIndexRoute = UserMyIndexRouteImport.update({
+  id: '/my/',
+  path: '/my/',
   getParentRoute: () => UserRoute,
 } as any)
 const UserCapesIndexRoute = UserCapesIndexRouteImport.update({
@@ -165,6 +171,7 @@ export interface FileRoutesByFullPath {
   '/admin/skins/': typeof AdminSkinsIndexRoute
   '/admin/users/': typeof AdminUsersIndexRoute
   '/user/capes/': typeof UserCapesIndexRoute
+  '/user/my/': typeof UserMyIndexRoute
   '/user/profiles/': typeof UserProfilesIndexRoute
   '/user/skins/': typeof UserSkinsIndexRoute
 }
@@ -187,6 +194,7 @@ export interface FileRoutesByTo {
   '/admin/skins': typeof AdminSkinsIndexRoute
   '/admin/users': typeof AdminUsersIndexRoute
   '/user/capes': typeof UserCapesIndexRoute
+  '/user/my': typeof UserMyIndexRoute
   '/user/profiles': typeof UserProfilesIndexRoute
   '/user/skins': typeof UserSkinsIndexRoute
 }
@@ -212,6 +220,7 @@ export interface FileRoutesById {
   '/admin/skins/': typeof AdminSkinsIndexRoute
   '/admin/users/': typeof AdminUsersIndexRoute
   '/user/capes/': typeof UserCapesIndexRoute
+  '/user/my/': typeof UserMyIndexRoute
   '/user/profiles/': typeof UserProfilesIndexRoute
   '/user/skins/': typeof UserSkinsIndexRoute
 }
@@ -238,6 +247,7 @@ export interface FileRouteTypes {
     | '/admin/skins/'
     | '/admin/users/'
     | '/user/capes/'
+    | '/user/my/'
     | '/user/profiles/'
     | '/user/skins/'
   fileRoutesByTo: FileRoutesByTo
@@ -260,6 +270,7 @@ export interface FileRouteTypes {
     | '/admin/skins'
     | '/admin/users'
     | '/user/capes'
+    | '/user/my'
     | '/user/profiles'
     | '/user/skins'
   id:
@@ -284,6 +295,7 @@ export interface FileRouteTypes {
     | '/admin/skins/'
     | '/admin/users/'
     | '/user/capes/'
+    | '/user/my/'
     | '/user/profiles/'
     | '/user/skins/'
   fileRoutesById: FileRoutesById
@@ -366,6 +378,13 @@ declare module '@tanstack/react-router' {
       path: '/profiles'
       fullPath: '/user/profiles/'
       preLoaderRoute: typeof UserProfilesIndexRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/user/my/': {
+      id: '/user/my/'
+      path: '/my'
+      fullPath: '/user/my/'
+      preLoaderRoute: typeof UserMyIndexRouteImport
       parentRoute: typeof UserRoute
     }
     '/user/capes/': {
@@ -491,6 +510,7 @@ interface UserRouteChildren {
   UserDashboardRoute: typeof UserDashboardRoute
   UserIndexRoute: typeof UserIndexRoute
   UserCapesIndexRoute: typeof UserCapesIndexRoute
+  UserMyIndexRoute: typeof UserMyIndexRoute
   UserProfilesIndexRoute: typeof UserProfilesIndexRoute
   UserSkinsIndexRoute: typeof UserSkinsIndexRoute
 }
@@ -499,6 +519,7 @@ const UserRouteChildren: UserRouteChildren = {
   UserDashboardRoute: UserDashboardRoute,
   UserIndexRoute: UserIndexRoute,
   UserCapesIndexRoute: UserCapesIndexRoute,
+  UserMyIndexRoute: UserMyIndexRoute,
   UserProfilesIndexRoute: UserProfilesIndexRoute,
   UserSkinsIndexRoute: UserSkinsIndexRoute,
 }
