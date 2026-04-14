@@ -14,6 +14,8 @@ export type {
   BaseResponse,
   User,
   GameProfile,
+  GameProfileListResponse,
+  GameProfileQuota,
   SkinLibrary,
   CapeLibrary,
   LibraryQuota,

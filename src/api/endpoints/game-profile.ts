@@ -1,12 +1,14 @@
 /**
  * 游戏档案 API 端点函数 + TanStack Query Hooks
- * 对接：创建档案 / 修改用户名
+ * 对接：获取档案列表 / 创建档案 / 获取配额 / 获取详情 / 修改用户名
  */
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { apiClient } from '../client'
 import type {
   GameProfile,
+  GameProfileListResponse,
+  GameProfileQuota,
   CreateGameProfileRequest,
   UpdateUsernameRequest,
 } from '#/api/types'
@@ -15,7 +17,8 @@ import type {
 
 /** 获取游戏档案列表（当前用户的） */
 export async function getGameProfiles(): Promise<GameProfile[]> {
-  return apiClient.get<GameProfile[]>('/game-profile')
+  const result = await apiClient.get<GameProfileListResponse>('/game-profile')
+  return result?.items ?? []
 }
 
 /** 创建游戏档案 */
@@ -23,12 +26,22 @@ export async function createGameProfile(data: CreateGameProfileRequest): Promise
   return apiClient.post<GameProfile>('/game-profile', data)
 }
 
+/** 获取游戏档案配额 */
+export async function getGameProfileQuota(): Promise<GameProfileQuota> {
+  return apiClient.get<GameProfileQuota>('/game-profile/quota')
+}
+
+/** 获取游戏档案详情 */
+export async function getGameProfileDetail(profileId: number): Promise<GameProfile> {
+  return apiClient.get<GameProfile>(`/game-profile/${profileId}`)
+}
+
 /** 修改游戏档案用户名 */
 export async function updateGameProfileUsername(
   profileId: number,
   data: UpdateUsernameRequest,
-): Promise<void> {
-  return apiClient.patch(`/game-profile/${profileId}/username`, data)
+): Promise<GameProfile> {
+  return apiClient.patch<GameProfile>(`/game-profile/${profileId}/username`, data)
 }
 
 // ─── TanStack Query Hooks ───────────────────────────────────
@@ -42,6 +55,24 @@ export function useGameProfiles(options?: { enabled?: boolean }) {
   })
 }
 
+/** 游戏档案配额 Query */
+export function useGameProfileQuota(options?: { enabled?: boolean }) {
+  return useQuery({
+    queryKey: ['game-profile', 'quota'],
+    queryFn: getGameProfileQuota,
+    enabled: options?.enabled ?? true,
+  })
+}
+
+/** 游戏档案详情 Query */
+export function useGameProfileDetail(profileId: number | null) {
+  return useQuery({
+    queryKey: ['game-profile', profileId],
+    queryFn: () => getGameProfileDetail(profileId!),
+    enabled: profileId !== null,
+  })
+}
+
 /** 创建游戏档案 Mutation */
 export function useCreateGameProfileMutation() {
   const queryClient = useQueryClient()
@@ -50,6 +81,7 @@ export function useCreateGameProfileMutation() {
     mutationFn: createGameProfile,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['game-profiles'] })
+      queryClient.invalidateQueries({ queryKey: ['game-profile', 'quota'] })
     },
   })
 }

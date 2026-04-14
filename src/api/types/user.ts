@@ -159,6 +159,28 @@ export interface LibraryQuota {
   updated_at: string
 }
 
+/** 游戏档案列表响应（items 包装） */
+export interface GameProfileListResponse {
+  /** 档案列表 */
+  items: GameProfile[]
+}
+
+/** 游戏档案配额实体 */
+export interface GameProfileQuota {
+  /** 配额 ID */
+  id: number
+  /** 总额度 */
+  total: number
+  /** 已使用额度 */
+  used: number
+  /** 关联用户 ID */
+  user_id: number
+  /** 关联用户详情 */
+  user?: User
+  /** 更新时间 */
+  updated_at: string
+}
+
 /** 创建游戏档案请求 */
 export interface CreateGameProfileRequest {
   /** 游戏内用户名 */
@@ -168,7 +190,7 @@ export interface CreateGameProfileRequest {
 /** 修改用户名请求 */
 export interface UpdateUsernameRequest {
   /** 新用户名 */
-  username: string
+  new_name: string
 }
 
 /** 创建皮肤请求 */
