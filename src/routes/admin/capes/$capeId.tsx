@@ -22,8 +22,7 @@ import { Badge } from '#/components/ui/badge'
 import { ConfirmDialog } from '#/components/public/confirm-dialog'
 import { PageTransition } from '#/components/ui/page-transition'
 import { Loader2, ArrowLeft, Save, Trash2 } from 'lucide-react'
-import { Link } from '@tanstack/react-router'
-import { useParams } from '@tanstack/react-router'
+import { Link, useParams, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import type { CapeLibrary } from '#/api/types'
 
@@ -38,6 +37,7 @@ async function getCapeDetail(capeId: string): Promise<CapeLibrary> {
 
 function EditCapePage() {
   const { capeId } = useParams({ strict: false }) as { capeId: string }
+  const navigate = useNavigate()
   const { data: cape, isLoading } = useQuery({
     queryKey: ['capes', capeId],
     queryFn: () => getCapeDetail(capeId),
@@ -71,7 +71,7 @@ function EditCapePage() {
   const handleDelete = async () => {
     try {
       await deleteMutation.mutateAsync(Number(capeId))
-      window.location.href = '/admin/capes'
+      navigate({ to: '/admin/capes' })
     } catch {
       // 错误处理
     }

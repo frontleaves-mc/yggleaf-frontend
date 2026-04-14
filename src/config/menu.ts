@@ -14,6 +14,7 @@ import {
   Flag,
   UserCircle,
   Settings,
+  Store,
 } from 'lucide-react'
 
 // ─── 类型定义 ────────────────────────────────────────────
@@ -98,22 +99,29 @@ export const userMenuItems: MenuItem[] = [
     to: '/user/dashboard',
   },
   {
-    key: 'skins',
-    label: '皮肤库',
-    icon: Shirt,
-    to: '/user/skins',
-  },
-  {
-    key: 'capes',
-    label: '披风库',
-    icon: Flag,
-    to: '/user/capes',
-  },
-  {
     key: 'profiles',
     label: '游戏档案',
     icon: Gamepad2,
     to: '/user/profiles',
+  },
+  {
+    key: 'market',
+    label: '资源社区',
+    icon: Store,
+    children: [
+      {
+        key: 'skins',
+        label: '皮肤库',
+        icon: Shirt,
+        to: '/user/skins',
+      },
+      {
+        key: 'capes',
+        label: '披风库',
+        icon: Flag,
+        to: '/user/capes',
+      },
+    ],
   },
 ]
 
@@ -123,9 +131,9 @@ export const breadcrumbLabels: Record<string, string> = {
   // ── 用户端 ──
   '/user': '用户中心',
   '/user/dashboard': '仪表盘',
+  '/user/profiles': '游戏档案',
   '/user/skins': '皮肤库',
   '/user/capes': '披风库',
-  '/user/profiles': '游戏档案',
 
   // ── 管理端 ──
   '/admin': '仪表盘',

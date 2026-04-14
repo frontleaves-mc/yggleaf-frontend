@@ -23,8 +23,7 @@ import { Badge } from '#/components/ui/badge'
 import { ConfirmDialog } from '#/components/public/confirm-dialog'
 import { PageTransition } from '#/components/ui/page-transition'
 import { Loader2, ArrowLeft, Save, Trash2 } from 'lucide-react'
-import { Link } from '@tanstack/react-router'
-import { useParams } from '@tanstack/react-router'
+import { Link, useParams, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import type { SkinLibrary } from '#/api/types'
 
@@ -39,6 +38,7 @@ async function getSkinDetail(skinId: string): Promise<SkinLibrary> {
 
 function EditSkinPage() {
   const { skinId } = useParams({ strict: false }) as { skinId: string }
+  const navigate = useNavigate()
   const { data: skin, isLoading } = useQuery({
     queryKey: ['skins', skinId],
     queryFn: () => getSkinDetail(skinId),
@@ -75,7 +75,7 @@ function EditSkinPage() {
   const handleDelete = async () => {
     try {
       await deleteMutation.mutateAsync(Number(skinId))
-      window.location.href = '/admin/skins'
+      navigate({ to: '/admin/skins' })
     } catch {
       // 错误处理
     }

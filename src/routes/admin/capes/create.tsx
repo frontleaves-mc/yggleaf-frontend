@@ -17,7 +17,7 @@ import { Input } from '#/components/ui/input'
 import { Label } from '#/components/ui/label'
 import { Switch } from '#/components/ui/switch'
 import { Loader2, ArrowLeft, Save } from 'lucide-react'
-import { Link } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { PageTransition } from '#/components/ui/page-transition'
 
@@ -27,6 +27,7 @@ export const Route = createFileRoute('/admin/capes/create')({
 
 function CreateCapePage() {
   const createMutation = useCreateCapeMutation()
+  const navigate = useNavigate()
 
   const [name, setName] = useState('')
   const [texture, setTexture] = useState('')
@@ -40,7 +41,7 @@ function CreateCapePage() {
         texture: Number(texture),
         is_public: isPublic,
       })
-      window.location.href = '/admin/capes'
+      navigate({ to: '/admin/capes' })
     } catch {
       // 错误由 mutation 处理
     }

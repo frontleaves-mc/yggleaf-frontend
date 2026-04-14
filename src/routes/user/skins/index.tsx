@@ -101,9 +101,9 @@ function SkinCard({ skin, viewMode }: { skin: SkinItem; viewMode: 'grid' | 'list
         initial="rest"
         whileHover="hover"
         transition={hoverLiftTransition}
-        className="cursor-pointer"
+        className="cursor-pointer rounded-lg"
       >
-        <Card className="ring-0 overflow-hidden">
+        <Card className="ring-0 border border-border/70 overflow-hidden">
           <CardContent className="flex items-center gap-4 p-4">
           <Avatar className="size-14 rounded-lg">
             <AvatarImage src={skin.thumbnail} alt={skin.name} />
@@ -134,9 +134,9 @@ function SkinCard({ skin, viewMode }: { skin: SkinItem; viewMode: 'grid' | 'list
       initial="rest"
       whileHover="hover"
       transition={hoverLiftTransition}
-      className="cursor-pointer"
+      className="cursor-pointer rounded-lg"
     >
-      <Card className="ring-0 overflow-hidden group">
+      <Card className="ring-0 border border-border/70 overflow-hidden group">
         <CardContent className="p-4">
         {/* 皮肤预览区 */}
         <div className="aspect-[3/4] rounded-lg bg-gradient-to-br from-primary/5 to-primary/10 mb-3 flex items-center justify-center relative overflow-hidden">

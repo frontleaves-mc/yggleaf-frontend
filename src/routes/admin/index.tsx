@@ -7,7 +7,6 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useUserInfo } from '#/api/endpoints/user'
 import { useSkins } from '#/api/endpoints/skin-library'
 import { useCapes } from '#/api/endpoints/cape-library'
-import { StatCard } from '#/components/public/stat-card'
 import { LoadingPage } from '#/components/public/loading-page'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '#/components/ui/card'
 import {
@@ -100,36 +99,109 @@ function DashboardPage() {
 
       <section>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <StatCard
-            title="皮肤库"
-            value={skinsLoading ? '...' : skinCount}
-            icon={Shirt}
-            trend={skinCount > 0 ? 'up' : 'neutral'}
-            trendValue={skinCount > 0 ? `${skinCount} 个资源` : undefined}
-            description="总资源数"
-          />
-          <StatCard
-            title="披风库"
-            value={capesLoading ? '...' : capeCount}
-            icon={Flag}
-            trend={capeCount > 0 ? 'up' : 'neutral'}
-            trendValue={capeCount > 0 ? `${capeCount} 个资源` : undefined}
-            description="总资源数"
-          />
-          <StatCard
-            title="游戏档案"
-            value="--"
-            icon={Gamepad2}
-            trend="neutral"
-            description="活跃档案"
-          />
-          <StatCard
-            title="用户总数"
-            value="--"
-            icon={Users}
-            trend="neutral"
-            description="已注册用户"
-          />
+          <motion.div
+            variants={cardHoverVariants}
+            initial="rest"
+            whileHover="hover"
+            transition={hoverLiftTransition}
+          >
+            <Card className="relative overflow-hidden">
+              <CardContent className="p-5 sm:p-6">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="space-y-1.5 min-w-0">
+                    <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                      皮肤库
+                    </p>
+                    <p className="text-2xl font-bold tracking-tight tabular-nums">
+                      {skinsLoading ? '...' : skinCount}
+                    </p>
+                    <p className="text-xs text-muted-foreground">总资源数</p>
+                  </div>
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10">
+                    <Shirt className="h-5 w-5 text-primary" />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          <motion.div
+            variants={cardHoverVariants}
+            initial="rest"
+            whileHover="hover"
+            transition={hoverLiftTransition}
+          >
+            <Card className="relative overflow-hidden">
+              <CardContent className="p-5 sm:p-6">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="space-y-1.5 min-w-0">
+                    <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                      披风库
+                    </p>
+                    <p className="text-2xl font-bold tracking-tight tabular-nums">
+                      {capesLoading ? '...' : capeCount}
+                    </p>
+                    <p className="text-xs text-muted-foreground">总资源数</p>
+                  </div>
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10">
+                    <Flag className="h-5 w-5 text-primary" />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          <motion.div
+            variants={cardHoverVariants}
+            initial="rest"
+            whileHover="hover"
+            transition={hoverLiftTransition}
+          >
+            <Card className="relative overflow-hidden">
+              <CardContent className="p-5 sm:p-6">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="space-y-1.5 min-w-0">
+                    <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                      游戏档案
+                    </p>
+                    <p className="text-2xl font-bold tracking-tight tabular-nums">
+                      --
+                    </p>
+                    <p className="text-xs text-muted-foreground">活跃档案</p>
+                  </div>
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10">
+                    <Gamepad2 className="h-5 w-5 text-primary" />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          <motion.div
+            variants={cardHoverVariants}
+            initial="rest"
+            whileHover="hover"
+            transition={hoverLiftTransition}
+          >
+            <Card className="relative overflow-hidden">
+              <CardContent className="p-5 sm:p-6">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="space-y-1.5 min-w-0">
+                    <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                      用户总数
+                    </p>
+                    <p className="text-2xl font-bold tracking-tight tabular-nums">
+                      --
+                    </p>
+                    <p className="text-xs text-muted-foreground">已注册用户</p>
+                  </div>
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10">
+                    <Users className="h-5 w-5 text-primary" />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
         </div>
       </section>
 

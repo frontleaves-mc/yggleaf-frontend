@@ -9,7 +9,7 @@
  *   - 折叠模式下的 Tooltip 提示
  */
 
-import { useLocation } from '@tanstack/react-router'
+import { Link, useLocation } from '@tanstack/react-router'
 import { useState } from 'react'
 import type { LucideIcon } from 'lucide-react'
 import {
@@ -113,10 +113,10 @@ function FlatMenuItem({
         isActive={active}
         tooltip={item.label}
       >
-        <a href={item.to}>
+        <Link to={item.to}>
           <Icon className={cn("size-4", active && "text-sidebar-primary")} />
           <span>{item.label}</span>
-        </a>
+        </Link>
       </SidebarMenuButton>
       {item.badge != null && (
         <SidebarMenuBadge>{item.badge}</SidebarMenuBadge>
@@ -135,7 +135,15 @@ function CollapsibleMenuItem({
   defaultOpen: boolean
 }) {
   const [open, setOpen] = useState(defaultOpen)
+  const location = useLocation()
   const Icon = item.icon
+
+  /** 判断给定路径是否为当前激活路径 */
+  const isActivePath = (to?: string): boolean => {
+    if (!to) return false
+    const pathname = location.pathname
+    return pathname === to || pathname.startsWith(to + '/')
+  }
 
   return (
     <Collapsible open={open} onOpenChange={setOpen}>
@@ -151,11 +159,11 @@ function CollapsibleMenuItem({
           <SidebarMenuSub>
             {item.children?.map((child) => (
               <SidebarMenuSubItem key={child.key}>
-                <SidebarMenuSubButton asChild isActive={isActiveChild(child.to)}>
-                  <a href={child.to}>
-                    <child.icon className={cn("size-4", isActiveChild(child.to) && "text-sidebar-primary")} />
+                <SidebarMenuSubButton asChild isActive={isActivePath(child.to)}>
+                  <Link to={child.to}>
+                    <child.icon className={cn("size-4", isActivePath(child.to) && "text-sidebar-primary")} />
                     <span>{child.label}</span>
-                  </a>
+                  </Link>
                 </SidebarMenuSubButton>
               </SidebarMenuSubItem>
             ))}
@@ -164,11 +172,4 @@ function CollapsibleMenuItem({
       </SidebarMenuItem>
     </Collapsible>
   )
-}
-
-/** 简单的路径匹配检测（供子菜单项使用） */
-function isActiveChild(to?: string): boolean {
-  if (!to) return false
-  if (typeof window === 'undefined') return false
-  return window.location.pathname === to || window.location.pathname.startsWith(to + '/')
 }

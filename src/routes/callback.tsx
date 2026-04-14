@@ -4,7 +4,7 @@
  * 处理流程：用授权码换 Token → 获取用户信息 → 跳转管理后台
  */
 
-import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, redirect, useNavigate, Link } from '@tanstack/react-router'
 import { handleOAuthCallback } from '#/api/endpoints/auth'
 import { checkIsAuthenticated } from '#/hooks/use-auth-guard'
 import { Loader2 } from 'lucide-react'
@@ -57,12 +57,12 @@ function CallbackPage() {
           </div>
           <h2 className="text-lg font-semibold text-foreground">登录失败</h2>
           <p className="text-sm text-muted-foreground">{error}</p>
-          <a
-            href="/login"
+          <Link
+            to="/login"
             className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-primary to-primary px-5 py-2.5 text-sm font-semibold text-white no-underline hover:opacity-90"
           >
             返回登录
-          </a>
+          </Link>
         </div>
       </div>
     )

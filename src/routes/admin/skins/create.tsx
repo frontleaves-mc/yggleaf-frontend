@@ -18,7 +18,7 @@ import { Label } from '#/components/ui/label'
 import { Switch } from '#/components/ui/switch'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '#/components/ui/select'
 import { Loader2, ArrowLeft, Save } from 'lucide-react'
-import { Link } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { PageTransition } from '#/components/ui/page-transition'
 
@@ -28,6 +28,7 @@ export const Route = createFileRoute('/admin/skins/create')({
 
 function CreateSkinPage() {
   const createMutation = useCreateSkinMutation()
+  const navigate = useNavigate()
 
   const [name, setName] = useState('')
   const [model, setModel] = useState<string>('1')
@@ -44,7 +45,7 @@ function CreateSkinPage() {
         is_public: isPublic,
       })
       // 成功后跳转到列表页
-      window.location.href = '/admin/skins'
+      navigate({ to: '/admin/skins' })
     } catch {
       // 错误由 mutation 处理
     }

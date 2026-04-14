@@ -3,13 +3,24 @@
  *
  * 包含：
  *   - 左侧：侧边栏切换按钮 (SidebarTrigger)
- *   - 中间：页面标题 + 面包屑导航 (BreadcrumbNav)
+ *   - 中间：页面标题
+ *   - 右侧：主题切换 (ThemeToggle - 浅色/深色/跟随系统)
  */
 
+import * as React from 'react'
 import { SidebarTrigger } from '#/components/ui/sidebar'
-import { Link, useMatches } from '@tanstack/react-router'
-import { Home, ChevronRight } from 'lucide-react'
+import { Button } from '#/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '#/components/ui/dropdown-menu'
+import { useMatches } from '@tanstack/react-router'
+import { Sun, Moon, Monitor } from 'lucide-react'
 import { breadcrumbLabels } from '#/config/menu'
+
+// ─── 页面标题解析 ───────────────────────────────────────
 
 function useBreadcrumbs() {
   const matches = useMatches()
@@ -23,38 +34,76 @@ function useBreadcrumbs() {
     }))
 }
 
-function BreadcrumbNav({ crumbs }: { crumbs: ReturnType<typeof useBreadcrumbs> }) {
-  if (crumbs.length === 0) return null
+// ─── 主题切换 ───────────────────────────────────────────
 
-  const rootHref = crumbs[0]?.href ?? '/'
+type ThemeMode = 'light' | 'dark' | 'auto'
+
+function useThemeMode() {
+  const [mode, setMode] = React.useState<ThemeMode>(() => {
+    if (typeof window === 'undefined') return 'auto'
+    const stored = localStorage.getItem('theme')
+    if (stored === 'light' || stored === 'dark' || stored === 'auto') return stored
+    return 'auto'
+  })
+
+  const applyTheme = React.useCallback((newMode: ThemeMode) => {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const resolved = newMode === 'auto' ? (prefersDark ? 'dark' : 'light') : newMode
+    const root = document.documentElement
+
+    root.classList.remove('light', 'dark')
+    root.classList.add(resolved)
+
+    if (newMode === 'auto') {
+      root.removeAttribute('data-theme')
+    } else {
+      root.setAttribute('data-theme', newMode)
+    }
+
+    root.style.colorScheme = resolved
+    localStorage.setItem('theme', newMode)
+  }, [])
+
+  const changeMode = React.useCallback((newMode: ThemeMode) => {
+    setMode(newMode)
+    applyTheme(newMode)
+  }, [applyTheme])
+
+  return { mode, changeMode }
+}
+
+function ThemeToggle() {
+  const { mode, changeMode } = useThemeMode()
+
+  const icon = mode === 'light'
+    ? <Sun className="size-4" />
+    : mode === 'dark'
+      ? <Moon className="size-4" />
+      : <Monitor className="size-4" />
 
   return (
-    <nav className="flex items-center gap-1.5 text-sm" aria-label="面包屑导航">
-      <Link
-        to={rootHref as any}
-        className="rounded-md p-1 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-      >
-        <Home className="size-4" />
-      </Link>
-
-      {crumbs.map((crumb, idx) => (
-        <span key={crumb.href} className="flex items-center gap-1.5">
-          <ChevronRight className="size-3.5 text-muted-foreground/50" />
-          {idx === crumbs.length - 1 ? (
-            <span className="font-medium text-foreground max-w-[200px] truncate">
-              {crumb.label}
-            </span>
-          ) : (
-            <Link
-              to={crumb.href as any}
-              className="max-w-[180px] truncate rounded-md px-1.5 py-1 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-            >
-              {crumb.label}
-            </Link>
-          )}
-        </span>
-      ))}
-    </nav>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="icon" className="shrink-0 rounded-lg">
+          {icon}
+          <span className="sr-only">切换主题</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-32">
+        <DropdownMenuItem onClick={() => changeMode('light')}>
+          <Sun className="size-4" />
+          浅色
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => changeMode('dark')}>
+          <Moon className="size-4" />
+          深色
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => changeMode('auto')}>
+          <Monitor className="size-4" />
+          跟随系统
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
 
@@ -73,8 +122,9 @@ export function TopBar() {
           <p className="truncate text-base font-semibold text-foreground sm:text-lg">
             {current?.label ?? '概览'}
           </p>
-          <BreadcrumbNav crumbs={crumbs} />
         </div>
+
+        <ThemeToggle />
       </div>
     </header>
   )

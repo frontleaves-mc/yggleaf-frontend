@@ -29,7 +29,7 @@ export const childMotionTransition: Transition = {
 
 /** 卡片上浮 + 阴影变体 */
 export const cardHoverVariants = {
-  rest: { y: 0, boxShadow: '0px 0px 0px rgba(0,0,0,0)' },
+  rest: { y: 0, boxShadow: '0 1px 3px 0 oklch(from var(--foreground) l c h / 0.04), 0 1px 2px -1px oklch(from var(--foreground) l c h / 0.04)' },
   hover: {
     y: -2,
     boxShadow:

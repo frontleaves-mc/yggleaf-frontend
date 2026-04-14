@@ -99,9 +99,9 @@ function CapeCard({ cape, viewMode }: { cape: CapeItem; viewMode: 'grid' | 'list
         initial="rest"
         whileHover="hover"
         transition={hoverLiftTransition}
-        className="cursor-pointer"
+        className="cursor-pointer rounded-lg"
       >
-        <Card className="ring-0 overflow-hidden">
+        <Card className="ring-0 border border-border/70 overflow-hidden">
           <CardContent className="flex items-center gap-4 p-4">
           <Avatar className="size-14 rounded-lg">
             <AvatarImage src={cape.thumbnail} alt={cape.name} />
@@ -125,9 +125,9 @@ function CapeCard({ cape, viewMode }: { cape: CapeItem; viewMode: 'grid' | 'list
       initial="rest"
       whileHover="hover"
       transition={hoverLiftTransition}
-      className="cursor-pointer"
+      className="cursor-pointer rounded-lg"
     >
-      <Card className="ring-0 overflow-hidden group">
+      <Card className="ring-0 border border-border/70 overflow-hidden group">
         <CardContent className="p-4">
         {/* 披风预览区 — 竖长比例模拟披风 */}
         <div className="aspect-[2/3] rounded-lg bg-gradient-to-b from-chart-4/5 via-chart-4/8 to-chart-4/15 mb-3 flex items-center justify-center relative overflow-hidden">
