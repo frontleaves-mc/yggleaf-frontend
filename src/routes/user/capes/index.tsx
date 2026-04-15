@@ -1,7 +1,7 @@
 /**
  * 用户端 - 披风浏览页
  *
- * 结构同皮肤浏览页，展示可用披风
+ * 对接 API 获取公开披风列表
  */
 
 import { createFileRoute } from '@tanstack/react-router'
@@ -10,36 +10,24 @@ import { useState } from 'react'
 import { Card, CardContent } from '#/components/ui/card'
 import { Input } from '#/components/ui/input'
 import { Button } from '#/components/ui/button'
-import { Avatar, AvatarFallback, AvatarImage } from '#/components/ui/avatar'
+import { Badge } from '#/components/ui/badge'
+import { Avatar, AvatarFallback } from '#/components/ui/avatar'
 import { motion } from 'motion/react'
 import { cardHoverVariants, hoverLiftTransition } from '#/lib/motion-presets'
+import { useCapes } from '#/api/endpoints/cape-library'
+import { LoadingPage } from '#/components/public/loading-page'
+import type { CapeLibrary } from '#/api/types'
 
 export const Route = createFileRoute('/user/capes/')({
   component: CapesPage,
 })
 
-// ─── 占位数据 ─────────────────────────────────────────────
-
-interface CapeItem {
-  id: string
-  name: string
-  author: string
-  thumbnail?: string
-}
-
-const MOCK_CAPES: CapeItem[] = [
-  { id: '1', name: 'Mojang 经典披风', author: 'Mojang AB' },
-  { id: '2', name: '龙翼披风', author: 'Ender Dragon' },
-  { id: '3', name: '极地探险家', author: 'Snow Golem' },
-  { id: '4', name: '火焰之翼', author: 'Blaze' },
-  { id: '5', name: '深海潜行者', author: 'Guardian' },
-  { id: '6', name: '幻翼披风', author: 'Phantom' },
-]
-
 // ─── 页面组件 ─────────────────────────────────────────────
 
 export default function CapesPage() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
+  const { data, isLoading } = useCapes({ mode: 'market', page: 1, page_size: 50 })
+  const capes = data?.items ?? []
 
   return (
     <div className="space-y-6">
@@ -75,23 +63,39 @@ export default function CapesPage() {
         </div>
       </div>
 
+      {/* 加载态 */}
+      {isLoading && <LoadingPage />}
+
       {/* 披风网格 */}
-      <div className={
-        viewMode === 'grid'
-          ? "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4"
-          : "flex flex-col gap-3"
-      }>
-        {MOCK_CAPES.map((cape) => (
-          <CapeCard key={cape.id} cape={cape} viewMode={viewMode} />
-        ))}
-      </div>
+      {!isLoading && (
+        <div className={
+          viewMode === 'grid'
+            ? "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4"
+            : "flex flex-col gap-3"
+        }>
+          {capes.map((cape) => (
+            <CapeCard key={cape.id} cape={cape} viewMode={viewMode} />
+          ))}
+        </div>
+      )}
+
+      {/* 空状态 */}
+      {!isLoading && capes.length === 0 && (
+        <Card className="border-dashed">
+          <CardContent className="py-12 text-center">
+            <Flag className="mx-auto size-12 text-muted-foreground/30" />
+            <h3 className="mt-4 font-medium text-foreground">暂无披风</h3>
+            <p className="mt-1 text-sm text-muted-foreground">目前还没有公开的披风资源</p>
+          </CardContent>
+        </Card>
+      )}
     </div>
   )
 }
 
 // ─── 披风卡片组件 ─────────────────────────────────────────
 
-function CapeCard({ cape, viewMode }: { cape: CapeItem; viewMode: 'grid' | 'list' }) {
+function CapeCard({ cape, viewMode }: { cape: CapeLibrary; viewMode: 'grid' | 'list' }) {
   if (viewMode === 'list') {
     return (
       <motion.div
@@ -104,14 +108,24 @@ function CapeCard({ cape, viewMode }: { cape: CapeItem; viewMode: 'grid' | 'list
         <Card className="ring-0 border border-border/70 overflow-hidden">
           <CardContent className="flex items-center gap-4 p-4">
           <Avatar className="size-14 rounded-lg">
-            <AvatarImage src={cape.thumbnail} alt={cape.name} />
             <AvatarFallback className="rounded-lg bg-chart-4/10">
               <Flag className="size-6 text-chart-4" />
             </AvatarFallback>
           </Avatar>
           <div className="flex-1 min-w-0">
             <h3 className="font-medium text-foreground truncate">{cape.name}</h3>
-            <p className="text-xs text-muted-foreground">作者: {cape.author}</p>
+            <div className="flex items-center gap-2 mt-0.5">
+              <Badge
+                className={
+                  cape.is_public
+                    ? 'bg-chart-2/10 text-chart-2 border-chart-2/20 text-[10px]'
+                    : 'text-[10px]'
+                }
+                variant="secondary"
+              >
+                {cape.is_public ? '公开' : '私有'}
+              </Badge>
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -132,7 +146,6 @@ function CapeCard({ cape, viewMode }: { cape: CapeItem; viewMode: 'grid' | 'list
         {/* 披风预览区 — 竖长比例模拟披风 */}
         <div className="aspect-[2/3] rounded-lg bg-gradient-to-b from-chart-4/5 via-chart-4/8 to-chart-4/15 mb-3 flex items-center justify-center relative overflow-hidden">
           <Avatar className="size-16 rounded-lg ring-2 ring-chart-4/20 group-hover:ring-chart-4/40 transition-all">
-            <AvatarImage src={cape.thumbnail} alt={cape.name} />
             <AvatarFallback className="rounded-lg bg-chart-4/10 text-xl">
               <Flag className="size-8 text-chart-4" />
             </AvatarFallback>
@@ -143,7 +156,6 @@ function CapeCard({ cape, viewMode }: { cape: CapeItem; viewMode: 'grid' | 'list
         <h3 className="font-medium text-sm text-foreground truncate group-hover:text-chart-4 transition-colors">
           {cape.name}
         </h3>
-        <p className="text-xs text-muted-foreground mt-0.5">{cape.author}</p>
       </CardContent>
     </Card>
     </motion.div>

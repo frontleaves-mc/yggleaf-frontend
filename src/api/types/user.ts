@@ -193,14 +193,20 @@ export interface UpdateUsernameRequest {
   new_name: string
 }
 
+/** 资源库列表响应（分页） */
+export interface LibraryListResponse<T> {
+  items: T[]
+  total: number
+}
+
 /** 创建皮肤请求 */
 export interface CreateSkinRequest {
   /** 皮肤名称 */
   name: string
   /** 皮肤模型 (1=classic, 2=slim) */
   model: ModelType
-  /** 皮肤纹理文件 ID */
-  texture: number
+  /** 皮肤纹理文件 Base64 编码字符串 */
+  texture: string
   /** 是否公开 */
   is_public?: boolean
 }
@@ -212,8 +218,8 @@ export interface UpdateSkinRequest extends Partial<CreateSkinRequest> {}
 export interface CreateCapeRequest {
   /** 披风名称 */
   name: string
-  /** 披风纹理文件 ID */
-  texture: number
+  /** 披风纹理文件 Base64 编码字符串 */
+  texture: string
   /** 是否公开 */
   is_public?: boolean
 }

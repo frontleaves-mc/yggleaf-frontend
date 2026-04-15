@@ -7,7 +7,7 @@
  * - 管理已上传的资源
  */
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 import {
   Upload,
@@ -18,6 +18,7 @@ import {
   Gamepad2,
   UserCircle,
   CheckCircle2,
+  Loader2,
 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
 import { Button } from '#/components/ui/button'
@@ -36,10 +37,27 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '#/components/ui/tabs'
 import { UploadZone } from '#/components/user/my/upload-zone'
 import { ResourceGrid } from '#/components/user/my/resource-grid'
+import { useCreateSkinMutation } from '#/api/endpoints/skin-library'
+import { useCreateCapeMutation } from '#/api/endpoints/cape-library'
+import { toast } from 'sonner'
 
 export const Route = createFileRoute('/user/my/')({
   component: MyPage,
 })
+
+// ─── 工具函数 ─────────────────────────────────────────
+
+/** 将 File 对象转换为携带 MIME 的 Base64 字符串（data:image/png;base64,XXXXX） */
+function fileToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = () => {
+      resolve(reader.result as string)
+    }
+    reader.onerror = reject
+    reader.readAsDataURL(file)
+  })
+}
 
 // ─── Mock 数据 ─────────────────────────────────────────
 
@@ -131,11 +149,47 @@ function SkinUploadCard() {
   const [model, setModel] = useState<string>('1')
   const [isPublic, setIsPublic] = useState(false)
   const [previewUrl, setPreviewUrl] = useState<string | undefined>()
+  const [base64Texture, setBase64Texture] = useState<string>('')
+  const createMutation = useCreateSkinMutation()
 
-  const handleFileSelect = useCallback((file: File) => {
+  // 释放预览 URL 内存
+  useEffect(() => {
+    return () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl)
+    }
+  }, [previewUrl])
+
+  const handleFileSelect = useCallback(async (file: File) => {
     const url = URL.createObjectURL(file)
     setPreviewUrl(url)
+    try {
+      const base64 = await fileToBase64(file)
+      setBase64Texture(base64)
+    } catch {
+      toast.error('文件读取失败')
+    }
   }, [])
+
+  const handleUploadSkin = async () => {
+    if (!name || !base64Texture) return
+    try {
+      await createMutation.mutateAsync({
+        name,
+        model: Number(model) as 1 | 2,
+        texture: base64Texture,
+        is_public: isPublic,
+      })
+      toast.success('皮肤上传成功')
+      // 重置表单
+      setName('')
+      setModel('1')
+      setIsPublic(false)
+      setPreviewUrl(undefined)
+      setBase64Texture('')
+    } catch {
+      toast.error('皮肤上传失败')
+    }
+  }
 
   return (
     <Card className="ring-0 border border-border/70">
@@ -148,53 +202,77 @@ function SkinUploadCard() {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <UploadZone
-          accept=".png"
-          label="皮肤"
-          onFileSelect={handleFileSelect}
-          previewUrl={previewUrl}
-          aspectRatio="h-40"
-        />
-
-        <div className="space-y-2">
-          <Label htmlFor="skin-name">皮肤名称</Label>
-          <Input
-            id="skin-name"
-            placeholder="给你的皮肤起个名字"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
-
-        <div className="space-y-2">
-          <Label>模型类型</Label>
-          <Select value={model} onValueChange={setModel}>
-            <SelectTrigger>
-              <SelectValue placeholder="选择模型类型" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="1">Classic (Steve)</SelectItem>
-              <SelectItem value="2">Slim (Alex)</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        <div className="flex items-center justify-between rounded-lg border border-border p-3.5">
-          <div className="space-y-0.5">
-            <Label className="text-sm">公开皮肤</Label>
-            <p className="text-[12px] text-muted-foreground">
-              开启后所有用户均可使用此皮肤
-            </p>
+        {/* 左右布局：上传区域 + 表单 */}
+        <div className="flex flex-col sm:flex-row gap-4">
+          {/* 左侧：上传区域 */}
+          <div className="sm:w-48 shrink-0">
+            <UploadZone
+              accept=".png"
+              label="皮肤"
+              onFileSelect={handleFileSelect}
+              previewUrl={previewUrl}
+              aspectRatio="h-64"
+            />
           </div>
-          <Switch checked={isPublic} onCheckedChange={setIsPublic} />
+
+          {/* 右侧：表单字段 */}
+          <div className="flex-1 flex flex-col justify-between">
+            <div className="space-y-3">
+              <div className="space-y-2">
+                <Label htmlFor="skin-name">皮肤名称</Label>
+                <Input
+                  id="skin-name"
+                  placeholder="给你的皮肤起个名字"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  disabled={createMutation.isPending}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label>模型类型</Label>
+                <Select value={model} onValueChange={setModel} disabled={createMutation.isPending}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="选择模型类型" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="1">Classic (Steve)</SelectItem>
+                    <SelectItem value="2">Slim (Alex)</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between rounded-lg border border-border p-3.5">
+              <div className="space-y-0.5">
+                <Label className="text-sm">公开皮肤</Label>
+                <p className="text-[12px] text-muted-foreground">
+                  开启后所有用户均可使用此皮肤
+                </p>
+              </div>
+              <Switch checked={isPublic} onCheckedChange={setIsPublic} disabled={createMutation.isPending} />
+            </div>
+          </div>
         </div>
 
+        {/* 底部全宽上传按钮 */}
         <Button
+          size="lg"
           className="w-full bg-gradient-to-r from-primary to-primary text-white hover:opacity-90"
-          disabled={!name || !previewUrl}
+          disabled={!name || !base64Texture || createMutation.isPending}
+          onClick={handleUploadSkin}
         >
-          <Upload className="mr-2 size-4" />
-          上传皮肤
+          {createMutation.isPending ? (
+            <>
+              <Loader2 className="mr-2 size-4 animate-spin" />
+              上传中...
+            </>
+          ) : (
+            <>
+              <Upload className="mr-2 size-4" />
+              上传皮肤
+            </>
+          )}
         </Button>
       </CardContent>
     </Card>
@@ -205,11 +283,45 @@ function CapeUploadCard() {
   const [name, setName] = useState('')
   const [isPublic, setIsPublic] = useState(false)
   const [previewUrl, setPreviewUrl] = useState<string | undefined>()
+  const [base64Texture, setBase64Texture] = useState<string>('')
+  const createMutation = useCreateCapeMutation()
 
-  const handleFileSelect = useCallback((file: File) => {
+  // 释放预览 URL 内存
+  useEffect(() => {
+    return () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl)
+    }
+  }, [previewUrl])
+
+  const handleFileSelect = useCallback(async (file: File) => {
     const url = URL.createObjectURL(file)
     setPreviewUrl(url)
+    try {
+      const base64 = await fileToBase64(file)
+      setBase64Texture(base64)
+    } catch {
+      toast.error('文件读取失败')
+    }
   }, [])
+
+  const handleUploadCape = async () => {
+    if (!name || !base64Texture) return
+    try {
+      await createMutation.mutateAsync({
+        name,
+        texture: base64Texture,
+        is_public: isPublic,
+      })
+      toast.success('披风上传成功')
+      // 重置表单
+      setName('')
+      setIsPublic(false)
+      setPreviewUrl(undefined)
+      setBase64Texture('')
+    } catch {
+      toast.error('披风上传失败')
+    }
+  }
 
   return (
     <Card className="ring-0 border border-border/70">
@@ -222,40 +334,64 @@ function CapeUploadCard() {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <UploadZone
-          accept=".png"
-          label="披风"
-          onFileSelect={handleFileSelect}
-          previewUrl={previewUrl}
-          aspectRatio="h-32"
-        />
-
-        <div className="space-y-2">
-          <Label htmlFor="cape-name">披风名称</Label>
-          <Input
-            id="cape-name"
-            placeholder="给你的披风起个名字"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
-
-        <div className="flex items-center justify-between rounded-lg border border-border p-3.5">
-          <div className="space-y-0.5">
-            <Label className="text-sm">公开披风</Label>
-            <p className="text-[12px] text-muted-foreground">
-              开启后所有用户均可使用此披风
-            </p>
+        {/* 左右布局：上传区域 + 表单 */}
+        <div className="flex flex-col sm:flex-row gap-4">
+          {/* 左侧：上传区域 */}
+          <div className="sm:w-48 shrink-0">
+            <UploadZone
+              accept=".png"
+              label="披风"
+              onFileSelect={handleFileSelect}
+              previewUrl={previewUrl}
+              aspectRatio="h-64"
+            />
           </div>
-          <Switch checked={isPublic} onCheckedChange={setIsPublic} />
+
+          {/* 右侧：表单字段 */}
+          <div className="flex-1 flex flex-col justify-between">
+            <div className="space-y-3">
+              <div className="space-y-2">
+                <Label htmlFor="cape-name">披风名称</Label>
+                <Input
+                  id="cape-name"
+                  placeholder="给你的披风起个名字"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  disabled={createMutation.isPending}
+                />
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between rounded-lg border border-border p-3.5">
+              <div className="space-y-0.5">
+                <Label className="text-sm">公开披风</Label>
+                <p className="text-[12px] text-muted-foreground">
+                  开启后所有用户均可使用此披风
+                </p>
+              </div>
+              <Switch checked={isPublic} onCheckedChange={setIsPublic} disabled={createMutation.isPending} />
+            </div>
+          </div>
         </div>
 
+        {/* 底部全宽上传按钮 */}
         <Button
+          size="lg"
           className="w-full bg-gradient-to-r from-primary to-primary text-white hover:opacity-90"
-          disabled={!name || !previewUrl}
+          disabled={!name || !base64Texture || createMutation.isPending}
+          onClick={handleUploadCape}
         >
-          <Upload className="mr-2 size-4" />
-          上传披风
+          {createMutation.isPending ? (
+            <>
+              <Loader2 className="mr-2 size-4 animate-spin" />
+              上传中...
+            </>
+          ) : (
+            <>
+              <Upload className="mr-2 size-4" />
+              上传披风
+            </>
+          )}
         </Button>
       </CardContent>
     </Card>

@@ -27,7 +27,8 @@ export const Route = createFileRoute('/admin/skins/')({
 })
 
 function SkinListPage() {
-  const { data: skins, isLoading } = useSkins()
+  const { data, isLoading } = useSkins()
+  const skins = data?.items
   const deleteMutation = useDeleteSkinMutation()
   const [deleteTarget, setDeleteTarget] = useState<SkinLibrary | null>(null)
 

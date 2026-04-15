@@ -38,7 +38,7 @@ function CreateCapePage() {
     try {
       await createMutation.mutateAsync({
         name,
-        texture: Number(texture),
+        texture: texture,
         is_public: isPublic,
       })
       navigate({ to: '/admin/capes' })

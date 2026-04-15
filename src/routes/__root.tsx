@@ -5,6 +5,7 @@ import {
 } from '@tanstack/react-router'
 
 import { TooltipProvider } from '#/components/ui/tooltip'
+import { Toaster } from '#/components/ui/sonner'
 
 import appCss from '../styles.css?url'
 
@@ -55,6 +56,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body className="font-sans antialiased [overflow-wrap:anywhere]">
         <TooltipProvider>{children}</TooltipProvider>
+        <Toaster />
         <Scripts />
       </body>
     </html>

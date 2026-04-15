@@ -27,7 +27,8 @@ export const Route = createFileRoute('/admin/capes/')({
 })
 
 function CapeListPage() {
-  const { data: capes, isLoading } = useCapes()
+  const { data, isLoading } = useCapes()
+  const capes = data?.items
   const deleteMutation = useDeleteCapeMutation()
   const [deleteTarget, setDeleteTarget] = useState<CapeLibrary | null>(null)
 

@@ -39,8 +39,8 @@ function DashboardPage() {
   // 全局加载状态
   if (userLoading) return <LoadingPage />
 
-  const skinCount = skins?.length ?? 0
-  const capeCount = capes?.length ?? 0
+  const skinCount = skins?.items?.length ?? 0
+  const capeCount = capes?.items?.length ?? 0
 
   return (
     <PageTransition className="flex flex-col gap-6">

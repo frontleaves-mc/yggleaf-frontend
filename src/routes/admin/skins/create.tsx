@@ -41,7 +41,7 @@ function CreateSkinPage() {
       await createMutation.mutateAsync({
         name,
         model: Number(model) as 1 | 2,
-        texture: Number(texture),
+        texture: texture,
         is_public: isPublic,
       })
       // 成功后跳转到列表页

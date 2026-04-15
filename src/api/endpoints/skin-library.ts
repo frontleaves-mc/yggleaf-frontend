@@ -9,13 +9,31 @@ import type {
   SkinLibrary,
   CreateSkinRequest,
   UpdateSkinRequest,
+  LibraryListResponse,
 } from '#/api/types'
+
+// ─── 参数接口 ─────────────────────────────────────────────
+
+export interface SkinListParams {
+  /** 列表模式：market(市场) / mine(我的) */
+  mode?: 'market' | 'mine'
+  /** 页码 */
+  page?: number
+  /** 每页数量 */
+  page_size?: number
+}
 
 // ─── 端点函数 ──────────────────────────────────────────────
 
 /** 获取皮肤列表 */
-export async function getSkins(): Promise<SkinLibrary[]> {
-  return apiClient.get<SkinLibrary[]>('/library/skins')
+export async function getSkins(params?: SkinListParams): Promise<LibraryListResponse<SkinLibrary>> {
+  const searchParams = new URLSearchParams()
+  if (params?.mode !== undefined) searchParams.set('mode', params.mode)
+  if (params?.page !== undefined) searchParams.set('page', String(params.page))
+  if (params?.page_size !== undefined) searchParams.set('page_size', String(params.page_size))
+  const query = searchParams.toString()
+  const path = query ? `/library/skins?${query}` : '/library/skins'
+  return apiClient.get<LibraryListResponse<SkinLibrary>>(path)
 }
 
 /** 创建皮肤 */
@@ -39,10 +57,10 @@ export async function deleteSkin(skinId: number): Promise<void> {
 // ─── TanStack Query Hooks ───────────────────────────────────
 
 /** 皮肤列表 Query */
-export function useSkins(options?: { enabled?: boolean }) {
+export function useSkins(params?: SkinListParams, options?: { enabled?: boolean }) {
   return useQuery({
-    queryKey: ['skins'],
-    queryFn: getSkins,
+    queryKey: ['skins', params],
+    queryFn: () => getSkins(params),
     enabled: options?.enabled ?? true,
   })
 }

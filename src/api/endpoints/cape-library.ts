@@ -9,13 +9,31 @@ import type {
   CapeLibrary,
   CreateCapeRequest,
   UpdateCapeRequest,
+  LibraryListResponse,
 } from '#/api/types'
+
+// ─── 参数接口 ─────────────────────────────────────────────
+
+export interface CapeListParams {
+  /** 列表模式：market(市场) / mine(我的) */
+  mode?: 'market' | 'mine'
+  /** 页码 */
+  page?: number
+  /** 每页数量 */
+  page_size?: number
+}
 
 // ─── 端点函数 ──────────────────────────────────────────────
 
 /** 获取披风列表 */
-export async function getCapes(): Promise<CapeLibrary[]> {
-  return apiClient.get<CapeLibrary[]>('/library/capes')
+export async function getCapes(params?: CapeListParams): Promise<LibraryListResponse<CapeLibrary>> {
+  const searchParams = new URLSearchParams()
+  if (params?.mode !== undefined) searchParams.set('mode', params.mode)
+  if (params?.page !== undefined) searchParams.set('page', String(params.page))
+  if (params?.page_size !== undefined) searchParams.set('page_size', String(params.page_size))
+  const query = searchParams.toString()
+  const path = query ? `/library/capes?${query}` : '/library/capes'
+  return apiClient.get<LibraryListResponse<CapeLibrary>>(path)
 }
 
 /** 创建披风 */
@@ -39,10 +57,10 @@ export async function deleteCape(capeId: number): Promise<void> {
 // ─── TanStack Query Hooks ───────────────────────────────────
 
 /** 披风列表 Query */
-export function useCapes(options?: { enabled?: boolean }) {
+export function useCapes(params?: CapeListParams, options?: { enabled?: boolean }) {
   return useQuery({
-    queryKey: ['capes'],
-    queryFn: getCapes,
+    queryKey: ['capes', params],
+    queryFn: () => getCapes(params),
     enabled: options?.enabled ?? true,
   })
 }

@@ -19,6 +19,7 @@ export type {
   SkinLibrary,
   CapeLibrary,
   LibraryQuota,
+  LibraryListResponse,
   CreateGameProfileRequest,
   UpdateUsernameRequest,
   CreateSkinRequest,

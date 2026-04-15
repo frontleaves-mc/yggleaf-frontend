@@ -1,8 +1,7 @@
 /**
  * 用户端 - 皮肤浏览页
  *
- * 只读网格展示可用皮肤，点击查看详情
- * 后续可接入 API 获取真实数据
+ * 对接 API 获取公开皮肤列表
  */
 
 import { createFileRoute } from '@tanstack/react-router'
@@ -11,37 +10,24 @@ import { useState } from 'react'
 import { Card, CardContent } from '#/components/ui/card'
 import { Input } from '#/components/ui/input'
 import { Button } from '#/components/ui/button'
-import { Avatar, AvatarFallback, AvatarImage } from '#/components/ui/avatar'
+import { Badge } from '#/components/ui/badge'
+import { Avatar, AvatarFallback } from '#/components/ui/avatar'
 import { motion } from 'motion/react'
 import { cardHoverVariants, hoverLiftTransition } from '#/lib/motion-presets'
+import { useSkins } from '#/api/endpoints/skin-library'
+import { LoadingPage } from '#/components/public/loading-page'
+import type { SkinLibrary } from '#/api/types'
 
 export const Route = createFileRoute('/user/skins/')({
   component: SkinsPage,
 })
 
-// ─── 占位数据（后续替换为 API 数据） ───────────────────
-
-interface SkinItem {
-  id: string
-  name: string
-  author: string
-  thumbnail?: string
-  tags: string[]
-}
-
-const MOCK_SKINS: SkinItem[] = [
-  { id: '1', name: '钻石骑士', author: 'Steve', tags: ['PvP', '简约'] },
-  { id: '2', name: '暗影刺客', author: 'Alex', tags: ['暗黑', '细节'] },
-  { id: '3', name: '海洋之心', author: 'Notch', tags: ['水系', '渐变'] },
-  { id: '4', name: '烈焰战士', author: 'Herobrine', tags: ['火焰', 'PvP'] },
-  { id: '5', name: '森林守护者', author: 'Villager', tags: ['自然', '像素'] },
-  { id: '6', name: '星空旅人', author: 'Enderman', tags: ['宇宙', '发光'] },
-]
-
 // ─── 页面组件 ─────────────────────────────────────────────
 
 export default function SkinsPage() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
+  const { data, isLoading } = useSkins({ mode: 'market', page: 1, page_size: 50 })
+  const skins = data?.items ?? []
 
   return (
     <div className="space-y-6">
@@ -77,23 +63,39 @@ export default function SkinsPage() {
         </div>
       </div>
 
+      {/* 加载态 */}
+      {isLoading && <LoadingPage />}
+
       {/* 皮肤网格 */}
-      <div className={
-        viewMode === 'grid'
-          ? "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4"
-          : "flex flex-col gap-3"
-      }>
-        {MOCK_SKINS.map((skin) => (
-          <SkinCard key={skin.id} skin={skin} viewMode={viewMode} />
-        ))}
-      </div>
+      {!isLoading && (
+        <div className={
+          viewMode === 'grid'
+            ? "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4"
+            : "flex flex-col gap-3"
+        }>
+          {skins.map((skin) => (
+            <SkinCard key={skin.id} skin={skin} viewMode={viewMode} />
+          ))}
+        </div>
+      )}
+
+      {/* 空状态 */}
+      {!isLoading && skins.length === 0 && (
+        <Card className="border-dashed">
+          <CardContent className="py-12 text-center">
+            <Shirt className="mx-auto size-12 text-muted-foreground/30" />
+            <h3 className="mt-4 font-medium text-foreground">暂无皮肤</h3>
+            <p className="mt-1 text-sm text-muted-foreground">目前还没有公开的皮肤资源</p>
+          </CardContent>
+        </Card>
+      )}
     </div>
   )
 }
 
 // ─── 皮肤卡片组件 ─────────────────────────────────────────
 
-function SkinCard({ skin, viewMode }: { skin: SkinItem; viewMode: 'grid' | 'list' }) {
+function SkinCard({ skin, viewMode }: { skin: SkinLibrary; viewMode: 'grid' | 'list' }) {
   if (viewMode === 'list') {
     return (
       <motion.div
@@ -106,21 +108,27 @@ function SkinCard({ skin, viewMode }: { skin: SkinItem; viewMode: 'grid' | 'list
         <Card className="ring-0 border border-border/70 overflow-hidden">
           <CardContent className="flex items-center gap-4 p-4">
           <Avatar className="size-14 rounded-lg">
-            <AvatarImage src={skin.thumbnail} alt={skin.name} />
             <AvatarFallback className="rounded-lg bg-primary/10">
               <Shirt className="size-6 text-primary" />
             </AvatarFallback>
           </Avatar>
           <div className="flex-1 min-w-0">
             <h3 className="font-medium text-foreground truncate">{skin.name}</h3>
-            <p className="text-xs text-muted-foreground">作者: {skin.author}</p>
-          </div>
-          <div className="flex gap-1.5">
-            {skin.tags.map((tag) => (
-              <span key={tag} className="px-2 py-0.5 text-xs rounded-full bg-secondary text-secondary-foreground">
-                {tag}
-              </span>
-            ))}
+            <div className="flex items-center gap-2 mt-0.5">
+              <Badge variant="secondary" className="font-mono text-xs">
+                {skin.model === 1 ? 'Classic' : 'Slim'}
+              </Badge>
+              <Badge
+                className={
+                  skin.is_public
+                    ? 'bg-chart-2/10 text-chart-2 border-chart-2/20 text-[10px]'
+                    : 'text-[10px]'
+                }
+                variant="secondary"
+              >
+                {skin.is_public ? '公开' : '私有'}
+              </Badge>
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -141,7 +149,6 @@ function SkinCard({ skin, viewMode }: { skin: SkinItem; viewMode: 'grid' | 'list
         {/* 皮肤预览区 */}
         <div className="aspect-[3/4] rounded-lg bg-gradient-to-br from-primary/5 to-primary/10 mb-3 flex items-center justify-center relative overflow-hidden">
           <Avatar className="size-20 rounded-xl ring-2 ring-primary/20 group-hover:ring-primary/40 transition-all">
-            <AvatarImage src={skin.thumbnail} alt={skin.name} />
             <AvatarFallback className="rounded-xl bg-primary/10 text-2xl">
               <Shirt className="size-10 text-primary" />
             </AvatarFallback>
@@ -154,7 +161,11 @@ function SkinCard({ skin, viewMode }: { skin: SkinItem; viewMode: 'grid' | 'list
         <h3 className="font-medium text-sm text-foreground truncate group-hover:text-primary transition-colors">
           {skin.name}
         </h3>
-        <p className="text-xs text-muted-foreground mt-0.5">{skin.author}</p>
+        <div className="flex items-center gap-1.5 mt-1">
+          <Badge variant="secondary" className="font-mono text-[10px]">
+            {skin.model === 1 ? 'Classic' : 'Slim'}
+          </Badge>
+        </div>
       </CardContent>
     </Card>
     </motion.div>
