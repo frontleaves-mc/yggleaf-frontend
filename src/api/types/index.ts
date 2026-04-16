@@ -29,6 +29,10 @@ export type {
   UpdateSkinRequest,
   CreateCapeRequest,
   UpdateCapeRequest,
+  SetSkinRequest,
+  SetCapeRequest,
+  LibrarySimpleItem,
+  LibrarySimpleListResponse,
 } from './user'
 
 export type {

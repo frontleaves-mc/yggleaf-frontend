@@ -10,6 +10,7 @@ import type {
   CreateSkinRequest,
   UpdateSkinRequest,
   LibraryListResponse,
+  LibrarySimpleListResponse,
 } from '#/api/types'
 
 // ─── 参数接口 ─────────────────────────────────────────────
@@ -52,6 +53,11 @@ export async function updateSkin(
 /** 删除皮肤 */
 export async function deleteSkin(skinId: number): Promise<void> {
   return apiClient.delete(`/library/skins/${skinId}`)
+}
+
+/** 获取皮肤精简列表（仅 ID + 名称，用于选择器） */
+export async function getSkinsList(): Promise<LibrarySimpleListResponse> {
+  return apiClient.get<LibrarySimpleListResponse>('/library/skins/list')
 }
 
 // ─── TanStack Query Hooks ───────────────────────────────────
@@ -101,5 +107,14 @@ export function useDeleteSkinMutation() {
       queryClient.invalidateQueries({ queryKey: ['skins'] })
       queryClient.invalidateQueries({ queryKey: ['library-quota'] })
     },
+  })
+}
+
+/** 皮肤精简列表 Query（用于档案皮肤选择器） */
+export function useSkinsList(options?: { enabled?: boolean }) {
+  return useQuery({
+    queryKey: ['skins', 'list'],
+    queryFn: getSkinsList,
+    enabled: options?.enabled ?? true,
   })
 }

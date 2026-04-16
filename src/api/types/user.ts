@@ -248,3 +248,28 @@ export interface CreateCapeRequest {
 
 /** 更新披风请求 */
 export interface UpdateCapeRequest extends Partial<CreateCapeRequest> {}
+
+// ─── 档案皮肤 / 披风设置请求 ──────────────────────────────
+
+/** 设置皮肤请求（传 null 为卸下） */
+export interface SetSkinRequest {
+  skin_library_id: string | null
+}
+
+/** 设置披风请求（传 null 为卸下） */
+export interface SetCapeRequest {
+  cape_library_id: string | null
+}
+
+// ─── 精简列表响应（用于选择器下拉） ───────────────────────
+
+/** 资源库精简项（仅 ID + 名称，皮肤 / 披风共用） */
+export interface LibrarySimpleItem {
+  id: number
+  name: string
+}
+
+/** 精简列表响应（无分页） */
+export interface LibrarySimpleListResponse {
+  items: LibrarySimpleItem[]
+}

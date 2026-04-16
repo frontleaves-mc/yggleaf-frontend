@@ -10,6 +10,7 @@ import type {
   CreateCapeRequest,
   UpdateCapeRequest,
   LibraryListResponse,
+  LibrarySimpleListResponse,
 } from '#/api/types'
 
 // ─── 参数接口 ─────────────────────────────────────────────
@@ -52,6 +53,11 @@ export async function updateCape(
 /** 删除披风 */
 export async function deleteCape(capeId: number): Promise<void> {
   return apiClient.delete(`/library/capes/${capeId}`)
+}
+
+/** 获取披风精简列表（仅 ID + 名称，用于选择器） */
+export async function getCapesList(): Promise<LibrarySimpleListResponse> {
+  return apiClient.get<LibrarySimpleListResponse>('/library/capes/list')
 }
 
 // ─── TanStack Query Hooks ───────────────────────────────────
@@ -101,5 +107,14 @@ export function useDeleteCapeMutation() {
       queryClient.invalidateQueries({ queryKey: ['capes'] })
       queryClient.invalidateQueries({ queryKey: ['library-quota'] })
     },
+  })
+}
+
+/** 披风精简列表 Query（用于档案披风选择器） */
+export function useCapesList(options?: { enabled?: boolean }) {
+  return useQuery({
+    queryKey: ['capes', 'list'],
+    queryFn: getCapesList,
+    enabled: options?.enabled ?? true,
   })
 }
