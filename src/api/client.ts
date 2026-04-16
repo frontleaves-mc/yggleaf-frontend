@@ -10,6 +10,7 @@
 import axios, { type AxiosInstance, type InternalAxiosRequestConfig } from 'axios'
 import type { ApiResponse } from '#/api/types'
 import { ApiError } from '#/api/types'
+import type { QueryClient } from '@tanstack/react-query'
 import { authStore, clearAuth, updateTokens } from '#/stores/auth-store'
 import { API_BASE_URL, API_TIMEOUT, ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '#/config/constants'
 import { getCookie } from '#/lib/cookie'
@@ -20,7 +21,7 @@ import type { OAuthTokenData } from '#/api/types'
 /** 扩展 Axios 请求配置，支持 skipAuth 标志 */
 interface CustomAxiosConfig extends InternalAxiosRequestConfig {
   skipAuth?: boolean
-}/
+}
 
 /** 公开请求配置（仅暴露 skipAuth） */
 export interface RequestConfig {
@@ -32,6 +33,16 @@ export interface RequestConfig {
 
 /** null=空闲, Promise=正在刷新（并发 401 共享同一刷新请求） */
 let refreshPromise: Promise<OAuthTokenData> | null = null
+
+// ─── 模块级 QueryClient 引用 ───────────────────────────────
+
+/** 模块级 queryClient 引用（在应用启动时由 root-provider 设置） */
+let _queryClient: QueryClient | null = null
+
+/** 设置模块级 queryClient 引用（在应用初始化时调用一次） */
+export function setQueryClientRef(qc: QueryClient): void {
+  _queryClient = qc
+}
 
 // ─── 内部 Axios 实例 ────────────────────────────────────────
 
@@ -137,11 +148,14 @@ instance.interceptors.response.use(
       try {
         const tokenData = await refreshPromise
         updateTokens(tokenData.access_token, tokenData.refresh_token)
+        // 失效用户信息缓存，下次读取时自动重新获取
+        _queryClient?.invalidateQueries({ queryKey: ['user', 'info'] })
         // 用新 Token 重试原请求（请求拦截器会从 authStore 重新读取）
         return instance(error.config)
       } catch {
         // 刷新失败 → 清除认证并跳转登录页
         clearAuth()
+        _queryClient?.removeQueries({ queryKey: ['user', 'info'] })
         if (typeof window !== 'undefined') {
           window.location.href = '/login'
         }

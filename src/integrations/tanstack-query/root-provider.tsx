@@ -1,4 +1,5 @@
 import { QueryClient } from '@tanstack/react-query'
+import { setQueryClientRef } from '#/api/client'
 
 export function getContext() {
   const queryClient = new QueryClient({
@@ -21,6 +22,9 @@ export function getContext() {
       },
     },
   })
+
+  // 注册模块级引用，供 API Client 响应拦截器使用
+  setQueryClientRef(queryClient)
 
   return {
     queryClient,

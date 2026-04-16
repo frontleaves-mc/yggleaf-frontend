@@ -9,6 +9,7 @@ import { handleOAuthCallback } from '#/api/endpoints/auth'
 import { checkIsAuthenticated } from '#/hooks/use-auth-guard'
 import { Loader2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 
 export const Route = createFileRoute('/callback')({
   beforeLoad: () => {
@@ -23,6 +24,7 @@ export const Route = createFileRoute('/callback')({
 function CallbackPage() {
   const [error, setError] = useState<string | null>(null)
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
@@ -37,7 +39,7 @@ function CallbackPage() {
     // 清除 URL 中的授权参数（避免刷新重复提交）
     window.history.replaceState({}, '', '/callback')
 
-    handleOAuthCallback(code, state)
+    handleOAuthCallback(code, state, queryClient)
       .then(() => {
         // 使用客户端路由跳转，保留内存中的 authStore 状态，避免 SSR 重新初始化
         const redirectTo = params.get('redirect') || '/user/dashboard'
@@ -46,7 +48,7 @@ function CallbackPage() {
       .catch((err) => {
         setError(err instanceof Error ? err.message : '登录失败，请重试')
       })
-  }, [navigate])
+  }, [navigate, queryClient])
 
   if (error) {
     return (

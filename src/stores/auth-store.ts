@@ -1,21 +1,18 @@
 /**
  * 认证状态管理 (TanStack Store)
- * 管理用户登录状态、Token 信息、用户数据
+ * 管理用户登录状态、Token 信息
  *
  * 存储策略：
  *   - Access Token / Refresh Token → Cookie（SSR 可读）
- *   - 用户信息 → localStorage（仅客户端）
+ *   - 用户信息 → TanStack Query 缓存（自动失效 + 强制更新）
  */
 
 import { Store } from '@tanstack/store'
-import type { User } from '#/api/types'
-import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY, USER_KEY } from '#/config/constants'
+import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '#/config/constants'
 import { getCookie, setCookie, clearAuthCookies, AT_MAX_AGE, RT_MAX_AGE } from '#/lib/cookie'
 
 /** 认证状态 */
 export interface AuthState {
-  /** 当前用户 */
-  user: User | null
   /** Access Token */
   accessToken: string | null
   /** Refresh Token */
@@ -30,7 +27,6 @@ export interface AuthState {
 function getInitialState(): AuthState {
   if (typeof window === 'undefined') {
     return {
-      user: null,
       accessToken: null,
       refreshToken: null,
       isAuthenticated: false,
@@ -40,10 +36,8 @@ function getInitialState(): AuthState {
 
   const accessToken = getCookie(ACCESS_TOKEN_KEY)
   const refreshToken = getCookie(REFRESH_TOKEN_KEY)
-  const userRaw = localStorage.getItem(USER_KEY)
 
   return {
-    user: userRaw ? (JSON.parse(userRaw) as User) : null,
     accessToken,
     refreshToken,
     isAuthenticated: !!accessToken,
@@ -58,18 +52,14 @@ export const authStore = new Store<AuthState>(getInitialState())
 
 /**
  * 设置登录成功状态
- * Token 存入 Cookie，用户信息存入 localStorage
+ * Token 存入 Cookie，用户信息由调用方通过 TanStack Query 缓存管理
  */
-export function setAuthState(user: User, accessToken: string, refreshToken: string): void {
+export function setAuthState(accessToken: string, refreshToken: string): void {
   // Token → Cookie
   setCookie(ACCESS_TOKEN_KEY, accessToken, AT_MAX_AGE)
   setCookie(REFRESH_TOKEN_KEY, refreshToken, RT_MAX_AGE)
 
-  // 用户信息 → localStorage
-  localStorage.setItem(USER_KEY, JSON.stringify(user))
-
   authStore.setState(() => ({
-    user,
     accessToken,
     refreshToken,
     isAuthenticated: true,
@@ -88,18 +78,10 @@ export function updateTokens(accessToken: string, refreshToken: string): void {
   }))
 }
 
-/** 更新用户信息 */
-export function updateUser(user: User): void {
-  localStorage.setItem(USER_KEY, JSON.stringify(user))
-  authStore.setState((prev) => ({ ...prev, user }))
-}
-
 /** 清除认证状态（登出时调用） */
 export function clearAuth(): void {
   clearAuthCookies()
-  localStorage.removeItem(USER_KEY)
   authStore.setState(() => ({
-    user: null,
     accessToken: null,
     refreshToken: null,
     isAuthenticated: false,

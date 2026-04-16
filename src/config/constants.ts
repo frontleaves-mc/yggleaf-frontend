@@ -28,9 +28,6 @@ export const ACCESS_TOKEN_KEY = 'yggleaf_access_token'
 /** Refresh Token localStorage key */
 export const REFRESH_TOKEN_KEY = 'yggleaf_refresh_token'
 
-/** 用户信息 localStorage key */
-export const USER_KEY = 'yggleaf_user'
-
 /** 登录后重定向 URL key */
 export const REDIRECT_KEY = 'yggleaf_redirect_url'
 

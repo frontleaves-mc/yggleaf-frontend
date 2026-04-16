@@ -4,7 +4,7 @@
  * 用户头像卡片 + 点击展开下拉菜单（个人中心 / 退出登录）
  */
 
-import { authStore } from '#/stores/auth-store'
+import { useUserInfoSync } from '#/api/endpoints/user'
 import { Avatar, AvatarFallback } from '#/components/ui/avatar'
 import {
   SidebarFooter as SidebarFooterRoot,
@@ -26,7 +26,7 @@ import {
 
 export function SidebarFooter() {
   const navigate = useNavigate()
-  const user = authStore.state.user
+  const user = useUserInfoSync()
 
   const initials = user?.username
     ?.slice(0, 2)

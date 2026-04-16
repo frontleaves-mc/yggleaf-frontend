@@ -7,9 +7,10 @@
  */
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import type { QueryClient } from '@tanstack/react-query'
 import { apiClient } from '../client'
-import { clearAuth } from '#/stores/auth-store'
-import { getUserInfo } from './user'
+import { clearAuth, setAuthState } from '#/stores/auth-store'
+import { getUserInfo, USER_INFO_QUERY_KEY } from './user'
 import { SSO_LOGIN_BASE_URL } from '#/config/constants'
 import type { OAuthTokenData } from '#/api/types'
 
@@ -27,9 +28,13 @@ export function getOAuthLoginUrl(): string {
 /**
  * 完整的 OAuth2 SSO 回调处理
  * SSO 提供商认证后回调到前端 /callback?code=xxx&state=xxx
- * 用授权码换 Token → 获取用户信息 → 保存到 Cookie + localStorage
+ * 处理流程：用授权码换 Token → 获取用户信息 → 预填 Query 缓存 + 设置认证状态
  */
-export async function handleOAuthCallback(code: string, state: string): Promise<void> {
+export async function handleOAuthCallback(
+  code: string,
+  state: string,
+  queryClient: QueryClient,
+): Promise<void> {
   // 1. 用授权码换 Token
   const tokenData = await apiClient.get<OAuthTokenData>(
     `/sso/oauth/callback?code=${encodeURIComponent(code)}&state=${encodeURIComponent(state)}`,
@@ -54,9 +59,11 @@ export async function handleOAuthCallback(code: string, state: string): Promise<
   // 3. 获取用户信息
   const user = await getUserInfo()
 
-  // 4. 完整设置认证状态（Cookie + localStorage + Store）
-  const { setAuthState } = await import('#/stores/auth-store')
-  setAuthState(user, tokenData.access_token, tokenData.refresh_token)
+  // 4. 预填 TanStack Query 缓存（替代原来的 localStorage 写入）
+  queryClient.setQueryData(USER_INFO_QUERY_KEY, user)
+
+  // 5. 最终设置认证状态（Token → Cookie + Store，不含 user）
+  setAuthState(tokenData.access_token, tokenData.refresh_token)
 }
 
 /** OAuth2 登出 */

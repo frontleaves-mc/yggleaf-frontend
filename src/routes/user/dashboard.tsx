@@ -8,7 +8,7 @@
  */
 
 import { createFileRoute } from '@tanstack/react-router'
-import { authStore } from '#/stores/auth-store'
+import { useUserInfo } from '#/api/endpoints/user'
 import { Shirt, Flag, Gamepad2, ArrowRight, Sparkles, ShieldCheck, Server } from 'lucide-react'
 import { useNavigate } from '@tanstack/react-router'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '#/components/ui/card'
@@ -52,7 +52,7 @@ const quickLinks = [
 
 function DashboardPage() {
   const navigate = useNavigate()
-  const user = authStore.state.user
+  const { data: user } = useUserInfo()
   const spotlightStats = [
     { label: '资源中心', value: '24/7', icon: Server },
     { label: '认证状态', value: 'Secure', icon: ShieldCheck },
