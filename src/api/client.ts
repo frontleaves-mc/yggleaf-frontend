@@ -1,124 +1,140 @@
 /**
  * HTTP Client - API 请求核心封装
- * 基于 fetch，提供：
+ * 基于 Axios，提供：
  * - 自动注入 Authorization Bearer Token
  * - 统一响应解包与错误处理
- * - 401 自动触发 Token 刷新（通过拦截器）
- * - 请求/响应日志（开发模式）
+ * - 401 自动清除认证并重定向到 SSO 登录页（响应拦截器）
+ * - 请求超时控制
  */
 
+import axios, { type AxiosInstance, type InternalAxiosRequestConfig } from 'axios'
 import type { ApiResponse } from '#/api/types'
 import { ApiError } from '#/api/types'
-import { authStore } from '#/stores/auth-store'
+import { authStore, clearAuth } from '#/stores/auth-store'
 import { API_BASE_URL, API_TIMEOUT, ACCESS_TOKEN_KEY } from '#/config/constants'
 import { getCookie } from '#/lib/cookie'
-import { handleUnauthorized } from './interceptors'
 
 // ─── 类型定义 ──────────────────────────────────────────────
 
+/** 扩展 Axios 请求配置，支持 skipAuth 标志 */
+interface CustomAxiosConfig extends InternalAxiosRequestConfig {
+  skipAuth?: boolean
+}
+
+/** 公开请求配置（仅暴露 skipAuth） */
 export interface RequestConfig {
-  method?: string
-  path: string
-  body?: unknown
-  headers?: Record<string, string>
-  signal?: AbortSignal
   /** 是否跳过认证头（公开接口使用） */
   skipAuth?: boolean
 }
 
-// ─── Client 实现 ────────────────────────────────────────────
+// ─── 并发 401 去重锁 ───────────────────────────────────────
 
-class ApiClient {
-  private baseURL: string
+let isRedirecting = false
 
-  constructor(baseURL: string) {
-    this.baseURL = baseURL
-  }
+// ─── 内部 Axios 实例 ────────────────────────────────────────
 
-  /** 核心请求方法 */
-  async request<T>(config: RequestConfig): Promise<T> {
-    const url = `${this.baseURL}${config.path}`
-    const headers = this.buildHeaders(config.headers, config.skipAuth)
+const instance: AxiosInstance = axios.create({
+  baseURL: API_BASE_URL,
+  timeout: API_TIMEOUT,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+})
 
-    const controller = new AbortController()
-    const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT)
-    const signal = config.signal ?? controller.signal
+// ─── 请求拦截器：自动注入 Token ─────────────────────────────
 
-    try {
-      const response = await fetch(url, {
-        method: config.method || 'GET',
-        headers,
-        body: config.body ? JSON.stringify(config.body) : undefined,
-        signal,
-      })
-
-      clearTimeout(timeoutId)
-      const data: ApiResponse<T> = await response.json()
-
-      // 处理非 200 HTTP 状态码
-      if (!response.ok) {
-        // 401 → 清除认证，跳转 SSO 登录
-        if (response.status === 401 && !config.skipAuth) {
-          handleUnauthorized()
-        }
-        throw new ApiError(response.status, data)
+instance.interceptors.request.use(
+  (config: CustomAxiosConfig) => {
+    if (!config.skipAuth) {
+      const token = authStore.state.accessToken || getCookie(ACCESS_TOKEN_KEY)
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`
       }
+    }
+    return config
+  },
+)
 
-      // 校验业务状态码
-      if (data.code !== 200 && data.code !== undefined) {
-        throw new ApiError(response.status, data)
-      }
+// ─── 响应拦截器：统一解包 + 401 处理 ───────────────────────
 
-      // 返回业务数据（优先 data 字段，否则返回整个响应）
-      return (data.data ?? data) as T
-    } catch (error) {
-      clearTimeout(timeoutId)
-      if (error instanceof ApiError) throw error
-      if (error instanceof DOMException && error.name === 'AbortError') {
+instance.interceptors.response.use(
+  // 成功响应：校验业务状态码
+  (response) => {
+    const data: ApiResponse = response.data
+
+    if (data.code !== 200 && data.code !== undefined) {
+      throw new ApiError(response.status, data)
+    }
+
+    return response
+  },
+
+  // 错误响应：HTTP 错误 + 401 特殊处理
+  (error) => {
+    // 网络错误 / 超时 / 被取消
+    if (!error.response) {
+      if (error.code === 'ECONNABORTED' || error.message?.includes('timeout')) {
         throw new Error('请求超时')
       }
       throw error
     }
-  }
 
-  /** 构建请求头（含 Token 注入，优先从 Cookie 读取） */
-  private buildHeaders(
-    customHeaders?: Record<string, string>,
-    skipAuth = false,
-  ): HeadersInit {
-    const headers: Record<string, string> = {
-      'Content-Type': 'application/json',
-      ...customHeaders,
-    }
+    const { status } = error.response
 
-    if (!skipAuth) {
-      const token = authStore.state.accessToken || getCookie(ACCESS_TOKEN_KEY)
-      if (token) {
-        headers['Authorization'] = `Bearer ${token}`
+    // 401 → 清除认证 + 跳转登录页（带去重锁 + SSR 兼容）
+    // 返回永远 pending 的 Promise，阻止错误传播到 TanStack Query catch 链
+    if (status === 401 && !error.config?.skipAuth && !isRedirecting) {
+      isRedirecting = true
+      clearAuth()
+      if (typeof window !== 'undefined') {
+        window.location.href = '/login'
       }
+      return new Promise(() => {})
     }
 
-    return headers
+    throw new ApiError(status, error.response.data)
+  },
+)
+
+// ─── 响应解包工具 ──────────────────────────────────────────
+
+/** 从 AxiosResponse 中提取并解包业务数据 */
+function unwrapData<T>(response: { data: ApiResponse<T> }): T {
+  const body = response.data
+  return (body.data ?? body) as T
+}
+
+// ─── 公共 API（保持与原 Fetch 版本一致的调用签名） ─────────
+
+class ApiClient {
+  async get<T>(path: string, config?: RequestConfig): Promise<T> {
+    const response = await instance.get<ApiResponse<T>>(path, {
+      skipAuth: config?.skipAuth,
+    } as CustomAxiosConfig)
+    return unwrapData<T>(response)
   }
 
-  // ─── 便捷方法 ──────────────────────────────────────────
-
-  get<T>(path: string, config?: Omit<RequestConfig, 'method' | 'path' | 'body'>) {
-    return this.request<T>({ ...config, method: 'GET', path })
+  async post<T>(path: string, body?: unknown, config?: RequestConfig): Promise<T> {
+    const response = await instance.post<ApiResponse<T>>(path, body, {
+      skipAuth: config?.skipAuth,
+    } as CustomAxiosConfig)
+    return unwrapData<T>(response)
   }
 
-  post<T>(path: string, body?: unknown, config?: Omit<RequestConfig, 'method' | 'path'>) {
-    return this.request<T>({ ...config, method: 'POST', path, body })
+  async patch<T>(path: string, body?: unknown, config?: RequestConfig): Promise<T> {
+    const response = await instance.patch<ApiResponse<T>>(path, body, {
+      skipAuth: config?.skipAuth,
+    } as CustomAxiosConfig)
+    return unwrapData<T>(response)
   }
 
-  patch<T>(path: string, body?: unknown, config?: Omit<RequestConfig, 'method' | 'path'>) {
-    return this.request<T>({ ...config, method: 'PATCH', path, body })
-  }
-
-  delete<T>(path: string, config?: Omit<RequestConfig, 'method' | 'path' | 'body'>) {
-    return this.request<T>({ ...config, method: 'DELETE', path })
+  async delete<T>(path: string, config?: RequestConfig): Promise<T> {
+    const response = await instance.delete<ApiResponse<T>>(path, {
+      skipAuth: config?.skipAuth,
+    } as CustomAxiosConfig)
+    return unwrapData<T>(response)
   }
 }
 
 /** 全局 API Client 实例 */
-export const apiClient = new ApiClient(API_BASE_URL)
+export const apiClient = new ApiClient()
