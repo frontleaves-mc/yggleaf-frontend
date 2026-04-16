@@ -35,6 +35,28 @@ export interface BaseResponse {
   overhead?: number
 }
 
+/** 用户扩展信息（账户完善状态） */
+export interface UserExtend {
+  /** 账户就绪状态 */
+  account_ready: 'ready' | 'game_password'
+}
+
+/** 用户信息接口响应（完整结构） */
+export interface UserCurrentResponse {
+  /** 扩展信息（含账户完善状态） */
+  extend: UserExtend
+  /** 用户实体信息 */
+  user: User
+}
+
+/** 更新游戏密码请求（用于 Minecraft 启动器认证） */
+export interface UpdateGamePasswordRequest {
+  /** 新游戏密码（6-128 字符） */
+  new_password: string
+  /** 确认新密码（需与 new_password 一致） */
+  confirm_password: string
+}
+
 /** 用户实体 */
 export interface User {
   /** 用户 ID */

@@ -199,6 +199,13 @@ class ApiClient {
     return unwrapData<T>(response)
   }
 
+  async put<T>(path: string, body?: unknown, config?: RequestConfig): Promise<T> {
+    const response = await instance.put<ApiResponse<T>>(path, body, {
+      skipAuth: config?.skipAuth,
+    } as CustomAxiosConfig)
+    return unwrapData<T>(response)
+  }
+
   async delete<T>(path: string, config?: RequestConfig): Promise<T> {
     const response = await instance.delete<ApiResponse<T>>(path, {
       skipAuth: config?.skipAuth,
