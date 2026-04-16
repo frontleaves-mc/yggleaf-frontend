@@ -97,8 +97,8 @@ export interface SkinLibrary {
   name: string
   /** 皮肤模型 (1=classic, 2=slim) */
   model: ModelType
-  /** 皮肤纹理文件 ID (雪花算法) */
-  texture: number
+  /** 皮肤纹理图片下载链接 */
+  texture_url: string
   /** 皮肤纹理哈希 */
   texture_hash: string
   /** 是否公开 */
@@ -117,8 +117,8 @@ export interface CapeLibrary {
   id: number
   /** 披风名称 */
   name: string
-  /** 披风纹理文件 ID (雪花算法) */
-  texture: number
+  /** 披风纹理图片下载链接 */
+  texture_url: string
   /** 披风纹理哈希 */
   texture_hash: string
   /** 是否公开 */

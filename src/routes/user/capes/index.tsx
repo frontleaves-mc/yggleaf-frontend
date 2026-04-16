@@ -11,7 +11,7 @@ import { Card, CardContent } from '#/components/ui/card'
 import { Input } from '#/components/ui/input'
 import { Button } from '#/components/ui/button'
 import { Badge } from '#/components/ui/badge'
-import { Avatar, AvatarFallback } from '#/components/ui/avatar'
+import { SkinPreview } from '#/components/user/skin-preview'
 import { motion } from 'motion/react'
 import { cardHoverVariants, hoverLiftTransition } from '#/lib/motion-presets'
 import { useCapes } from '#/api/endpoints/cape-library'
@@ -107,11 +107,9 @@ function CapeCard({ cape, viewMode }: { cape: CapeLibrary; viewMode: 'grid' | 'l
       >
         <Card className="ring-0 border border-border/70 overflow-hidden">
           <CardContent className="flex items-center gap-4 p-4">
-          <Avatar className="size-14 rounded-lg">
-            <AvatarFallback className="rounded-lg bg-chart-4/10">
-              <Flag className="size-6 text-chart-4" />
-            </AvatarFallback>
-          </Avatar>
+          <div className="size-14 rounded-lg overflow-hidden flex-shrink-0">
+            <SkinPreview capeUrl={cape.texture_url} />
+          </div>
           <div className="flex-1 min-w-0">
             <h3 className="font-medium text-foreground truncate">{cape.name}</h3>
             <div className="flex items-center gap-2 mt-0.5">
@@ -143,13 +141,9 @@ function CapeCard({ cape, viewMode }: { cape: CapeLibrary; viewMode: 'grid' | 'l
     >
       <Card className="ring-0 border border-border/70 overflow-hidden group">
         <CardContent className="p-4">
-        {/* 披风预览区 — 竖长比例模拟披风 */}
+        {/* 披风预览区 — 3D 渲染（搭配默认皮肤） */}
         <div className="aspect-[2/3] rounded-lg bg-gradient-to-b from-chart-4/5 via-chart-4/8 to-chart-4/15 mb-3 flex items-center justify-center relative overflow-hidden">
-          <Avatar className="size-16 rounded-lg ring-2 ring-chart-4/20 group-hover:ring-chart-4/40 transition-all">
-            <AvatarFallback className="rounded-lg bg-chart-4/10 text-xl">
-              <Flag className="size-8 text-chart-4" />
-            </AvatarFallback>
-          </Avatar>
+          <SkinPreview capeUrl={cape.texture_url} />
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors rounded-lg" />
         </div>
 

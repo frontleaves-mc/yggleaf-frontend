@@ -11,7 +11,7 @@ import { Card, CardContent } from '#/components/ui/card'
 import { Input } from '#/components/ui/input'
 import { Button } from '#/components/ui/button'
 import { Badge } from '#/components/ui/badge'
-import { Avatar, AvatarFallback } from '#/components/ui/avatar'
+import { SkinPreview } from '#/components/user/skin-preview'
 import { motion } from 'motion/react'
 import { cardHoverVariants, hoverLiftTransition } from '#/lib/motion-presets'
 import { useSkins } from '#/api/endpoints/skin-library'
@@ -107,11 +107,9 @@ function SkinCard({ skin, viewMode }: { skin: SkinLibrary; viewMode: 'grid' | 'l
       >
         <Card className="ring-0 border border-border/70 overflow-hidden">
           <CardContent className="flex items-center gap-4 p-4">
-          <Avatar className="size-14 rounded-lg">
-            <AvatarFallback className="rounded-lg bg-primary/10">
-              <Shirt className="size-6 text-primary" />
-            </AvatarFallback>
-          </Avatar>
+          <div className="size-14 rounded-lg overflow-hidden flex-shrink-0">
+            <SkinPreview skinUrl={skin.texture_url} />
+          </div>
           <div className="flex-1 min-w-0">
             <h3 className="font-medium text-foreground truncate">{skin.name}</h3>
             <div className="flex items-center gap-2 mt-0.5">
@@ -146,13 +144,9 @@ function SkinCard({ skin, viewMode }: { skin: SkinLibrary; viewMode: 'grid' | 'l
     >
       <Card className="ring-0 border border-border/70 overflow-hidden group">
         <CardContent className="p-4">
-        {/* 皮肤预览区 */}
+        {/* 皮肤预览区 — 3D 渲染 */}
         <div className="aspect-[3/4] rounded-lg bg-gradient-to-br from-primary/5 to-primary/10 mb-3 flex items-center justify-center relative overflow-hidden">
-          <Avatar className="size-20 rounded-xl ring-2 ring-primary/20 group-hover:ring-primary/40 transition-all">
-            <AvatarFallback className="rounded-xl bg-primary/10 text-2xl">
-              <Shirt className="size-10 text-primary" />
-            </AvatarFallback>
-          </Avatar>
+          <SkinPreview skinUrl={skin.texture_url} />
           {/* Hover 遮罩 */}
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors rounded-lg" />
         </div>

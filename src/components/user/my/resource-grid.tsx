@@ -10,6 +10,7 @@ import { Shirt, Flag, Pencil, Trash2, Loader2 } from 'lucide-react'
 import { Card, CardContent } from '#/components/ui/card'
 import { Badge } from '#/components/ui/badge'
 import { Button } from '#/components/ui/button'
+import { SkinPreview } from '#/components/user/skin-preview'
 import {
   Dialog,
   DialogContent,
@@ -160,7 +161,6 @@ function ResourceCard({
 
   const isSkin = !!skin
   const item = skin ?? cape!
-  const Icon = isSkin ? Shirt : Flag
 
   const isDeleting = isSkin
     ? deleteSkinMutation.isPending
@@ -191,15 +191,16 @@ function ResourceCard({
       >
         <Card className="ring-0 border border-border/70 overflow-hidden group relative">
           <CardContent className="p-4">
-            {/* 预览区 */}
+            {/* 预览区 — 3D 渲染 */}
             <div
               className={`${
                 isSkin ? 'aspect-[3/4]' : 'aspect-[2/3]'
               } rounded-lg bg-gradient-to-br from-primary/5 to-primary/10 mb-3 flex items-center justify-center relative overflow-hidden`}
             >
-              <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-primary/10">
-                <Icon className="size-8 text-primary" />
-              </div>
+              <SkinPreview
+                skinUrl={isSkin ? skin!.texture_url : undefined}
+                capeUrl={isSkin ? undefined : cape!.texture_url}
+              />
 
               {/* 悬停操作 */}
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors rounded-lg flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100">
