@@ -20,7 +20,7 @@ import type { OAuthTokenData } from '#/api/types'
 /** 扩展 Axios 请求配置，支持 skipAuth 标志 */
 interface CustomAxiosConfig extends InternalAxiosRequestConfig {
   skipAuth?: boolean
-}
+}/
 
 /** 公开请求配置（仅暴露 skipAuth） */
 export interface RequestConfig {
