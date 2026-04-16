@@ -6,6 +6,7 @@
 
 import { createFileRoute, redirect, useNavigate, Link } from '@tanstack/react-router'
 import { handleOAuthCallback } from '#/api/endpoints/auth'
+import { getUserInfo } from '#/api/endpoints/user'
 import { checkIsAuthenticated } from '#/hooks/use-auth-guard'
 import { Loader2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
@@ -40,8 +41,19 @@ function CallbackPage() {
     window.history.replaceState({}, '', '/callback')
 
     handleOAuthCallback(code, state, queryClient)
-      .then(() => {
-        // 使用客户端路由跳转，保留内存中的 authStore 状态，避免 SSR 重新初始化
+      .then(async () => {
+        // Token 获取成功后，检查账户是否已完善（游戏密码等）
+        try {
+          const userInfo = await getUserInfo()
+          if (userInfo.extend?.account_ready !== 'ready') {
+            // 账户未就绪 → 引导到设置页
+            navigate({ to: '/setup/password' as any })
+            return
+          }
+        } catch {
+          // 获取用户信息失败不影响登录流程，直接跳转目标页面
+        }
+
         const redirectTo = params.get('redirect') || '/user/dashboard'
         navigate({ to: redirectTo as any })
       })

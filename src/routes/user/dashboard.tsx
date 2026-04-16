@@ -52,7 +52,8 @@ const quickLinks = [
 
 function DashboardPage() {
   const navigate = useNavigate()
-  const { data: user } = useUserInfo()
+  const { data: userInfo } = useUserInfo()
+  const user = userInfo?.user
   const spotlightStats = [
     { label: '资源中心', value: '24/7', icon: Server },
     { label: '认证状态', value: 'Secure', icon: ShieldCheck },

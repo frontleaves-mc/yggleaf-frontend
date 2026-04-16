@@ -19,6 +19,8 @@ import { PageTransition } from '#/components/ui/page-transition'
 import {
   User as UserIcon,
   Shield,
+  ShieldCheck,
+  AlertCircle,
   Mail,
   Phone,
   Lock,
@@ -30,7 +32,8 @@ export const Route = createFileRoute('/admin/profile/')({
 })
 
 function ProfilePage() {
-  const { data: user, isLoading: userLoading } = useUserInfo()
+  const { data: userInfo, isLoading: userLoading } = useUserInfo()
+  const user = userInfo?.user
 
   /** 角色显示名映射 */
   const roleDisplayNames: Record<string, string> = {
@@ -52,7 +55,7 @@ function ProfilePage() {
 
   return (
     <PageTransition className="space-y-6">
-      {/* 个人信息卡片 */}
+      {/* 账户状态卡片 */}
       <Card>
         <CardHeader>
           <div className="flex items-center gap-3">
@@ -79,8 +82,18 @@ function ProfilePage() {
                 </Badge>
               }
             />
+            <InfoField
+              icon={userInfo?.extend?.account_ready === 'ready' ? <ShieldCheck className="h-4 w-4 text-green-500" /> : <AlertCircle className="h-4 w-4 text-yellow-500" />}
+              label="账户状态"
+              value={
+                userInfo?.extend?.account_ready === 'ready' ? (
+                  <Badge variant="secondary" className="bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/20">已就绪</Badge>
+                ) : (
+                  <Badge variant="secondary" className="bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border-yellow-500/20">待完善</Badge>
+                )
+              }
+            />
             <InfoField label="用户 ID" value={String(user?.id ?? '--')} mono />
-            <InfoField label="更新时间" value={user ? new Date(user.updated_at).toLocaleString('zh-CN') : '--'} />
           </div>
         </CardContent>
       </Card>
@@ -92,12 +105,12 @@ function ProfilePage() {
             <Lock className="h-5 w-5 text-primary" />
             <CardTitle className="text-lg">账户安全</CardTitle>
           </div>
-          <CardDescription>密码和安全设置由 SSO 统一认证平台管理</CardDescription>
+          <CardDescription>网站登录由 SSO 统一认证平台管理</CardDescription>
         </CardHeader>
         <CardContent>
           <p className="mb-4 text-[13px] text-muted-foreground">
-            修改密码、绑定邮箱/手机等安全操作，请前往 SSO 认证平台完成。
-            本平台通过 OAuth 2.0 安全协议接入，不直接存储或管理用户密码。
+            网站登录授权通过 OAuth 2.0 SSO 协议完成，不直接存储或管理用户密码。
+            游戏密码用于 Minecraft 启动器认证，可在用户端「安全设置」页面修改。
           </p>
           <Button
             variant="outline"

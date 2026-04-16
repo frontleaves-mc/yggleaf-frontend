@@ -32,7 +32,8 @@ export const Route = createFileRoute('/admin/')({
 })
 
 function DashboardPage() {
-  const { data: user, isLoading: userLoading } = useUserInfo()
+  const { data: userInfo, isLoading: userLoading } = useUserInfo()
+  const user = userInfo?.user
   const { data: skins, isLoading: skinsLoading } = useSkins()
   const { data: capes, isLoading: capesLoading } = useCapes()
 

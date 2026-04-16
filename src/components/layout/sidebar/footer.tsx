@@ -26,7 +26,8 @@ import {
 
 export function SidebarFooter() {
   const navigate = useNavigate()
-  const user = useUserInfoSync()
+  const userInfo = useUserInfoSync()
+  const user = userInfo?.user
 
   const initials = user?.username
     ?.slice(0, 2)

@@ -15,6 +15,7 @@ import {
   UserCircle,
   Settings,
   Store,
+  Shield,
 } from 'lucide-react'
 
 // ─── 类型定义 ────────────────────────────────────────────
@@ -124,6 +125,12 @@ export const userMenuItems: MenuItem[] = [
     ],
   },
   {
+    key: 'security',
+    label: '安全设置',
+    icon: Shield,
+    to: '/user/security',
+  },
+  {
     key: 'my',
     label: '我的',
     icon: UserCircle,
@@ -140,6 +147,9 @@ export const breadcrumbLabels: Record<string, string> = {
   '/user/profiles': '游戏档案',
   '/user/skins': '皮肤库',
   '/user/capes': '披风库',
+  '/user/security': '安全设置',
+  '/setup': '账户设置',
+  '/setup/password': '设置游戏密码',
 
   // ── 管理端 ──
   '/admin': '仪表盘',
