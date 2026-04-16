@@ -3,16 +3,17 @@
  * 基于 Axios，提供：
  * - 自动注入 Authorization Bearer Token
  * - 统一响应解包与错误处理
- * - 401 自动清除认证并重定向到 SSO 登录页（响应拦截器）
+ * - 401 自动尝试 RefreshToken 刷新，刷新失败才清除认证并重定向到登录页（响应拦截器）
  * - 请求超时控制
  */
 
 import axios, { type AxiosInstance, type InternalAxiosRequestConfig } from 'axios'
 import type { ApiResponse } from '#/api/types'
 import { ApiError } from '#/api/types'
-import { authStore, clearAuth } from '#/stores/auth-store'
-import { API_BASE_URL, API_TIMEOUT, ACCESS_TOKEN_KEY } from '#/config/constants'
+import { authStore, clearAuth, updateTokens } from '#/stores/auth-store'
+import { API_BASE_URL, API_TIMEOUT, ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '#/config/constants'
 import { getCookie } from '#/lib/cookie'
+import type { OAuthTokenData } from '#/api/types'
 
 // ─── 类型定义 ──────────────────────────────────────────────
 
@@ -27,9 +28,10 @@ export interface RequestConfig {
   skipAuth?: boolean
 }
 
-// ─── 并发 401 去重锁 ───────────────────────────────────────
+// ─── Token 刷新去重锁 ──────────────────────────────────────
 
-let isRedirecting = false
+/** null=空闲, Promise=正在刷新（并发 401 共享同一刷新请求） */
+let refreshPromise: Promise<OAuthTokenData> | null = null
 
 // ─── 内部 Axios 实例 ────────────────────────────────────────
 
@@ -55,7 +57,41 @@ instance.interceptors.request.use(
   },
 )
 
-// ─── 响应拦截器：统一解包 + 401 处理 ───────────────────────
+// ─── Token 刷新函数 ────────────────────────────────────────
+
+/**
+ * 使用 RefreshToken 刷新 Access Token
+ * 直接调用底层 axios instance（不走 apiClient 解包），避免循环依赖
+ */
+async function refreshAccessToken(): Promise<OAuthTokenData> {
+  const currentToken = authStore.state.accessToken || getCookie(ACCESS_TOKEN_KEY)
+  const refreshTokenValue = authStore.state.refreshToken || getCookie(REFRESH_TOKEN_KEY)
+
+  if (!refreshTokenValue) {
+    throw new Error('No refresh token available')
+  }
+
+  const response = await instance.post<ApiResponse<OAuthTokenData>>(
+    '/sso/oauth/refresh',
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${currentToken}`,
+        'X-Refresh-Token': refreshTokenValue,
+      } as Record<string, string>,
+      skipAuth: true,
+    } as CustomAxiosConfig,
+  )
+
+  const data: ApiResponse<OAuthTokenData> = response.data
+  if (data.code !== 200 && data.code !== undefined) {
+    throw new ApiError(response.status, data)
+  }
+
+  return (data.data ?? data) as OAuthTokenData
+}
+
+// ─── 响应拦截器：统一解包 + 401 自动刷新 ──────────────────
 
 instance.interceptors.response.use(
   // 成功响应：校验业务状态码
@@ -70,7 +106,7 @@ instance.interceptors.response.use(
   },
 
   // 错误响应：HTTP 错误 + 401 特殊处理
-  (error) => {
+  async (error) => {
     // 网络错误 / 超时 / 被取消
     if (!error.response) {
       if (error.code === 'ECONNABORTED' || error.message?.includes('timeout')) {
@@ -81,15 +117,36 @@ instance.interceptors.response.use(
 
     const { status } = error.response
 
-    // 401 → 清除认证 + 跳转登录页（带去重锁 + SSR 兼容）
-    // 返回永远 pending 的 Promise，阻止错误传播到 TanStack Query catch 链
-    if (status === 401 && !error.config?.skipAuth && !isRedirecting) {
-      isRedirecting = true
-      clearAuth()
-      if (typeof window !== 'undefined') {
-        window.location.href = '/login'
+    // 401 → 尝试 RefreshToken 刷新 → 成功重试 / 失败跳转登录
+    if (status === 401 && !error.config?.skipAuth) {
+      // 已有刷新进行中，等待完成后重试
+      if (refreshPromise) {
+        try {
+          await refreshPromise
+          return instance(error.config)
+        } catch {
+          // 刷新失败，走下方登出逻辑
+        }
       }
-      return new Promise(() => {})
+
+      // 首次触发刷新
+      refreshPromise = refreshAccessToken().finally(() => {
+        refreshPromise = null
+      })
+
+      try {
+        const tokenData = await refreshPromise
+        updateTokens(tokenData.access_token, tokenData.refresh_token)
+        // 用新 Token 重试原请求（请求拦截器会从 authStore 重新读取）
+        return instance(error.config)
+      } catch {
+        // 刷新失败 → 清除认证并跳转登录页
+        clearAuth()
+        if (typeof window !== 'undefined') {
+          window.location.href = '/login'
+        }
+        return new Promise(() => {}) // 永久 pending，阻止错误传播
+      }
     }
 
     throw new ApiError(status, error.response.data)
