@@ -73,6 +73,7 @@ export function useCreateCapeMutation() {
     mutationFn: createCape,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['capes'] })
+      queryClient.invalidateQueries({ queryKey: ['library-quota'] })
     },
   })
 }
@@ -85,6 +86,7 @@ export function useUpdateCapeMutation(capeId: number) {
     mutationFn: (data: UpdateCapeRequest) => updateCape(capeId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['capes'] })
+      queryClient.invalidateQueries({ queryKey: ['library-quota'] })
     },
   })
 }
@@ -97,6 +99,7 @@ export function useDeleteCapeMutation() {
     mutationFn: deleteCape,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['capes'] })
+      queryClient.invalidateQueries({ queryKey: ['library-quota'] })
     },
   })
 }

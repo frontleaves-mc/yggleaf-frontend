@@ -39,6 +39,7 @@ import { UploadZone } from '#/components/user/my/upload-zone'
 import { ResourceGrid } from '#/components/user/my/resource-grid'
 import { useCreateSkinMutation } from '#/api/endpoints/skin-library'
 import { useCreateCapeMutation } from '#/api/endpoints/cape-library'
+import { useLibraryQuota } from '#/api/endpoints/library-quota'
 import { toast } from 'sonner'
 
 export const Route = createFileRoute('/user/my/')({
@@ -514,9 +515,55 @@ function OfficialSyncSection() {
 
 function MyResourcesSection() {
   const [resourceType, setResourceType] = useState<'skin' | 'cape'>('skin')
+  const { data: quota, isLoading: quotaLoading } = useLibraryQuota()
 
   return (
     <div className="space-y-4">
+      {/* 配额信息 */}
+      {!quotaLoading && quota && (
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+          <QuotaCard
+            icon={<Shirt className="size-3.5" />}
+            label="皮肤 (公开)"
+            used={quota.skins_public_used}
+            total={quota.skins_public_total}
+          />
+          <QuotaCard
+            icon={<Shirt className="size-3.5" />}
+            label="皮肤 (私有)"
+            used={quota.skins_private_used}
+            total={quota.skins_private_total}
+          />
+          <QuotaCard
+            icon={<Flag className="size-3.5" />}
+            label="披风 (公开)"
+            used={quota.capes_public_used}
+            total={quota.capes_public_total}
+          />
+          <QuotaCard
+            icon={<Flag className="size-3.5" />}
+            label="披风 (私有)"
+            used={quota.capes_private_used}
+            total={quota.capes_private_total}
+          />
+        </div>
+      )}
+
+      {/* 配额骨架屏 */}
+      {quotaLoading && (
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <Card key={i} className="ring-0 border border-border/70">
+              <CardContent className="p-3.5">
+                <div className="h-3 w-16 rounded bg-muted/50 animate-pulse" />
+                <div className="mt-2 h-2 w-full rounded-full bg-muted/50 animate-pulse" />
+                <div className="mt-1.5 h-3 w-10 rounded bg-muted/50 animate-pulse" />
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
+
       {/* 类型切换 */}
       <div className="flex items-center gap-2">
         <Button
@@ -542,5 +589,55 @@ function MyResourcesSection() {
       {/* 资源网格 */}
       <ResourceGrid type={resourceType} />
     </div>
+  )
+}
+
+// ─── 配额卡片组件 ─────────────────────────────────────────
+
+function QuotaCard({
+  icon,
+  label,
+  used,
+  total,
+}: {
+  icon: React.ReactNode
+  label: string
+  used: number
+  total: number
+}) {
+  const pct = total > 0 ? Math.round((used / total) * 100) : 0
+  const isFull = used >= total && total > 0
+
+  return (
+    <Card className="ring-0 border border-border/70">
+      <CardContent className="p-3.5">
+        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+          {icon}
+          {label}
+        </div>
+        <div className="mt-2 h-1.5 w-full rounded-full bg-muted">
+          <div
+            className={`h-full rounded-full transition-all ${
+              isFull
+                ? 'bg-destructive'
+                : pct > 80
+                  ? 'bg-chart-4'
+                  : 'bg-primary'
+            }`}
+            style={{ width: `${Math.min(pct, 100)}%` }}
+          />
+        </div>
+        <div className="mt-1.5 flex items-center justify-between">
+          <span className="text-xs font-medium text-foreground">
+            {used} / {total}
+          </span>
+          {isFull && (
+            <Badge variant="secondary" className="text-[10px] bg-destructive/10 text-destructive">
+              已满
+            </Badge>
+          )}
+        </div>
+      </CardContent>
+    </Card>
   )
 }

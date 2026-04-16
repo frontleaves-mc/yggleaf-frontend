@@ -2,11 +2,11 @@
  * ResourceGrid - 资源网格组件
  *
  * 展示用户上传的皮肤/披风资源，
- * 支持编辑和删除操作。
+ * 支持编辑和删除操作，数据从 API 实时获取。
  */
 
 import { useState } from 'react'
-import { Shirt, Flag, Pencil, Trash2 } from 'lucide-react'
+import { Shirt, Flag, Pencil, Trash2, Loader2 } from 'lucide-react'
 import { Card, CardContent } from '#/components/ui/card'
 import { Badge } from '#/components/ui/badge'
 import { Button } from '#/components/ui/button'
@@ -30,63 +30,19 @@ import {
 } from '#/components/ui/select'
 import { motion } from 'motion/react'
 import { cardHoverVariants, hoverLiftTransition } from '#/lib/motion-presets'
+import { toast } from 'sonner'
 import type { SkinLibrary, CapeLibrary } from '#/api/types'
-
-// ─── Mock 数据 ─────────────────────────────────────────
-
-const MOCK_MY_SKINS: SkinLibrary[] = [
-  {
-    id: 101,
-    name: '我的骑士皮肤',
-    model: 1,
-    texture: 9001,
-    texture_hash: 'abc123def456',
-    is_public: false,
-    user_id: 1,
-    updated_at: '2025-12-01T10:00:00Z',
-  },
-  {
-    id: 102,
-    name: '暗夜精灵',
-    model: 2,
-    texture: 9002,
-    texture_hash: 'ghi789jkl012',
-    is_public: true,
-    user_id: 1,
-    updated_at: '2025-12-05T14:30:00Z',
-  },
-  {
-    id: 103,
-    name: '冰霜猎人',
-    model: 1,
-    texture: 9003,
-    texture_hash: 'mno345pqr678',
-    is_public: false,
-    user_id: 1,
-    updated_at: '2025-12-10T09:15:00Z',
-  },
-]
-
-const MOCK_MY_CAPES: CapeLibrary[] = [
-  {
-    id: 201,
-    name: '自定义龙翼',
-    texture: 8001,
-    texture_hash: 'stu901vwx234',
-    is_public: false,
-    user_id: 1,
-    updated_at: '2025-12-03T08:00:00Z',
-  },
-  {
-    id: 202,
-    name: '星云披风',
-    texture: 8002,
-    texture_hash: 'yza567bcd890',
-    is_public: true,
-    user_id: 1,
-    updated_at: '2025-12-08T16:45:00Z',
-  },
-]
+import {
+  useSkins,
+  useUpdateSkinMutation,
+  useDeleteSkinMutation,
+} from '#/api/endpoints/skin-library'
+import {
+  useCapes,
+  useUpdateCapeMutation,
+  useDeleteCapeMutation,
+} from '#/api/endpoints/cape-library'
+import { ConfirmDialog } from '#/components/public/confirm-dialog'
 
 // ─── 资源网格组件 ───────────────────────────────────────
 
@@ -96,10 +52,65 @@ interface ResourceGridProps {
 }
 
 export function ResourceGrid({ type }: ResourceGridProps) {
-  const skins = type === 'skin' ? MOCK_MY_SKINS : []
-  const capes = type === 'cape' ? MOCK_MY_CAPES : []
-  const items = type === 'skin' ? skins : capes
+  const skinQuery = useSkins(
+    { mode: 'mine' },
+    { enabled: type === 'skin' },
+  )
+  const capeQuery = useCapes(
+    { mode: 'mine' },
+    { enabled: type === 'cape' },
+  )
 
+  const query = type === 'skin' ? skinQuery : capeQuery
+  const items = query.data?.items ?? []
+
+  // Loading 状态
+  if (query.isLoading) {
+    return (
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <Card key={i} className="ring-0 border border-border/70 overflow-hidden">
+            <CardContent className="p-4">
+              <div className="aspect-[3/4] rounded-lg bg-muted/50 animate-pulse mb-3" />
+              <div className="h-4 w-2/3 rounded bg-muted/50 animate-pulse" />
+              <div className="mt-2 h-5 w-1/3 rounded bg-muted/50 animate-pulse" />
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    )
+  }
+
+  // Error 状态
+  if (query.isError) {
+    return (
+      <Card className="border-dashed">
+        <CardContent className="py-12 text-center">
+          {type === 'skin' ? (
+            <Shirt className="mx-auto size-12 text-destructive/50" />
+          ) : (
+            <Flag className="mx-auto size-12 text-destructive/50" />
+          )}
+          <h3 className="mt-4 font-medium text-foreground">
+            加载失败
+          </h3>
+          <p className="mt-1 text-sm text-muted-foreground">
+            无法获取{type === 'skin' ? '皮肤' : '披风'}列表，请稍后重试
+          </p>
+          <Button
+            variant="outline"
+            size="sm"
+            className="mt-3"
+            onClick={() => query.refetch()}
+          >
+            重新加载
+          </Button>
+        </CardContent>
+      </Card>
+    )
+  }
+
+  // 空状态
   if (items.length === 0) {
     return (
       <Card className="border-dashed">
@@ -143,9 +154,31 @@ function ResourceCard({
   cape?: CapeLibrary
 }) {
   const [editOpen, setEditOpen] = useState(false)
+  const [deleteOpen, setDeleteOpen] = useState(false)
+  const deleteSkinMutation = useDeleteSkinMutation()
+  const deleteCapeMutation = useDeleteCapeMutation()
+
   const isSkin = !!skin
   const item = skin ?? cape!
   const Icon = isSkin ? Shirt : Flag
+
+  const isDeleting = isSkin
+    ? deleteSkinMutation.isPending
+    : deleteCapeMutation.isPending
+
+  const handleDelete = async () => {
+    try {
+      if (isSkin) {
+        await deleteSkinMutation.mutateAsync(skin!.id)
+      } else {
+        await deleteCapeMutation.mutateAsync(cape!.id)
+      }
+      toast.success(`${isSkin ? '皮肤' : '披风'}删除成功`)
+      setDeleteOpen(false)
+    } catch {
+      toast.error(`${isSkin ? '皮肤' : '披风'}删除失败`)
+    }
+  }
 
   return (
     <>
@@ -187,7 +220,7 @@ function ResourceCard({
                   className="size-8 rounded-full"
                   onClick={(e) => {
                     e.stopPropagation()
-                    // TODO: 删除逻辑
+                    setDeleteOpen(true)
                   }}
                 >
                   <Trash2 className="size-3.5" />
@@ -227,6 +260,18 @@ function ResourceCard({
         open={editOpen}
         onOpenChange={setEditOpen}
       />
+
+      {/* 删除确认 */}
+      <ConfirmDialog
+        open={deleteOpen}
+        onOpenChange={setDeleteOpen}
+        title={`删除${isSkin ? '皮肤' : '披风'}`}
+        description={`确定要删除「${item.name}」吗？此操作不可撤销。`}
+        confirmLabel="删除"
+        variant="destructive"
+        onConfirm={handleDelete}
+        loading={isDeleting}
+      />
     </>
   )
 }
@@ -250,6 +295,27 @@ function EditResourceDialog({
   const [model, setModel] = useState<string>(String(skin?.model ?? '1'))
   const [isPublic, setIsPublic] = useState(item.is_public)
 
+  const updateSkinMutation = useUpdateSkinMutation(skin?.id ?? 0)
+  const updateCapeMutation = useUpdateCapeMutation(cape?.id ?? 0)
+
+  const isSaving = isSkin
+    ? updateSkinMutation.isPending
+    : updateCapeMutation.isPending
+
+  const handleSave = async () => {
+    try {
+      if (isSkin) {
+        await updateSkinMutation.mutateAsync({ name, is_public: isPublic })
+      } else {
+        await updateCapeMutation.mutateAsync({ name, is_public: isPublic })
+      }
+      toast.success(`${isSkin ? '皮肤' : '披风'}更新成功`)
+      onOpenChange(false)
+    } catch {
+      toast.error(`${isSkin ? '皮肤' : '披风'}更新失败`)
+    }
+  }
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
@@ -267,13 +333,14 @@ function EditResourceDialog({
               id="edit-name"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              disabled={isSaving}
             />
           </div>
 
           {isSkin && (
             <div className="space-y-2">
               <Label>模型类型</Label>
-              <Select value={model} onValueChange={setModel}>
+              <Select value={model} onValueChange={setModel} disabled={isSaving}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
@@ -292,22 +359,27 @@ function EditResourceDialog({
                 开启后所有用户均可使用
               </p>
             </div>
-            <Switch checked={isPublic} onCheckedChange={setIsPublic} />
+            <Switch checked={isPublic} onCheckedChange={setIsPublic} disabled={isSaving} />
           </div>
         </div>
 
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
+          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={isSaving}>
             取消
           </Button>
           <Button
             className="bg-gradient-to-r from-primary to-primary text-white hover:opacity-90"
-            onClick={() => {
-              // TODO: 保存逻辑
-              onOpenChange(false)
-            }}
+            onClick={handleSave}
+            disabled={isSaving || !name}
           >
-            保存修改
+            {isSaving ? (
+              <>
+                <Loader2 className="mr-2 size-4 animate-spin" />
+                保存中...
+              </>
+            ) : (
+              '保存修改'
+            )}
           </Button>
         </DialogFooter>
       </DialogContent>

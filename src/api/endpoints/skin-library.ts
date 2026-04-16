@@ -73,6 +73,7 @@ export function useCreateSkinMutation() {
     mutationFn: createSkin,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['skins'] })
+      queryClient.invalidateQueries({ queryKey: ['library-quota'] })
     },
   })
 }
@@ -85,6 +86,7 @@ export function useUpdateSkinMutation(skinId: number) {
     mutationFn: (data: UpdateSkinRequest) => updateSkin(skinId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['skins'] })
+      queryClient.invalidateQueries({ queryKey: ['library-quota'] })
     },
   })
 }
@@ -97,6 +99,7 @@ export function useDeleteSkinMutation() {
     mutationFn: deleteSkin,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['skins'] })
+      queryClient.invalidateQueries({ queryKey: ['library-quota'] })
     },
   })
 }
