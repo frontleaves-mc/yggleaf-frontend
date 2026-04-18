@@ -17,6 +17,7 @@ import {
   Store,
   MessageSquareWarning,
   Tags,
+  Map,
 } from 'lucide-react'
 
 // ─── 类型定义 ────────────────────────────────────────────
@@ -157,6 +158,12 @@ export const userMenuItems: MenuItem[] = [
     to: '/user/issues',
   },
   {
+    key: 'map',
+    label: '地图',
+    icon: Map,
+    to: '/user/map',
+  },
+  {
     key: 'profile',
     label: '个人中心',
     icon: Settings,
@@ -174,6 +181,7 @@ export const breadcrumbLabels: Record<string, string> = {
   '/user/skins': '皮肤库',
   '/user/capes': '披风库',
   '/user/issues': '问题反馈',
+  '/user/map': '地图',
   '/user/issues/$issueId': '问题详情',
   '/user/profile': '个人中心',
   '/user/my': '我的资源库',

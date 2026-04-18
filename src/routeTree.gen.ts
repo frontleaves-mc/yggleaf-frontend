@@ -17,6 +17,7 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as UserIndexRouteImport } from './routes/user/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as UserMapRouteImport } from './routes/user/map'
 import { Route as UserDashboardRouteImport } from './routes/user/dashboard'
 import { Route as SetupPasswordRouteImport } from './routes/setup/password'
 import { Route as UserSkinsIndexRouteImport } from './routes/user/skins/index'
@@ -80,6 +81,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AdminRoute,
+} as any)
+const UserMapRoute = UserMapRouteImport.update({
+  id: '/map',
+  path: '/map',
+  getParentRoute: () => UserRoute,
 } as any)
 const UserDashboardRoute = UserDashboardRouteImport.update({
   id: '/dashboard',
@@ -207,6 +213,7 @@ export interface FileRoutesByFullPath {
   '/user': typeof UserRouteWithChildren
   '/setup/password': typeof SetupPasswordRoute
   '/user/dashboard': typeof UserDashboardRoute
+  '/user/map': typeof UserMapRoute
   '/admin/': typeof AdminIndexRoute
   '/user/': typeof UserIndexRoute
   '/admin/capes/$capeId': typeof AdminCapesCapeIdRoute
@@ -238,6 +245,7 @@ export interface FileRoutesByTo {
   '/setup': typeof SetupRouteWithChildren
   '/setup/password': typeof SetupPasswordRoute
   '/user/dashboard': typeof UserDashboardRoute
+  '/user/map': typeof UserMapRoute
   '/admin': typeof AdminIndexRoute
   '/user': typeof UserIndexRoute
   '/admin/capes/$capeId': typeof AdminCapesCapeIdRoute
@@ -272,6 +280,7 @@ export interface FileRoutesById {
   '/user': typeof UserRouteWithChildren
   '/setup/password': typeof SetupPasswordRoute
   '/user/dashboard': typeof UserDashboardRoute
+  '/user/map': typeof UserMapRoute
   '/admin/': typeof AdminIndexRoute
   '/user/': typeof UserIndexRoute
   '/admin/capes/$capeId': typeof AdminCapesCapeIdRoute
@@ -307,6 +316,7 @@ export interface FileRouteTypes {
     | '/user'
     | '/setup/password'
     | '/user/dashboard'
+    | '/user/map'
     | '/admin/'
     | '/user/'
     | '/admin/capes/$capeId'
@@ -338,6 +348,7 @@ export interface FileRouteTypes {
     | '/setup'
     | '/setup/password'
     | '/user/dashboard'
+    | '/user/map'
     | '/admin'
     | '/user'
     | '/admin/capes/$capeId'
@@ -371,6 +382,7 @@ export interface FileRouteTypes {
     | '/user'
     | '/setup/password'
     | '/user/dashboard'
+    | '/user/map'
     | '/admin/'
     | '/user/'
     | '/admin/capes/$capeId'
@@ -462,6 +474,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/user/map': {
+      id: '/user/map'
+      path: '/map'
+      fullPath: '/user/map'
+      preLoaderRoute: typeof UserMapRouteImport
+      parentRoute: typeof UserRoute
     }
     '/user/dashboard': {
       id: '/user/dashboard'
@@ -677,6 +696,7 @@ const SetupRouteWithChildren = SetupRoute._addFileChildren(SetupRouteChildren)
 
 interface UserRouteChildren {
   UserDashboardRoute: typeof UserDashboardRoute
+  UserMapRoute: typeof UserMapRoute
   UserIndexRoute: typeof UserIndexRoute
   UserIssuesIssueIdRoute: typeof UserIssuesIssueIdRoute
   UserCapesIndexRoute: typeof UserCapesIndexRoute
@@ -689,6 +709,7 @@ interface UserRouteChildren {
 
 const UserRouteChildren: UserRouteChildren = {
   UserDashboardRoute: UserDashboardRoute,
+  UserMapRoute: UserMapRoute,
   UserIndexRoute: UserIndexRoute,
   UserIssuesIssueIdRoute: UserIssuesIssueIdRoute,
   UserCapesIndexRoute: UserCapesIndexRoute,
