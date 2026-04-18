@@ -20,7 +20,24 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '#
 import { Loader2, ArrowLeft, Save } from 'lucide-react'
 import { Link, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
-import { PageTransition } from '#/components/ui/page-transition'
+import { motion } from 'motion/react'
+
+/** stagger 容器动画 - 子元素依次入场 */
+const staggerContainer = {
+  animate: {
+    transition: { staggerChildren: 0.08, delayChildren: 0.05 },
+  },
+}
+
+/** 单项淡入上移动画 */
+const fadeUpItem = {
+  initial: { opacity: 0, y: 16 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
+  },
+}
 
 export const Route = createFileRoute('/admin/skins/create')({
   component: CreateSkinPage,
@@ -52,111 +69,120 @@ function CreateSkinPage() {
   }
 
   return (
-    <PageTransition className="space-y-6">
+    <motion.div
+      className="space-y-6"
+      variants={staggerContainer}
+      initial="initial"
+      animate="animate"
+    >
       {/* 返回导航 */}
-      <Link
-        to="/admin/skins"
-        className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
-      >
-        <ArrowLeft className="h-4 w-4" />
-        返回皮肤列表
-      </Link>
+      <motion.div variants={fadeUpItem}>
+        <Link
+          to="/admin/skins"
+          className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          返回皮肤列表
+        </Link>
+      </motion.div>
 
-      <Card className="max-w-xl">
-        <CardHeader>
-          <CardTitle className="text-lg">新建皮肤</CardTitle>
-          <CardDescription>填写皮肤信息以创建新的皮肤资源</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-5">
-            {/* 名称 */}
-            <div className="space-y-2">
-              <Label htmlFor="skin-name">皮肤名称 *</Label>
-              <Input
-                id="skin-name"
-                placeholder="请输入皮肤名称"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-                disabled={createMutation.isPending}
-              />
-            </div>
+      <motion.div variants={fadeUpItem}>
+        <Card className="max-w-xl">
+          <CardHeader>
+            <CardTitle className="text-lg">新建皮肤</CardTitle>
+            <CardDescription>填写皮肤信息以创建新的皮肤资源</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-5">
+              {/* 名称 */}
+              <div className="space-y-2">
+                <Label htmlFor="skin-name">皮肤名称 *</Label>
+                <Input
+                  id="skin-name"
+                  placeholder="请输入皮肤名称"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  disabled={createMutation.isPending}
+                />
+              </div>
 
-            {/* 模型 */}
-            <div className="space-y-2">
-              <Label htmlFor="skin-model">模型类型 *</Label>
-              <Select value={model} onValueChange={setModel} disabled={createMutation.isPending}>
-                <SelectTrigger id="skin-model">
-                  <SelectValue placeholder="选择模型类型" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="1">Classic (Steve)</SelectItem>
-                  <SelectItem value="2">Slim (Alex)</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+              {/* 模型 */}
+              <div className="space-y-2">
+                <Label htmlFor="skin-model">模型类型 *</Label>
+                <Select value={model} onValueChange={setModel} disabled={createMutation.isPending}>
+                  <SelectTrigger id="skin-model">
+                    <SelectValue placeholder="选择模型类型" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="1">Classic (Steve)</SelectItem>
+                    <SelectItem value="2">Slim (Alex)</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
 
-            {/* 纹理 ID */}
-            <div className="space-y-2">
-              <Label htmlFor="skin-texture">纹理文件 ID *</Label>
-              <Input
-                id="skin-texture"
-                type="number"
-                placeholder="请输入纹理文件 ID（雪花算法生成）"
-                value={texture}
-                onChange={(e) => setTexture(e.target.value)}
-                required
-                disabled={createMutation.isPending}
-              />
-              <p className="text-[12px] text-muted-foreground">
-                上传纹理文件后系统会返回文件 ID，在此填入即可
-              </p>
-            </div>
-
-            {/* 公开设置 */}
-            <div className="flex items-center justify-between rounded-lg border border-border p-3.5">
-              <div className="space-y-0.5">
-                <Label htmlFor="skin-public" className="text-sm">公开皮肤</Label>
+              {/* 纹理 ID */}
+              <div className="space-y-2">
+                <Label htmlFor="skin-texture">纹理文件 ID *</Label>
+                <Input
+                  id="skin-texture"
+                  type="number"
+                  placeholder="请输入纹理文件 ID（雪花算法生成）"
+                  value={texture}
+                  onChange={(e) => setTexture(e.target.value)}
+                  required
+                  disabled={createMutation.isPending}
+                />
                 <p className="text-[12px] text-muted-foreground">
-                  开启后所有用户均可使用此皮肤
+                  上传纹理文件后系统会返回文件 ID，在此填入即可
                 </p>
               </div>
-              <Switch
-                id="skin-public"
-                checked={isPublic}
-                onCheckedChange={setIsPublic}
-                disabled={createMutation.isPending}
-              />
-            </div>
 
-            {/* 提交按钮 */}
-            <div className="flex gap-3 pt-2">
-              <Link to="/admin/skins">
-                <Button variant="outline" type="button" disabled={createMutation.isPending}>
-                  取消
+              {/* 公开设置 */}
+              <div className="flex items-center justify-between rounded-lg border border-border p-3.5">
+                <div className="space-y-0.5">
+                  <Label htmlFor="skin-public" className="text-sm">公开皮肤</Label>
+                  <p className="text-[12px] text-muted-foreground">
+                    开启后所有用户均可使用此皮肤
+                  </p>
+                </div>
+                <Switch
+                  id="skin-public"
+                  checked={isPublic}
+                  onCheckedChange={setIsPublic}
+                  disabled={createMutation.isPending}
+                />
+              </div>
+
+              {/* 提交按钮 */}
+              <div className="flex gap-3 pt-2">
+                <Link to="/admin/skins">
+                  <Button variant="outline" type="button" disabled={createMutation.isPending}>
+                    取消
+                  </Button>
+                </Link>
+                <Button
+                  type="submit"
+                  disabled={createMutation.isPending || !name || !texture}
+                  className="bg-gradient-to-r from-primary to-primary text-white hover:opacity-90 flex-1 sm:flex-none"
+                >
+                  {createMutation.isPending ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      创建中...
+                    </>
+                  ) : (
+                    <>
+                      <Save className="mr-2 h-4 w-4" />
+                      创建皮肤
+                    </>
+                  )}
                 </Button>
-              </Link>
-              <Button
-                type="submit"
-                disabled={createMutation.isPending || !name || !texture}
-                className="bg-gradient-to-r from-primary to-primary text-white hover:opacity-90 flex-1 sm:flex-none"
-              >
-                {createMutation.isPending ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    创建中...
-                  </>
-                ) : (
-                  <>
-                    <Save className="mr-2 h-4 w-4" />
-                    创建皮肤
-                  </>
-                )}
-              </Button>
-            </div>
-          </form>
-        </CardContent>
-      </Card>
-    </PageTransition>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
+      </motion.div>
+    </motion.div>
   )
 }

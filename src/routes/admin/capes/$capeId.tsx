@@ -20,11 +20,28 @@ import { Label } from '#/components/ui/label'
 import { Switch } from '#/components/ui/switch'
 import { Badge } from '#/components/ui/badge'
 import { ConfirmDialog } from '#/components/public/confirm-dialog'
-import { PageTransition } from '#/components/ui/page-transition'
 import { Loader2, ArrowLeft, Save, Trash2 } from 'lucide-react'
 import { Link, useParams, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import type { CapeLibrary } from '#/api/types'
+import { motion } from 'motion/react'
+
+/** stagger 容器动画 - 子元素依次入场 */
+const staggerContainer = {
+  animate: {
+    transition: { staggerChildren: 0.08, delayChildren: 0.05 },
+  },
+}
+
+/** 单项淡入上移动画 */
+const fadeUpItem = {
+  initial: { opacity: 0, y: 16 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
+  },
+}
 
 export const Route = createFileRoute('/admin/capes/$capeId')({
   component: EditCapePage,
@@ -77,102 +94,111 @@ function EditCapePage() {
     }
   }
 
-  if (isLoading) return <PageTransition><LoadingSkeleton /></PageTransition>
+  if (isLoading) return <div><LoadingSkeleton /></div>
 
-  if (!cape) return <PageTransition className="text-center py-12 text-muted-foreground">披风不存在</PageTransition>
+  if (!cape) return <div className="text-center py-12 text-muted-foreground">披风不存在</div>
 
   return (
-    <PageTransition className="space-y-6">
-      <Link
-        to="/admin/capes"
-        className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
-      >
-        <ArrowLeft className="h-4 w-4" />
-        返回披风列表
-      </Link>
+    <motion.div
+      className="space-y-6"
+      variants={staggerContainer}
+      initial="initial"
+      animate="animate"
+    >
+      <motion.div variants={fadeUpItem}>
+        <Link
+          to="/admin/capes"
+          className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          返回披风列表
+        </Link>
+      </motion.div>
 
-      <div className="grid gap-6 lg:grid-cols-3">
-        <Card className="max-w-xl lg:col-span-2">
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <div>
-                <CardTitle className="text-lg">编辑披风</CardTitle>
-                <CardDescription>修改披风 #{cape.id} 的属性信息</CardDescription>
-              </div>
-              <Badge variant="secondary" className="font-mono text-xs">
-                ID: {cape.id}
-              </Badge>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleUpdate} className="space-y-5">
-              <div className="space-y-2">
-                <Label htmlFor="edit-cape-name">披风名称 *</Label>
-                <Input
-                  id="edit-cape-name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                  disabled={updateMutation.isPending}
-                />
-              </div>
-
-              <div className="flex items-center justify-between rounded-lg border border-border p-3.5">
-                <div className="space-y-0.5">
-                  <Label className="text-sm">公开披风</Label>
-                  <p className="text-[12px] text-muted-foreground">
-                    开启后所有用户均可使用
-                  </p>
+      <motion.div variants={fadeUpItem}>
+        <div className="grid gap-6 lg:grid-cols-3">
+          <Card className="max-w-xl lg:col-span-2">
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle className="text-lg">编辑披风</CardTitle>
+                  <CardDescription>修改披风 #{cape.id} 的属性信息</CardDescription>
                 </div>
-                <Switch checked={isPublic} onCheckedChange={setIsPublic} disabled={updateMutation.isPending} />
+                <Badge variant="secondary" className="font-mono text-xs">
+                  ID: {cape.id}
+                </Badge>
               </div>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleUpdate} className="space-y-5">
+                <div className="space-y-2">
+                  <Label htmlFor="edit-cape-name">披风名称 *</Label>
+                  <Input
+                    id="edit-cape-name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                    disabled={updateMutation.isPending}
+                  />
+                </div>
 
-              <div className="flex gap-3 pt-2">
-                <Link to="/admin/capes">
-                  <Button variant="outline" type="button" disabled={updateMutation.isPending}>取消</Button>
-                </Link>
+                <div className="flex items-center justify-between rounded-lg border border-border p-3.5">
+                  <div className="space-y-0.5">
+                    <Label className="text-sm">公开披风</Label>
+                    <p className="text-[12px] text-muted-foreground">
+                      开启后所有用户均可使用
+                    </p>
+                  </div>
+                  <Switch checked={isPublic} onCheckedChange={setIsPublic} disabled={updateMutation.isPending} />
+                </div>
+
+                <div className="flex gap-3 pt-2">
+                  <Link to="/admin/capes">
+                    <Button variant="outline" type="button" disabled={updateMutation.isPending}>取消</Button>
+                  </Link>
+                  <Button
+                    type="submit"
+                    disabled={updateMutation.isPending || !name}
+                    className="bg-gradient-to-r from-primary to-primary text-white hover:opacity-90 flex-1 sm:flex-none"
+                  >
+                    {updateMutation.isPending ? (
+                      <><Loader2 className="mr-2 h-4 w-4 animate-spin" />保存中...</>
+                    ) : (
+                      <><Save className="mr-2 h-4 w-4" />保存修改</>
+                    )}
+                  </Button>
+                </div>
+              </form>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">披风详情</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <InfoRow label="ID" value={String(cape.id)} />
+              <InfoRow label="纹理哈希" value={cape.texture_hash.slice(0, 12) + '...'} mono />
+              <InfoRow label="创建者" value={cape.user?.username ?? '系统内置'} />
+              <InfoRow
+                label="更新时间"
+                value={new Date(cape.updated_at).toLocaleString('zh-CN')}
+              />
+
+              <div className="pt-4 border-t border-border">
                 <Button
-                  type="submit"
-                  disabled={updateMutation.isPending || !name}
-                  className="bg-gradient-to-r from-primary to-primary text-white hover:opacity-90 flex-1 sm:flex-none"
+                  variant="destructive"
+                  className="w-full gap-1.5 text-sm"
+                  onClick={() => setShowDeleteConfirm(true)}
                 >
-                  {updateMutation.isPending ? (
-                    <><Loader2 className="mr-2 h-4 w-4 animate-spin" />保存中...</>
-                  ) : (
-                    <><Save className="mr-2 h-4 w-4" />保存修改</>
-                  )}
+                  <Trash2 className="h-4 w-4" />
+                  删除此披风
                 </Button>
               </div>
-            </form>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">披风详情</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <InfoRow label="ID" value={String(cape.id)} />
-            <InfoRow label="纹理哈希" value={cape.texture_hash.slice(0, 12) + '...'} mono />
-            <InfoRow label="创建者" value={cape.user?.username ?? '系统内置'} />
-            <InfoRow
-              label="更新时间"
-              value={new Date(cape.updated_at).toLocaleString('zh-CN')}
-            />
-
-            <div className="pt-4 border-t border-border">
-              <Button
-                variant="destructive"
-                className="w-full gap-1.5 text-sm"
-                onClick={() => setShowDeleteConfirm(true)}
-              >
-                <Trash2 className="h-4 w-4" />
-                删除此披风
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+            </CardContent>
+          </Card>
+        </div>
+      </motion.div>
 
       <ConfirmDialog
         open={showDeleteConfirm}
@@ -184,7 +210,7 @@ function EditCapePage() {
         loading={deleteMutation.isPending}
         variant="destructive"
       />
-    </PageTransition>
+    </motion.div>
   )
 }
 

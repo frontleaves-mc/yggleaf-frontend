@@ -1,5 +1,5 @@
 /**
- * 用户端 - 我的资源页面
+ * 用户端 - 我的资源库页面
  *
  * 用户的个人资源管理中心，包含：
  * - 上传皮肤/披风
@@ -94,7 +94,7 @@ export default function MyPage() {
       {/* 页面标题 */}
       <div>
         <h1 className="text-2xl font-bold text-foreground font-display">
-          我的
+          我的资源库
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
           上传、同步和管理你的皮肤与披风资源

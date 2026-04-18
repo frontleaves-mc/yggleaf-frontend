@@ -20,7 +20,24 @@ import {
 import { Link } from '@tanstack/react-router'
 import { useState } from 'react'
 import type { SkinLibrary } from '#/api/types'
-import { PageTransition } from '#/components/ui/page-transition'
+import { motion } from 'motion/react'
+
+/** stagger 容器动画 - 子元素依次入场 */
+const staggerContainer = {
+  animate: {
+    transition: { staggerChildren: 0.08, delayChildren: 0.05 },
+  },
+}
+
+/** 单项淡入上移动画 */
+const fadeUpItem = {
+  initial: { opacity: 0, y: 16 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
+  },
+}
 
 export const Route = createFileRoute('/admin/skins/')({
   component: SkinListPage,
@@ -129,22 +146,31 @@ function SkinListPage() {
   if (isLoading) return <LoadingPage />
 
   return (
-    <PageTransition className="space-y-6">
-      <PageHeader title="皮肤库管理" description="管理和预览所有 Minecraft 皮肤资源">
-        <Link to="/admin/skins/create">
-          <Button className="gap-1.5 bg-gradient-to-r from-primary to-primary text-white hover:opacity-90 text-sm">
-            <Plus className="h-4 w-4" />
-            新建皮肤
-          </Button>
-        </Link>
-      </PageHeader>
+    <motion.div
+      className="space-y-6"
+      variants={staggerContainer}
+      initial="initial"
+      animate="animate"
+    >
+      <motion.div variants={fadeUpItem}>
+        <PageHeader title="皮肤库管理" description="管理和预览所有 Minecraft 皮肤资源">
+          <Link to="/admin/skins/create">
+            <Button className="gap-1.5 bg-gradient-to-r from-primary to-primary text-white hover:opacity-90 text-sm">
+              <Plus className="h-4 w-4" />
+              新建皮肤
+            </Button>
+          </Link>
+        </PageHeader>
+      </motion.div>
 
-      <DataTable
-        columns={columns}
-        data={skins ?? []}
-        rowKey={(row) => row.id}
-        emptyMessage="暂无皮肤数据，点击右上角新建"
-      />
+      <motion.div variants={fadeUpItem}>
+        <DataTable
+          columns={columns}
+          data={skins ?? []}
+          rowKey={(row) => row.id}
+          emptyMessage="暂无皮肤数据，点击右上角新建"
+        />
+      </motion.div>
 
       {/* 删除确认弹窗 */}
       <ConfirmDialog
@@ -157,6 +183,6 @@ function SkinListPage() {
         loading={deleteMutation.isPending}
         variant="destructive"
       />
-    </PageTransition>
+    </motion.div>
   )
 }

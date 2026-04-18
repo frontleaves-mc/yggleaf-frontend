@@ -4,7 +4,7 @@
  * 用户头像卡片 + 点击展开下拉菜单（个人中心 / 退出登录）
  */
 
-import { useUserInfoSync } from '#/api/endpoints/user'
+import { useUserInfo } from '#/api/endpoints/user'
 import { Avatar, AvatarFallback } from '#/components/ui/avatar'
 import {
   SidebarFooter as SidebarFooterRoot,
@@ -13,7 +13,8 @@ import {
   SidebarMenuButton,
   SidebarRail,
 } from '#/components/ui/sidebar'
-import { LogOut, Settings } from 'lucide-react'
+import { LogOut, Settings, Shield } from 'lucide-react'
+import type { RoleName } from '#/api/types'
 import { useNavigate } from '@tanstack/react-router'
 import { clearAuth } from '#/stores/auth-store'
 import {
@@ -26,7 +27,7 @@ import {
 
 export function SidebarFooter() {
   const navigate = useNavigate()
-  const userInfo = useUserInfoSync()
+  const { data: userInfo } = useUserInfo()
   const user = userInfo?.user
 
   const initials = user?.username
@@ -66,10 +67,17 @@ export function SidebarFooter() {
               </DropdownMenuTrigger>
 
               <DropdownMenuContent side="top" align="start" className="w-52">
-                <DropdownMenuItem onClick={() => navigate({ to: '/admin/profile' as any })}>
+                <DropdownMenuItem onClick={() => navigate({ to: '/user/profile' as any })}>
                   <Settings className="mr-2 size-4" />
-                  账号设置
+                  个人中心
                 </DropdownMenuItem>
+
+                {['ADMIN', 'SUPER_ADMIN'].includes(user?.role_name as RoleName) && (
+                  <DropdownMenuItem onClick={() => navigate({ to: '/admin' as any })}>
+                    <Shield className="mr-2 size-4" />
+                    管理员
+                  </DropdownMenuItem>
+                )}
 
                 <DropdownMenuSeparator />
 

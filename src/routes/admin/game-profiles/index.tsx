@@ -4,6 +4,7 @@
  */
 
 import { createFileRoute } from '@tanstack/react-router'
+import { motion } from 'motion/react'
 import { PageHeader } from '#/components/public/page-header'
 import { DataTable, type Column } from '#/components/public/data-table'
 import { Button } from '#/components/ui/button'
@@ -14,10 +15,24 @@ import {
 } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
 import type { GameProfile } from '#/api/types'
-import { PageTransition } from '#/components/ui/page-transition'
 
 // 临时数据（API 对接后替换为真实查询）
 const mockProfiles: GameProfile[] = []
+
+const staggerContainer = {
+  animate: {
+    transition: { staggerChildren: 0.08, delayChildren: 0.05 },
+  },
+}
+
+const fadeUpItem = {
+  initial: { opacity: 0, y: 16 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
+  },
+}
 
 export const Route = createFileRoute('/admin/game-profiles/')({
   component: GameProfileListPage,
@@ -80,17 +95,26 @@ function GameProfileListPage() {
   ]
 
   return (
-    <PageTransition className="space-y-6">
-      <PageHeader title="游戏档案管理" description="管理所有玩家的 Minecraft 游戏档案">
-        <Badge variant="secondary" className="text-xs">接口开发中</Badge>
-      </PageHeader>
+    <motion.div
+      className="space-y-6"
+      variants={staggerContainer}
+      initial="initial"
+      animate="animate"
+    >
+      <motion.div variants={fadeUpItem}>
+        <PageHeader title="游戏档案管理" description="管理所有玩家的 Minecraft 游戏档案">
+          <Badge variant="secondary" className="text-xs">接口开发中</Badge>
+        </PageHeader>
+      </motion.div>
 
-      <DataTable
-        columns={columns}
-        data={mockProfiles}
-        rowKey={(row) => row.id}
-        emptyMessage="暂无游戏档案数据，完整列表接口开发中"
-      />
-    </PageTransition>
+      <motion.div variants={fadeUpItem}>
+        <DataTable
+          columns={columns}
+          data={mockProfiles}
+          rowKey={(row) => row.id}
+          emptyMessage="暂无游戏档案数据，完整列表接口开发中"
+        />
+      </motion.div>
+    </motion.div>
   )
 }
