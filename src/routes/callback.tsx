@@ -14,8 +14,8 @@ import { useQueryClient } from '@tanstack/react-query'
 
 export const Route = createFileRoute('/callback')({
   beforeLoad: () => {
-    // 已认证直接跳转（SSR 阶段跳过，等客户端 hydration 处理）
-    if (typeof document !== 'undefined' && checkIsAuthenticated()) {
+    // 已认证直接跳转
+    if (checkIsAuthenticated()) {
       throw redirect({ to: '/user/dashboard' as any })
     }
   },

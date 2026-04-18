@@ -9,7 +9,7 @@
  *   - 只有 account_ready === 'game_password' 才允许在此页面停留
  */
 
-import { createFileRoute, redirect } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from '@tanstack/react-router'
 import { Lock } from 'lucide-react'
@@ -29,7 +29,7 @@ import {
   FormLabel,
   FormMessage,
 } from '#/components/ui/form'
-import { useUpdateGamePasswordMutation, useUserInfo, getUserInfo } from '#/api/endpoints/user'
+import { useUpdateGamePasswordMutation, useUserInfo } from '#/api/endpoints/user'
 
 // ─── 表单数据类型 ──────────────────────────────────────────
 
@@ -41,23 +41,6 @@ interface SetupPasswordForm {
 // ─── 路由定义（含 beforeLoad 守卫） ─────────────────────────
 
 export const Route = createFileRoute('/setup/password')({
-  beforeLoad: async () => {
-    // SSR 阶段跳过
-    if (typeof document === 'undefined') return
-
-    // 检查账户状态，已就绪则直接放行到 dashboard
-    try {
-      const userInfo = await getUserInfo()
-      if (userInfo.extend?.account_ready === 'ready') {
-        throw redirect({ to: '/user/dashboard' as any })
-      }
-    } catch (e) {
-      // 如果是重定向异常，直接抛出；其他错误放行（页面内处理）
-      if (e && typeof e === 'object' && 'to' in e) {
-        throw e
-      }
-    }
-  },
   component: SetupPasswordPage,
 })
 

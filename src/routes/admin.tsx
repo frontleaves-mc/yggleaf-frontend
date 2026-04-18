@@ -11,10 +11,6 @@ import { adminMenuItems } from '#/config/menu'
 
 export const Route = createFileRoute('/admin')({
   beforeLoad: ({ location }) => {
-    // SSR 阶段跳过认证检查（document 不存在，Cookie 无法读取）
-    // 等客户端 hydration 后再根据 authStore 状态判断
-    if (typeof document === 'undefined') return
-
     if (!checkIsAuthenticated()) {
       throw redirect({
         to: '/login' as any,

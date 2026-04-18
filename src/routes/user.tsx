@@ -7,14 +7,13 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
 import { Layout } from '#/components/layout/layout'
 import { checkIsAuthenticated } from '#/hooks/use-auth-guard'
-import { getUserInfo } from '#/api/endpoints/user'
+import { useUserInfo } from '#/api/endpoints/user'
+import { useNavigate } from '@tanstack/react-router'
+import { useEffect } from 'react'
 import { userMenuItems } from '#/config/menu'
 
 export const Route = createFileRoute('/user')({
-  beforeLoad: async ({ location }) => {
-    // SSR 阶段跳过认证检查
-    if (typeof document === 'undefined') return
-
+  beforeLoad: ({ location }) => {
     // 未登录 → 跳转登录
     if (!checkIsAuthenticated()) {
       throw redirect({
@@ -22,26 +21,28 @@ export const Route = createFileRoute('/user')({
         search: { redirect: location.href } as any,
       })
     }
-
-    // 已登录但账户未就绪 → 引导到设置页（防止直接访问绕过）
-    try {
-      const userInfo = await getUserInfo()
-      if (userInfo.extend?.account_ready !== 'ready') {
-        throw redirect({ to: '/setup/password' as any })
-      }
-    } catch (e) {
-      // 如果是重定向异常，直接抛出；其他错误（网络等）放行，由页面内处理
-      if (e instanceof Response || (e && typeof e === 'object' && 'to' in e)) {
-        throw e
-      }
-    }
   },
   component: UserLayoutWrapper,
 })
 
+/** 账户就绪守卫：未就绪时引导到设置页（非阻塞，避免 beforeLoad 卡死） */
+function AccountReadyGuard() {
+  const navigate = useNavigate()
+  const { data: userInfo } = useUserInfo()
+
+  useEffect(() => {
+    if (userInfo && userInfo.extend?.account_ready !== 'ready') {
+      navigate({ to: '/setup/password' as any })
+    }
+  }, [userInfo?.extend?.account_ready, navigate])
+
+  return null
+}
+
 function UserLayoutWrapper() {
   return (
     <Layout mode="user" items={userMenuItems}>
+      <AccountReadyGuard />
       <Outlet />
     </Layout>
   )

@@ -1,13 +1,7 @@
-import {
-  HeadContent,
-  Scripts,
-  createRootRouteWithContext,
-} from '@tanstack/react-router'
+import { Outlet, createRootRouteWithContext } from '@tanstack/react-router'
 
 import { TooltipProvider } from '#/components/ui/tooltip'
 import { Toaster } from '#/components/ui/sonner'
-
-import appCss from '../styles.css?url'
 
 import type { QueryClient } from '@tanstack/react-query'
 
@@ -15,50 +9,17 @@ interface MyRouterContext {
   queryClient: QueryClient
 }
 
-const THEME_INIT_SCRIPT = `(function(){try{var stored=window.localStorage.getItem('theme');var mode=(stored==='light'||stored==='dark'||stored==='auto')?stored:'auto';var prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;var resolved=mode==='auto'?(prefersDark?'dark':'light'):mode;var root=document.documentElement;root.classList.remove('light','dark');root.classList.add(resolved);if(mode==='auto'){root.removeAttribute('data-theme')}else{root.setAttribute('data-theme',mode)}root.style.colorScheme=resolved;}catch(e){}})();`
-
 export const Route = createRootRouteWithContext<MyRouterContext>()({
-  head: () => ({
-    meta: [
-      {
-        charSet: 'utf-8',
-      },
-      {
-        name: 'viewport',
-        content: 'width=device-width, initial-scale=1',
-      },
-      {
-        title: 'Yggleaf',
-      },
-    ],
-    links: [
-      {
-        rel: 'stylesheet',
-        href: appCss,
-      },
-    ],
-  }),
-  shellComponent: RootDocument,
+  component: RootComponent,
 })
 
-/**
- * 根布局 - 纯 HTML 壳
- * 所有页面布局由各自的路由组件负责:
- *   /login   → 独立登录页
- *   /admin/* → AdminLayout（自带侧边栏 + 内容区）
- */
-function RootDocument({ children }: { children: React.ReactNode }) {
+function RootComponent() {
   return (
-    <html lang="zh-CN" suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
-        <HeadContent />
-      </head>
-      <body className="font-sans antialiased [overflow-wrap:anywhere]">
-        <TooltipProvider>{children}</TooltipProvider>
-        <Toaster />
-        <Scripts />
-      </body>
-    </html>
+    <TooltipProvider>
+      <div className="font-sans antialiased [overflow-wrap:anywhere]">
+        <Outlet />
+      </div>
+      <Toaster />
+    </TooltipProvider>
   )
 }

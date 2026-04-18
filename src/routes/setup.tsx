@@ -10,9 +10,6 @@ import { PageTransition } from '#/components/ui/page-transition'
 
 export const Route = createFileRoute('/setup')({
   beforeLoad: ({ location }) => {
-    // SSR 阶段跳过
-    if (typeof document === 'undefined') return
-
     // 未登录 → 跳转登录
     if (!checkIsAuthenticated()) {
       throw redirect({
