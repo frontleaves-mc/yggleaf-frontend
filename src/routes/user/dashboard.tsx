@@ -126,7 +126,7 @@ function DashboardPage() {
             </CardContent>
           </Card>
         </div>
-      </section>
+      </motion.section>
 
       <motion.section variants={fadeUpItem} className="flex flex-col gap-3">
         <div className="flex items-center justify-between gap-4">

@@ -117,7 +117,7 @@ export default function MyPage() {
         <p className="mt-1 text-sm text-muted-foreground">
           上传、同步和管理你的皮肤与披风资源
         </p>
-      </div>
+      </motion.div>
 
       {/* 标签页 */}
       <motion.div variants={fadeUpItem}>
