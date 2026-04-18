@@ -23,9 +23,23 @@ import {
   LayoutDashboard,
 } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
-import { PageTransition } from '#/components/ui/page-transition'
 import { motion } from 'motion/react'
 import { cardHoverVariants, hoverLiftTransition, iconScaleSmallVariants, arrowSlideSmallVariants, childMotionTransition } from '#/lib/motion-presets'
+
+const staggerContainer = {
+  animate: {
+    transition: { staggerChildren: 0.08, delayChildren: 0.05 },
+  },
+}
+
+const fadeUpItem = {
+  initial: { opacity: 0, y: 16 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
+  },
+}
 
 export const Route = createFileRoute('/admin/')({
   component: DashboardPage,
@@ -44,8 +58,13 @@ function DashboardPage() {
   const capeCount = capes?.items?.length ?? 0
 
   return (
-    <PageTransition className="flex flex-col gap-6">
-      <section className="rounded-[1.25rem] border border-border/70 p-4.5 sm:p-6 bg-gradient-to-b from-card to-card/95 shadow-[0_16px_40px_-28px_oklch(0.18_0.025_195_/_0.18)] relative overflow-hidden">
+    <motion.div
+      className="flex flex-col gap-6"
+      variants={staggerContainer}
+      initial="initial"
+      animate="animate"
+    >
+      <motion.section variants={fadeUpItem} className="rounded-[1.25rem] border border-border/70 p-4.5 sm:p-6 bg-gradient-to-b from-card to-card/95 shadow-[0_16px_40px_-28px_oklch(0.18_0.025_195_/_0.18)] relative overflow-hidden">
         <div className="pointer-events-none absolute inset-y-0 right-0 w-1/2 bg-[radial-gradient(circle_at_top_right,oklch(from_var(--primary)_l_c_h_/_0.05),transparent_62%)]" />
         <div className="relative grid gap-4 xl:grid-cols-[minmax(0,1.3fr)_minmax(300px,0.95fr)]">
           <div className="flex flex-col gap-4">
@@ -96,9 +115,9 @@ function DashboardPage() {
             </CardContent>
           </Card>
         </div>
-      </section>
+      </motion.section>
 
-      <section>
+      <motion.section variants={fadeUpItem}>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <motion.div
             variants={cardHoverVariants}
@@ -204,9 +223,9 @@ function DashboardPage() {
             </Card>
           </motion.div>
         </div>
-      </section>
+      </motion.section>
 
-      <section className="flex flex-col gap-3">
+      <motion.section variants={fadeUpItem} className="flex flex-col gap-3">
         <div className="flex items-center justify-between gap-4">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">Operations</p>
@@ -239,9 +258,9 @@ function DashboardPage() {
             accent="from-chart-4/12 to-chart-4/4"
           />
         </div>
-      </section>
+      </motion.section>
 
-      <section>
+      <motion.section variants={fadeUpItem}>
         <Card className="border border-border/70 bg-card/95 backdrop-blur-[10px] shadow-[0_16px_40px_-28px_oklch(0.18_0.025_195_/_0.18)] border-dashed border-border/50 py-0">
           <CardHeader className="py-6">
             <CardTitle className="text-base">动态概览</CardTitle>
@@ -255,8 +274,8 @@ function DashboardPage() {
             </div>
           </CardContent>
         </Card>
-      </section>
-    </PageTransition>
+      </motion.section>
+    </motion.div>
   )
 }
 
