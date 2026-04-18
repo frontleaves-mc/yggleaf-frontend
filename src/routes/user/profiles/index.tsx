@@ -52,6 +52,23 @@ export const Route = createFileRoute('/user/profiles/')({
   component: ProfilesPage,
 })
 
+// ─── Stagger 入场动画常量 ──────────────────────────────
+
+const staggerContainer = {
+  animate: {
+    transition: { staggerChildren: 0.08, delayChildren: 0.05 },
+  },
+}
+
+const fadeUpItem = {
+  initial: { opacity: 0, y: 16 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
+  },
+}
+
 // ─── 页面组件 ─────────────────────────────────────────────
 
 export default function ProfilesPage() {
@@ -68,8 +85,9 @@ export default function ProfilesPage() {
   const handleCreateError = (err: Error) => toast.error(`创建失败: ${err.message}`)
 
   return (
-    <div className="space-y-6">
+    <motion.div className="space-y-6" variants={staggerContainer} initial="initial" animate="animate">
       {/* 页面标题 + 操作 */}
+      <motion.div variants={fadeUpItem}>
       <div className="space-y-1.5">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold text-foreground font-display">游戏档案</h1>
@@ -131,8 +149,10 @@ export default function ProfilesPage() {
           )}
         </div>
       </div>
+      </motion.div>
 
       {/* 档案列表 */}
+      <motion.div variants={fadeUpItem}>
       {isLoading ? (
         <div className="grid grid-cols-2 gap-4">
           {Array.from({ length: 2 }).map((_, i) => (
@@ -175,7 +195,8 @@ export default function ProfilesPage() {
           </CardContent>
         </Card>
       )}
-    </div>
+      </motion.div>
+    </motion.div>
   )
 }
 

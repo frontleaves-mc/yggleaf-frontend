@@ -22,6 +22,23 @@ export const Route = createFileRoute('/user/skins/')({
   component: SkinsPage,
 })
 
+// ─── Stagger 入场动画常量 ──────────────────────────────────
+
+const staggerContainer = {
+  animate: {
+    transition: { staggerChildren: 0.08, delayChildren: 0.05 },
+  },
+}
+
+const fadeUpItem = {
+  initial: { opacity: 0, y: 16 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
+  },
+}
+
 // ─── 页面组件 ─────────────────────────────────────────────
 
 export default function SkinsPage() {
@@ -30,15 +47,15 @@ export default function SkinsPage() {
   const skins = data?.items ?? []
 
   return (
-    <div className="space-y-6">
+    <motion.div className="space-y-6" variants={staggerContainer} initial="initial" animate="animate">
       {/* 页面标题 */}
-      <div>
+      <motion.div variants={fadeUpItem}>
         <h1 className="text-2xl font-bold text-foreground font-display">皮肤库</h1>
         <p className="mt-1 text-sm text-muted-foreground">浏览并选择你喜欢的角色皮肤</p>
-      </div>
+      </motion.div>
 
       {/* 工具栏：搜索 + 视图切换 */}
-      <div className="flex items-center gap-3">
+      <motion.div variants={fadeUpItem} className="flex items-center gap-3">
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
           <Input placeholder="搜索皮肤..." className="pl-9 h-9" />
@@ -61,14 +78,14 @@ export default function SkinsPage() {
             <List className="size-4" />
           </Button>
         </div>
-      </div>
+      </motion.div>
 
       {/* 加载态 */}
       {isLoading && <LoadingPage />}
 
       {/* 皮肤网格 */}
       {!isLoading && (
-        <div className={
+        <motion.div variants={fadeUpItem} className={
           viewMode === 'grid'
             ? "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4"
             : "flex flex-col gap-3"
@@ -76,20 +93,22 @@ export default function SkinsPage() {
           {skins.map((skin) => (
             <SkinCard key={skin.id} skin={skin} viewMode={viewMode} />
           ))}
-        </div>
+        </motion.div>
       )}
 
       {/* 空状态 */}
       {!isLoading && skins.length === 0 && (
-        <Card className="border-dashed">
-          <CardContent className="py-12 text-center">
-            <Shirt className="mx-auto size-12 text-muted-foreground/30" />
-            <h3 className="mt-4 font-medium text-foreground">暂无皮肤</h3>
-            <p className="mt-1 text-sm text-muted-foreground">目前还没有公开的皮肤资源</p>
-          </CardContent>
-        </Card>
+        <motion.div variants={fadeUpItem}>
+          <Card className="border-dashed">
+            <CardContent className="py-12 text-center">
+              <Shirt className="mx-auto size-12 text-muted-foreground/30" />
+              <h3 className="mt-4 font-medium text-foreground">暂无皮肤</h3>
+              <p className="mt-1 text-sm text-muted-foreground">目前还没有公开的皮肤资源</p>
+            </CardContent>
+          </Card>
+        </motion.div>
       )}
-    </div>
+    </motion.div>
   )
 }
 

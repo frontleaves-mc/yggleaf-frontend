@@ -48,6 +48,23 @@ const quickLinks = [
   },
 ]
 
+// ─── Stagger 入场动画常量 ──────────────────────────────
+
+const staggerContainer = {
+  animate: {
+    transition: { staggerChildren: 0.08, delayChildren: 0.05 },
+  },
+}
+
+const fadeUpItem = {
+  initial: { opacity: 0, y: 16 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
+  },
+}
+
 // ─── 页面组件 ─────────────────────────────────────────────
 
 function DashboardPage() {
@@ -61,8 +78,8 @@ function DashboardPage() {
   ]
 
   return (
-    <div className="flex flex-col gap-6">
-      <section className="rounded-[1.25rem] border border-border/70 p-4.5 sm:p-6 bg-gradient-to-b from-card to-card/95 shadow-[0_16px_40px_-28px_oklch(0.18_0.025_195_/_0.18)] relative overflow-hidden">
+    <motion.div className="flex flex-col gap-6" variants={staggerContainer} initial="initial" animate="animate">
+      <motion.section variants={fadeUpItem} className="rounded-[1.25rem] border border-border/70 p-4.5 sm:p-6 bg-gradient-to-b from-card to-card/95 shadow-[0_16px_40px_-28px_oklch(0.18_0.025_195_/_0.18)] relative overflow-hidden">
         <div className="pointer-events-none absolute inset-y-0 right-0 w-1/2 bg-[radial-gradient(circle_at_top_right,oklch(from_var(--primary)_l_c_h_/_0.05),transparent_62%)]" />
         <div className="pointer-events-none absolute bottom-0 left-0 h-28 w-28 rounded-full bg-primary/5 blur-3xl" />
 
@@ -111,7 +128,7 @@ function DashboardPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-3">
+      <motion.section variants={fadeUpItem} className="flex flex-col gap-3">
         <div className="flex items-center justify-between gap-4">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">Quick Access</p>
@@ -151,7 +168,7 @@ function DashboardPage() {
             </motion.button>
           ))}
         </div>
-      </section>
-    </div>
+      </motion.section>
+    </motion.div>
   )
 }

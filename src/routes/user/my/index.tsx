@@ -9,6 +9,7 @@
 
 import { useState, useCallback, useEffect } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
+import { motion } from 'motion/react'
 import {
   Upload,
   Download,
@@ -86,13 +87,30 @@ const MOCK_PROFILES = [
   },
 ]
 
+// ─── Stagger 入场动画常量 ──────────────────────────────
+
+const staggerContainer = {
+  animate: {
+    transition: { staggerChildren: 0.08, delayChildren: 0.05 },
+  },
+}
+
+const fadeUpItem = {
+  initial: { opacity: 0, y: 16 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
+  },
+}
+
 // ─── 页面组件 ───────────────────────────────────────────
 
 export default function MyPage() {
   return (
-    <div className="space-y-6">
+    <motion.div className="space-y-6" variants={staggerContainer} initial="initial" animate="animate">
       {/* 页面标题 */}
-      <div>
+      <motion.div variants={fadeUpItem}>
         <h1 className="text-2xl font-bold text-foreground font-display">
           我的资源库
         </h1>
@@ -102,6 +120,7 @@ export default function MyPage() {
       </div>
 
       {/* 标签页 */}
+      <motion.div variants={fadeUpItem}>
       <Tabs defaultValue="upload">
         <TabsList variant="line">
           <TabsTrigger value="upload">
@@ -130,7 +149,8 @@ export default function MyPage() {
           <MyResourcesSection />
         </TabsContent>
       </Tabs>
-    </div>
+      </motion.div>
+    </motion.div>
   )
 }
 
