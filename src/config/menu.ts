@@ -15,7 +15,8 @@ import {
   UserCircle,
   Settings,
   Store,
-  Shield,
+  MessageSquareWarning,
+  Tags,
 } from 'lucide-react'
 
 // ─── 类型定义 ────────────────────────────────────────────
@@ -83,6 +84,25 @@ export const adminMenuItems: MenuItem[] = [
     ],
   },
   {
+    key: 'issues',
+    label: '问题管理',
+    icon: MessageSquareWarning,
+    children: [
+      {
+        key: 'issue-list',
+        label: '问题列表',
+        icon: MessageSquareWarning,
+        to: '/admin/issues',
+      },
+      {
+        key: 'issue-types',
+        label: '问题类型',
+        icon: Tags,
+        to: '/admin/issue-types',
+      },
+    ],
+  },
+  {
     key: 'profile',
     label: '个人设置',
     icon: Settings,
@@ -122,19 +142,25 @@ export const userMenuItems: MenuItem[] = [
         icon: Flag,
         to: '/user/capes',
       },
+      {
+        key: 'my',
+        label: '我的资源库',
+        icon: UserCircle,
+        to: '/user/my',
+      },
     ],
   },
   {
-    key: 'security',
-    label: '安全设置',
-    icon: Shield,
-    to: '/user/security',
+    key: 'issues',
+    label: '问题反馈',
+    icon: MessageSquareWarning,
+    to: '/user/issues',
   },
   {
-    key: 'my',
-    label: '我的',
-    icon: UserCircle,
-    to: '/user/my',
+    key: 'profile',
+    label: '个人中心',
+    icon: Settings,
+    to: '/user/profile',
   },
 ]
 
@@ -147,7 +173,10 @@ export const breadcrumbLabels: Record<string, string> = {
   '/user/profiles': '游戏档案',
   '/user/skins': '皮肤库',
   '/user/capes': '披风库',
-  '/user/security': '安全设置',
+  '/user/issues': '问题反馈',
+  '/user/issues/$issueId': '问题详情',
+  '/user/profile': '个人中心',
+  '/user/my': '我的资源库',
   '/setup': '账户设置',
   '/setup/password': '设置游戏密码',
 
@@ -163,5 +192,8 @@ export const breadcrumbLabels: Record<string, string> = {
   '/admin/capes': '披风库',
   '/admin/capes/create': '新建披风',
   '/admin/capes/$capeId': '编辑披风',
+  '/admin/issues': '问题管理',
+  '/admin/issues/$issueId': '问题详情',
+  '/admin/issue-types': '问题类型',
   '/admin/profile': '个人设置',
 }

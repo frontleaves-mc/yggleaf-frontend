@@ -17,21 +17,26 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as UserIndexRouteImport } from './routes/user/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
-import { Route as UserSecurityRouteImport } from './routes/user/security'
 import { Route as UserDashboardRouteImport } from './routes/user/dashboard'
 import { Route as SetupPasswordRouteImport } from './routes/setup/password'
 import { Route as UserSkinsIndexRouteImport } from './routes/user/skins/index'
 import { Route as UserProfilesIndexRouteImport } from './routes/user/profiles/index'
+import { Route as UserProfileIndexRouteImport } from './routes/user/profile/index'
 import { Route as UserMyIndexRouteImport } from './routes/user/my/index'
+import { Route as UserIssuesIndexRouteImport } from './routes/user/issues/index'
 import { Route as UserCapesIndexRouteImport } from './routes/user/capes/index'
 import { Route as AdminUsersIndexRouteImport } from './routes/admin/users/index'
 import { Route as AdminSkinsIndexRouteImport } from './routes/admin/skins/index'
 import { Route as AdminProfileIndexRouteImport } from './routes/admin/profile/index'
+import { Route as AdminIssuesIndexRouteImport } from './routes/admin/issues/index'
+import { Route as AdminIssueTypesIndexRouteImport } from './routes/admin/issue-types/index'
 import { Route as AdminGameProfilesIndexRouteImport } from './routes/admin/game-profiles/index'
 import { Route as AdminCapesIndexRouteImport } from './routes/admin/capes/index'
+import { Route as UserIssuesIssueIdRouteImport } from './routes/user/issues/$issueId'
 import { Route as AdminUsersUserIdRouteImport } from './routes/admin/users/$userId'
 import { Route as AdminSkinsCreateRouteImport } from './routes/admin/skins/create'
 import { Route as AdminSkinsSkinIdRouteImport } from './routes/admin/skins/$skinId'
+import { Route as AdminIssuesIssueIdRouteImport } from './routes/admin/issues/$issueId'
 import { Route as AdminGameProfilesProfileIdRouteImport } from './routes/admin/game-profiles/$profileId'
 import { Route as AdminCapesCreateRouteImport } from './routes/admin/capes/create'
 import { Route as AdminCapesCapeIdRouteImport } from './routes/admin/capes/$capeId'
@@ -76,11 +81,6 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
-const UserSecurityRoute = UserSecurityRouteImport.update({
-  id: '/security',
-  path: '/security',
-  getParentRoute: () => UserRoute,
-} as any)
 const UserDashboardRoute = UserDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -101,9 +101,19 @@ const UserProfilesIndexRoute = UserProfilesIndexRouteImport.update({
   path: '/profiles/',
   getParentRoute: () => UserRoute,
 } as any)
+const UserProfileIndexRoute = UserProfileIndexRouteImport.update({
+  id: '/profile/',
+  path: '/profile/',
+  getParentRoute: () => UserRoute,
+} as any)
 const UserMyIndexRoute = UserMyIndexRouteImport.update({
   id: '/my/',
   path: '/my/',
+  getParentRoute: () => UserRoute,
+} as any)
+const UserIssuesIndexRoute = UserIssuesIndexRouteImport.update({
+  id: '/issues/',
+  path: '/issues/',
   getParentRoute: () => UserRoute,
 } as any)
 const UserCapesIndexRoute = UserCapesIndexRouteImport.update({
@@ -126,6 +136,16 @@ const AdminProfileIndexRoute = AdminProfileIndexRouteImport.update({
   path: '/profile/',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminIssuesIndexRoute = AdminIssuesIndexRouteImport.update({
+  id: '/issues/',
+  path: '/issues/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminIssueTypesIndexRoute = AdminIssueTypesIndexRouteImport.update({
+  id: '/issue-types/',
+  path: '/issue-types/',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminGameProfilesIndexRoute = AdminGameProfilesIndexRouteImport.update({
   id: '/game-profiles/',
   path: '/game-profiles/',
@@ -135,6 +155,11 @@ const AdminCapesIndexRoute = AdminCapesIndexRouteImport.update({
   id: '/capes/',
   path: '/capes/',
   getParentRoute: () => AdminRoute,
+} as any)
+const UserIssuesIssueIdRoute = UserIssuesIssueIdRouteImport.update({
+  id: '/issues/$issueId',
+  path: '/issues/$issueId',
+  getParentRoute: () => UserRoute,
 } as any)
 const AdminUsersUserIdRoute = AdminUsersUserIdRouteImport.update({
   id: '/users/$userId',
@@ -149,6 +174,11 @@ const AdminSkinsCreateRoute = AdminSkinsCreateRouteImport.update({
 const AdminSkinsSkinIdRoute = AdminSkinsSkinIdRouteImport.update({
   id: '/skins/$skinId',
   path: '/skins/$skinId',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminIssuesIssueIdRoute = AdminIssuesIssueIdRouteImport.update({
+  id: '/issues/$issueId',
+  path: '/issues/$issueId',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminGameProfilesProfileIdRoute =
@@ -177,22 +207,27 @@ export interface FileRoutesByFullPath {
   '/user': typeof UserRouteWithChildren
   '/setup/password': typeof SetupPasswordRoute
   '/user/dashboard': typeof UserDashboardRoute
-  '/user/security': typeof UserSecurityRoute
   '/admin/': typeof AdminIndexRoute
   '/user/': typeof UserIndexRoute
   '/admin/capes/$capeId': typeof AdminCapesCapeIdRoute
   '/admin/capes/create': typeof AdminCapesCreateRoute
   '/admin/game-profiles/$profileId': typeof AdminGameProfilesProfileIdRoute
+  '/admin/issues/$issueId': typeof AdminIssuesIssueIdRoute
   '/admin/skins/$skinId': typeof AdminSkinsSkinIdRoute
   '/admin/skins/create': typeof AdminSkinsCreateRoute
   '/admin/users/$userId': typeof AdminUsersUserIdRoute
+  '/user/issues/$issueId': typeof UserIssuesIssueIdRoute
   '/admin/capes/': typeof AdminCapesIndexRoute
   '/admin/game-profiles/': typeof AdminGameProfilesIndexRoute
+  '/admin/issue-types/': typeof AdminIssueTypesIndexRoute
+  '/admin/issues/': typeof AdminIssuesIndexRoute
   '/admin/profile/': typeof AdminProfileIndexRoute
   '/admin/skins/': typeof AdminSkinsIndexRoute
   '/admin/users/': typeof AdminUsersIndexRoute
   '/user/capes/': typeof UserCapesIndexRoute
+  '/user/issues/': typeof UserIssuesIndexRoute
   '/user/my/': typeof UserMyIndexRoute
+  '/user/profile/': typeof UserProfileIndexRoute
   '/user/profiles/': typeof UserProfilesIndexRoute
   '/user/skins/': typeof UserSkinsIndexRoute
 }
@@ -203,22 +238,27 @@ export interface FileRoutesByTo {
   '/setup': typeof SetupRouteWithChildren
   '/setup/password': typeof SetupPasswordRoute
   '/user/dashboard': typeof UserDashboardRoute
-  '/user/security': typeof UserSecurityRoute
   '/admin': typeof AdminIndexRoute
   '/user': typeof UserIndexRoute
   '/admin/capes/$capeId': typeof AdminCapesCapeIdRoute
   '/admin/capes/create': typeof AdminCapesCreateRoute
   '/admin/game-profiles/$profileId': typeof AdminGameProfilesProfileIdRoute
+  '/admin/issues/$issueId': typeof AdminIssuesIssueIdRoute
   '/admin/skins/$skinId': typeof AdminSkinsSkinIdRoute
   '/admin/skins/create': typeof AdminSkinsCreateRoute
   '/admin/users/$userId': typeof AdminUsersUserIdRoute
+  '/user/issues/$issueId': typeof UserIssuesIssueIdRoute
   '/admin/capes': typeof AdminCapesIndexRoute
   '/admin/game-profiles': typeof AdminGameProfilesIndexRoute
+  '/admin/issue-types': typeof AdminIssueTypesIndexRoute
+  '/admin/issues': typeof AdminIssuesIndexRoute
   '/admin/profile': typeof AdminProfileIndexRoute
   '/admin/skins': typeof AdminSkinsIndexRoute
   '/admin/users': typeof AdminUsersIndexRoute
   '/user/capes': typeof UserCapesIndexRoute
+  '/user/issues': typeof UserIssuesIndexRoute
   '/user/my': typeof UserMyIndexRoute
+  '/user/profile': typeof UserProfileIndexRoute
   '/user/profiles': typeof UserProfilesIndexRoute
   '/user/skins': typeof UserSkinsIndexRoute
 }
@@ -232,22 +272,27 @@ export interface FileRoutesById {
   '/user': typeof UserRouteWithChildren
   '/setup/password': typeof SetupPasswordRoute
   '/user/dashboard': typeof UserDashboardRoute
-  '/user/security': typeof UserSecurityRoute
   '/admin/': typeof AdminIndexRoute
   '/user/': typeof UserIndexRoute
   '/admin/capes/$capeId': typeof AdminCapesCapeIdRoute
   '/admin/capes/create': typeof AdminCapesCreateRoute
   '/admin/game-profiles/$profileId': typeof AdminGameProfilesProfileIdRoute
+  '/admin/issues/$issueId': typeof AdminIssuesIssueIdRoute
   '/admin/skins/$skinId': typeof AdminSkinsSkinIdRoute
   '/admin/skins/create': typeof AdminSkinsCreateRoute
   '/admin/users/$userId': typeof AdminUsersUserIdRoute
+  '/user/issues/$issueId': typeof UserIssuesIssueIdRoute
   '/admin/capes/': typeof AdminCapesIndexRoute
   '/admin/game-profiles/': typeof AdminGameProfilesIndexRoute
+  '/admin/issue-types/': typeof AdminIssueTypesIndexRoute
+  '/admin/issues/': typeof AdminIssuesIndexRoute
   '/admin/profile/': typeof AdminProfileIndexRoute
   '/admin/skins/': typeof AdminSkinsIndexRoute
   '/admin/users/': typeof AdminUsersIndexRoute
   '/user/capes/': typeof UserCapesIndexRoute
+  '/user/issues/': typeof UserIssuesIndexRoute
   '/user/my/': typeof UserMyIndexRoute
+  '/user/profile/': typeof UserProfileIndexRoute
   '/user/profiles/': typeof UserProfilesIndexRoute
   '/user/skins/': typeof UserSkinsIndexRoute
 }
@@ -262,22 +307,27 @@ export interface FileRouteTypes {
     | '/user'
     | '/setup/password'
     | '/user/dashboard'
-    | '/user/security'
     | '/admin/'
     | '/user/'
     | '/admin/capes/$capeId'
     | '/admin/capes/create'
     | '/admin/game-profiles/$profileId'
+    | '/admin/issues/$issueId'
     | '/admin/skins/$skinId'
     | '/admin/skins/create'
     | '/admin/users/$userId'
+    | '/user/issues/$issueId'
     | '/admin/capes/'
     | '/admin/game-profiles/'
+    | '/admin/issue-types/'
+    | '/admin/issues/'
     | '/admin/profile/'
     | '/admin/skins/'
     | '/admin/users/'
     | '/user/capes/'
+    | '/user/issues/'
     | '/user/my/'
+    | '/user/profile/'
     | '/user/profiles/'
     | '/user/skins/'
   fileRoutesByTo: FileRoutesByTo
@@ -288,22 +338,27 @@ export interface FileRouteTypes {
     | '/setup'
     | '/setup/password'
     | '/user/dashboard'
-    | '/user/security'
     | '/admin'
     | '/user'
     | '/admin/capes/$capeId'
     | '/admin/capes/create'
     | '/admin/game-profiles/$profileId'
+    | '/admin/issues/$issueId'
     | '/admin/skins/$skinId'
     | '/admin/skins/create'
     | '/admin/users/$userId'
+    | '/user/issues/$issueId'
     | '/admin/capes'
     | '/admin/game-profiles'
+    | '/admin/issue-types'
+    | '/admin/issues'
     | '/admin/profile'
     | '/admin/skins'
     | '/admin/users'
     | '/user/capes'
+    | '/user/issues'
     | '/user/my'
+    | '/user/profile'
     | '/user/profiles'
     | '/user/skins'
   id:
@@ -316,22 +371,27 @@ export interface FileRouteTypes {
     | '/user'
     | '/setup/password'
     | '/user/dashboard'
-    | '/user/security'
     | '/admin/'
     | '/user/'
     | '/admin/capes/$capeId'
     | '/admin/capes/create'
     | '/admin/game-profiles/$profileId'
+    | '/admin/issues/$issueId'
     | '/admin/skins/$skinId'
     | '/admin/skins/create'
     | '/admin/users/$userId'
+    | '/user/issues/$issueId'
     | '/admin/capes/'
     | '/admin/game-profiles/'
+    | '/admin/issue-types/'
+    | '/admin/issues/'
     | '/admin/profile/'
     | '/admin/skins/'
     | '/admin/users/'
     | '/user/capes/'
+    | '/user/issues/'
     | '/user/my/'
+    | '/user/profile/'
     | '/user/profiles/'
     | '/user/skins/'
   fileRoutesById: FileRoutesById
@@ -403,13 +463,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/user/security': {
-      id: '/user/security'
-      path: '/security'
-      fullPath: '/user/security'
-      preLoaderRoute: typeof UserSecurityRouteImport
-      parentRoute: typeof UserRoute
-    }
     '/user/dashboard': {
       id: '/user/dashboard'
       path: '/dashboard'
@@ -438,11 +491,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UserProfilesIndexRouteImport
       parentRoute: typeof UserRoute
     }
+    '/user/profile/': {
+      id: '/user/profile/'
+      path: '/profile'
+      fullPath: '/user/profile/'
+      preLoaderRoute: typeof UserProfileIndexRouteImport
+      parentRoute: typeof UserRoute
+    }
     '/user/my/': {
       id: '/user/my/'
       path: '/my'
       fullPath: '/user/my/'
       preLoaderRoute: typeof UserMyIndexRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/user/issues/': {
+      id: '/user/issues/'
+      path: '/issues'
+      fullPath: '/user/issues/'
+      preLoaderRoute: typeof UserIssuesIndexRouteImport
       parentRoute: typeof UserRoute
     }
     '/user/capes/': {
@@ -473,6 +540,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminProfileIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/issues/': {
+      id: '/admin/issues/'
+      path: '/issues'
+      fullPath: '/admin/issues/'
+      preLoaderRoute: typeof AdminIssuesIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/issue-types/': {
+      id: '/admin/issue-types/'
+      path: '/issue-types'
+      fullPath: '/admin/issue-types/'
+      preLoaderRoute: typeof AdminIssueTypesIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/game-profiles/': {
       id: '/admin/game-profiles/'
       path: '/game-profiles'
@@ -486,6 +567,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/capes/'
       preLoaderRoute: typeof AdminCapesIndexRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/user/issues/$issueId': {
+      id: '/user/issues/$issueId'
+      path: '/issues/$issueId'
+      fullPath: '/user/issues/$issueId'
+      preLoaderRoute: typeof UserIssuesIssueIdRouteImport
+      parentRoute: typeof UserRoute
     }
     '/admin/users/$userId': {
       id: '/admin/users/$userId'
@@ -506,6 +594,13 @@ declare module '@tanstack/react-router' {
       path: '/skins/$skinId'
       fullPath: '/admin/skins/$skinId'
       preLoaderRoute: typeof AdminSkinsSkinIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/issues/$issueId': {
+      id: '/admin/issues/$issueId'
+      path: '/issues/$issueId'
+      fullPath: '/admin/issues/$issueId'
+      preLoaderRoute: typeof AdminIssuesIssueIdRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/game-profiles/$profileId': {
@@ -537,11 +632,14 @@ interface AdminRouteChildren {
   AdminCapesCapeIdRoute: typeof AdminCapesCapeIdRoute
   AdminCapesCreateRoute: typeof AdminCapesCreateRoute
   AdminGameProfilesProfileIdRoute: typeof AdminGameProfilesProfileIdRoute
+  AdminIssuesIssueIdRoute: typeof AdminIssuesIssueIdRoute
   AdminSkinsSkinIdRoute: typeof AdminSkinsSkinIdRoute
   AdminSkinsCreateRoute: typeof AdminSkinsCreateRoute
   AdminUsersUserIdRoute: typeof AdminUsersUserIdRoute
   AdminCapesIndexRoute: typeof AdminCapesIndexRoute
   AdminGameProfilesIndexRoute: typeof AdminGameProfilesIndexRoute
+  AdminIssueTypesIndexRoute: typeof AdminIssueTypesIndexRoute
+  AdminIssuesIndexRoute: typeof AdminIssuesIndexRoute
   AdminProfileIndexRoute: typeof AdminProfileIndexRoute
   AdminSkinsIndexRoute: typeof AdminSkinsIndexRoute
   AdminUsersIndexRoute: typeof AdminUsersIndexRoute
@@ -552,11 +650,14 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminCapesCapeIdRoute: AdminCapesCapeIdRoute,
   AdminCapesCreateRoute: AdminCapesCreateRoute,
   AdminGameProfilesProfileIdRoute: AdminGameProfilesProfileIdRoute,
+  AdminIssuesIssueIdRoute: AdminIssuesIssueIdRoute,
   AdminSkinsSkinIdRoute: AdminSkinsSkinIdRoute,
   AdminSkinsCreateRoute: AdminSkinsCreateRoute,
   AdminUsersUserIdRoute: AdminUsersUserIdRoute,
   AdminCapesIndexRoute: AdminCapesIndexRoute,
   AdminGameProfilesIndexRoute: AdminGameProfilesIndexRoute,
+  AdminIssueTypesIndexRoute: AdminIssueTypesIndexRoute,
+  AdminIssuesIndexRoute: AdminIssuesIndexRoute,
   AdminProfileIndexRoute: AdminProfileIndexRoute,
   AdminSkinsIndexRoute: AdminSkinsIndexRoute,
   AdminUsersIndexRoute: AdminUsersIndexRoute,
@@ -576,20 +677,24 @@ const SetupRouteWithChildren = SetupRoute._addFileChildren(SetupRouteChildren)
 
 interface UserRouteChildren {
   UserDashboardRoute: typeof UserDashboardRoute
-  UserSecurityRoute: typeof UserSecurityRoute
   UserIndexRoute: typeof UserIndexRoute
+  UserIssuesIssueIdRoute: typeof UserIssuesIssueIdRoute
   UserCapesIndexRoute: typeof UserCapesIndexRoute
+  UserIssuesIndexRoute: typeof UserIssuesIndexRoute
   UserMyIndexRoute: typeof UserMyIndexRoute
+  UserProfileIndexRoute: typeof UserProfileIndexRoute
   UserProfilesIndexRoute: typeof UserProfilesIndexRoute
   UserSkinsIndexRoute: typeof UserSkinsIndexRoute
 }
 
 const UserRouteChildren: UserRouteChildren = {
   UserDashboardRoute: UserDashboardRoute,
-  UserSecurityRoute: UserSecurityRoute,
   UserIndexRoute: UserIndexRoute,
+  UserIssuesIssueIdRoute: UserIssuesIssueIdRoute,
   UserCapesIndexRoute: UserCapesIndexRoute,
+  UserIssuesIndexRoute: UserIssuesIndexRoute,
   UserMyIndexRoute: UserMyIndexRoute,
+  UserProfileIndexRoute: UserProfileIndexRoute,
   UserProfilesIndexRoute: UserProfilesIndexRoute,
   UserSkinsIndexRoute: UserSkinsIndexRoute,
 }
