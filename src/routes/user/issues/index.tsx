@@ -5,8 +5,10 @@
 
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useState, useMemo } from 'react'
-import { MessageSquareWarning, Eye } from 'lucide-react'
+import { MessageSquareWarning, Eye, Plus } from 'lucide-react'
 import { Button } from '#/components/ui/button'
+import { Input } from '#/components/ui/input'
+import { Textarea } from '#/components/ui/textarea'
 import { Tabs, TabsList, TabsTrigger } from '#/components/ui/tabs'
 import {
   Select,
@@ -15,6 +17,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from '#/components/ui/select'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '#/components/ui/dialog'
 import type { ColumnDef } from '#/components/ui/tanstack-table'
 import {
   TableProvider,
@@ -29,7 +40,7 @@ import {
 import { LoadingPage } from '#/components/public/loading-page'
 import { IssueStatusBadge } from '#/components/issue/issue-status-badge'
 import { IssuePriorityBadge } from '#/components/issue/issue-priority-badge'
-import { useMyIssues } from '#/api/endpoints/issue'
+import { useMyIssues, useCreateIssueMutation } from '#/api/endpoints/issue'
 import { useIssueTypes } from '#/api/endpoints/issue-type'
 import { formatTime } from '#/components/issue/issue-detail-content'
 import type { IssueStatus, IssueListItem } from '#/api/types'
@@ -69,6 +80,31 @@ function UserIssuesPage() {
   const [status, setStatus] = useState<string>('all')
   const [typeId, setTypeId] = useState<string>('all')
   const { data: issueTypes } = useIssueTypes()
+  const createMutation = useCreateIssueMutation()
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const [formTitle, setFormTitle] = useState('')
+  const [formContent, setFormContent] = useState('')
+  const [formTypeId, setFormTypeId] = useState('')
+  const [formPriority, setFormPriority] = useState('')
+
+  const handleCreate = async () => {
+    if (!formTitle.trim() || !formContent.trim() || !formTypeId) return
+    try {
+      await createMutation.mutateAsync({
+        issue_type_id: formTypeId,
+        title: formTitle,
+        content: formContent,
+        priority: (formPriority as any) || undefined,
+      })
+      setDialogOpen(false)
+      setFormTitle('')
+      setFormContent('')
+      setFormTypeId('')
+      setFormPriority('')
+    } catch {
+      // error handled by mutation
+    }
+  }
 
   const { data, isLoading } = useMyIssues({
     status: status !== 'all' ? (status as IssueStatus) : undefined,
@@ -208,6 +244,99 @@ function UserIssuesPage() {
             提交和追踪你的问题反馈
           </p>
         </div>
+        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+          <DialogTrigger asChild>
+            <Button size="sm" className="gap-1.5">
+              <Plus className="size-3.5" />
+              添加反馈
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[680px] gap-0 p-0 overflow-hidden">
+            <DialogHeader className="px-8 pt-7 pb-4">
+              <DialogTitle className="text-xl font-bold tracking-tight">提交问题反馈</DialogTitle>
+              <DialogDescription className="text-[13px] mt-1">
+                描述你遇到的问题，我们会尽快处理
+              </DialogDescription>
+            </DialogHeader>
+
+            <div className="flex flex-col gap-5 px-8 pb-2">
+              {/* 第一行：分类 | 优先级 | 标题 */}
+              <div className="grid grid-cols-[160px_130px_1fr] gap-3">
+                <div className="space-y-1.5">
+                  <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    分类
+                  </label>
+                  <Select value={formTypeId} onValueChange={setFormTypeId}>
+                    <SelectTrigger className="h-9 text-sm">
+                      <SelectValue placeholder="选择类型" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {issueTypes?.map((type) => (
+                        <SelectItem key={type.id} value={String(type.id)}>
+                          {type.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    优先级
+                  </label>
+                  <Select value={formPriority} onValueChange={setFormPriority}>
+                    <SelectTrigger className="h-9 text-sm">
+                      <SelectValue placeholder="默认" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="low">低</SelectItem>
+                      <SelectItem value="medium">中</SelectItem>
+                      <SelectItem value="high">高</SelectItem>
+                      <SelectItem value="urgent">紧急</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    标题
+                  </label>
+                  <Input
+                    placeholder="简要概括问题"
+                    className="h-9 text-sm"
+                    value={formTitle}
+                    onChange={(e) => setFormTitle(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              {/* 第二行：详细描述 — 占据主要空间 */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  详细描述
+                </label>
+                <Textarea
+                  placeholder="请详细说明问题的现象、复现步骤、期望行为等信息，越详细有助于更快定位问题"
+                  rows={7}
+                  className="text-sm leading-relaxed resize-none"
+                  value={formContent}
+                  onChange={(e) => setFormContent(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <DialogFooter className="px-8 pb-7 pt-4 border-t border-border/50 bg-muted/20">
+              <Button variant="outline" onClick={() => setDialogOpen(false)} className="px-5">
+                取消
+              </Button>
+              <Button
+                onClick={handleCreate}
+                disabled={!formTitle.trim() || !formContent.trim() || !formTypeId || createMutation.isPending}
+                className="min-w-[100px] px-5"
+              >
+                {createMutation.isPending ? '提交中...' : '提交反馈'}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
       </motion.div>
 
