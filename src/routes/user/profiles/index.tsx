@@ -46,6 +46,7 @@ import {
 import { useSkinsList } from '#/api/endpoints/skin-library'
 import { useCapesList } from '#/api/endpoints/cape-library'
 import type { GameProfile, LibrarySimpleItem } from '#/api/types'
+import { SkinPreview } from '#/components/user/skin-preview'
 
 export const Route = createFileRoute('/user/profiles/')({
   component: ProfilesPage,
@@ -487,75 +488,92 @@ function ProfileDetailDialog({
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent>
+      <DialogContent className="sm:max-w-xl">
         <DialogHeader>
           <DialogTitle>档案详情</DialogTitle>
           <DialogDescription>查看游戏档案的完整信息</DialogDescription>
         </DialogHeader>
 
         {isLoading ? (
-          <div className="space-y-3">
-            <Skeleton className="h-4 w-24" />
-            <Skeleton className="h-4 w-48" />
-            <Skeleton className="h-4 w-32" />
-            <Skeleton className="h-4 w-40" />
+          /* 加载态：左右分栏骨架屏 */
+          <div className="flex flex-col sm:flex-row gap-4">
+            <Skeleton className="h-80 w-full sm:w-50 rounded-lg shrink-0" />
+            <div className="flex-1 space-y-3">
+              <Skeleton className="h-4 w-24" />
+              <Skeleton className="h-4 w-48" />
+              <Skeleton className="h-4 w-32" />
+              <Skeleton className="h-4 w-40" />
+            </div>
           </div>
         ) : profile ? (
-          <div className="space-y-3 text-sm">
-            {/* 用户名（可编辑） */}
-            <div className="flex justify-between items-center">
-              <span className="text-muted-foreground">用户名</span>
-              {isEditing ? (
-                <div className="flex items-center gap-1.5">
-                  <Input
-                    className="h-7 w-40 text-xs"
-                    value={editName}
-                    onChange={(e) => setEditName(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') confirmEdit()
-                      if (e.key === 'Escape') cancelEdit()
-                    }}
-                    autoFocus
-                  />
-                  <Button
-                    size="sm" variant="ghost" className="size-7 p-0 text-green-600 hover:text-green-700"
-                    onClick={confirmEdit}
-                    disabled={updateMutation.isPending}
-                  >
-                    <Check className="size-3.5" />
-                  </Button>
-                  <Button size="sm" variant="ghost" className="size-7 p-0 text-muted-foreground" onClick={cancelEdit}>
-                    <X className="size-3.5" />
-                  </Button>
-                </div>
-              ) : (
-                <div className="flex items-center gap-1.5">
-                  <span className="font-medium">{profile.name}</span>
-                  <Button
-                    size="sm" variant="ghost" className="size-6 p-0 text-muted-foreground hover:text-foreground"
-                    onClick={() => startEdit(profile.name)}
-                  >
-                    <Pencil className="size-3" />
-                  </Button>
-                </div>
-              )}
+          /* 数据就绪：左侧 3D 预览 + 右侧信息 */
+          <div className="flex flex-col sm:flex-row gap-4">
+            {/* ====== 左侧：3D 角色预览 ====== */}
+            <div className="w-full sm:w-50 h-80 rounded-lg bg-linear-to-br from-primary/5 to-primary/10 overflow-hidden shrink-0">
+              <SkinPreview
+                skinUrl={profile.skin?.texture_url}
+                capeUrl={profile.cape?.texture_url}
+                autoRotate
+              />
             </div>
 
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">UUID</span>
-              <span className="font-mono text-xs">{profile.uuid}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">皮肤</span>
-              <span>{profile.skin_library?.name ?? '未设置'}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">披风</span>
-              <span>{profile.cape_library?.name ?? '未设置'}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">更新时间</span>
-              <span>{new Date(profile.updated_at).toLocaleString('zh-CN')}</span>
+            {/* ====== 右侧：档案信息 ====== */}
+            <div className="flex-1 min-w-0 space-y-3 text-sm">
+              {/* 用户名（可编辑） */}
+              <div className="flex justify-between items-center">
+                <span className="text-muted-foreground">用户名</span>
+                {isEditing ? (
+                  <div className="flex items-center gap-1.5">
+                    <Input
+                      className="h-7 w-40 text-xs"
+                      value={editName}
+                      onChange={(e) => setEditName(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') confirmEdit()
+                        if (e.key === 'Escape') cancelEdit()
+                      }}
+                      autoFocus
+                    />
+                    <Button
+                      size="sm" variant="ghost" className="size-7 p-0 text-green-600 hover:text-green-700"
+                      onClick={confirmEdit}
+                      disabled={updateMutation.isPending}
+                    >
+                      <Check className="size-3.5" />
+                    </Button>
+                    <Button size="sm" variant="ghost" className="size-7 p-0 text-muted-foreground" onClick={cancelEdit}>
+                      <X className="size-3.5" />
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-1.5">
+                    <span className="font-medium">{profile.name}</span>
+                    <Button
+                      size="sm" variant="ghost" className="size-6 p-0 text-muted-foreground hover:text-foreground"
+                      onClick={() => startEdit(profile.name)}
+                    >
+                      <Pencil className="size-3" />
+                    </Button>
+                  </div>
+                )}
+              </div>
+
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">UUID</span>
+                <span className="font-mono text-xs">{profile.uuid}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">皮肤</span>
+                <span>{profile.skin?.name ?? '未设置'}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">披风</span>
+                <span>{profile.cape?.name ?? '未设置'}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">更新时间</span>
+                <span>{new Date(profile.updated_at).toLocaleString('zh-CN')}</span>
+              </div>
             </div>
           </div>
         ) : (

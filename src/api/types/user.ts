@@ -101,10 +101,14 @@ export interface GameProfile {
   skin_library_id: number
   /** 关联披风库 ID */
   cape_library_id: number
-  /** 关联披风库详情 */
+  /** 关联披风库详情（列表接口） */
   cape_library?: CapeLibrary
-  /** 关联皮肤库详情 */
+  /** 关联皮肤库详情（列表接口） */
   skin_library?: SkinLibrary
+  /** 详情接口返回的皮肤对象 */
+  skin?: SkinLibrary
+  /** 详情接口返回的披风对象 */
+  cape?: CapeLibrary
   /** 关联用户详情 */
   user?: User
   /** 更新时间 */
