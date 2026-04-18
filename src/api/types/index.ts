@@ -42,3 +42,24 @@ export type {
 
 // ApiError 需要同时导出类型和值（class）
 export { ApiError } from './response'
+
+export type {
+  IssuePriority,
+  IssueStatus,
+  IssueType,
+  IssueEntity,
+  IssueListItem,
+  IssueListResponse,
+  IssueReplyEntity,
+  IssueReplyItem,
+  IssueAttachmentItem,
+  IssueDetailResponse,
+  CreateIssueRequest,
+  ReplyIssueRequest,
+  UploadAttachmentRequest,
+  UpdateIssueNoteRequest,
+  UpdateIssuePriorityRequest,
+  UpdateIssueStatusRequest,
+  CreateIssueTypeRequest,
+  UpdateIssueTypeRequest,
+} from './issue'

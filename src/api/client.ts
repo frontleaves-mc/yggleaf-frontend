@@ -44,6 +44,24 @@ export function setQueryClientRef(qc: QueryClient): void {
   _queryClient = qc
 }
 
+// ─── 雪花 ID 精度保护 ──────────────────────────────────────
+
+/**
+ * 在原始 JSON 字符串中，将超过 JS 安全整数范围的数字字面量包裹为字符串。
+ *
+ * 雪花算法 ID 通常是 18-19 位数字，远超 Number.MAX_SAFE_INTEGER (16 位)。
+ * 必须在 JSON.parse 之前处理，否则数字已经被截断为不精确的 number。
+ *
+ * 匹配规则：值位置（紧跟冒号/方括号后的）中 ≥15 位的纯数字
+ * 例：{"id": 1893949384938493849} → {"id": "1893949384938493849"}
+ */
+const UNSAFE_NUMBER_RE = /(?<=[:\[,])\s*(\d{15,})\s*(?=[,\]}\s])/g
+
+function safeParseJson(data: string): unknown {
+  const patched = data.replace(UNSAFE_NUMBER_RE, '"$1"')
+  return JSON.parse(patched)
+}
+
 // ─── 内部 Axios 实例 ────────────────────────────────────────
 
 const instance: AxiosInstance = axios.create({
@@ -52,6 +70,12 @@ const instance: AxiosInstance = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  transformResponse: [
+    (data: string) => {
+      if (typeof data !== 'string') return data
+      return safeParseJson(data)
+    },
+  ],
 })
 
 // ─── 请求拦截器：自动注入 Token ─────────────────────────────
