@@ -3,7 +3,7 @@
  * 展示用户完整信息 + 资源库数据 + 游戏档案配额调整
  */
 
-import { createFileRoute, Link, useParams } from '@tanstack/react-router'
+import { createFileRoute, Link, useParams, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { motion } from 'motion/react'
 import {
@@ -35,7 +35,9 @@ import {
   useAdminUserDetail,
   useAdjustGameProfileQuotaMutation,
 } from '#/api/endpoints/admin-user'
+import { useUserInfo } from '#/api/endpoints/user'
 import { toast } from 'sonner'
+import { isSuperAdmin } from '#/lib/permissions'
 
 // ─── 动画常量 ─────────────────────────────────────────────
 
@@ -125,9 +127,17 @@ export const Route = createFileRoute('/admin/users/$userId')({
 // ─── 页面组件 ──────────────────────────────────────────────
 
 function AdminUserDetailPage() {
+  const navigate = useNavigate()
   const { userId } = useParams({ strict: false }) as { userId: string }
+  const { data: userInfo } = useUserInfo()
   const { data: detail, isLoading } = useAdminUserDetail(userId)
   const quotaMutation = useAdjustGameProfileQuotaMutation(userId)
+
+  const superMode = isSuperAdmin(userInfo?.user?.role_name)
+  if (!superMode) {
+    navigate({ to: '/admin' })
+    return null
+  }
 
   const [deltaInput, setDeltaInput] = useState('')
   const [remark, setRemark] = useState('')
@@ -259,6 +269,7 @@ function AdminUserDetailPage() {
             </CardContent>
           </Card>
 
+          {superMode && (
           {/* 资源库配额 */}
           <Card>
             <CardHeader className="pb-3">
@@ -304,7 +315,9 @@ function AdminUserDetailPage() {
               </div>
             </CardContent>
           </Card>
+          )}
 
+          {superMode && (
           {/* 皮肤列表 */}
           <Card>
             <CardHeader className="pb-3">
@@ -350,7 +363,9 @@ function AdminUserDetailPage() {
               )}
             </CardContent>
           </Card>
+          )}
 
+          {superMode && (
           {/* 披风列表 */}
           <Card>
             <CardHeader className="pb-3">
@@ -393,6 +408,7 @@ function AdminUserDetailPage() {
               )}
             </CardContent>
           </Card>
+          )}
         </motion.div>
 
         {/* ═══ 右侧：游戏档案配额 + 调整操作 ═══ */}
@@ -432,6 +448,7 @@ function AdminUserDetailPage() {
             </CardContent>
           </Card>
 
+          {superMode && (
           {/* 配额调整操作 */}
           <Card>
             <CardHeader className="pb-2">
@@ -514,6 +531,7 @@ function AdminUserDetailPage() {
               </Button>
             </CardContent>
           </Card>
+          )}
         </motion.aside>
       </div>
     </motion.div>

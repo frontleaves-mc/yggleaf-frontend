@@ -12,6 +12,7 @@ import type {
   AdminUserDetailResponse,
   AdjustGameProfileQuotaRequest,
   GameProfileQuota,
+  RoleName,
 } from '#/api/types'
 
 // ─── 参数接口 ─────────────────────────────────────────────
@@ -24,8 +25,6 @@ export interface AdminUserListParams {
   start_time?: string
   end_time?: string
 }
-
-type RoleName = 'SUPER_ADMIN' | 'ADMIN' | 'PLAYER'
 
 // ─── Query Keys ────────────────────────────────────────────
 

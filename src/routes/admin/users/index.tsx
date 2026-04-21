@@ -3,7 +3,7 @@
  * 支持关键词搜索、角色筛选、分页
  */
 
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { motion } from 'motion/react'
 import { Search, ChevronLeft, ChevronRight, Eye, Shield, ShieldAlert } from 'lucide-react'
@@ -21,7 +21,9 @@ import {
   SelectValue,
 } from '#/components/ui/select'
 import { useAdminUsers } from '#/api/endpoints/admin-user'
+import { useUserInfo } from '#/api/endpoints/user'
 import type { AdminUserItem, RoleName } from '#/api/types'
+import { isSuperAdmin } from '#/lib/permissions'
 
 // ─── 常量 ──────────────────────────────────────────────────
 
@@ -74,6 +76,13 @@ export const Route = createFileRoute('/admin/users/')({
 // ─── 页面组件 ──────────────────────────────────────────────
 
 function AdminUserListPage() {
+  const navigate = useNavigate()
+  const { data: userInfo } = useUserInfo()
+  if (!isSuperAdmin(userInfo?.user?.role_name)) {
+    navigate({ to: '/admin' })
+    return null
+  }
+
   const [keyword, setKeyword] = useState('')
   const [role, setRole] = useState<string>('all')
   const [page, setPage] = useState(1)

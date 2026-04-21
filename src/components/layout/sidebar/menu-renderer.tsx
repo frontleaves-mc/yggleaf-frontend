@@ -10,12 +10,14 @@
  */
 
 import { Link, useLocation } from '@tanstack/react-router'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import type { LucideIcon } from 'lucide-react'
 import {
   ChevronRight,
   type LucideIcon as LucideIconType,
 } from 'lucide-react'
+import type { RoleName } from '#/api/types'
+import { useUserInfoSync } from '#/api/endpoints/user'
 import { cn } from '#/lib/utils'
 import {
   Collapsible,
@@ -48,6 +50,36 @@ export interface MenuConfig {
   children?: MenuConfig[]
   /** 通知角标 */
   badge?: number | string
+  /** 允许访问的角色列表 */
+  roles?: readonly RoleName[]
+}
+
+// ─── 权限过滤 Hook ──────────────────────────────────────
+
+export function useFilteredMenuItems(items: MenuConfig[]): MenuConfig[] {
+  const userInfo = useUserInfoSync()
+  const role = userInfo?.user?.role_name
+
+  return useMemo(() => filterByRole(items, role), [items, role])
+}
+
+function filterByRole(
+  items: MenuConfig[],
+  role: RoleName | undefined,
+): MenuConfig[] {
+  return items
+    .map((item) => {
+      if (item.roles?.length && !item.roles.includes(role!)) return null
+
+      if (item.children?.length) {
+        const filteredChildren = filterByRole(item.children, role)
+        if (filteredChildren.length === 0 && !item.to) return null
+        return { ...item, children: filteredChildren }
+      }
+
+      return item
+    })
+    .filter((item): item is MenuConfig => item !== null)
 }
 
 // ─── 组件 ────────────────────────────────────────────────
@@ -58,6 +90,7 @@ interface SidebarMenuRendererProps {
 
 export function SidebarMenuRenderer({ items }: SidebarMenuRendererProps) {
   const location = useLocation()
+  const filteredItems = useFilteredMenuItems(items)
 
   /** 判断给定路径是否为当前激活路径或其父路径 */
   const isActive = (to?: string): boolean => {
@@ -75,7 +108,7 @@ export function SidebarMenuRenderer({ items }: SidebarMenuRendererProps) {
   return (
     <SidebarGroup className="py-2 group-data-[collapsible=icon]:p-2">
       <SidebarMenu className="gap-0.5 group-data-[collapsible=icon]:items-center">
-        {items.map((item) =>
+        {filteredItems.map((item) =>
           item.children ? (
             <CollapsibleMenuItem
               key={item.key}

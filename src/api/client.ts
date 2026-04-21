@@ -187,6 +187,11 @@ instance.interceptors.response.use(
       }
     }
 
+    // 403 → 权限不足，抛出标准错误由调用方处理
+    if (status === 403) {
+      throw new ApiError(status, error.response.data)
+    }
+
     throw new ApiError(status, error.response.data)
   },
 )

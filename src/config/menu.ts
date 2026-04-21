@@ -6,6 +6,7 @@
  */
 
 import type { LucideIcon } from 'lucide-react'
+import type { RoleName } from '#/api/types'
 import {
   LayoutDashboard,
   Users,
@@ -35,6 +36,8 @@ export interface MenuItem {
   children?: MenuItem[]
   /** 通知角标数量 */
   badge?: number | string
+  /** 允许访问的角色列表，不填则所有已认证管理员可见 */
+  roles?: readonly RoleName[]
 }
 
 // ─── 管理后台菜单配置 ─────────────────────────────────────
@@ -51,6 +54,7 @@ export const adminMenuItems: MenuItem[] = [
     label: '用户管理',
     icon: Users,
     to: '/admin/users',
+    roles: ['SUPER_ADMIN'],
   },
   {
     key: 'game',
@@ -100,6 +104,7 @@ export const adminMenuItems: MenuItem[] = [
         label: '问题类型',
         icon: Tags,
         to: '/admin/issue-types',
+        roles: ['SUPER_ADMIN'],
       },
     ],
   },

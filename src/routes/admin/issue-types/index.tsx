@@ -3,7 +3,7 @@
  * CRUD 操作问题分类类型，使用 TanStack Table + 排序
  */
 
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { motion } from 'motion/react'
 import { Plus, Pencil, Trash2, Tags } from 'lucide-react'
@@ -38,8 +38,10 @@ import {
   useUpdateIssueTypeMutation,
   useDeleteIssueTypeMutation,
 } from '#/api/endpoints/issue-type'
+import { useUserInfo } from '#/api/endpoints/user'
 import type { IssueType } from '#/api/types'
 import { toast } from 'sonner'
+import { isSuperAdmin } from '#/lib/permissions'
 
 const staggerContainer = {
   animate: {
@@ -61,6 +63,13 @@ export const Route = createFileRoute('/admin/issue-types/')({
 })
 
 function IssueTypesPage() {
+  const navigate = useNavigate()
+  const { data: userInfo } = useUserInfo()
+  if (!isSuperAdmin(userInfo?.user?.role_name)) {
+    navigate({ to: '/admin' })
+    return null
+  }
+
   const { data: issueTypes, isLoading } = useIssueTypes()
   const createMutation = useCreateIssueTypeMutation()
   const updateMutation = useUpdateIssueTypeMutation()

@@ -9,9 +9,7 @@ import { Layout } from '#/components/layout/layout'
 import { checkIsAuthenticated } from '#/hooks/use-auth-guard'
 import { getUserInfo } from '#/api/endpoints/user'
 import { adminMenuItems } from '#/config/menu'
-import type { RoleName } from '#/api/types'
-
-const ADMIN_ROLES: RoleName[] = ['ADMIN', 'SUPER_ADMIN']
+import { ADMIN_ROLES } from '#/lib/permissions'
 
 export const Route = createFileRoute('/admin')({
   beforeLoad: async ({ location }) => {

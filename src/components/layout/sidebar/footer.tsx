@@ -17,6 +17,7 @@ import { LogOut, Settings, Shield } from 'lucide-react'
 import type { RoleName } from '#/api/types'
 import { useNavigate } from '@tanstack/react-router'
 import { clearAuth } from '#/stores/auth-store'
+import { isAdmin } from '#/lib/permissions'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -72,7 +73,7 @@ export function SidebarFooter() {
                   个人中心
                 </DropdownMenuItem>
 
-                {['ADMIN', 'SUPER_ADMIN'].includes(user?.role_name as RoleName) && (
+                {isAdmin(user?.role_name) && (
                   <DropdownMenuItem onClick={() => navigate({ to: '/admin' as any })}>
                     <Shield className="mr-2 size-4" />
                     管理员
