@@ -270,7 +270,8 @@ function AdminUserDetailPage() {
           </Card>
 
           {superMode && (
-          {/* 资源库配额 */}
+            <>
+            {/* 资源库配额 */}
           <Card>
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-medium flex items-center gap-1.5">
@@ -315,10 +316,12 @@ function AdminUserDetailPage() {
               </div>
             </CardContent>
           </Card>
+            </>
           )}
 
           {superMode && (
-          {/* 皮肤列表 */}
+            <>
+            {/* 皮肤列表 */}
           <Card>
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-medium flex items-center gap-1.5">
@@ -363,10 +366,12 @@ function AdminUserDetailPage() {
               )}
             </CardContent>
           </Card>
+            </>
           )}
 
           {superMode && (
-          {/* 披风列表 */}
+            <>
+            {/* 披风列表 */}
           <Card>
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-medium flex items-center gap-1.5">
@@ -408,6 +413,7 @@ function AdminUserDetailPage() {
               )}
             </CardContent>
           </Card>
+            </>
           )}
         </motion.div>
 
@@ -449,7 +455,8 @@ function AdminUserDetailPage() {
           </Card>
 
           {superMode && (
-          {/* 配额调整操作 */}
+            <>
+            {/* 配额调整操作 */}
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium flex items-center gap-1.5">
@@ -531,6 +538,7 @@ function AdminUserDetailPage() {
               </Button>
             </CardContent>
           </Card>
+            </>
           )}
         </motion.aside>
       </div>
