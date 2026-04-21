@@ -277,3 +277,88 @@ export interface LibrarySimpleItem {
 export interface LibrarySimpleListResponse {
   items: LibrarySimpleItem[]
 }
+
+// ─── 管理员端类型（ID 均为雪花 string） ─────────────────────
+
+/** 管理员 - 用户列表项 */
+export interface AdminUserItem {
+  id: string
+  username: string
+  email: string
+  has_ban: boolean
+  role_name: RoleName
+  created_at: string
+}
+
+/** 管理员 - 用户列表响应 */
+export interface AdminUserListResponse {
+  list: AdminUserItem[]
+  page: number
+  size: number
+  total: number
+}
+
+/** 管理员 - 用户基础信息（详情接口 user 字段） */
+export interface AdminUserBasic {
+  id: string
+  username: string
+  email: string
+  phone: string
+  role_name: RoleName
+  has_ban: boolean
+  jailed_at: string
+  created_at: string
+  updated_at: string
+}
+
+/** 管理员 - 游戏档案配额信息（详情接口 game_profile 字段） */
+export interface GameProfileQuotaInfo {
+  total: number
+  used: number
+}
+
+/** 管理员 - 资源库配额信息（详情接口 library_quota 字段） */
+export interface LibraryQuotaInfo {
+  skins_private_total: number
+  skins_private_used: number
+  skins_public_total: number
+  skins_public_used: number
+  capes_private_total: number
+  capes_private_used: number
+  capes_public_total: number
+  capes_public_used: number
+}
+
+/** 管理员 - 皮肤列表项（详情接口 skin_list 字段） */
+export interface AdminSkinItem {
+  id: string
+  name: string
+  model: 'STEVE' | 'ALEX'
+  texture_url: string
+  is_public: boolean
+  created_at: string
+}
+
+/** 管理员 - 披风列表项（详情接口 cape_list 字段） */
+export interface AdminCapeItem {
+  id: string
+  name: string
+  texture_url: string
+  is_public: boolean
+  created_at: string
+}
+
+/** 管理员 - 用户详情响应 */
+export interface AdminUserDetailResponse {
+  user: AdminUserBasic
+  game_profile: GameProfileQuotaInfo
+  library_quota: LibraryQuotaInfo
+  skin_list: AdminSkinItem[]
+  cape_list: AdminCapeItem[]
+}
+
+/** 管理员 - 调整游戏档案配额请求 */
+export interface AdjustGameProfileQuotaRequest {
+  delta: number
+  remark?: string
+}

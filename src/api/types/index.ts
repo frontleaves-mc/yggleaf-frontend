@@ -33,6 +33,15 @@ export type {
   SetCapeRequest,
   LibrarySimpleItem,
   LibrarySimpleListResponse,
+  AdminUserItem,
+  AdminUserListResponse,
+  AdminUserBasic,
+  GameProfileQuotaInfo,
+  LibraryQuotaInfo,
+  AdminSkinItem,
+  AdminCapeItem,
+  AdminUserDetailResponse,
+  AdjustGameProfileQuotaRequest,
 } from './user'
 
 export type {
