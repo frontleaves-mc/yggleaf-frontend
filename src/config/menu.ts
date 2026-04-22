@@ -18,6 +18,7 @@ import {
   Store,
   MessageSquareWarning,
   Tags,
+  Puzzle,
   Map,
 } from 'lucide-react'
 
@@ -132,6 +133,12 @@ export const userMenuItems: MenuItem[] = [
     to: '/user/profiles',
   },
   {
+    key: 'game-info',
+    label: '游戏信息',
+    icon: Puzzle,
+    to: '/user/game-info',
+  },
+  {
     key: 'market',
     label: '资源社区',
     icon: Store,
@@ -185,6 +192,7 @@ export const breadcrumbLabels: Record<string, string> = {
   '/user/profiles': '游戏档案',
   '/user/skins': '皮肤库',
   '/user/capes': '披风库',
+  '/user/game-info': '游戏信息',
   '/user/issues': '问题反馈',
   '/user/map': '地图',
   '/user/issues/$issueId': '问题详情',

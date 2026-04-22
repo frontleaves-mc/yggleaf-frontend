@@ -25,6 +25,7 @@ import { Route as UserProfilesIndexRouteImport } from './routes/user/profiles/in
 import { Route as UserProfileIndexRouteImport } from './routes/user/profile/index'
 import { Route as UserMyIndexRouteImport } from './routes/user/my/index'
 import { Route as UserIssuesIndexRouteImport } from './routes/user/issues/index'
+import { Route as UserGameInfoIndexRouteImport } from './routes/user/game-info/index'
 import { Route as UserCapesIndexRouteImport } from './routes/user/capes/index'
 import { Route as AdminUsersIndexRouteImport } from './routes/admin/users/index'
 import { Route as AdminSkinsIndexRouteImport } from './routes/admin/skins/index'
@@ -120,6 +121,11 @@ const UserMyIndexRoute = UserMyIndexRouteImport.update({
 const UserIssuesIndexRoute = UserIssuesIndexRouteImport.update({
   id: '/issues/',
   path: '/issues/',
+  getParentRoute: () => UserRoute,
+} as any)
+const UserGameInfoIndexRoute = UserGameInfoIndexRouteImport.update({
+  id: '/game-info/',
+  path: '/game-info/',
   getParentRoute: () => UserRoute,
 } as any)
 const UserCapesIndexRoute = UserCapesIndexRouteImport.update({
@@ -232,6 +238,7 @@ export interface FileRoutesByFullPath {
   '/admin/skins/': typeof AdminSkinsIndexRoute
   '/admin/users/': typeof AdminUsersIndexRoute
   '/user/capes/': typeof UserCapesIndexRoute
+  '/user/game-info/': typeof UserGameInfoIndexRoute
   '/user/issues/': typeof UserIssuesIndexRoute
   '/user/my/': typeof UserMyIndexRoute
   '/user/profile/': typeof UserProfileIndexRoute
@@ -264,6 +271,7 @@ export interface FileRoutesByTo {
   '/admin/skins': typeof AdminSkinsIndexRoute
   '/admin/users': typeof AdminUsersIndexRoute
   '/user/capes': typeof UserCapesIndexRoute
+  '/user/game-info': typeof UserGameInfoIndexRoute
   '/user/issues': typeof UserIssuesIndexRoute
   '/user/my': typeof UserMyIndexRoute
   '/user/profile': typeof UserProfileIndexRoute
@@ -299,6 +307,7 @@ export interface FileRoutesById {
   '/admin/skins/': typeof AdminSkinsIndexRoute
   '/admin/users/': typeof AdminUsersIndexRoute
   '/user/capes/': typeof UserCapesIndexRoute
+  '/user/game-info/': typeof UserGameInfoIndexRoute
   '/user/issues/': typeof UserIssuesIndexRoute
   '/user/my/': typeof UserMyIndexRoute
   '/user/profile/': typeof UserProfileIndexRoute
@@ -335,6 +344,7 @@ export interface FileRouteTypes {
     | '/admin/skins/'
     | '/admin/users/'
     | '/user/capes/'
+    | '/user/game-info/'
     | '/user/issues/'
     | '/user/my/'
     | '/user/profile/'
@@ -367,6 +377,7 @@ export interface FileRouteTypes {
     | '/admin/skins'
     | '/admin/users'
     | '/user/capes'
+    | '/user/game-info'
     | '/user/issues'
     | '/user/my'
     | '/user/profile'
@@ -401,6 +412,7 @@ export interface FileRouteTypes {
     | '/admin/skins/'
     | '/admin/users/'
     | '/user/capes/'
+    | '/user/game-info/'
     | '/user/issues/'
     | '/user/my/'
     | '/user/profile/'
@@ -529,6 +541,13 @@ declare module '@tanstack/react-router' {
       path: '/issues'
       fullPath: '/user/issues/'
       preLoaderRoute: typeof UserIssuesIndexRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/user/game-info/': {
+      id: '/user/game-info/'
+      path: '/game-info'
+      fullPath: '/user/game-info/'
+      preLoaderRoute: typeof UserGameInfoIndexRouteImport
       parentRoute: typeof UserRoute
     }
     '/user/capes/': {
@@ -700,6 +719,7 @@ interface UserRouteChildren {
   UserIndexRoute: typeof UserIndexRoute
   UserIssuesIssueIdRoute: typeof UserIssuesIssueIdRoute
   UserCapesIndexRoute: typeof UserCapesIndexRoute
+  UserGameInfoIndexRoute: typeof UserGameInfoIndexRoute
   UserIssuesIndexRoute: typeof UserIssuesIndexRoute
   UserMyIndexRoute: typeof UserMyIndexRoute
   UserProfileIndexRoute: typeof UserProfileIndexRoute
@@ -713,6 +733,7 @@ const UserRouteChildren: UserRouteChildren = {
   UserIndexRoute: UserIndexRoute,
   UserIssuesIssueIdRoute: UserIssuesIssueIdRoute,
   UserCapesIndexRoute: UserCapesIndexRoute,
+  UserGameInfoIndexRoute: UserGameInfoIndexRoute,
   UserIssuesIndexRoute: UserIssuesIndexRoute,
   UserMyIndexRoute: UserMyIndexRoute,
   UserProfileIndexRoute: UserProfileIndexRoute,
