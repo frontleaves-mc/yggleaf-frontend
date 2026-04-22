@@ -72,3 +72,8 @@ export type {
   CreateIssueTypeRequest,
   UpdateIssueTypeRequest,
 } from './issue'
+
+export type {
+  ModFileMetadata,
+  ModsMetadataResponse,
+} from './sync'
