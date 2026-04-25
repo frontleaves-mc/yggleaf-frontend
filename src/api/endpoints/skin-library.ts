@@ -4,7 +4,7 @@
  */
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { apiClient } from '../client'
+import { authApiClient } from '../client'
 import type {
   SkinLibrary,
   CreateSkinRequest,
@@ -34,12 +34,12 @@ export async function getSkins(params?: SkinListParams): Promise<LibraryListResp
   if (params?.page_size !== undefined) searchParams.set('page_size', String(params.page_size))
   const query = searchParams.toString()
   const path = query ? `/library/skins?${query}` : '/library/skins'
-  return apiClient.get<LibraryListResponse<SkinLibrary>>(path)
+  return authApiClient.get<LibraryListResponse<SkinLibrary>>(path)
 }
 
 /** 创建皮肤 */
 export async function createSkin(data: CreateSkinRequest): Promise<SkinLibrary> {
-  return apiClient.post<SkinLibrary>('/library/skins', data)
+  return authApiClient.post<SkinLibrary>('/library/skins', data)
 }
 
 /** 更新皮肤 */
@@ -47,17 +47,17 @@ export async function updateSkin(
   skinId: number,
   data: UpdateSkinRequest,
 ): Promise<SkinLibrary> {
-  return apiClient.patch<SkinLibrary>(`/library/skins/${skinId}`, data)
+  return authApiClient.patch<SkinLibrary>(`/library/skins/${skinId}`, data)
 }
 
 /** 删除皮肤 */
 export async function deleteSkin(skinId: number): Promise<void> {
-  return apiClient.delete(`/library/skins/${skinId}`)
+  return authApiClient.delete(`/library/skins/${skinId}`)
 }
 
 /** 获取皮肤精简列表（仅 ID + 名称，用于选择器） */
 export async function getSkinsList(): Promise<LibrarySimpleListResponse> {
-  return apiClient.get<LibrarySimpleListResponse>('/library/skins/list')
+  return authApiClient.get<LibrarySimpleListResponse>('/library/skins/list')
 }
 
 // ─── TanStack Query Hooks ───────────────────────────────────

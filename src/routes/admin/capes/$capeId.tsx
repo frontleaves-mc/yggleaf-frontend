@@ -5,7 +5,7 @@
 
 import { createFileRoute } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
-import { apiClient } from '#/api/client'
+import { authApiClient } from '#/api/client'
 import { useUpdateCapeMutation, useDeleteCapeMutation } from '#/api/endpoints/cape-library'
 import { Button } from '#/components/ui/button'
 import {
@@ -49,7 +49,7 @@ export const Route = createFileRoute('/admin/capes/$capeId')({
 
 /** 获取单个披风详情 */
 async function getCapeDetail(capeId: string): Promise<CapeLibrary> {
-  return apiClient.get<CapeLibrary>(`/library/capes/${capeId}`)
+  return authApiClient.get<CapeLibrary>(`/library/capes/${capeId}`)
 }
 
 function EditCapePage() {

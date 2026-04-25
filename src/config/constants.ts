@@ -6,10 +6,13 @@
 
 /**
  * AJAX API 基础地址
- * 本地开发走 Vite proxy（/api → http://localhost:5577）
+ * 本地开发走 Vite proxy（/api-auth → http://localhost:5577、/api-mc → http://localhost:5599）
  * 生产环境使用完整后端地址
  */
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api/v1'
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api-auth/api/v1'
+
+/** MC 服务 AJAX API 基础地址 */
+export const MC_API_BASE_URL = import.meta.env.VITE_MC_API_BASE_URL || '/api-mc/api/v1'
 
 /**
  * SSO 登录跳转地址（浏览器直接导航，不走 AJAX）

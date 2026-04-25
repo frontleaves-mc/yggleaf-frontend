@@ -6,7 +6,7 @@
  */
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { apiClient } from '../client'
+import { authApiClient } from '../client'
 import type {
   IssueListResponse,
   IssuePriority,
@@ -43,7 +43,7 @@ export async function getAdminIssues(params?: AdminIssueListParams): Promise<Iss
   if (params?.issue_type_id) sp.set('issue_type_id', params.issue_type_id)
   if (params?.keyword) sp.set('keyword', params.keyword)
   const qs = sp.toString()
-  return apiClient.get<IssueListResponse>(qs ? `/admin/issue/list?${qs}` : '/admin/issue/list')
+  return authApiClient.get<IssueListResponse>(qs ? `/admin/issue/list?${qs}` : '/admin/issue/list')
 }
 
 /** 更新备注 */
@@ -51,7 +51,7 @@ export async function updateIssueNote(
   id: string,
   data: UpdateIssueNoteRequest,
 ): Promise<void> {
-  return apiClient.put(`/admin/issue/${id}/note`, data)
+  return authApiClient.put(`/admin/issue/${id}/note`, data)
 }
 
 /** 修改优先级 */
@@ -59,7 +59,7 @@ export async function updateIssuePriority(
   id: string,
   data: UpdateIssuePriorityRequest,
 ): Promise<void> {
-  return apiClient.put(`/admin/issue/${id}/priority`, data)
+  return authApiClient.put(`/admin/issue/${id}/priority`, data)
 }
 
 /** 修改状态 */
@@ -67,7 +67,7 @@ export async function updateIssueStatus(
   id: string,
   data: UpdateIssueStatusRequest,
 ): Promise<void> {
-  return apiClient.put(`/admin/issue/${id}/status`, data)
+  return authApiClient.put(`/admin/issue/${id}/status`, data)
 }
 
 // ─── TanStack Query Hooks ──────────────────────────────────

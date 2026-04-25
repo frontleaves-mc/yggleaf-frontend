@@ -8,7 +8,7 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import type { QueryClient } from '@tanstack/react-query'
-import { apiClient } from '../client'
+import { authApiClient } from '../client'
 import { clearAuth, setAuthState } from '#/stores/auth-store'
 import { getUserInfo, USER_INFO_QUERY_KEY } from './user'
 import { SSO_LOGIN_BASE_URL } from '#/config/constants'
@@ -36,7 +36,7 @@ export async function handleOAuthCallback(
   queryClient: QueryClient,
 ): Promise<void> {
   // 1. 用授权码换 Token
-  const tokenData = await apiClient.get<OAuthTokenData>(
+  const tokenData = await authApiClient.get<OAuthTokenData>(
     `/sso/oauth/callback?code=${encodeURIComponent(code)}&state=${encodeURIComponent(state)}`,
     { skipAuth: true },
   )
@@ -69,7 +69,7 @@ export async function handleOAuthCallback(
 /** OAuth2 登出 */
 export async function logout(): Promise<void> {
   try {
-    await apiClient.post('/sso/oauth/logout')
+    await authApiClient.post('/sso/oauth/logout')
   } finally {
     clearAuth()
   }

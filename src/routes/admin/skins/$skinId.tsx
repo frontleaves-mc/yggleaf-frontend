@@ -5,7 +5,7 @@
 
 import { createFileRoute } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
-import { apiClient } from '#/api/client'
+import { authApiClient } from '#/api/client'
 import { useUpdateSkinMutation, useDeleteSkinMutation } from '#/api/endpoints/skin-library'
 import { Button } from '#/components/ui/button'
 import {
@@ -50,7 +50,7 @@ export const Route = createFileRoute('/admin/skins/$skinId')({
 
 /** 获取单个皮肤详情 */
 async function getSkinDetail(skinId: string): Promise<SkinLibrary> {
-  return apiClient.get<SkinLibrary>(`/library/skins/${skinId}`)
+  return authApiClient.get<SkinLibrary>(`/library/skins/${skinId}`)
 }
 
 function EditSkinPage() {

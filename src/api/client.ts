@@ -3,8 +3,9 @@
  * 基于 Axios，提供：
  * - 自动注入 Authorization Bearer Token
  * - 统一响应解包与错误处理
- * - 401 自动尝试 RefreshToken 刷新，刷新失败才清除认证并重定向到登录页（响应拦截器）
+ * - 401 自动尝试 RefreshToken 刷新，刷新失败才清除认证并重定向到登录页
  * - 请求超时控制
+ * - 双后端支持（Auth / MC）
  */
 
 import axios, { type AxiosInstance, type InternalAxiosRequestConfig } from 'axios'
@@ -12,7 +13,7 @@ import type { ApiResponse } from '#/api/types'
 import { ApiError } from '#/api/types'
 import type { QueryClient } from '@tanstack/react-query'
 import { authStore, clearAuth, updateTokens } from '#/stores/auth-store'
-import { API_BASE_URL, API_TIMEOUT, ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '#/config/constants'
+import { API_BASE_URL, MC_API_BASE_URL, API_TIMEOUT, ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '#/config/constants'
 import { getCookie } from '#/lib/cookie'
 import type { OAuthTokenData } from '#/api/types'
 
@@ -62,26 +63,32 @@ function safeParseJson(data: string): unknown {
   return JSON.parse(patched)
 }
 
+// ─── Axios 实例工厂 ────────────────────────────────────────
+
+/** 创建带通用配置的 Axios 实例（雪花 ID 保护 + 超时 + JSON） */
+function createBaseInstance(baseURL: string): AxiosInstance {
+  return axios.create({
+    baseURL,
+    timeout: API_TIMEOUT,
+    headers: { 'Content-Type': 'application/json' },
+    transformResponse: [
+      (data: string) => {
+        if (typeof data !== 'string') return data
+        return safeParseJson(data)
+      },
+    ],
+  })
+}
+
 // ─── 内部 Axios 实例 ────────────────────────────────────────
 
-const instance: AxiosInstance = axios.create({
-  baseURL: API_BASE_URL,
-  timeout: API_TIMEOUT,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  transformResponse: [
-    (data: string) => {
-      if (typeof data !== 'string') return data
-      return safeParseJson(data)
-    },
-  ],
-})
+const authInstance = createBaseInstance(API_BASE_URL)
+const mcInstance = createBaseInstance(MC_API_BASE_URL)
 
 // ─── 请求拦截器：自动注入 Token ─────────────────────────────
 
-instance.interceptors.request.use(
-  (config: CustomAxiosConfig) => {
+function applyRequestInterceptor(inst: AxiosInstance): void {
+  inst.interceptors.request.use((config: CustomAxiosConfig) => {
     if (!config.skipAuth) {
       const token = authStore.state.accessToken || getCookie(ACCESS_TOKEN_KEY)
       if (token) {
@@ -89,14 +96,14 @@ instance.interceptors.request.use(
       }
     }
     return config
-  },
-)
+  })
+}
 
 // ─── Token 刷新函数 ────────────────────────────────────────
 
 /**
  * 使用 RefreshToken 刷新 Access Token
- * 直接调用底层 axios instance（不走 apiClient 解包），避免循环依赖
+ * 始终通过 authInstance 调用，确保刷新请求打到认证后端
  */
 async function refreshAccessToken(): Promise<OAuthTokenData> {
   const currentToken = authStore.state.accessToken || getCookie(ACCESS_TOKEN_KEY)
@@ -106,7 +113,7 @@ async function refreshAccessToken(): Promise<OAuthTokenData> {
     throw new Error('No refresh token available')
   }
 
-  const response = await instance.post<ApiResponse<OAuthTokenData>>(
+  const response = await authInstance.post<ApiResponse<OAuthTokenData>>(
     '/sso/oauth/refresh',
     {},
     {
@@ -128,73 +135,81 @@ async function refreshAccessToken(): Promise<OAuthTokenData> {
 
 // ─── 响应拦截器：统一解包 + 401 自动刷新 ──────────────────
 
-instance.interceptors.response.use(
-  // 成功响应：校验业务状态码
-  (response) => {
-    const data: ApiResponse = response.data
+function applyResponseInterceptor(inst: AxiosInstance): void {
+  inst.interceptors.response.use(
+    // 成功响应：校验业务状态码
+    (response) => {
+      const data: ApiResponse = response.data
 
-    if (data.code !== 200 && data.code !== undefined) {
-      throw new ApiError(response.status, data)
-    }
-
-    return response
-  },
-
-  // 错误响应：HTTP 错误 + 401 特殊处理
-  async (error) => {
-    // 网络错误 / 超时 / 被取消
-    if (!error.response) {
-      if (error.code === 'ECONNABORTED' || error.message?.includes('timeout')) {
-        throw new Error('请求超时')
+      if (data.code !== 200 && data.code !== undefined) {
+        throw new ApiError(response.status, data)
       }
-      throw error
-    }
 
-    const { status } = error.response
+      return response
+    },
 
-    // 401 → 尝试 RefreshToken 刷新 → 成功重试 / 失败跳转登录
-    if (status === 401 && !error.config?.skipAuth) {
-      // 已有刷新进行中，等待完成后重试
-      if (refreshPromise) {
+    // 错误响应：HTTP 错误 + 401 特殊处理
+    async (error) => {
+      // 网络错误 / 超时 / 被取消
+      if (!error.response) {
+        if (error.code === 'ECONNABORTED' || error.message?.includes('timeout')) {
+          throw new Error('请求超时')
+        }
+        throw error
+      }
+
+      const { status } = error.response
+
+      // 401 → 尝试 RefreshToken 刷新 → 成功重试 / 失败跳转登录
+      if (status === 401 && !error.config?.skipAuth) {
+        // 已有刷新进行中，等待完成后重试
+        if (refreshPromise) {
+          try {
+            await refreshPromise
+            return inst(error.config)
+          } catch {
+            // 刷新失败，走下方登出逻辑
+          }
+        }
+
+        // 首次触发刷新
+        refreshPromise = refreshAccessToken().finally(() => {
+          refreshPromise = null
+        })
+
         try {
-          await refreshPromise
-          return instance(error.config)
+          const tokenData = await refreshPromise
+          updateTokens(tokenData.access_token, tokenData.refresh_token)
+          // 失效用户信息缓存，下次读取时自动重新获取
+          _queryClient?.invalidateQueries({ queryKey: ['user', 'info'] })
+          // 用新 Token 重试原请求（请求拦截器会从 authStore 重新读取）
+          return inst(error.config)
         } catch {
-          // 刷新失败，走下方登出逻辑
+          // 刷新失败 → 清除认证并跳转登录页
+          clearAuth()
+          _queryClient?.removeQueries({ queryKey: ['user', 'info'] })
+          if (typeof window !== 'undefined') {
+            window.location.href = '/login'
+          }
+          return new Promise(() => {}) // 永久 pending，阻止错误传播
         }
       }
 
-      // 首次触发刷新
-      refreshPromise = refreshAccessToken().finally(() => {
-        refreshPromise = null
-      })
-
-      try {
-        const tokenData = await refreshPromise
-        updateTokens(tokenData.access_token, tokenData.refresh_token)
-        // 失效用户信息缓存，下次读取时自动重新获取
-        _queryClient?.invalidateQueries({ queryKey: ['user', 'info'] })
-        // 用新 Token 重试原请求（请求拦截器会从 authStore 重新读取）
-        return instance(error.config)
-      } catch {
-        // 刷新失败 → 清除认证并跳转登录页
-        clearAuth()
-        _queryClient?.removeQueries({ queryKey: ['user', 'info'] })
-        if (typeof window !== 'undefined') {
-          window.location.href = '/login'
-        }
-        return new Promise(() => {}) // 永久 pending，阻止错误传播
+      // 403 → 权限不足，抛出标准错误由调用方处理
+      if (status === 403) {
+        throw new ApiError(status, error.response.data)
       }
-    }
 
-    // 403 → 权限不足，抛出标准错误由调用方处理
-    if (status === 403) {
       throw new ApiError(status, error.response.data)
-    }
+    },
+  )
+}
 
-    throw new ApiError(status, error.response.data)
-  },
-)
+// 应用拦截器到两个实例
+applyRequestInterceptor(authInstance)
+applyRequestInterceptor(mcInstance)
+applyResponseInterceptor(authInstance)
+applyResponseInterceptor(mcInstance)
 
 // ─── 响应解包工具 ──────────────────────────────────────────
 
@@ -204,44 +219,49 @@ function unwrapData<T>(response: { data: ApiResponse<T> }): T {
   return (body.data ?? body) as T
 }
 
-// ─── 公共 API（保持与原 Fetch 版本一致的调用签名） ─────────
+// ─── 公共 API ──────────────────────────────────────────────
 
 class ApiClient {
+  constructor(private inst: AxiosInstance) {}
+
   async get<T>(path: string, config?: RequestConfig): Promise<T> {
-    const response = await instance.get<ApiResponse<T>>(path, {
+    const response = await this.inst.get<ApiResponse<T>>(path, {
       skipAuth: config?.skipAuth,
     } as CustomAxiosConfig)
     return unwrapData<T>(response)
   }
 
   async post<T>(path: string, body?: unknown, config?: RequestConfig): Promise<T> {
-    const response = await instance.post<ApiResponse<T>>(path, body, {
+    const response = await this.inst.post<ApiResponse<T>>(path, body, {
       skipAuth: config?.skipAuth,
     } as CustomAxiosConfig)
     return unwrapData<T>(response)
   }
 
   async patch<T>(path: string, body?: unknown, config?: RequestConfig): Promise<T> {
-    const response = await instance.patch<ApiResponse<T>>(path, body, {
+    const response = await this.inst.patch<ApiResponse<T>>(path, body, {
       skipAuth: config?.skipAuth,
     } as CustomAxiosConfig)
     return unwrapData<T>(response)
   }
 
   async put<T>(path: string, body?: unknown, config?: RequestConfig): Promise<T> {
-    const response = await instance.put<ApiResponse<T>>(path, body, {
+    const response = await this.inst.put<ApiResponse<T>>(path, body, {
       skipAuth: config?.skipAuth,
     } as CustomAxiosConfig)
     return unwrapData<T>(response)
   }
 
   async delete<T>(path: string, config?: RequestConfig): Promise<T> {
-    const response = await instance.delete<ApiResponse<T>>(path, {
+    const response = await this.inst.delete<ApiResponse<T>>(path, {
       skipAuth: config?.skipAuth,
     } as CustomAxiosConfig)
     return unwrapData<T>(response)
   }
 }
 
-/** 全局 API Client 实例 */
-export const apiClient = new ApiClient()
+/** 认证后端 API Client */
+export const authApiClient = new ApiClient(authInstance)
+
+/** MC 服务 API Client */
+export const mcApiClient = new ApiClient(mcInstance)

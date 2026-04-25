@@ -6,7 +6,7 @@
  */
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { apiClient } from '../client'
+import { authApiClient } from '../client'
 import type {
   IssueListResponse,
   IssueDetailResponse,
@@ -38,7 +38,7 @@ export const ISSUE_DETAIL_QUERY_KEY = ['issue-detail'] as const
 
 /** 提交问题 */
 export async function createIssue(data: CreateIssueRequest): Promise<IssueDetailResponse> {
-  return apiClient.post<IssueDetailResponse>('/issue', data)
+  return authApiClient.post<IssueDetailResponse>('/issue', data)
 }
 
 /** 我的问题列表 */
@@ -50,12 +50,12 @@ export async function getMyIssues(params?: IssueListParams): Promise<IssueListRe
   if (params?.priority) sp.set('priority', params.priority)
   if (params?.issue_type_id) sp.set('issue_type_id', params.issue_type_id)
   const qs = sp.toString()
-  return apiClient.get<IssueListResponse>(qs ? `/issue/list?${qs}` : '/issue/list')
+  return authApiClient.get<IssueListResponse>(qs ? `/issue/list?${qs}` : '/issue/list')
 }
 
 /** 问题详情 */
 export async function getIssueDetail(id: string): Promise<IssueDetailResponse> {
-  return apiClient.get<IssueDetailResponse>(`/issue/${id}`)
+  return authApiClient.get<IssueDetailResponse>(`/issue/${id}`)
 }
 
 /** 上传附件（Base64） */
@@ -63,7 +63,7 @@ export async function uploadAttachment(
   issueId: string,
   data: UploadAttachmentRequest,
 ): Promise<IssueAttachmentItem> {
-  return apiClient.post<IssueAttachmentItem>(`/issue/${issueId}/attachment`, data)
+  return authApiClient.post<IssueAttachmentItem>(`/issue/${issueId}/attachment`, data)
 }
 
 /** 回复问题 */
@@ -71,12 +71,12 @@ export async function replyIssue(
   issueId: string,
   data: ReplyIssueRequest,
 ): Promise<IssueReplyItem> {
-  return apiClient.post<IssueReplyItem>(`/issue/${issueId}/reply`, data)
+  return authApiClient.post<IssueReplyItem>(`/issue/${issueId}/reply`, data)
 }
 
 /** 删除附件 */
 export async function deleteAttachment(attachmentId: string): Promise<void> {
-  return apiClient.delete(`/issue/attachment/${String(attachmentId)}`)
+  return authApiClient.delete(`/issue/attachment/${String(attachmentId)}`)
 }
 
 // ─── TanStack Query Hooks ──────────────────────────────────

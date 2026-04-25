@@ -4,14 +4,14 @@
  */
 
 import { useQuery } from '@tanstack/react-query'
-import { apiClient } from '../client'
+import { authApiClient } from '../client'
 import type { LibraryQuota } from '#/api/types'
 
 // ─── 端点函数 ──────────────────────────────────────────────
 
 /** 获取当前用户资源库配额 */
 export async function getLibraryQuota(): Promise<LibraryQuota> {
-  return apiClient.get<LibraryQuota>('/library/quota')
+  return authApiClient.get<LibraryQuota>('/library/quota')
 }
 
 // ─── TanStack Query Hooks ───────────────────────────────────

@@ -4,7 +4,7 @@
  */
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { apiClient } from '../client'
+import { authApiClient } from '../client'
 import type {
   CapeLibrary,
   CreateCapeRequest,
@@ -34,12 +34,12 @@ export async function getCapes(params?: CapeListParams): Promise<LibraryListResp
   if (params?.page_size !== undefined) searchParams.set('page_size', String(params.page_size))
   const query = searchParams.toString()
   const path = query ? `/library/capes?${query}` : '/library/capes'
-  return apiClient.get<LibraryListResponse<CapeLibrary>>(path)
+  return authApiClient.get<LibraryListResponse<CapeLibrary>>(path)
 }
 
 /** 创建披风 */
 export async function createCape(data: CreateCapeRequest): Promise<CapeLibrary> {
-  return apiClient.post<CapeLibrary>('/library/capes', data)
+  return authApiClient.post<CapeLibrary>('/library/capes', data)
 }
 
 /** 更新披风 */
@@ -47,17 +47,17 @@ export async function updateCape(
   capeId: number,
   data: UpdateCapeRequest,
 ): Promise<CapeLibrary> {
-  return apiClient.patch<CapeLibrary>(`/library/capes/${capeId}`, data)
+  return authApiClient.patch<CapeLibrary>(`/library/capes/${capeId}`, data)
 }
 
 /** 删除披风 */
 export async function deleteCape(capeId: number): Promise<void> {
-  return apiClient.delete(`/library/capes/${capeId}`)
+  return authApiClient.delete(`/library/capes/${capeId}`)
 }
 
 /** 获取披风精简列表（仅 ID + 名称，用于选择器） */
 export async function getCapesList(): Promise<LibrarySimpleListResponse> {
-  return apiClient.get<LibrarySimpleListResponse>('/library/capes/list')
+  return authApiClient.get<LibrarySimpleListResponse>('/library/capes/list')
 }
 
 // ─── TanStack Query Hooks ───────────────────────────────────

@@ -6,7 +6,7 @@
  */
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { apiClient } from '../client'
+import { authApiClient } from '../client'
 import type {
   AdminUserListResponse,
   AdminUserDetailResponse,
@@ -43,12 +43,12 @@ export async function getAdminUsers(params?: AdminUserListParams): Promise<Admin
   if (params?.start_time) sp.set('start_time', params.start_time)
   if (params?.end_time) sp.set('end_time', params.end_time)
   const qs = sp.toString()
-  return apiClient.get<AdminUserListResponse>(qs ? `/admin/users?${qs}` : '/admin/users')
+  return authApiClient.get<AdminUserListResponse>(qs ? `/admin/users?${qs}` : '/admin/users')
 }
 
 /** 管理员获取用户详情 */
 export async function getAdminUserDetail(userId: string): Promise<AdminUserDetailResponse> {
-  return apiClient.get<AdminUserDetailResponse>(`/admin/users/${userId}`)
+  return authApiClient.get<AdminUserDetailResponse>(`/admin/users/${userId}`)
 }
 
 /** 管理员调整用户游戏档案配额 */
@@ -56,7 +56,7 @@ export async function adjustGameProfileQuota(
   userId: string,
   data: AdjustGameProfileQuotaRequest,
 ): Promise<GameProfileQuota> {
-  return apiClient.post<GameProfileQuota>(
+  return authApiClient.post<GameProfileQuota>(
     `/admin/game-profile/users/${userId}/quota`,
     data,
   )

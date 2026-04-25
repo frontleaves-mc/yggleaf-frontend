@@ -4,7 +4,7 @@
  */
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { apiClient } from '../client'
+import { authApiClient } from '../client'
 import type {
   GameProfile,
   GameProfileListResponse,
@@ -19,23 +19,23 @@ import type {
 
 /** 获取游戏档案列表（当前用户的） */
 export async function getGameProfiles(): Promise<GameProfile[]> {
-  const result = await apiClient.get<GameProfileListResponse>('/game-profile')
+  const result = await authApiClient.get<GameProfileListResponse>('/game-profile')
   return result?.items ?? []
 }
 
 /** 创建游戏档案 */
 export async function createGameProfile(data: CreateGameProfileRequest): Promise<GameProfile> {
-  return apiClient.post<GameProfile>('/game-profile', data)
+  return authApiClient.post<GameProfile>('/game-profile', data)
 }
 
 /** 获取游戏档案配额 */
 export async function getGameProfileQuota(): Promise<GameProfileQuota> {
-  return apiClient.get<GameProfileQuota>('/game-profile/quota')
+  return authApiClient.get<GameProfileQuota>('/game-profile/quota')
 }
 
 /** 获取游戏档案详情 */
 export async function getGameProfileDetail(profileId: number): Promise<GameProfile> {
-  return apiClient.get<GameProfile>(`/game-profile/${profileId}`)
+  return authApiClient.get<GameProfile>(`/game-profile/${profileId}`)
 }
 
 /** 修改游戏档案用户名 */
@@ -43,7 +43,7 @@ export async function updateGameProfileUsername(
   profileId: number,
   data: UpdateUsernameRequest,
 ): Promise<GameProfile> {
-  return apiClient.patch<GameProfile>(`/game-profile/${profileId}/username`, data)
+  return authApiClient.patch<GameProfile>(`/game-profile/${profileId}/username`, data)
 }
 
 /** 设置/卸下皮肤 */
@@ -51,7 +51,7 @@ export async function setGameProfileSkin(
   profileId: number,
   data: SetSkinRequest,
 ): Promise<GameProfile> {
-  return apiClient.patch<GameProfile>(`/game-profile/${profileId}/skin`, data)
+  return authApiClient.patch<GameProfile>(`/game-profile/${profileId}/skin`, data)
 }
 
 /** 设置/卸下披风 */
@@ -59,7 +59,7 @@ export async function setGameProfileCape(
   profileId: number,
   data: SetCapeRequest,
 ): Promise<GameProfile> {
-  return apiClient.patch<GameProfile>(`/game-profile/${profileId}/cape`, data)
+  return authApiClient.patch<GameProfile>(`/game-profile/${profileId}/cape`, data)
 }
 
 // ─── TanStack Query Hooks ───────────────────────────────────

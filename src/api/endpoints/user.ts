@@ -6,7 +6,7 @@
  */
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { apiClient } from '../client'
+import { authApiClient } from '../client'
 import { authStore } from '#/stores/auth-store'
 import type {
   UpdateGamePasswordRequest,
@@ -22,14 +22,14 @@ export const USER_INFO_QUERY_KEY = ['user', 'info'] as const
 
 /** 获取当前用户信息（含账户完善状态） */
 export async function getUserInfo(): Promise<UserCurrentResponse> {
-  return apiClient.get<UserCurrentResponse>('/user/info')
+  return authApiClient.get<UserCurrentResponse>('/user/info')
 }
 
 /** 更新游戏密码（用于 Minecraft 启动器认证，非网站登录） */
 export async function updateGamePassword(
   data: UpdateGamePasswordRequest,
 ): Promise<UserCurrentResponse> {
-  return apiClient.put<UserCurrentResponse>('/user/game-password', data)
+  return authApiClient.put<UserCurrentResponse>('/user/game-password', data)
 }
 
 // ─── TanStack Query Hooks ───────────────────────────────────

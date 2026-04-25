@@ -4,14 +4,14 @@
  */
 
 import { useQuery } from '@tanstack/react-query'
-import { apiClient } from '../client'
+import { authApiClient } from '../client'
 import type { ModsMetadataResponse } from '#/api/types'
 
 // ─── 端点函数 ──────────────────────────────────────────────
 
 /** 获取服务器模组元数据列表 */
 export async function getModsMetadata(): Promise<ModsMetadataResponse> {
-  return apiClient.get<ModsMetadataResponse>('/sync/mods/metadata', { skipAuth: true })
+  return authApiClient.get<ModsMetadataResponse>('/sync/mods/metadata', { skipAuth: true })
 }
 
 // ─── TanStack Query Hooks ───────────────────────────────────
