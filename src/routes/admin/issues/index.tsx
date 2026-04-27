@@ -56,14 +56,14 @@ export const Route = createFileRoute('/admin/issues/')({
 })
 
 function AdminIssuesPage() {
-  const [status, setStatus] = useState<string>('all')
+  const [status, setStatus] = useState<string>('nofinal')
   const [priority, setPriority] = useState<string>('all')
   const [typeId, setTypeId] = useState<string>('all')
   const [keyword, setKeyword] = useState('')
 
   const { data: issueTypes } = useIssueTypes()
   const { data, isLoading } = useAdminIssues({
-    status: status !== 'all' ? (status as IssueStatus) : undefined,
+    status: status !== 'all' ? (status as IssueStatus | 'nofinal') : undefined,
     priority: priority !== 'all' ? (priority as IssuePriority) : undefined,
     issue_type_id: typeId !== 'all' ? typeId : undefined,
     keyword: keyword || undefined,
@@ -75,30 +75,25 @@ function AdminIssuesPage() {
 
   const columns: ColumnDef<IssueListItem, unknown>[] = [
     {
-      accessorKey: 'issue.id',
-      header: ({ column }) => <TableColumnHeader column={column} title="ID" />,
-      cell: ({ row }) => {
-        const item = row.original as IssueListItem
-        return (
-          <span className="tabular-nums text-muted-foreground font-mono text-xs">
-            #{item.issue.id}
-          </span>
-        )
-      },
-      size: 64,
-    },
-    {
       id: 'title',
       header: ({ column }) => <TableColumnHeader column={column} title="标题" />,
       cell: ({ row }) => {
         const item = row.original as IssueListItem
         return (
-          <div className="min-w-0">
-            <span className="font-medium text-sm block truncate">{item.issue.title}</span>
-            <span className="text-xs text-muted-foreground">用户 #{item.issue.user_id}</span>
-          </div>
+          <span className="font-medium text-sm block truncate">{item.issue.title}</span>
         )
       },
+    },
+    {
+      id: 'user',
+      header: ({ column }) => <TableColumnHeader column={column} title="用户" />,
+      cell: ({ row }) => {
+        const item = row.original as IssueListItem
+        return (
+          <span className="text-xs">{item.issue.username}</span>
+        )
+      },
+      size: 120,
     },
     {
       id: 'type',
@@ -201,6 +196,7 @@ function AdminIssuesPage() {
             <SelectValue placeholder="状态" />
           </SelectTrigger>
           <SelectContent>
+            <SelectItem value="nofinal">未终态</SelectItem>
             <SelectItem value="all">全部状态</SelectItem>
             <SelectItem value="registered">已登记</SelectItem>
             <SelectItem value="pending">待处理</SelectItem>

@@ -19,6 +19,7 @@ import {
 import { useMatches } from '@tanstack/react-router'
 import { Sun, Moon, Monitor } from 'lucide-react'
 import { breadcrumbLabels } from '#/config/menu'
+import { usePageTitleOverride } from './page-title-context'
 
 // ─── 页面标题解析 ───────────────────────────────────────
 
@@ -112,6 +113,7 @@ function ThemeToggle() {
 export function TopBar() {
   const crumbs = useBreadcrumbs()
   const current = crumbs[crumbs.length - 1]
+  const overrideTitle = usePageTitleOverride()
 
   return (
     <header className="border-b border-border/40 bg-background/60 backdrop-blur-md pt-2">
@@ -120,7 +122,7 @@ export function TopBar() {
 
         <div className="min-w-0 flex-1">
           <p className="truncate text-base font-semibold text-foreground sm:text-lg">
-            {current?.label ?? '概览'}
+            {overrideTitle ?? current?.label ?? '概览'}
           </p>
         </div>
 

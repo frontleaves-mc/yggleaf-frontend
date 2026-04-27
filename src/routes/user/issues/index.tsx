@@ -123,19 +123,6 @@ function UserIssuesPage() {
 
   const columns: ColumnDef<IssueListItem, unknown>[] = [
     {
-      accessorKey: 'issue.id',
-      header: ({ column }) => <TableColumnHeader column={column} title="ID" />,
-      cell: ({ row }) => {
-        const item = row.original as IssueListItem
-        return (
-          <span className="tabular-nums text-muted-foreground font-mono text-xs">
-            #{item.issue.id}
-          </span>
-        )
-      },
-      size: 64,
-    },
-    {
       id: 'title',
       header: ({ column }) => <TableColumnHeader column={column} title="标题" />,
       cell: ({ row }) => {

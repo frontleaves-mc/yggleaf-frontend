@@ -32,6 +32,7 @@ export interface IssueType {
 export interface IssueEntity {
   id: string
   user_id: string
+  username: string
   issue_type_id: string
   title: string
   content: string

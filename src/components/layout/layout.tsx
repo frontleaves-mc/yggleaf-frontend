@@ -19,6 +19,7 @@ import {
 } from '#/components/ui/sidebar'
 import { Sidebar } from './sidebar'
 import { TopBar } from './top-bar'
+import { PageTitleProvider } from './page-title-context'
 import type { MenuConfig } from './sidebar/menu-renderer'
 import { PageTransition } from '#/components/ui/page-transition'
 
@@ -66,13 +67,15 @@ export function Layout({ children, mode, items }: LayoutProps) {
       <Sidebar mode={mode} items={items} />
 
       <SidebarInset>
-        <div className="relative flex min-h-svh flex-col">
-          <TopBar />
+        <PageTitleProvider>
+          <div className="relative flex min-h-svh flex-col">
+            <TopBar />
 
-          <main className="flex-1 px-3.5 py-3.5 pb-7 sm:px-5 sm:pb-8 lg:px-6 lg:py-4 lg:pb-10">
-            <PageTransition className="relative mx-auto max-w-(--page-max)">{children}</PageTransition>
-          </main>
-        </div>
+            <main className="flex-1 px-3.5 py-3.5 pb-7 sm:px-5 sm:pb-8 lg:px-6 lg:py-4 lg:pb-10">
+              <PageTransition className="relative mx-auto max-w-(--page-max)">{children}</PageTransition>
+            </main>
+          </div>
+        </PageTitleProvider>
       </SidebarInset>
     </SidebarProvider>
   )

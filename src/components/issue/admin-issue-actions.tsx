@@ -22,6 +22,7 @@ import {
 import type { IssueEntity, IssuePriority, IssueStatus } from '#/api/types'
 import { Loader2, Save, StickyNote, Gauge, ToggleRight } from 'lucide-react'
 import { toast } from 'sonner'
+import { IssueStatusBadge } from './issue-status-badge'
 
 interface AdminIssueActionsProps {
   issue: IssueEntity
@@ -34,14 +35,23 @@ const priorityOptions: { value: IssuePriority; label: string }[] = [
   { value: 'urgent', label: '紧急' },
 ]
 
-const statusOptions: { value: IssueStatus; label: string }[] = [
-  { value: 'registered', label: '已登记' },
-  { value: 'pending', label: '待处理' },
-  { value: 'processing', label: '处理中' },
-  { value: 'resolved', label: '已解决' },
-  { value: 'unplanned', label: '无计划' },
-  { value: 'closed', label: '已关闭' },
-]
+const STATUS_TRANSITIONS: Record<IssueStatus, IssueStatus[]> = {
+  registered: ['pending', 'processing', 'unplanned', 'closed'],
+  pending: ['processing', 'resolved', 'closed'],
+  processing: ['pending', 'resolved', 'closed'],
+  resolved: ['closed'],
+  unplanned: ['closed'],
+  closed: [],
+}
+
+const STATUS_LABELS: Record<IssueStatus, string> = {
+  registered: '已登记',
+  pending: '待处理',
+  processing: '处理中',
+  resolved: '已解决',
+  unplanned: '无计划',
+  closed: '已关闭',
+}
 
 export function AdminIssueActions({ issue }: AdminIssueActionsProps) {
   const [note, setNote] = useState(issue.admin_note ?? '')
@@ -148,19 +158,35 @@ export function AdminIssueActions({ issue }: AdminIssueActionsProps) {
             状态
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <Select value={issue.status} onValueChange={handleStatusChange}>
-            <SelectTrigger className="w-full" disabled={statusMutation.isPending}>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {statusOptions.map((opt) => (
-                <SelectItem key={opt.value} value={opt.value}>
-                  {opt.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+        <CardContent className="space-y-3">
+          <div className="flex items-center gap-2 rounded-md bg-muted/50 px-3 py-2">
+            <span className="text-xs text-muted-foreground shrink-0">当前</span>
+            <IssueStatusBadge status={issue.status} />
+          </div>
+          {STATUS_TRANSITIONS[issue.status].length > 0 && (
+            <div className="space-y-2">
+              <span className="text-xs text-muted-foreground">切换至</span>
+              <div className="flex flex-wrap gap-1.5">
+                {STATUS_TRANSITIONS[issue.status].map((target) => (
+                  <Button
+                    key={target}
+                    variant="outline"
+                    size="sm"
+                    disabled={statusMutation.isPending}
+                    onClick={() => handleStatusChange(target)}
+                    className="transition-colors hover:bg-primary/5 hover:border-primary/30 hover:text-primary"
+                  >
+                    {STATUS_LABELS[target]}
+                  </Button>
+                ))}
+              </div>
+            </div>
+          )}
+          {STATUS_TRANSITIONS[issue.status].length === 0 && (
+            <p className="text-xs text-muted-foreground italic rounded-md bg-muted/30 px-3 py-2">
+              此状态为终态，不可变更
+            </p>
+          )}
         </CardContent>
       </Card>
     </div>

@@ -21,7 +21,7 @@ import type {
 export interface AdminIssueListParams {
   page?: number
   page_size?: number
-  status?: IssueStatus
+  status?: IssueStatus | 'nofinal'
   priority?: IssuePriority
   issue_type_id?: string
   keyword?: string
