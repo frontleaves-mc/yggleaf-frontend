@@ -8,7 +8,17 @@ import { useState } from 'react'
 import { motion } from 'motion/react'
 import { Search, ChevronLeft, ChevronRight, Eye, Shield, ShieldAlert } from 'lucide-react'
 import { PageHeader } from '#/components/public/page-header'
-import { DataTable, type Column } from '#/components/public/data-table'
+import type { ColumnDef } from '#/components/ui/tanstack-table'
+import {
+  TableProvider,
+  TableColumnHeader,
+  TSTableHeader,
+  TSTableHeaderGroup,
+  TSTableHead,
+  TSTableBody,
+  TSTableRow,
+  TSTableCell,
+} from '#/components/ui/tanstack-table'
 import { LoadingPage } from '#/components/public/loading-page'
 import { Button } from '#/components/ui/button'
 import { Input } from '#/components/ui/input'
@@ -98,84 +108,84 @@ function AdminUserListPage() {
   const total = data?.total ?? 0
   const totalPages = Math.ceil(total / PAGE_SIZE)
 
-  const columns: Column<AdminUserItem>[] = [
+  const columns: ColumnDef<AdminUserItem, unknown>[] = [
     {
-      key: 'id',
-      header: 'ID',
-      render: (row) => (
+      accessorKey: 'id',
+      header: ({ column }) => <TableColumnHeader column={column} title="ID" />,
+      cell: ({ row }) => (
         <span className="tabular-nums text-muted-foreground font-mono text-xs">
-          #{row.id.slice(0, 8)}...
+          #{row.original.id.slice(0, 8)}...
         </span>
       ),
-      className: 'w-28',
+      size: 112,
     },
     {
-      key: 'username',
-      header: '用户名',
-      render: (row) => (
+      id: 'username',
+      header: ({ column }) => <TableColumnHeader column={column} title="用户名" />,
+      cell: ({ row }) => (
         <div className="flex items-center gap-2.5">
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-primary/20 to-primary/10 text-xs font-bold text-primary">
-            {row.username.charAt(0).toUpperCase()}
+            {row.original.username.charAt(0).toUpperCase()}
           </div>
           <div className="min-w-0">
             <Link
-              to={`/admin/users/${row.id}` as any}
+              to={`/admin/users/${row.original.id}` as any}
               className="font-medium truncate hover:text-primary transition-colors"
             >
-              {row.username}
+              {row.original.username}
             </Link>
-            <p className="text-[11px] text-muted-foreground truncate">{row.email}</p>
+            <p className="text-[11px] text-muted-foreground truncate">{row.original.email}</p>
           </div>
         </div>
       ),
     },
     {
-      key: 'role_name',
-      header: '角色',
-      render: (row) => {
-        const r = roleLabels[row.role_name] ?? roleLabels.PLAYER
+      accessorKey: 'role_name',
+      header: ({ column }) => <TableColumnHeader column={column} title="角色" />,
+      cell: ({ row }) => {
+        const r = roleLabels[row.original.role_name] ?? roleLabels.PLAYER
         return (
           <Badge variant="secondary" className={`text-xs ${r.color}`}>
-            {row.role_name === 'SUPER_ADMIN' && <ShieldAlert className="mr-1 h-3 w-3" />}
-            {row.role_name === 'ADMIN' && <Shield className="mr-1 h-3 w-3" />}
+            {row.original.role_name === 'SUPER_ADMIN' && <ShieldAlert className="mr-1 h-3 w-3" />}
+            {row.original.role_name === 'ADMIN' && <Shield className="mr-1 h-3 w-3" />}
             {r.label}
           </Badge>
         )
       },
-      className: 'w-24',
+      size: 96,
     },
     {
-      key: 'has_ban',
-      header: '状态',
-      render: (row) => (
-        <Badge variant={row.has_ban ? 'destructive' : 'secondary'} className="text-xs">
-          {row.has_ban ? '已封禁' : '正常'}
+      accessorKey: 'has_ban',
+      header: ({ column }) => <TableColumnHeader column={column} title="状态" />,
+      cell: ({ row }) => (
+        <Badge variant={row.original.has_ban ? 'destructive' : 'secondary'} className="text-xs">
+          {row.original.has_ban ? '已封禁' : '正常'}
         </Badge>
       ),
-      className: 'w-20',
+      size: 80,
     },
     {
-      key: 'created_at',
-      header: '注册时间',
-      render: (row) => (
+      accessorKey: 'created_at',
+      header: ({ column }) => <TableColumnHeader column={column} title="注册时间" />,
+      cell: ({ row }) => (
         <span className="text-[13px] text-muted-foreground whitespace-nowrap">
-          {formatTime(row.created_at)}
+          {formatTime(row.original.created_at)}
         </span>
       ),
-      className: 'w-36',
+      size: 144,
     },
     {
-      key: 'actions',
-      header: '操作',
-      render: (row) => (
-        <Link to={`/admin/users/${row.id}` as any}>
+      id: 'actions',
+      header: () => <span className="text-sm font-medium">操作</span>,
+      cell: ({ row }) => (
+        <Link to={`/admin/users/${row.original.id}` as any}>
           <Button variant="ghost" size="sm" className="h-7 px-2 text-xs">
             <Eye className="mr-1 h-3 w-3" />
             详情
           </Button>
         </Link>
       ),
-      className: 'w-20',
+      size: 80,
     },
   ]
 
@@ -231,14 +241,29 @@ function AdminUserListPage() {
       </motion.div>
 
       {/* 数据表格 */}
-      <motion.div variants={fadeUpItem}>
-        <DataTable
-          columns={columns}
-          data={list}
-          rowKey={(row) => row.id}
-          emptyMessage="暂无用户数据"
-          isLoading={isLoading}
-        />
+      <motion.div variants={fadeUpItem} className="rounded-xl border border-border/70 overflow-hidden">
+        <TableProvider columns={columns} data={list}>
+          <TSTableHeader>
+            {({ headerGroup }) => (
+              <TSTableHeaderGroup headerGroup={headerGroup}>
+                {({ header }) => <TSTableHead header={header} />}
+              </TSTableHeaderGroup>
+            )}
+          </TSTableHeader>
+          <TSTableBody>
+            {({ row }) => (
+              <TSTableRow row={row}>
+                {({ cell }) => <TSTableCell cell={cell} />}
+              </TSTableRow>
+            )}
+          </TSTableBody>
+        </TableProvider>
+
+        {list.length === 0 && (
+          <div className="py-16 text-center">
+            <p className="text-sm text-muted-foreground">暂无用户数据</p>
+          </div>
+        )}
       </motion.div>
 
       {/* 分页控制 */}

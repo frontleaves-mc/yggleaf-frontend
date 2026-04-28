@@ -6,7 +6,17 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useCapes, useDeleteCapeMutation } from '#/api/endpoints/api-auth/cape-library'
 import { PageHeader } from '#/components/public/page-header'
-import { DataTable, type Column } from '#/components/public/data-table'
+import type { ColumnDef } from '#/components/ui/tanstack-table'
+import {
+  TableProvider,
+  TableColumnHeader,
+  TSTableHeader,
+  TSTableHeaderGroup,
+  TSTableHead,
+  TSTableBody,
+  TSTableRow,
+  TSTableCell,
+} from '#/components/ui/tanstack-table'
 import { LoadingPage } from '#/components/public/loading-page'
 import { ConfirmDialog } from '#/components/public/confirm-dialog'
 import { Button } from '#/components/ui/button'
@@ -59,86 +69,92 @@ function CapeListPage() {
     }
   }
 
-  const columns: Column<CapeLibrary>[] = [
+  const columns: ColumnDef<CapeLibrary, unknown>[] = [
     {
-      key: 'id',
-      header: 'ID',
-      render: (row) => (
-        <span className="tabular-nums text-muted-foreground">#{row.id}</span>
+      accessorKey: 'id',
+      header: ({ column }) => <TableColumnHeader column={column} title="ID" />,
+      cell: ({ row }) => (
+        <span className="tabular-nums text-muted-foreground">#{row.original.id}</span>
       ),
-      className: 'w-16',
+      size: 64,
     },
     {
-      key: 'name',
-      header: '名称',
-      render: (row) => (
+      accessorKey: 'name',
+      header: ({ column }) => <TableColumnHeader column={column} title="名称" />,
+      cell: ({ row }) => (
         <div className="flex items-center gap-2.5">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
             <Flag className="h-4 w-4 text-primary" />
           </div>
-          <span className="font-medium">{row.name}</span>
+          <span className="font-medium">{row.original.name}</span>
         </div>
       ),
     },
     {
-      key: 'is_public',
-      header: '状态',
-      render: (row) => (
-        <Badge
-          variant={row.is_public ? 'default' : 'secondary'}
-          className={
-            row.is_public
-              ? 'bg-chart-2/10 text-chart-2 hover:bg-chart-2/15 border-chart-2/20'
-              : ''
-          }
-        >
-          {row.is_public ? '公开' : '私有'}
-        </Badge>
-      ),
-      className: 'w-18',
-    },
-    {
-      key: 'texture_hash',
-      header: '纹理哈希',
-      render: (row) => (
-        <span className="font-mono text-xs text-muted-foreground">
-          {row.texture_hash.slice(0, 10)}...
-        </span>
-      ),
-    },
-    {
-      key: 'updated_at',
-      header: '更新时间',
-      render: (row) => (
-        <span className="text-[13px] text-muted-foreground">
-          {new Date(row.updated_at).toLocaleDateString('zh-CN')}
-        </span>
-      ),
-      className: 'w-32',
-    },
-    {
-      key: 'actions',
-      header: '操作',
-      render: (row) => (
-        <div className="flex items-center gap-1">
-          <Link to={`/admin/capes/${row.id}` as any}>
-            <Button variant="ghost" size="sm" className="h-7 px-2 text-xs">
-              <Pencil className="mr-1 h-3 w-3" />
-              编辑
-            </Button>
-          </Link>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="h-7 px-2 text-xs text-destructive hover:text-destructive/90 hover:bg-destructive/10"
-            onClick={() => setDeleteTarget(row)}
+      accessorKey: 'is_public',
+      header: ({ column }) => <TableColumnHeader column={column} title="状态" />,
+      cell: ({ row }) => {
+        const isPublic = row.original.is_public
+        return (
+          <Badge
+            variant={isPublic ? 'default' : 'secondary'}
+            className={
+              isPublic
+                ? 'bg-chart-2/10 text-chart-2 hover:bg-chart-2/15 border-chart-2/20'
+                : ''
+            }
           >
-            <Trash2 className="mr-1 h-3 w-3" />
-            删除
-          </Button>
-        </div>
+            {isPublic ? '公开' : '私有'}
+          </Badge>
+        )
+      },
+      size: 72,
+    },
+    {
+      accessorKey: 'texture_hash',
+      header: ({ column }) => <TableColumnHeader column={column} title="纹理哈希" />,
+      cell: ({ row }) => (
+        <span className="font-mono text-xs text-muted-foreground">
+          {row.original.texture_hash.slice(0, 10)}...
+        </span>
       ),
-      className: 'w-32',
+    },
+    {
+      accessorKey: 'updated_at',
+      header: ({ column }) => <TableColumnHeader column={column} title="更新时间" />,
+      cell: ({ row }) => (
+        <span className="text-[13px] text-muted-foreground">
+          {new Date(row.original.updated_at).toLocaleDateString('zh-CN')}
+        </span>
+      ),
+      size: 128,
+    },
+    {
+      id: 'actions',
+      header: () => <span>操作</span>,
+      cell: ({ row }) => {
+        const cape = row.original
+        return (
+          <div className="flex items-center gap-1">
+            <Link to={`/admin/capes/${cape.id}` as any}>
+              <Button variant="ghost" size="sm" className="h-7 px-2 text-xs">
+                <Pencil className="mr-1 h-3 w-3" />
+                编辑
+              </Button>
+            </Link>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-7 px-2 text-xs text-destructive hover:text-destructive/90 hover:bg-destructive/10"
+              onClick={() => setDeleteTarget(cape)}
+            >
+              <Trash2 className="mr-1 h-3 w-3" />
+              删除
+            </Button>
+          </div>
+        )
+      },
+      size: 128,
     },
   ]
 
@@ -162,13 +178,28 @@ function CapeListPage() {
         </PageHeader>
       </motion.div>
 
-      <motion.div variants={fadeUpItem}>
-        <DataTable
-          columns={columns}
-          data={capes ?? []}
-          rowKey={(row) => row.id}
-          emptyMessage="暂无披风数据，点击右上角新建"
-        />
+      <motion.div variants={fadeUpItem} className="rounded-xl border border-border/70 overflow-hidden">
+        <TableProvider columns={columns} data={capes ?? []}>
+          <TSTableHeader>
+            {({ headerGroup }) => (
+              <TSTableHeaderGroup headerGroup={headerGroup}>
+                {({ header }) => <TSTableHead header={header} />}
+              </TSTableHeaderGroup>
+            )}
+          </TSTableHeader>
+          <TSTableBody>
+            {({ row }) => (
+              <TSTableRow row={row}>
+                {({ cell }) => <TSTableCell cell={cell} />}
+              </TSTableRow>
+            )}
+          </TSTableBody>
+        </TableProvider>
+        {(capes ?? []).length === 0 && (
+          <div className="py-16 text-center">
+            <p className="text-sm text-muted-foreground">暂无披风数据，点击右上角新建</p>
+          </div>
+        )}
       </motion.div>
 
       {/* 删除确认弹窗 */}
