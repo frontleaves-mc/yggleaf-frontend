@@ -7,12 +7,12 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
 import { Layout } from '#/components/layout/layout'
 import { checkIsAuthenticated } from '#/hooks/use-auth-guard'
-import { getUserInfo } from '#/api/endpoints/api-auth/user'
+import { USER_INFO_QUERY_KEY, getUserInfo } from '#/api/endpoints/api-auth/user'
 import { adminMenuItems } from '#/config/menu'
 import { ADMIN_ROLES } from '#/lib/permissions'
 
 export const Route = createFileRoute('/admin')({
-  beforeLoad: async ({ location }) => {
+  beforeLoad: async ({ context, location }) => {
     // 1. 未登录 → 跳转登录
     if (!checkIsAuthenticated()) {
       throw redirect({
@@ -23,12 +23,20 @@ export const Route = createFileRoute('/admin')({
 
     // 2. 已登录但非管理员 → 跳转用户首页
     try {
-      const userInfo = await getUserInfo()
+      const userInfo = await context.queryClient.fetchQuery({
+        queryKey: USER_INFO_QUERY_KEY,
+        queryFn: getUserInfo,
+        staleTime: 5 * 60 * 1000,
+      })
       if (!ADMIN_ROLES.includes(userInfo.user.role_name)) {
         throw redirect({ to: '/user/dashboard' as any })
       }
-    } catch {
-      // 获取用户信息失败时视为无权限
+    } catch (error) {
+      // TanStack Router 的 redirect 是一个具有 `to` 属性的对象，需要重新抛出
+      if (error && typeof error === 'object' && 'to' in error) {
+        throw error
+      }
+      // 其他错误（网络等）→ 视为无权限
       throw redirect({ to: '/user/dashboard' as any })
     }
   },

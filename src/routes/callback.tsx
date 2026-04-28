@@ -6,7 +6,8 @@
 
 import { createFileRoute, redirect, useNavigate, Link } from '@tanstack/react-router'
 import { handleOAuthCallback } from '#/api/endpoints/api-auth/auth'
-import { getUserInfo } from '#/api/endpoints/api-auth/user'
+import { USER_INFO_QUERY_KEY } from '#/api/endpoints/api-auth/user'
+import type { UserCurrentResponse } from '#/api/types'
 import { checkIsAuthenticated } from '#/hooks/use-auth-guard'
 import { Loader2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
@@ -41,17 +42,13 @@ function CallbackPage() {
     window.history.replaceState({}, '', '/callback')
 
     handleOAuthCallback(code, state, queryClient)
-      .then(async () => {
-        // Token 获取成功后，检查账户是否已完善（游戏密码等）
-        try {
-          const userInfo = await getUserInfo()
-          if (userInfo.extend?.account_ready !== 'ready') {
-            // 账户未就绪 → 引导到设置页
-            navigate({ to: '/setup/password' as any })
-            return
-          }
-        } catch {
-          // 获取用户信息失败不影响登录流程，直接跳转目标页面
+      .then(() => {
+        // Token 获取成功后，从缓存读取用户信息检查账户是否已完善
+        const userInfo = queryClient.getQueryData<UserCurrentResponse>(USER_INFO_QUERY_KEY)
+        if (userInfo && userInfo.extend?.account_ready !== 'ready') {
+          // 账户未就绪 → 引导到设置页
+          navigate({ to: '/setup/password' as any })
+          return
         }
 
         const redirectTo = params.get('redirect') || '/user/dashboard'

@@ -55,6 +55,11 @@ export async function deleteSkin(skinId: number): Promise<void> {
   return authApiClient.delete(`/library/skins/${skinId}`)
 }
 
+/** 获取单个皮肤详情 */
+export async function getSkinDetail(skinId: string): Promise<SkinLibrary> {
+  return authApiClient.get<SkinLibrary>(`/library/skins/${skinId}`)
+}
+
 /** 获取皮肤精简列表（仅 ID + 名称，用于选择器） */
 export async function getSkinsList(): Promise<LibrarySimpleListResponse> {
   return authApiClient.get<LibrarySimpleListResponse>('/library/skins/list')
@@ -68,6 +73,15 @@ export function useSkins(params?: SkinListParams, options?: { enabled?: boolean 
     queryKey: ['skins', params],
     queryFn: () => getSkins(params),
     enabled: options?.enabled ?? true,
+  })
+}
+
+/** 皮肤详情 Query */
+export function useSkinDetail(skinId: string | null) {
+  return useQuery({
+    queryKey: ['skins', skinId],
+    queryFn: () => getSkinDetail(skinId!),
+    enabled: !!skinId,
   })
 }
 

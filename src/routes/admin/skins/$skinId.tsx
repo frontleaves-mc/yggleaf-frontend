@@ -4,9 +4,7 @@
  */
 
 import { createFileRoute } from '@tanstack/react-router'
-import { useQuery } from '@tanstack/react-query'
-import { authApiClient } from '#/api/client'
-import { useUpdateSkinMutation, useDeleteSkinMutation } from '#/api/endpoints/api-auth/skin-library'
+import { useSkinDetail, useUpdateSkinMutation, useDeleteSkinMutation } from '#/api/endpoints/api-auth/skin-library'
 import { Button } from '#/components/ui/button'
 import {
   Card,
@@ -24,7 +22,6 @@ import { ConfirmDialog } from '#/components/public/confirm-dialog'
 import { Loader2, ArrowLeft, Save, Trash2 } from 'lucide-react'
 import { Link, useParams, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
-import type { SkinLibrary } from '#/api/types'
 import { motion } from 'motion/react'
 
 /** stagger 容器动画 - 子元素依次入场 */
@@ -48,18 +45,10 @@ export const Route = createFileRoute('/admin/skins/$skinId')({
   component: EditSkinPage,
 })
 
-/** 获取单个皮肤详情 */
-async function getSkinDetail(skinId: string): Promise<SkinLibrary> {
-  return authApiClient.get<SkinLibrary>(`/library/skins/${skinId}`)
-}
-
 function EditSkinPage() {
   const { skinId } = useParams({ strict: false }) as { skinId: string }
   const navigate = useNavigate()
-  const { data: skin, isLoading } = useQuery({
-    queryKey: ['skins', skinId],
-    queryFn: () => getSkinDetail(skinId),
-  })
+  const { data: skin, isLoading } = useSkinDetail(skinId)
 
   const updateMutation = useUpdateSkinMutation(Number(skinId))
   const deleteMutation = useDeleteSkinMutation()

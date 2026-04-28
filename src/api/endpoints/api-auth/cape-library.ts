@@ -55,6 +55,11 @@ export async function deleteCape(capeId: number): Promise<void> {
   return authApiClient.delete(`/library/capes/${capeId}`)
 }
 
+/** 获取单个披风详情 */
+export async function getCapeDetail(capeId: string): Promise<CapeLibrary> {
+  return authApiClient.get<CapeLibrary>(`/library/capes/${capeId}`)
+}
+
 /** 获取披风精简列表（仅 ID + 名称，用于选择器） */
 export async function getCapesList(): Promise<LibrarySimpleListResponse> {
   return authApiClient.get<LibrarySimpleListResponse>('/library/capes/list')
@@ -68,6 +73,15 @@ export function useCapes(params?: CapeListParams, options?: { enabled?: boolean 
     queryKey: ['capes', params],
     queryFn: () => getCapes(params),
     enabled: options?.enabled ?? true,
+  })
+}
+
+/** 披风详情 Query */
+export function useCapeDetail(capeId: string | null) {
+  return useQuery({
+    queryKey: ['capes', capeId],
+    queryFn: () => getCapeDetail(capeId!),
+    enabled: !!capeId,
   })
 }
 

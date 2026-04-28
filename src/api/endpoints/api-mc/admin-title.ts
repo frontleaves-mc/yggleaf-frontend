@@ -99,8 +99,9 @@ export function useUpdateTitleMutation() {
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: UpdateTitleRequest }) =>
       updateTitle(id, data),
-    onSuccess: () => {
+    onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: ADMIN_TITLE_LIST_QUERY_KEY })
+      queryClient.invalidateQueries({ queryKey: [...ADMIN_TITLE_DETAIL_QUERY_KEY, variables.id] })
     },
   })
 }
@@ -118,16 +119,26 @@ export function useDeleteTitleMutation() {
 
 /** 分配称号 Mutation */
 export function useAssignTitleMutation() {
+  const queryClient = useQueryClient()
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: AssignTitleRequest }) =>
       assignTitle(id, data),
+    onSuccess: (_data, variables) => {
+      queryClient.invalidateQueries({ queryKey: ADMIN_TITLE_LIST_QUERY_KEY })
+      queryClient.invalidateQueries({ queryKey: [...ADMIN_TITLE_DETAIL_QUERY_KEY, variables.id] })
+    },
   })
 }
 
 /** 撤销称号 Mutation */
 export function useRevokeTitleMutation() {
+  const queryClient = useQueryClient()
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: AssignTitleRequest }) =>
       revokeTitle(id, data),
+    onSuccess: (_data, variables) => {
+      queryClient.invalidateQueries({ queryKey: ADMIN_TITLE_LIST_QUERY_KEY })
+      queryClient.invalidateQueries({ queryKey: [...ADMIN_TITLE_DETAIL_QUERY_KEY, variables.id] })
+    },
   })
 }

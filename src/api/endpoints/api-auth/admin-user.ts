@@ -91,6 +91,9 @@ export function useAdjustGameProfileQuotaMutation(userId: string) {
       queryClient.invalidateQueries({
         queryKey: [...ADMIN_USER_DETAIL_QUERY_KEY, userId],
       })
+      queryClient.invalidateQueries({
+        queryKey: ADMIN_USER_LIST_QUERY_KEY,
+      })
     },
   })
 }

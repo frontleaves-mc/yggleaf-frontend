@@ -4,9 +4,7 @@
  */
 
 import { createFileRoute } from '@tanstack/react-router'
-import { useQuery } from '@tanstack/react-query'
-import { authApiClient } from '#/api/client'
-import { useUpdateCapeMutation, useDeleteCapeMutation } from '#/api/endpoints/api-auth/cape-library'
+import { useCapeDetail, useUpdateCapeMutation, useDeleteCapeMutation } from '#/api/endpoints/api-auth/cape-library'
 import { Button } from '#/components/ui/button'
 import {
   Card,
@@ -23,7 +21,6 @@ import { ConfirmDialog } from '#/components/public/confirm-dialog'
 import { Loader2, ArrowLeft, Save, Trash2 } from 'lucide-react'
 import { Link, useParams, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
-import type { CapeLibrary } from '#/api/types'
 import { motion } from 'motion/react'
 
 /** stagger 容器动画 - 子元素依次入场 */
@@ -47,18 +44,10 @@ export const Route = createFileRoute('/admin/capes/$capeId')({
   component: EditCapePage,
 })
 
-/** 获取单个披风详情 */
-async function getCapeDetail(capeId: string): Promise<CapeLibrary> {
-  return authApiClient.get<CapeLibrary>(`/library/capes/${capeId}`)
-}
-
 function EditCapePage() {
   const { capeId } = useParams({ strict: false }) as { capeId: string }
   const navigate = useNavigate()
-  const { data: cape, isLoading } = useQuery({
-    queryKey: ['capes', capeId],
-    queryFn: () => getCapeDetail(capeId),
-  })
+  const { data: cape, isLoading } = useCapeDetail(capeId)
 
   const updateMutation = useUpdateCapeMutation(Number(capeId))
   const deleteMutation = useDeleteCapeMutation()
