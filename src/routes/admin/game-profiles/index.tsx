@@ -149,7 +149,11 @@ function GameProfileListPage() {
                 </TSTableHeaderGroup>
               )}
             </TSTableHeader>
-            <TSTableBody>
+            <TSTableBody emptyContent={
+              <p className="text-sm text-muted-foreground">
+                暂无游戏档案数据，完整列表接口开发中
+              </p>
+            }>
               {({ row }) => (
                 <TSTableRow row={row}>
                   {({ cell }) => <TSTableCell cell={cell} />}
@@ -157,13 +161,6 @@ function GameProfileListPage() {
               )}
             </TSTableBody>
           </TableProvider>
-          {mockProfiles.length === 0 && (
-            <div className="py-16 text-center">
-              <p className="text-sm text-muted-foreground">
-                暂无游戏档案数据，完整列表接口开发中
-              </p>
-            </div>
-          )}
         </div>
       </motion.div>
     </motion.div>

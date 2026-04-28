@@ -169,16 +169,16 @@ function CollapsibleMenuItem({
   }
 
   return (
-    <Collapsible open={open} onOpenChange={setOpen}>
+    <Collapsible open={open} onOpenChange={setOpen} className="group/collapsible">
       <SidebarMenuItem>
         <CollapsibleTrigger asChild>
           <SidebarMenuButton tooltip={item.label}>
             <Icon className="size-4" />
             <span>{item.label}</span>
-            <ChevronRight className="ml-auto size-4 shrink-0 transition-transform duration-200 data-[state=open]:rotate-90" />
+            <ChevronRight className="ml-auto size-4 shrink-0 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
           </SidebarMenuButton>
         </CollapsibleTrigger>
-        <CollapsibleContent>
+        <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
           <SidebarMenuSub>
             {item.children?.map((child) => (
               <SidebarMenuSubItem key={child.key}>

@@ -404,7 +404,19 @@ function UserIssuesPage() {
                 </TSTableHeaderGroup>
               )}
             </TSTableHeader>
-            <TSTableBody>
+            <TSTableBody emptyContent={
+              <>
+                <MessageSquareWarning className="mx-auto size-10 text-muted-foreground/30" />
+                <p className="text-sm font-medium text-foreground">
+                  暂无问题反馈
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  {status !== 'all'
+                    ? '当前筛选条件下没有匹配的问题'
+                    : '点击右上角按钮提交你的第一个问题'}
+                </p>
+              </>
+            }>
               {({ row }) => (
                 <TSTableRow row={row}>
                   {({ cell }) => <TSTableCell cell={cell} />}
@@ -412,20 +424,6 @@ function UserIssuesPage() {
               )}
             </TSTableBody>
           </TableProvider>
-
-          {issues.length === 0 && (
-            <div className="py-16 text-center space-y-2">
-              <MessageSquareWarning className="mx-auto size-10 text-muted-foreground/30" />
-              <p className="text-sm font-medium text-foreground">
-                暂无问题反馈
-              </p>
-              <p className="text-sm text-muted-foreground">
-                {status !== 'all'
-                  ? '当前筛选条件下没有匹配的问题'
-                  : '点击右上角按钮提交你的第一个问题'}
-              </p>
-            </div>
-          )}
         </div>
       </motion.div>
     </motion.div>

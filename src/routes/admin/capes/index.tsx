@@ -200,7 +200,11 @@ function CapeListPage() {
               </TSTableHeaderGroup>
             )}
           </TSTableHeader>
-          <TSTableBody>
+          <TSTableBody emptyContent={
+            <p className="text-sm text-muted-foreground">
+              暂无披风数据，点击右上角新建
+            </p>
+          }>
             {({ row }) => (
               <TSTableRow row={row}>
                 {({ cell }) => <TSTableCell cell={cell} />}
@@ -208,13 +212,6 @@ function CapeListPage() {
             )}
           </TSTableBody>
         </TableProvider>
-        {(capes ?? []).length === 0 && (
-          <div className="py-16 text-center">
-            <p className="text-sm text-muted-foreground">
-              暂无披风数据，点击右上角新建
-            </p>
-          </div>
-        )}
       </motion.div>
 
       {/* 删除确认弹窗 */}

@@ -429,7 +429,14 @@ function TitlesAdminPage() {
               </TSTableHeaderGroup>
             )}
           </TSTableHeader>
-          <TSTableBody>
+          <TSTableBody emptyContent={
+            <>
+              <Tags className="mx-auto h-8 w-8 text-muted-foreground/30 mb-3" />
+              <p className="text-sm text-muted-foreground">
+                暂无称号，点击右上角新建
+              </p>
+            </>
+          }>
             {({ row }) => (
               <TSTableRow row={row}>
                 {({ cell }) => <TSTableCell cell={cell} />}
@@ -437,15 +444,6 @@ function TitlesAdminPage() {
             )}
           </TSTableBody>
         </TableProvider>
-
-        {titles.length === 0 && (
-          <div className="py-16 text-center">
-            <Tags className="mx-auto h-8 w-8 text-muted-foreground/30 mb-3" />
-            <p className="text-sm text-muted-foreground">
-              暂无称号，点击右上角新建
-            </p>
-          </div>
-        )}
       </motion.div>
 
       {/* 分页 */}

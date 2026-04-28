@@ -226,9 +226,10 @@ export const TSTableRow = ({ row, children, className }: TSTableRowProps) => (
 export interface TSTableBodyProps {
   children: (props: { row: Row<unknown> }) => ReactNode
   className?: string
+  emptyContent?: ReactNode
 }
 
-export const TSTableBody = ({ children, className }: TSTableBodyProps) => {
+export const TSTableBody = ({ children, className, emptyContent }: TSTableBodyProps) => {
   const { columns, table } = useContext(TableContext)
   const rows = table?.getRowModel().rows
 
@@ -239,7 +240,7 @@ export const TSTableBody = ({ children, className }: TSTableBodyProps) => {
       ) : (
         <TableRowRaw>
           <TableCellRaw className="h-24 text-center" colSpan={columns.length}>
-            No results.
+            {emptyContent ?? '暂无数据'}
           </TableCellRaw>
         </TableRowRaw>
       )}

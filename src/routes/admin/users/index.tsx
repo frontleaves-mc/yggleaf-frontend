@@ -282,7 +282,9 @@ function AdminUserListPage() {
               </TSTableHeaderGroup>
             )}
           </TSTableHeader>
-          <TSTableBody>
+          <TSTableBody emptyContent={
+            <p className="text-sm text-muted-foreground">暂无用户数据</p>
+          }>
             {({ row }) => (
               <TSTableRow row={row}>
                 {({ cell }) => <TSTableCell cell={cell} />}
@@ -290,12 +292,6 @@ function AdminUserListPage() {
             )}
           </TSTableBody>
         </TableProvider>
-
-        {list.length === 0 && (
-          <div className="py-16 text-center">
-            <p className="text-sm text-muted-foreground">暂无用户数据</p>
-          </div>
-        )}
       </motion.div>
 
       {/* 分页控制 */}
