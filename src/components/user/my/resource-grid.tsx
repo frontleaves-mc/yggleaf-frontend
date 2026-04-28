@@ -37,12 +37,12 @@ import {
   useSkins,
   useUpdateSkinMutation,
   useDeleteSkinMutation,
-} from '#/api/endpoints/skin-library'
+} from '#/api/endpoints/api-auth/skin-library'
 import {
   useCapes,
   useUpdateCapeMutation,
   useDeleteCapeMutation,
-} from '#/api/endpoints/cape-library'
+} from '#/api/endpoints/api-auth/cape-library'
 import { ConfirmDialog } from '#/components/public/confirm-dialog'
 
 // ─── 资源网格组件 ───────────────────────────────────────

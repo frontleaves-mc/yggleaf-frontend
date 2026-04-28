@@ -20,8 +20,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '#/components/ui/select'
-import { useAdminUsers } from '#/api/endpoints/admin-user'
-import { useUserInfo } from '#/api/endpoints/user'
+import { useAdminUsers } from '#/api/endpoints/api-auth/admin-user'
+import { useUserInfo } from '#/api/endpoints/api-auth/user'
 import type { AdminUserItem, RoleName } from '#/api/types'
 import { isSuperAdmin } from '#/lib/permissions'
 

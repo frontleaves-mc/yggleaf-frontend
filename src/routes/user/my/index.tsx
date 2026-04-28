@@ -38,9 +38,9 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '#/components/ui/tabs'
 import { UploadZone } from '#/components/user/my/upload-zone'
 import { ResourceGrid } from '#/components/user/my/resource-grid'
-import { useCreateSkinMutation } from '#/api/endpoints/skin-library'
-import { useCreateCapeMutation } from '#/api/endpoints/cape-library'
-import { useLibraryQuota } from '#/api/endpoints/library-quota'
+import { useCreateSkinMutation } from '#/api/endpoints/api-auth/skin-library'
+import { useCreateCapeMutation } from '#/api/endpoints/api-auth/cape-library'
+import { useLibraryQuota } from '#/api/endpoints/api-auth/library-quota'
 import { toast } from 'sonner'
 
 export const Route = createFileRoute('/user/my/')({

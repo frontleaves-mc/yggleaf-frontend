@@ -7,7 +7,7 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
 import { Layout } from '#/components/layout/layout'
 import { checkIsAuthenticated } from '#/hooks/use-auth-guard'
-import { getUserInfo } from '#/api/endpoints/user'
+import { getUserInfo } from '#/api/endpoints/api-auth/user'
 import { adminMenuItems } from '#/config/menu'
 import { ADMIN_ROLES } from '#/lib/permissions'
 

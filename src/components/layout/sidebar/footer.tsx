@@ -4,7 +4,7 @@
  * 用户头像卡片 + 点击展开下拉菜单（个人中心 / 退出登录）
  */
 
-import { useUserInfo } from '#/api/endpoints/user'
+import { useUserInfo } from '#/api/endpoints/api-auth/user'
 import { Avatar, AvatarFallback } from '#/components/ui/avatar'
 import {
   SidebarFooter as SidebarFooterRoot,

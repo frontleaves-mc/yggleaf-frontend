@@ -34,8 +34,8 @@ import { LoadingPage } from '#/components/public/loading-page'
 import {
   useAdminUserDetail,
   useAdjustGameProfileQuotaMutation,
-} from '#/api/endpoints/admin-user'
-import { useUserInfo } from '#/api/endpoints/user'
+} from '#/api/endpoints/api-auth/admin-user'
+import { useUserInfo } from '#/api/endpoints/api-auth/user'
 import { toast } from 'sonner'
 import { isSuperAdmin } from '#/lib/permissions'
 

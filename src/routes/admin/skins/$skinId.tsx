@@ -6,7 +6,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
 import { authApiClient } from '#/api/client'
-import { useUpdateSkinMutation, useDeleteSkinMutation } from '#/api/endpoints/skin-library'
+import { useUpdateSkinMutation, useDeleteSkinMutation } from '#/api/endpoints/api-auth/skin-library'
 import { Button } from '#/components/ui/button'
 import {
   Card,

@@ -17,7 +17,7 @@ import {
   type LucideIcon as LucideIconType,
 } from 'lucide-react'
 import type { RoleName } from '#/api/types'
-import { useUserInfoSync } from '#/api/endpoints/user'
+import { useUserInfoSync } from '#/api/endpoints/api-auth/user'
 import { cn } from '#/lib/utils'
 import {
   Collapsible,

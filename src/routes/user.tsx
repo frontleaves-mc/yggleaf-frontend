@@ -7,7 +7,7 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
 import { Layout } from '#/components/layout/layout'
 import { checkIsAuthenticated } from '#/hooks/use-auth-guard'
-import { useUserInfo } from '#/api/endpoints/user'
+import { useUserInfo } from '#/api/endpoints/api-auth/user'
 import { useNavigate } from '@tanstack/react-router'
 import { useEffect } from 'react'
 import { userMenuItems } from '#/config/menu'

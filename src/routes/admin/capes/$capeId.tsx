@@ -6,7 +6,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
 import { authApiClient } from '#/api/client'
-import { useUpdateCapeMutation, useDeleteCapeMutation } from '#/api/endpoints/cape-library'
+import { useUpdateCapeMutation, useDeleteCapeMutation } from '#/api/endpoints/api-auth/cape-library'
 import { Button } from '#/components/ui/button'
 import {
   Card,

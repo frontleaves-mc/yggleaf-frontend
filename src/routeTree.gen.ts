@@ -28,6 +28,7 @@ import { Route as UserIssuesIndexRouteImport } from './routes/user/issues/index'
 import { Route as UserGameInfoIndexRouteImport } from './routes/user/game-info/index'
 import { Route as UserCapesIndexRouteImport } from './routes/user/capes/index'
 import { Route as AdminUsersIndexRouteImport } from './routes/admin/users/index'
+import { Route as AdminTitlesIndexRouteImport } from './routes/admin/titles/index'
 import { Route as AdminSkinsIndexRouteImport } from './routes/admin/skins/index'
 import { Route as AdminProfileIndexRouteImport } from './routes/admin/profile/index'
 import { Route as AdminIssuesIndexRouteImport } from './routes/admin/issues/index'
@@ -138,6 +139,11 @@ const AdminUsersIndexRoute = AdminUsersIndexRouteImport.update({
   path: '/users/',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminTitlesIndexRoute = AdminTitlesIndexRouteImport.update({
+  id: '/titles/',
+  path: '/titles/',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminSkinsIndexRoute = AdminSkinsIndexRouteImport.update({
   id: '/skins/',
   path: '/skins/',
@@ -236,6 +242,7 @@ export interface FileRoutesByFullPath {
   '/admin/issues/': typeof AdminIssuesIndexRoute
   '/admin/profile/': typeof AdminProfileIndexRoute
   '/admin/skins/': typeof AdminSkinsIndexRoute
+  '/admin/titles/': typeof AdminTitlesIndexRoute
   '/admin/users/': typeof AdminUsersIndexRoute
   '/user/capes/': typeof UserCapesIndexRoute
   '/user/game-info/': typeof UserGameInfoIndexRoute
@@ -269,6 +276,7 @@ export interface FileRoutesByTo {
   '/admin/issues': typeof AdminIssuesIndexRoute
   '/admin/profile': typeof AdminProfileIndexRoute
   '/admin/skins': typeof AdminSkinsIndexRoute
+  '/admin/titles': typeof AdminTitlesIndexRoute
   '/admin/users': typeof AdminUsersIndexRoute
   '/user/capes': typeof UserCapesIndexRoute
   '/user/game-info': typeof UserGameInfoIndexRoute
@@ -305,6 +313,7 @@ export interface FileRoutesById {
   '/admin/issues/': typeof AdminIssuesIndexRoute
   '/admin/profile/': typeof AdminProfileIndexRoute
   '/admin/skins/': typeof AdminSkinsIndexRoute
+  '/admin/titles/': typeof AdminTitlesIndexRoute
   '/admin/users/': typeof AdminUsersIndexRoute
   '/user/capes/': typeof UserCapesIndexRoute
   '/user/game-info/': typeof UserGameInfoIndexRoute
@@ -342,6 +351,7 @@ export interface FileRouteTypes {
     | '/admin/issues/'
     | '/admin/profile/'
     | '/admin/skins/'
+    | '/admin/titles/'
     | '/admin/users/'
     | '/user/capes/'
     | '/user/game-info/'
@@ -375,6 +385,7 @@ export interface FileRouteTypes {
     | '/admin/issues'
     | '/admin/profile'
     | '/admin/skins'
+    | '/admin/titles'
     | '/admin/users'
     | '/user/capes'
     | '/user/game-info'
@@ -410,6 +421,7 @@ export interface FileRouteTypes {
     | '/admin/issues/'
     | '/admin/profile/'
     | '/admin/skins/'
+    | '/admin/titles/'
     | '/admin/users/'
     | '/user/capes/'
     | '/user/game-info/'
@@ -564,6 +576,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminUsersIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/titles/': {
+      id: '/admin/titles/'
+      path: '/titles'
+      fullPath: '/admin/titles/'
+      preLoaderRoute: typeof AdminTitlesIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/skins/': {
       id: '/admin/skins/'
       path: '/skins'
@@ -680,6 +699,7 @@ interface AdminRouteChildren {
   AdminIssuesIndexRoute: typeof AdminIssuesIndexRoute
   AdminProfileIndexRoute: typeof AdminProfileIndexRoute
   AdminSkinsIndexRoute: typeof AdminSkinsIndexRoute
+  AdminTitlesIndexRoute: typeof AdminTitlesIndexRoute
   AdminUsersIndexRoute: typeof AdminUsersIndexRoute
 }
 
@@ -698,6 +718,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminIssuesIndexRoute: AdminIssuesIndexRoute,
   AdminProfileIndexRoute: AdminProfileIndexRoute,
   AdminSkinsIndexRoute: AdminSkinsIndexRoute,
+  AdminTitlesIndexRoute: AdminTitlesIndexRoute,
   AdminUsersIndexRoute: AdminUsersIndexRoute,
 }
 

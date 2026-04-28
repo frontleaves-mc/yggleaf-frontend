@@ -4,7 +4,7 @@
  */
 
 import { createFileRoute } from '@tanstack/react-router'
-import { useCapes, useDeleteCapeMutation } from '#/api/endpoints/cape-library'
+import { useCapes, useDeleteCapeMutation } from '#/api/endpoints/api-auth/cape-library'
 import { PageHeader } from '#/components/public/page-header'
 import { DataTable, type Column } from '#/components/public/data-table'
 import { LoadingPage } from '#/components/public/loading-page'

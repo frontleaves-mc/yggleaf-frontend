@@ -11,8 +11,8 @@ import { useCallback } from 'react'
 import { useStore } from '@tanstack/react-store'
 import { useQueryClient } from '@tanstack/react-query'
 import { authStore } from '#/stores/auth-store'
-import { logout as apiLogout } from '#/api/endpoints/auth'
-import { USER_INFO_QUERY_KEY } from '#/api/endpoints/user'
+import { logout as apiLogout } from '#/api/endpoints/api-auth/auth'
+import { USER_INFO_QUERY_KEY } from '#/api/endpoints/api-auth/user'
 import type { User } from '#/api/types'
 
 /** 返回认证状态和操作方法 */

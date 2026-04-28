@@ -14,7 +14,7 @@ import { Badge } from '#/components/ui/badge'
 import { SkinPreview } from '#/components/user/skin-preview'
 import { motion } from 'motion/react'
 import { cardHoverVariants, hoverLiftTransition } from '#/lib/motion-presets'
-import { useCapes } from '#/api/endpoints/cape-library'
+import { useCapes } from '#/api/endpoints/api-auth/cape-library'
 import { LoadingPage } from '#/components/public/loading-page'
 import type { CapeLibrary } from '#/api/types'
 

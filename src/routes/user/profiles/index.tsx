@@ -42,9 +42,9 @@ import {
   useUpdateUsernameMutation,
   useSetSkinMutation,
   useSetCapeMutation,
-} from '#/api/endpoints/game-profile'
-import { useSkinsList } from '#/api/endpoints/skin-library'
-import { useCapesList } from '#/api/endpoints/cape-library'
+} from '#/api/endpoints/api-auth/game-profile'
+import { useSkinsList } from '#/api/endpoints/api-auth/skin-library'
+import { useCapesList } from '#/api/endpoints/api-auth/cape-library'
 import type { GameProfile, LibrarySimpleItem } from '#/api/types'
 import { SkinPreview } from '#/components/user/skin-preview'
 

@@ -68,6 +68,13 @@ export const adminMenuItems: MenuItem[] = [
         icon: UserCircle,
         to: '/admin/game-profiles',
       },
+      {
+        key: 'titles',
+        label: '称号管理',
+        icon: Tags,
+        to: '/admin/titles',
+        roles: ['SUPER_ADMIN'],
+      },
     ],
   },
   {
@@ -216,5 +223,6 @@ export const breadcrumbLabels: Record<string, string> = {
   '/admin/issues': '问题管理',
   '/admin/issues/$issueId': '问题详情',
   '/admin/issue-types': '问题类型',
+  '/admin/titles': '称号管理',
   '/admin/profile': '个人设置',
 }

@@ -13,7 +13,7 @@
  */
 
 import { createFileRoute, redirect } from '@tanstack/react-router'
-import { getOAuthLoginUrl } from '#/api/endpoints/auth'
+import { getOAuthLoginUrl } from '#/api/endpoints/api-auth/auth'
 import { checkIsAuthenticated } from '#/hooks/use-auth-guard'
 import { Button } from '#/components/ui/button'
 import { ShieldCheck, Shirt, Flag, ExternalLink, Sparkles } from 'lucide-react'

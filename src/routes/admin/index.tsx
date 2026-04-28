@@ -4,9 +4,9 @@
  */
 
 import { createFileRoute } from '@tanstack/react-router'
-import { useUserInfo } from '#/api/endpoints/user'
-import { useSkins } from '#/api/endpoints/skin-library'
-import { useCapes } from '#/api/endpoints/cape-library'
+import { useUserInfo } from '#/api/endpoints/api-auth/user'
+import { useSkins } from '#/api/endpoints/api-auth/skin-library'
+import { useCapes } from '#/api/endpoints/api-auth/cape-library'
 import { LoadingPage } from '#/components/public/loading-page'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '#/components/ui/card'
 import {

@@ -7,7 +7,7 @@
 
 import { createFileRoute } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
-import { useUserInfo, useUpdateGamePasswordMutation } from '#/api/endpoints/user'
+import { useUserInfo, useUpdateGamePasswordMutation } from '#/api/endpoints/api-auth/user'
 import {
   Card,
   CardContent,

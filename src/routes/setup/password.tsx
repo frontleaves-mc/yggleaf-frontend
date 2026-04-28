@@ -29,7 +29,7 @@ import {
   FormLabel,
   FormMessage,
 } from '#/components/ui/form'
-import { useUpdateGamePasswordMutation, useUserInfo } from '#/api/endpoints/user'
+import { useUpdateGamePasswordMutation, useUserInfo } from '#/api/endpoints/api-auth/user'
 
 // ─── 表单数据类型 ──────────────────────────────────────────
 

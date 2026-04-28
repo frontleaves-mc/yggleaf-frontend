@@ -4,7 +4,7 @@
  */
 
 import { createFileRoute } from '@tanstack/react-router'
-import { useCreateCapeMutation } from '#/api/endpoints/cape-library'
+import { useCreateCapeMutation } from '#/api/endpoints/api-auth/cape-library'
 import { Button } from '#/components/ui/button'
 import {
   Card,

@@ -4,7 +4,7 @@
  */
 
 import { createFileRoute } from '@tanstack/react-router'
-import { useSkins, useDeleteSkinMutation } from '#/api/endpoints/skin-library'
+import { useSkins, useDeleteSkinMutation } from '#/api/endpoints/api-auth/skin-library'
 import { PageHeader } from '#/components/public/page-header'
 import { DataTable, type Column } from '#/components/public/data-table'
 import { LoadingPage } from '#/components/public/loading-page'

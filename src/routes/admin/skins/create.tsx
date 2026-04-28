@@ -4,7 +4,7 @@
  */
 
 import { createFileRoute } from '@tanstack/react-router'
-import { useCreateSkinMutation } from '#/api/endpoints/skin-library'
+import { useCreateSkinMutation } from '#/api/endpoints/api-auth/skin-library'
 import { Button } from '#/components/ui/button'
 import {
   Card,

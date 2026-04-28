@@ -6,7 +6,7 @@
 
 import { createFileRoute } from '@tanstack/react-router'
 import { motion } from 'motion/react'
-import { useUserInfo } from '#/api/endpoints/user'
+import { useUserInfo } from '#/api/endpoints/api-auth/user'
 import {
   Card,
   CardContent,

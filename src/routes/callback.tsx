@@ -5,8 +5,8 @@
  */
 
 import { createFileRoute, redirect, useNavigate, Link } from '@tanstack/react-router'
-import { handleOAuthCallback } from '#/api/endpoints/auth'
-import { getUserInfo } from '#/api/endpoints/user'
+import { handleOAuthCallback } from '#/api/endpoints/api-auth/auth'
+import { getUserInfo } from '#/api/endpoints/api-auth/user'
 import { checkIsAuthenticated } from '#/hooks/use-auth-guard'
 import { Loader2 } from 'lucide-react'
 import { useEffect, useState } from 'react'

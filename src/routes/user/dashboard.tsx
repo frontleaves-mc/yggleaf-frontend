@@ -8,7 +8,7 @@
  */
 
 import { createFileRoute } from '@tanstack/react-router'
-import { useUserInfo } from '#/api/endpoints/user'
+import { useUserInfo } from '#/api/endpoints/api-auth/user'
 import { Shirt, Flag, Gamepad2, ArrowRight, Sparkles, ShieldCheck, Server } from 'lucide-react'
 import { useNavigate } from '@tanstack/react-router'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '#/components/ui/card'

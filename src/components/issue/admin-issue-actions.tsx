@@ -18,7 +18,7 @@ import {
   useUpdateIssueNoteMutation,
   useUpdateIssuePriorityMutation,
   useUpdateIssueStatusMutation,
-} from '#/api/endpoints/admin-issue'
+} from '#/api/endpoints/api-auth/admin-issue'
 import type { IssueEntity, IssuePriority, IssueStatus } from '#/api/types'
 import { Loader2, Save, StickyNote, Gauge, ToggleRight } from 'lucide-react'
 import { toast } from 'sonner'

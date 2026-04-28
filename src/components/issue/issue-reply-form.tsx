@@ -11,7 +11,7 @@ import {
   InputGroupText,
   InputGroupTextarea,
 } from '#/components/ui/input-group'
-import { useReplyIssueMutation } from '#/api/endpoints/issue'
+import { useReplyIssueMutation } from '#/api/endpoints/api-auth/issue'
 import { Loader2, Send } from 'lucide-react'
 import { toast } from 'sonner'
 import { cn } from '#/lib/utils'

@@ -37,8 +37,8 @@ import {
   useCreateIssueTypeMutation,
   useUpdateIssueTypeMutation,
   useDeleteIssueTypeMutation,
-} from '#/api/endpoints/issue-type'
-import { useUserInfo } from '#/api/endpoints/user'
+} from '#/api/endpoints/api-auth/issue-type'
+import { useUserInfo } from '#/api/endpoints/api-auth/user'
 import type { IssueType } from '#/api/types'
 import { toast } from 'sonner'
 import { isSuperAdmin } from '#/lib/permissions'
