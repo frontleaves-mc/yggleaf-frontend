@@ -8,14 +8,20 @@
  * - 双后端支持（Auth / MC）
  */
 
-import axios, { type AxiosInstance, type InternalAxiosRequestConfig } from 'axios'
-import type { ApiResponse } from '#/api/types'
+import axios from 'axios'
+import type {AxiosInstance, InternalAxiosRequestConfig} from 'axios';
+import type { ApiResponse, OAuthTokenData  } from '#/api/types'
 import { ApiError } from '#/api/types'
 import type { QueryClient } from '@tanstack/react-query'
 import { authStore, clearAuth, updateTokens } from '#/stores/auth-store'
-import { API_BASE_URL, MC_API_BASE_URL, API_TIMEOUT, ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '#/config/constants'
+import {
+  API_BASE_URL,
+  MC_API_BASE_URL,
+  API_TIMEOUT,
+  ACCESS_TOKEN_KEY,
+  REFRESH_TOKEN_KEY,
+} from '#/config/constants'
 import { getCookie } from '#/lib/cookie'
-import type { OAuthTokenData } from '#/api/types'
 
 // ─── 类型定义 ──────────────────────────────────────────────
 
@@ -106,8 +112,10 @@ function applyRequestInterceptor(inst: AxiosInstance): void {
  * 始终通过 authInstance 调用，确保刷新请求打到认证后端
  */
 async function refreshAccessToken(): Promise<OAuthTokenData> {
-  const currentToken = authStore.state.accessToken || getCookie(ACCESS_TOKEN_KEY)
-  const refreshTokenValue = authStore.state.refreshToken || getCookie(REFRESH_TOKEN_KEY)
+  const currentToken =
+    authStore.state.accessToken || getCookie(ACCESS_TOKEN_KEY)
+  const refreshTokenValue =
+    authStore.state.refreshToken || getCookie(REFRESH_TOKEN_KEY)
 
   if (!refreshTokenValue) {
     throw new Error('No refresh token available')
@@ -152,7 +160,10 @@ function applyResponseInterceptor(inst: AxiosInstance): void {
     async (error) => {
       // 网络错误 / 超时 / 被取消
       if (!error.response) {
-        if (error.code === 'ECONNABORTED' || error.message?.includes('timeout')) {
+        if (
+          error.code === 'ECONNABORTED' ||
+          error.message?.includes('timeout')
+        ) {
           throw new Error('请求超时')
         }
         throw error
@@ -231,28 +242,44 @@ class ApiClient {
     return unwrapData<T>(response)
   }
 
-  async post<T>(path: string, body?: unknown, config?: RequestConfig): Promise<T> {
+  async post<T>(
+    path: string,
+    body?: unknown,
+    config?: RequestConfig,
+  ): Promise<T> {
     const response = await this.inst.post<ApiResponse<T>>(path, body, {
       skipAuth: config?.skipAuth,
     } as CustomAxiosConfig)
     return unwrapData<T>(response)
   }
 
-  async patch<T>(path: string, body?: unknown, config?: RequestConfig): Promise<T> {
+  async patch<T>(
+    path: string,
+    body?: unknown,
+    config?: RequestConfig,
+  ): Promise<T> {
     const response = await this.inst.patch<ApiResponse<T>>(path, body, {
       skipAuth: config?.skipAuth,
     } as CustomAxiosConfig)
     return unwrapData<T>(response)
   }
 
-  async put<T>(path: string, body?: unknown, config?: RequestConfig): Promise<T> {
+  async put<T>(
+    path: string,
+    body?: unknown,
+    config?: RequestConfig,
+  ): Promise<T> {
     const response = await this.inst.put<ApiResponse<T>>(path, body, {
       skipAuth: config?.skipAuth,
     } as CustomAxiosConfig)
     return unwrapData<T>(response)
   }
 
-  async delete<T>(path: string, body?: unknown, config?: RequestConfig): Promise<T> {
+  async delete<T>(
+    path: string,
+    body?: unknown,
+    config?: RequestConfig,
+  ): Promise<T> {
     const response = await this.inst.delete<ApiResponse<T>>(path, {
       data: body,
       skipAuth: config?.skipAuth,

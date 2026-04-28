@@ -13,7 +13,13 @@ import { IssueReplyList } from '#/components/issue/issue-reply-list'
 import { IssueReplyForm } from '#/components/issue/issue-reply-form'
 import { useIssueDetail } from '#/api/endpoints/api-auth/issue'
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
-import { ArrowLeft, MessageSquare, FileQuestion, Clock, Paperclip } from 'lucide-react'
+import {
+  ArrowLeft,
+  MessageSquare,
+  FileQuestion,
+  Clock,
+  Paperclip,
+} from 'lucide-react'
 import { motion } from 'motion/react'
 import { formatTime } from '#/components/issue/issue-detail-content'
 import { useSetPageTitle } from '#/components/layout/page-title-context'
@@ -38,7 +44,7 @@ const fadeUpItem = {
 }
 
 function UserIssueDetailPage() {
-  const { issueId } = useParams({ strict: false }) as { issueId: string }
+  const { issueId } = useParams({ strict: false })
   const { data: issueDetail, isLoading } = useIssueDetail(issueId)
   const setTitle = useSetPageTitle()
 
@@ -48,7 +54,10 @@ function UserIssueDetailPage() {
   }, [issueDetail, setTitle])
 
   if (isLoading) return <LoadingPage />
-  if (!issueDetail) return <div className="p-8 text-center text-muted-foreground">问题不存在</div>
+  if (!issueDetail)
+    return (
+      <div className="p-8 text-center text-muted-foreground">问题不存在</div>
+    )
 
   const { issue, attachments } = issueDetail
   const isClosed = issue.status === 'closed'
@@ -128,7 +137,10 @@ function UserIssueDetailPage() {
         </motion.div>
 
         {/* 右侧：附件面板 (sticky) */}
-        <motion.aside variants={fadeUpItem} className="lg:sticky lg:top-6 lg:self-start">
+        <motion.aside
+          variants={fadeUpItem}
+          className="lg:sticky lg:top-6 lg:self-start"
+        >
           <Card>
             <CardHeader className="border-b border-border/40 pb-3">
               <CardTitle className="text-sm font-medium flex items-center gap-1.5">

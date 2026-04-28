@@ -9,7 +9,13 @@
 
 import { Store } from '@tanstack/store'
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '#/config/constants'
-import { getCookie, setCookie, clearAuthCookies, AT_MAX_AGE, RT_MAX_AGE } from '#/lib/cookie'
+import {
+  getCookie,
+  setCookie,
+  clearAuthCookies,
+  AT_MAX_AGE,
+  RT_MAX_AGE,
+} from '#/lib/cookie'
 
 /** 认证状态 */
 export interface AuthState {

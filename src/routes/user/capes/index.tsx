@@ -43,15 +43,28 @@ const fadeUpItem = {
 
 export default function CapesPage() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
-  const { data, isLoading } = useCapes({ mode: 'market', page: 1, page_size: 50 })
+  const { data, isLoading } = useCapes({
+    mode: 'market',
+    page: 1,
+    page_size: 50,
+  })
   const capes = data?.items ?? []
 
   return (
-    <motion.div className="space-y-6" variants={staggerContainer} initial="initial" animate="animate">
+    <motion.div
+      className="space-y-6"
+      variants={staggerContainer}
+      initial="initial"
+      animate="animate"
+    >
       {/* 页面标题 */}
       <motion.div variants={fadeUpItem}>
-        <h1 className="text-2xl font-bold text-foreground font-display">披风库</h1>
-        <p className="mt-1 text-sm text-muted-foreground">挑选属于你的独特披风</p>
+        <h1 className="text-2xl font-bold text-foreground font-display">
+          披风库
+        </h1>
+        <p className="mt-1 text-sm text-muted-foreground">
+          挑选属于你的独特披风
+        </p>
       </motion.div>
 
       {/* 工具栏 */}
@@ -85,11 +98,14 @@ export default function CapesPage() {
 
       {/* 披风网格 */}
       {!isLoading && (
-        <motion.div variants={fadeUpItem} className={
-          viewMode === 'grid'
-            ? "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4"
-            : "flex flex-col gap-3"
-        }>
+        <motion.div
+          variants={fadeUpItem}
+          className={
+            viewMode === 'grid'
+              ? 'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4'
+              : 'flex flex-col gap-3'
+          }
+        >
           {capes.map((cape) => (
             <CapeCard key={cape.id} cape={cape} viewMode={viewMode} />
           ))}
@@ -103,7 +119,9 @@ export default function CapesPage() {
             <CardContent className="py-12 text-center">
               <Flag className="mx-auto size-12 text-muted-foreground/30" />
               <h3 className="mt-4 font-medium text-foreground">暂无披风</h3>
-              <p className="mt-1 text-sm text-muted-foreground">目前还没有公开的披风资源</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                目前还没有公开的披风资源
+              </p>
             </CardContent>
           </Card>
         </motion.div>
@@ -114,7 +132,13 @@ export default function CapesPage() {
 
 // ─── 披风卡片组件 ─────────────────────────────────────────
 
-function CapeCard({ cape, viewMode }: { cape: CapeLibrary; viewMode: 'grid' | 'list' }) {
+function CapeCard({
+  cape,
+  viewMode,
+}: {
+  cape: CapeLibrary
+  viewMode: 'grid' | 'list'
+}) {
   if (viewMode === 'list') {
     return (
       <motion.div
@@ -126,27 +150,29 @@ function CapeCard({ cape, viewMode }: { cape: CapeLibrary; viewMode: 'grid' | 'l
       >
         <Card className="ring-0 border border-border/70 overflow-hidden">
           <CardContent className="flex items-center gap-4 p-4">
-          <div className="size-14 rounded-lg overflow-hidden flex-shrink-0">
-            <SkinPreview capeUrl={cape.texture_url} />
-          </div>
-          <div className="flex-1 min-w-0">
-            <h3 className="font-medium text-foreground truncate">{cape.name}</h3>
-            <div className="flex items-center gap-2 mt-0.5">
-              <Badge
-                className={
-                  cape.is_public
-                    ? 'bg-chart-2/10 text-chart-2 border-chart-2/20 text-[10px]'
-                    : 'text-[10px]'
-                }
-                variant="secondary"
-              >
-                {cape.is_public ? '公开' : '私有'}
-              </Badge>
+            <div className="size-14 rounded-lg overflow-hidden flex-shrink-0">
+              <SkinPreview capeUrl={cape.texture_url} />
             </div>
-          </div>
-        </CardContent>
-      </Card>
-    </motion.div>
+            <div className="flex-1 min-w-0">
+              <h3 className="font-medium text-foreground truncate">
+                {cape.name}
+              </h3>
+              <div className="flex items-center gap-2 mt-0.5">
+                <Badge
+                  className={
+                    cape.is_public
+                      ? 'bg-chart-2/10 text-chart-2 border-chart-2/20 text-[10px]'
+                      : 'text-[10px]'
+                  }
+                  variant="secondary"
+                >
+                  {cape.is_public ? '公开' : '私有'}
+                </Badge>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
     )
   }
 
@@ -160,17 +186,17 @@ function CapeCard({ cape, viewMode }: { cape: CapeLibrary; viewMode: 'grid' | 'l
     >
       <Card className="ring-0 border border-border/70 overflow-hidden group">
         <CardContent className="p-4">
-        {/* 披风预览区 — 3D 渲染（搭配默认皮肤） */}
-        <div className="aspect-[2/3] rounded-lg bg-gradient-to-b from-chart-4/5 via-chart-4/8 to-chart-4/15 mb-3 flex items-center justify-center relative overflow-hidden">
-          <SkinPreview capeUrl={cape.texture_url} />
-          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors rounded-lg" />
-        </div>
+          {/* 披风预览区 — 3D 渲染（搭配默认皮肤） */}
+          <div className="aspect-[2/3] rounded-lg bg-gradient-to-b from-chart-4/5 via-chart-4/8 to-chart-4/15 mb-3 flex items-center justify-center relative overflow-hidden">
+            <SkinPreview capeUrl={cape.texture_url} />
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors rounded-lg" />
+          </div>
 
-        <h3 className="font-medium text-sm text-foreground truncate group-hover:text-chart-4 transition-colors">
-          {cape.name}
-        </h3>
-      </CardContent>
-    </Card>
+          <h3 className="font-medium text-sm text-foreground truncate group-hover:text-chart-4 transition-colors">
+            {cape.name}
+          </h3>
+        </CardContent>
+      </Card>
     </motion.div>
   )
 }

@@ -34,7 +34,9 @@ export const ADMIN_ISSUE_LIST_QUERY_KEY = ['admin', 'issues'] as const
 // ─── 端点函数 ──────────────────────────────────────────────
 
 /** 管理员全量问题列表 */
-export async function getAdminIssues(params?: AdminIssueListParams): Promise<IssueListResponse> {
+export async function getAdminIssues(
+  params?: AdminIssueListParams,
+): Promise<IssueListResponse> {
   const sp = new URLSearchParams()
   if (params?.page) sp.set('page', String(params.page))
   if (params?.page_size) sp.set('page_size', String(params.page_size))
@@ -43,7 +45,9 @@ export async function getAdminIssues(params?: AdminIssueListParams): Promise<Iss
   if (params?.issue_type_id) sp.set('issue_type_id', params.issue_type_id)
   if (params?.keyword) sp.set('keyword', params.keyword)
   const qs = sp.toString()
-  return authApiClient.get<IssueListResponse>(qs ? `/admin/issue/list?${qs}` : '/admin/issue/list')
+  return authApiClient.get<IssueListResponse>(
+    qs ? `/admin/issue/list?${qs}` : '/admin/issue/list',
+  )
 }
 
 /** 更新备注 */
@@ -84,7 +88,8 @@ export function useAdminIssues(params?: AdminIssueListParams) {
 export function useUpdateIssueNoteMutation(issueId: string) {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: (data: UpdateIssueNoteRequest) => updateIssueNote(issueId, data),
+    mutationFn: (data: UpdateIssueNoteRequest) =>
+      updateIssueNote(issueId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['issue-detail', issueId] })
       queryClient.invalidateQueries({ queryKey: ADMIN_ISSUE_LIST_QUERY_KEY })
@@ -96,7 +101,8 @@ export function useUpdateIssueNoteMutation(issueId: string) {
 export function useUpdateIssuePriorityMutation(issueId: string) {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: (data: UpdateIssuePriorityRequest) => updateIssuePriority(issueId, data),
+    mutationFn: (data: UpdateIssuePriorityRequest) =>
+      updateIssuePriority(issueId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['issue-detail', issueId] })
       queryClient.invalidateQueries({ queryKey: ADMIN_ISSUE_LIST_QUERY_KEY })
@@ -108,7 +114,8 @@ export function useUpdateIssuePriorityMutation(issueId: string) {
 export function useUpdateIssueStatusMutation(issueId: string) {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: (data: UpdateIssueStatusRequest) => updateIssueStatus(issueId, data),
+    mutationFn: (data: UpdateIssueStatusRequest) =>
+      updateIssueStatus(issueId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['issue-detail', issueId] })
       queryClient.invalidateQueries({ queryKey: ADMIN_ISSUE_LIST_QUERY_KEY })

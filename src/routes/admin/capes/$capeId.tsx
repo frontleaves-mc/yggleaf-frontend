@@ -3,8 +3,12 @@
  * 编辑已有披风的属性信息
  */
 
-import { createFileRoute } from '@tanstack/react-router'
-import { useCapeDetail, useUpdateCapeMutation, useDeleteCapeMutation } from '#/api/endpoints/api-auth/cape-library'
+import { createFileRoute, Link, useParams, useNavigate  } from '@tanstack/react-router'
+import {
+  useCapeDetail,
+  useUpdateCapeMutation,
+  useDeleteCapeMutation,
+} from '#/api/endpoints/api-auth/cape-library'
 import { Button } from '#/components/ui/button'
 import {
   Card,
@@ -19,7 +23,6 @@ import { Switch } from '#/components/ui/switch'
 import { Badge } from '#/components/ui/badge'
 import { ConfirmDialog } from '#/components/public/confirm-dialog'
 import { Loader2, ArrowLeft, Save, Trash2 } from 'lucide-react'
-import { Link, useParams, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { motion } from 'motion/react'
 
@@ -45,7 +48,7 @@ export const Route = createFileRoute('/admin/capes/$capeId')({
 })
 
 function EditCapePage() {
-  const { capeId } = useParams({ strict: false }) as { capeId: string }
+  const { capeId } = useParams({ strict: false })
   const navigate = useNavigate()
   const { data: cape, isLoading } = useCapeDetail(capeId)
 
@@ -83,9 +86,17 @@ function EditCapePage() {
     }
   }
 
-  if (isLoading) return <div><LoadingSkeleton /></div>
+  if (isLoading)
+    return (
+      <div>
+        <LoadingSkeleton />
+      </div>
+    )
 
-  if (!cape) return <div className="text-center py-12 text-muted-foreground">披风不存在</div>
+  if (!cape)
+    return (
+      <div className="text-center py-12 text-muted-foreground">披风不存在</div>
+    )
 
   return (
     <motion.div
@@ -111,7 +122,9 @@ function EditCapePage() {
               <div className="flex items-center justify-between">
                 <div>
                   <CardTitle className="text-lg">编辑披风</CardTitle>
-                  <CardDescription>修改披风 #{cape.id} 的属性信息</CardDescription>
+                  <CardDescription>
+                    修改披风 #{cape.id} 的属性信息
+                  </CardDescription>
                 </div>
                 <Badge variant="secondary" className="font-mono text-xs">
                   ID: {cape.id}
@@ -138,12 +151,22 @@ function EditCapePage() {
                       开启后所有用户均可使用
                     </p>
                   </div>
-                  <Switch checked={isPublic} onCheckedChange={setIsPublic} disabled={updateMutation.isPending} />
+                  <Switch
+                    checked={isPublic}
+                    onCheckedChange={setIsPublic}
+                    disabled={updateMutation.isPending}
+                  />
                 </div>
 
                 <div className="flex gap-3 pt-2">
                   <Link to="/admin/capes">
-                    <Button variant="outline" type="button" disabled={updateMutation.isPending}>取消</Button>
+                    <Button
+                      variant="outline"
+                      type="button"
+                      disabled={updateMutation.isPending}
+                    >
+                      取消
+                    </Button>
                   </Link>
                   <Button
                     type="submit"
@@ -151,9 +174,15 @@ function EditCapePage() {
                     className="bg-gradient-to-r from-primary to-primary text-white hover:opacity-90 flex-1 sm:flex-none"
                   >
                     {updateMutation.isPending ? (
-                      <><Loader2 className="mr-2 h-4 w-4 animate-spin" />保存中...</>
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        保存中...
+                      </>
                     ) : (
-                      <><Save className="mr-2 h-4 w-4" />保存修改</>
+                      <>
+                        <Save className="mr-2 h-4 w-4" />
+                        保存修改
+                      </>
                     )}
                   </Button>
                 </div>
@@ -167,8 +196,15 @@ function EditCapePage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <InfoRow label="ID" value={String(cape.id)} />
-              <InfoRow label="纹理哈希" value={cape.texture_hash.slice(0, 12) + '...'} mono />
-              <InfoRow label="创建者" value={cape.user?.username ?? '系统内置'} />
+              <InfoRow
+                label="纹理哈希"
+                value={cape.texture_hash.slice(0, 12) + '...'}
+                mono
+              />
+              <InfoRow
+                label="创建者"
+                value={cape.user?.username ?? '系统内置'}
+              />
               <InfoRow
                 label="更新时间"
                 value={new Date(cape.updated_at).toLocaleString('zh-CN')}
@@ -203,11 +239,25 @@ function EditCapePage() {
   )
 }
 
-function InfoRow({ label, value, mono }: { label: string; value: string; mono?: boolean }) {
+function InfoRow({
+  label,
+  value,
+  mono,
+}: {
+  label: string
+  value: string
+  mono?: boolean
+}) {
   return (
     <div className="flex items-start justify-between gap-3">
-      <span className="text-[13px] text-muted-foreground shrink-0">{label}</span>
-      <span className={`text-[13px] font-medium break-all ${mono ? 'font-mono text-xs' : ''}`}>{value}</span>
+      <span className="text-[13px] text-muted-foreground shrink-0">
+        {label}
+      </span>
+      <span
+        className={`text-[13px] font-medium break-all ${mono ? 'font-mono text-xs' : ''}`}
+      >
+        {value}
+      </span>
     </div>
   )
 }

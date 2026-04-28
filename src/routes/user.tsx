@@ -4,11 +4,10 @@
  * 使用统一的 Layout (mode='user')
  */
 
-import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
+import { createFileRoute, Outlet, redirect, useNavigate  } from '@tanstack/react-router'
 import { Layout } from '#/components/layout/layout'
 import { checkIsAuthenticated } from '#/hooks/use-auth-guard'
 import { useUserInfo } from '#/api/endpoints/api-auth/user'
-import { useNavigate } from '@tanstack/react-router'
 import { useEffect } from 'react'
 import { userMenuItems } from '#/config/menu'
 

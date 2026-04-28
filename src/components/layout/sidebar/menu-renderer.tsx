@@ -102,7 +102,9 @@ export function SidebarMenuRenderer({ items }: SidebarMenuRendererProps) {
   /** 检查子菜单中是否有激活项 */
   const hasActiveChild = (children?: MenuConfig[]): boolean => {
     if (!children) return false
-    return children.some((child) => isActive(child.to) || hasActiveChild(child.children))
+    return children.some(
+      (child) => isActive(child.to) || hasActiveChild(child.children),
+    )
   }
 
   return (
@@ -130,30 +132,18 @@ export function SidebarMenuRenderer({ items }: SidebarMenuRendererProps) {
 
 // ─── 子组件：平铺菜单项 ─────────────────────────────────
 
-function FlatMenuItem({
-  item,
-  active,
-}: {
-  item: MenuConfig
-  active: boolean
-}) {
+function FlatMenuItem({ item, active }: { item: MenuConfig; active: boolean }) {
   const Icon = item.icon
 
   return (
     <SidebarMenuItem>
-      <SidebarMenuButton
-        asChild
-        isActive={active}
-        tooltip={item.label}
-      >
+      <SidebarMenuButton asChild isActive={active} tooltip={item.label}>
         <Link to={item.to}>
-          <Icon className={cn("size-4", active && "text-sidebar-primary")} />
+          <Icon className={cn('size-4', active && 'text-sidebar-primary')} />
           <span>{item.label}</span>
         </Link>
       </SidebarMenuButton>
-      {item.badge != null && (
-        <SidebarMenuBadge>{item.badge}</SidebarMenuBadge>
-      )}
+      {item.badge != null && <SidebarMenuBadge>{item.badge}</SidebarMenuBadge>}
     </SidebarMenuItem>
   )
 }
@@ -194,7 +184,12 @@ function CollapsibleMenuItem({
               <SidebarMenuSubItem key={child.key}>
                 <SidebarMenuSubButton asChild isActive={isActivePath(child.to)}>
                   <Link to={child.to}>
-                    <child.icon className={cn("size-4", isActivePath(child.to) && "text-sidebar-primary")} />
+                    <child.icon
+                      className={cn(
+                        'size-4',
+                        isActivePath(child.to) && 'text-sidebar-primary',
+                      )}
+                    />
                     <span>{child.label}</span>
                   </Link>
                 </SidebarMenuSubButton>

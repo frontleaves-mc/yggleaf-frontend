@@ -3,12 +3,18 @@
  * 管理后台首页 - 系统概览 + 统计数据 + 快捷操作
  */
 
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link  } from '@tanstack/react-router'
 import { useUserInfo } from '#/api/endpoints/api-auth/user'
 import { useSkins } from '#/api/endpoints/api-auth/skin-library'
 import { useCapes } from '#/api/endpoints/api-auth/cape-library'
 import { LoadingPage } from '#/components/public/loading-page'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '#/components/ui/card'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '#/components/ui/card'
 import {
   Users,
   Gamepad2,
@@ -22,9 +28,14 @@ import {
   Activity,
   LayoutDashboard,
 } from 'lucide-react'
-import { Link } from '@tanstack/react-router'
 import { motion } from 'motion/react'
-import { cardHoverVariants, hoverLiftTransition, iconScaleSmallVariants, arrowSlideSmallVariants, childMotionTransition } from '#/lib/motion-presets'
+import {
+  cardHoverVariants,
+  hoverLiftTransition,
+  iconScaleSmallVariants,
+  arrowSlideSmallVariants,
+  childMotionTransition,
+} from '#/lib/motion-presets'
 
 const staggerContainer = {
   animate: {
@@ -64,7 +75,10 @@ function DashboardPage() {
       initial="initial"
       animate="animate"
     >
-      <motion.section variants={fadeUpItem} className="rounded-[1.25rem] border border-border/70 p-4.5 sm:p-6 bg-gradient-to-b from-card to-card/95 shadow-[0_16px_40px_-28px_oklch(0.18_0.025_195_/_0.18)] relative overflow-hidden">
+      <motion.section
+        variants={fadeUpItem}
+        className="rounded-[1.25rem] border border-border/70 p-4.5 sm:p-6 bg-gradient-to-b from-card to-card/95 shadow-[0_16px_40px_-28px_oklch(0.18_0.025_195_/_0.18)] relative overflow-hidden"
+      >
         <div className="pointer-events-none absolute inset-y-0 right-0 w-1/2 bg-[radial-gradient(circle_at_top_right,oklch(from_var(--primary)_l_c_h_/_0.05),transparent_62%)]" />
         <div className="relative grid gap-4 xl:grid-cols-[minmax(0,1.3fr)_minmax(300px,0.95fr)]">
           <div className="flex flex-col gap-4">
@@ -84,17 +98,23 @@ function DashboardPage() {
               <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-background/80 px-3 py-2 shadow-[inset_0_1px_0_oklch(1_0_0_/_0.45)]">
                 <Shirt className="size-4 text-primary" />
                 <span className="text-xs text-muted-foreground">皮肤资源</span>
-                <span className="text-sm font-semibold text-foreground">{skinCount}</span>
+                <span className="text-sm font-semibold text-foreground">
+                  {skinCount}
+                </span>
               </div>
               <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-background/80 px-3 py-2 shadow-[inset_0_1px_0_oklch(1_0_0_/_0.45)]">
                 <Flag className="size-4 text-primary" />
                 <span className="text-xs text-muted-foreground">披风资源</span>
-                <span className="text-sm font-semibold text-foreground">{capeCount}</span>
+                <span className="text-sm font-semibold text-foreground">
+                  {capeCount}
+                </span>
               </div>
               <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-background/80 px-3 py-2 shadow-[inset_0_1px_0_oklch(1_0_0_/_0.45)]">
                 <Activity className="size-4 text-primary" />
                 <span className="text-xs text-muted-foreground">系统状态</span>
-                <span className="text-sm font-semibold text-foreground">Healthy</span>
+                <span className="text-sm font-semibold text-foreground">
+                  Healthy
+                </span>
               </div>
             </div>
           </div>
@@ -228,7 +248,9 @@ function DashboardPage() {
       <motion.section variants={fadeUpItem} className="flex flex-col gap-3">
         <div className="flex items-center justify-between gap-4">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">Operations</p>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">
+              Operations
+            </p>
             <h2 className="flex items-center gap-2 text-xl font-semibold text-foreground">
               <TrendingUp className="h-4 w-4 text-primary" />
               快捷操作
@@ -264,7 +286,9 @@ function DashboardPage() {
         <Card className="border border-border/70 bg-card/95 backdrop-blur-[10px] shadow-[0_16px_40px_-28px_oklch(0.18_0.025_195_/_0.18)] border-dashed border-border/50 py-0">
           <CardHeader className="py-6">
             <CardTitle className="text-base">动态概览</CardTitle>
-            <CardDescription>这里预留给后续的活动日志、审计记录与系统监控。</CardDescription>
+            <CardDescription>
+              这里预留给后续的活动日志、审计记录与系统监控。
+            </CardDescription>
           </CardHeader>
           <CardContent className="py-6">
             <div className="rounded-2xl border border-dashed border-border/50 bg-background/55 p-8 text-center">
@@ -322,7 +346,9 @@ function QuickAction({
               <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground/40 transition-colors group-hover:text-primary" />
             </motion.span>
           </div>
-          <p className="text-[13px] leading-relaxed text-muted-foreground">{description}</p>
+          <p className="text-[13px] leading-relaxed text-muted-foreground">
+            {description}
+          </p>
         </div>
       </Link>
     </motion.div>

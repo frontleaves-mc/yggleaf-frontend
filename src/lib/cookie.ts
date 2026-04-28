@@ -15,14 +15,17 @@ export const RT_MAX_AGE = 30 * 24 * 3600
 
 /** 设置 Cookie */
 export function setCookie(name: string, value: string, maxAge: number): void {
-  const isProduction = typeof window !== 'undefined' && window.location.protocol === 'https:'
+  const isProduction =
+    typeof window !== 'undefined' && window.location.protocol === 'https:'
   document.cookie = [
     `${name}=${encodeURIComponent(value)}`,
     `path=/`,
     `max-age=${maxAge}`,
     `sameSite=Lax`,
     isProduction ? 'secure' : '',
-  ].filter(Boolean).join('; ')
+  ]
+    .filter(Boolean)
+    .join('; ')
 }
 
 /** 获取 Cookie 值 */

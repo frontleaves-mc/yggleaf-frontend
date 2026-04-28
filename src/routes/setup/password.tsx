@@ -9,16 +9,12 @@
  *   - 只有 account_ready === 'game_password' 才允许在此页面停留
  */
 
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate  } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from '@tanstack/react-router'
 import { Lock } from 'lucide-react'
 import { toast } from 'sonner'
 import { useEffect, useState } from 'react'
-import {
-  Card,
-  CardContent,
-} from '#/components/ui/card'
+import { Card, CardContent } from '#/components/ui/card'
 import { Button } from '#/components/ui/button'
 import { Input } from '#/components/ui/input'
 import {
@@ -29,7 +25,10 @@ import {
   FormLabel,
   FormMessage,
 } from '#/components/ui/form'
-import { useUpdateGamePasswordMutation, useUserInfo } from '#/api/endpoints/api-auth/user'
+import {
+  useUpdateGamePasswordMutation,
+  useUserInfo,
+} from '#/api/endpoints/api-auth/user'
 
 // ─── 表单数据类型 ──────────────────────────────────────────
 
@@ -103,8 +102,8 @@ function SetupPasswordPage() {
         </h1>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground text-center max-w-[320px]">
           这是最后一步！设置你的游戏密码后，就可以在{' '}
-          <span className="font-medium text-foreground">Minecraft 启动器</span>
-          {' '}中使用此账户登录了。
+          <span className="font-medium text-foreground">Minecraft 启动器</span>{' '}
+          中使用此账户登录了。
         </p>
 
         {/* 表单 */}
@@ -158,7 +157,8 @@ function SetupPasswordPage() {
               rules={{
                 required: '请确认密码',
                 validate: (value) =>
-                  value === form.watch('new_password') || '两次输入的密码不一致',
+                  value === form.watch('new_password') ||
+                  '两次输入的密码不一致',
               }}
               render={({ field }) => (
                 <FormItem>

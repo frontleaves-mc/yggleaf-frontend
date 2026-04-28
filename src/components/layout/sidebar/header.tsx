@@ -5,7 +5,10 @@
  * 折叠时：仅显示 Logo 图标
  */
 
-import { useSidebar, SidebarHeader as SidebarHeaderRoot } from '#/components/ui/sidebar'
+import {
+  useSidebar,
+  SidebarHeader as SidebarHeaderRoot,
+} from '#/components/ui/sidebar'
 import { cn } from '#/lib/utils'
 
 interface SidebarHeaderProps {

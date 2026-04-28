@@ -81,7 +81,8 @@ export function AdminIssueActions({ issue }: AdminIssueActionsProps) {
     }
   }
 
-  const handleStatusChange = async (value: string) => {    try {
+  const handleStatusChange = async (value: string) => {
+    try {
       await statusMutation.mutateAsync({ status: value as IssueStatus })
       toast.success('状态已更新')
     } catch {
@@ -109,7 +110,9 @@ export function AdminIssueActions({ issue }: AdminIssueActionsProps) {
             className="resize-none text-sm"
           />
           <div className="flex items-center justify-between">
-            <span className="text-xs text-muted-foreground">{note.length}/2000</span>
+            <span className="text-xs text-muted-foreground">
+              {note.length}/2000
+            </span>
             <Button
               size="sm"
               onClick={handleSaveNote}
@@ -136,7 +139,10 @@ export function AdminIssueActions({ issue }: AdminIssueActionsProps) {
         </CardHeader>
         <CardContent>
           <Select value={issue.priority} onValueChange={handlePriorityChange}>
-            <SelectTrigger className="w-full" disabled={priorityMutation.isPending}>
+            <SelectTrigger
+              className="w-full"
+              disabled={priorityMutation.isPending}
+            >
               <SelectValue />
             </SelectTrigger>
             <SelectContent>

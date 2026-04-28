@@ -3,7 +3,7 @@
  * 表单创建新的皮肤资源
  */
 
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link, useNavigate  } from '@tanstack/react-router'
 import { useCreateSkinMutation } from '#/api/endpoints/api-auth/skin-library'
 import { Button } from '#/components/ui/button'
 import {
@@ -16,9 +16,14 @@ import {
 import { Input } from '#/components/ui/input'
 import { Label } from '#/components/ui/label'
 import { Switch } from '#/components/ui/switch'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '#/components/ui/select'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '#/components/ui/select'
 import { Loader2, ArrowLeft, Save } from 'lucide-react'
-import { Link, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { motion } from 'motion/react'
 
@@ -110,7 +115,11 @@ function CreateSkinPage() {
               {/* 模型 */}
               <div className="space-y-2">
                 <Label htmlFor="skin-model">模型类型 *</Label>
-                <Select value={model} onValueChange={setModel} disabled={createMutation.isPending}>
+                <Select
+                  value={model}
+                  onValueChange={setModel}
+                  disabled={createMutation.isPending}
+                >
                   <SelectTrigger id="skin-model">
                     <SelectValue placeholder="选择模型类型" />
                   </SelectTrigger>
@@ -141,7 +150,9 @@ function CreateSkinPage() {
               {/* 公开设置 */}
               <div className="flex items-center justify-between rounded-lg border border-border p-3.5">
                 <div className="space-y-0.5">
-                  <Label htmlFor="skin-public" className="text-sm">公开皮肤</Label>
+                  <Label htmlFor="skin-public" className="text-sm">
+                    公开皮肤
+                  </Label>
                   <p className="text-[12px] text-muted-foreground">
                     开启后所有用户均可使用此皮肤
                   </p>
@@ -157,7 +168,11 @@ function CreateSkinPage() {
               {/* 提交按钮 */}
               <div className="flex gap-3 pt-2">
                 <Link to="/admin/skins">
-                  <Button variant="outline" type="button" disabled={createMutation.isPending}>
+                  <Button
+                    variant="outline"
+                    type="button"
+                    disabled={createMutation.isPending}
+                  >
                     取消
                   </Button>
                 </Link>

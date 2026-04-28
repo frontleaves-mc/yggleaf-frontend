@@ -31,9 +31,7 @@ export function SidebarFooter() {
   const { data: userInfo } = useUserInfo()
   const user = userInfo?.user
 
-  const initials = user?.username
-    ?.slice(0, 2)
-    .toUpperCase() ?? 'YK'
+  const initials = user?.username?.slice(0, 2).toUpperCase() ?? 'YK'
 
   const handleLogout = () => {
     clearAuth()
@@ -59,7 +57,9 @@ export function SidebarFooter() {
                     </AvatarFallback>
                   </Avatar>
                   <div className="flex flex-1 flex-col min-w-0">
-                    <span className="truncate text-sm font-medium">{user?.username ?? '用户'}</span>
+                    <span className="truncate text-sm font-medium">
+                      {user?.username ?? '用户'}
+                    </span>
                     <span className="truncate text-xs text-muted-foreground">
                       {user?.email ?? '未登录'}
                     </span>
@@ -68,13 +68,17 @@ export function SidebarFooter() {
               </DropdownMenuTrigger>
 
               <DropdownMenuContent side="top" align="start" className="w-52">
-                <DropdownMenuItem onClick={() => navigate({ to: '/user/profile' as any })}>
+                <DropdownMenuItem
+                  onClick={() => navigate({ to: '/user/profile' as any })}
+                >
                   <Settings className="mr-2 size-4" />
                   个人中心
                 </DropdownMenuItem>
 
                 {isAdmin(user?.role_name) && (
-                  <DropdownMenuItem onClick={() => navigate({ to: '/admin' as any })}>
+                  <DropdownMenuItem
+                    onClick={() => navigate({ to: '/admin' as any })}
+                  >
                     <Shield className="mr-2 size-4" />
                     管理员
                   </DropdownMenuItem>
@@ -82,7 +86,10 @@ export function SidebarFooter() {
 
                 <DropdownMenuSeparator />
 
-                <DropdownMenuItem onClick={handleLogout} className="text-destructive focus:text-destructive">
+                <DropdownMenuItem
+                  onClick={handleLogout}
+                  className="text-destructive focus:text-destructive"
+                >
                   <LogOut className="mr-2 size-4" />
                   退出登录
                 </DropdownMenuItem>

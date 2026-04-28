@@ -50,10 +50,11 @@ import {
 } from '#/api/endpoints/api-mc/admin-title'
 import { useUserInfo } from '#/api/endpoints/api-auth/user'
 import {
-  TitleType,
-  type TitleResponse,
-  type AdminTitleListParams,
+  TitleType
+  
+  
 } from '#/api/types'
+import type {TitleResponse, AdminTitleListParams} from '#/api/types';
 import { toast } from 'sonner'
 import { isSuperAdmin } from '#/lib/permissions'
 
@@ -91,8 +92,15 @@ function getTitleTypeBadge(type: TitleType) {
       className: 'bg-amber-500/10 text-amber-600 dark:text-amber-400',
     },
   }
-  const info = map[type] ?? { label: '未知', className: 'bg-muted text-muted-foreground' }
-  return <Badge variant="secondary" className={info.className}>{info.label}</Badge>
+  const info = map[type] ?? {
+    label: '未知',
+    className: 'bg-muted text-muted-foreground',
+  }
+  return (
+    <Badge variant="secondary" className={info.className}>
+      {info.label}
+    </Badge>
+  )
 }
 
 // ─── 路由注册 ──────────────────────────────────────────────
@@ -283,39 +291,49 @@ function TitlesAdminPage() {
     },
     {
       accessorKey: 'name',
-      header: ({ column }) => <TableColumnHeader column={column} title="名称" />,
+      header: ({ column }) => (
+        <TableColumnHeader column={column} title="名称" />
+      ),
       cell: ({ row }) => (
         <span className="font-medium text-sm">{row.getValue('name')}</span>
       ),
     },
     {
       accessorKey: 'description',
-      header: ({ column }) => <TableColumnHeader column={column} title="描述" />,
+      header: ({ column }) => (
+        <TableColumnHeader column={column} title="描述" />
+      ),
       cell: ({ row }) => (
         <span className="text-sm text-muted-foreground truncate max-w-[200px] block">
-          {(row.getValue('description') as string) || '-'}
+          {(row.getValue('description')) || '-'}
         </span>
       ),
     },
     {
       accessorKey: 'type',
-      header: ({ column }) => <TableColumnHeader column={column} title="类型" />,
+      header: ({ column }) => (
+        <TableColumnHeader column={column} title="类型" />
+      ),
       cell: ({ row }) => getTitleTypeBadge(row.original.type),
       size: 96,
     },
     {
       accessorKey: 'permission_group',
-      header: ({ column }) => <TableColumnHeader column={column} title="权限组" />,
+      header: ({ column }) => (
+        <TableColumnHeader column={column} title="权限组" />
+      ),
       cell: ({ row }) => (
         <span className="text-sm text-muted-foreground">
-          {(row.getValue('permission_group') as string) || '-'}
+          {(row.getValue('permission_group')) || '-'}
         </span>
       ),
       size: 100,
     },
     {
       accessorKey: 'is_active',
-      header: ({ column }) => <TableColumnHeader column={column} title="状态" />,
+      header: ({ column }) => (
+        <TableColumnHeader column={column} title="状态" />
+      ),
       cell: ({ row }) => {
         const active = row.original.is_active
         return (
@@ -354,7 +372,10 @@ function TitlesAdminPage() {
               variant="ghost"
               size="sm"
               className="h-7 px-2 text-xs"
-              onClick={() => { setAssignTarget(title); resetAssignForm() }}
+              onClick={() => {
+                setAssignTarget(title)
+                resetAssignForm()
+              }}
             >
               <UserPlus className="mr-1 h-3 w-3" />
               分配
@@ -385,7 +406,10 @@ function TitlesAdminPage() {
       animate="animate"
     >
       <motion.div variants={fadeUpItem}>
-        <PageHeader title="称号管理" description="管理 Minecraft 服务器称号的创建、分配与撤销">
+        <PageHeader
+          title="称号管理"
+          description="管理 Minecraft 服务器称号的创建、分配与撤销"
+        >
           <Button onClick={openCreate} className="gap-1.5 text-sm">
             <Plus className="h-4 w-4" />
             新建称号
@@ -393,7 +417,10 @@ function TitlesAdminPage() {
         </PageHeader>
       </motion.div>
 
-      <motion.div variants={fadeUpItem} className="rounded-xl border border-border/70 overflow-hidden">
+      <motion.div
+        variants={fadeUpItem}
+        className="rounded-xl border border-border/70 overflow-hidden"
+      >
         <TableProvider columns={columns} data={titles}>
           <TSTableHeader>
             {({ headerGroup }) => (
@@ -414,14 +441,19 @@ function TitlesAdminPage() {
         {titles.length === 0 && (
           <div className="py-16 text-center">
             <Tags className="mx-auto h-8 w-8 text-muted-foreground/30 mb-3" />
-            <p className="text-sm text-muted-foreground">暂无称号，点击右上角新建</p>
+            <p className="text-sm text-muted-foreground">
+              暂无称号，点击右上角新建
+            </p>
           </div>
         )}
       </motion.div>
 
       {/* 分页 */}
       {totalPages > 1 && (
-        <motion.div variants={fadeUpItem} className="flex items-center justify-between">
+        <motion.div
+          variants={fadeUpItem}
+          className="flex items-center justify-between"
+        >
           <p className="text-sm text-muted-foreground">
             共 {data?.total ?? 0} 条记录，第 {page}/{totalPages} 页
           </p>
@@ -492,9 +524,15 @@ function TitlesAdminPage() {
                   <SelectValue placeholder="选择类型" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value={String(TitleType.General)}>通用称号</SelectItem>
-                  <SelectItem value={String(TitleType.Group)}>权限组称号</SelectItem>
-                  <SelectItem value={String(TitleType.Exclusive)}>玩家专属称号</SelectItem>
+                  <SelectItem value={String(TitleType.General)}>
+                    通用称号
+                  </SelectItem>
+                  <SelectItem value={String(TitleType.Group)}>
+                    权限组称号
+                  </SelectItem>
+                  <SelectItem value={String(TitleType.Exclusive)}>
+                    玩家专属称号
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -522,13 +560,17 @@ function TitlesAdminPage() {
             <Button
               onClick={editTarget ? handleUpdate : handleCreate}
               disabled={
-                (createMutation.isPending || updateMutation.isPending)
-                || !formName.trim() || !formDesc.trim()
+                createMutation.isPending ||
+                updateMutation.isPending ||
+                !formName.trim() ||
+                !formDesc.trim()
               }
             >
-              {(createMutation.isPending || updateMutation.isPending)
+              {createMutation.isPending || updateMutation.isPending
                 ? '处理中...'
-                : (editTarget ? '保存' : '创建')}
+                : editTarget
+                  ? '保存'
+                  : '创建'}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -577,16 +619,26 @@ function TitlesAdminPage() {
               disabled={revokeMutation.isPending || !formPlayerUuid.trim()}
               variant="destructive"
             >
-              {revokeMutation.isPending ? '处理中...' : (
-                <><UserMinus className="mr-2 h-4 w-4" />撤销</>
+              {revokeMutation.isPending ? (
+                '处理中...'
+              ) : (
+                <>
+                  <UserMinus className="mr-2 h-4 w-4" />
+                  撤销
+                </>
               )}
             </Button>
             <Button
               onClick={handleAssign}
               disabled={assignMutation.isPending || !formPlayerUuid.trim()}
             >
-              {assignMutation.isPending ? '处理中...' : (
-                <><UserPlus className="mr-2 h-4 w-4" />分配</>
+              {assignMutation.isPending ? (
+                '处理中...'
+              ) : (
+                <>
+                  <UserPlus className="mr-2 h-4 w-4" />
+                  分配
+                </>
               )}
             </Button>
           </DialogFooter>

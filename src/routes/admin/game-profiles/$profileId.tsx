@@ -3,11 +3,10 @@
  * 查看单个游戏档案的详细信息
  */
 
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link  } from '@tanstack/react-router'
 import { motion } from 'motion/react'
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
 import { ArrowLeft } from 'lucide-react'
-import { Link } from '@tanstack/react-router'
 
 const staggerContainer = {
   animate: {
@@ -65,9 +64,16 @@ function GameProfileDetailPage() {
                   ['关联披风', '--'],
                   ['更新时间', '--'],
                 ].map(([label, value]) => (
-                  <div key={label} className="flex items-center justify-between rounded-lg border border-border px-4 py-3">
-                    <span className="text-[13px] text-muted-foreground">{label}</span>
-                    <span className="text-[13px] font-mono font-medium">{value}</span>
+                  <div
+                    key={label}
+                    className="flex items-center justify-between rounded-lg border border-border px-4 py-3"
+                  >
+                    <span className="text-[13px] text-muted-foreground">
+                      {label}
+                    </span>
+                    <span className="text-[13px] font-mono font-medium">
+                      {value}
+                    </span>
                   </div>
                 ))}
               </div>

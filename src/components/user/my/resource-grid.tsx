@@ -53,14 +53,8 @@ interface ResourceGridProps {
 }
 
 export function ResourceGrid({ type }: ResourceGridProps) {
-  const skinQuery = useSkins(
-    { mode: 'mine' },
-    { enabled: type === 'skin' },
-  )
-  const capeQuery = useCapes(
-    { mode: 'mine' },
-    { enabled: type === 'cape' },
-  )
+  const skinQuery = useSkins({ mode: 'mine' }, { enabled: type === 'skin' })
+  const capeQuery = useCapes({ mode: 'mine' }, { enabled: type === 'cape' })
 
   const query = type === 'skin' ? skinQuery : capeQuery
   const items = query.data?.items ?? []
@@ -70,7 +64,10 @@ export function ResourceGrid({ type }: ResourceGridProps) {
     return (
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
         {Array.from({ length: 4 }).map((_, i) => (
-          <Card key={i} className="ring-0 border border-border/70 overflow-hidden">
+          <Card
+            key={i}
+            className="ring-0 border border-border/70 overflow-hidden"
+          >
             <CardContent className="p-4">
               <div className="aspect-[3/4] rounded-lg bg-muted/50 animate-pulse mb-3" />
               <div className="h-4 w-2/3 rounded bg-muted/50 animate-pulse" />
@@ -92,9 +89,7 @@ export function ResourceGrid({ type }: ResourceGridProps) {
           ) : (
             <Flag className="mx-auto size-12 text-destructive/50" />
           )}
-          <h3 className="mt-4 font-medium text-foreground">
-            加载失败
-          </h3>
+          <h3 className="mt-4 font-medium text-foreground">加载失败</h3>
           <p className="mt-1 text-sm text-muted-foreground">
             无法获取{type === 'skin' ? '皮肤' : '披风'}列表，请稍后重试
           </p>
@@ -138,7 +133,7 @@ export function ResourceGrid({ type }: ResourceGridProps) {
         ? (items as SkinLibrary[]).map((skin) => (
             <ResourceCard key={skin.id} skin={skin} />
           ))
-        : (items as CapeLibrary[]).map((cape) => (
+        : (items).map((cape) => (
             <ResourceCard key={cape.id} cape={cape} />
           ))}
     </div>
@@ -169,7 +164,7 @@ function ResourceCard({
   const handleDelete = async () => {
     try {
       if (isSkin) {
-        await deleteSkinMutation.mutateAsync(skin!.id)
+        await deleteSkinMutation.mutateAsync(skin.id)
       } else {
         await deleteCapeMutation.mutateAsync(cape!.id)
       }
@@ -198,7 +193,7 @@ function ResourceCard({
               } rounded-lg bg-gradient-to-br from-primary/5 to-primary/10 mb-3 flex items-center justify-center relative overflow-hidden`}
             >
               <SkinPreview
-                skinUrl={isSkin ? skin!.texture_url : undefined}
+                skinUrl={isSkin ? skin.texture_url : undefined}
                 capeUrl={isSkin ? undefined : cape!.texture_url}
               />
 
@@ -236,7 +231,7 @@ function ResourceCard({
             <div className="mt-1 flex flex-wrap gap-1.5">
               {isSkin && (
                 <Badge variant="secondary" className="font-mono text-[10px]">
-                  {skin!.model === 1 ? 'Classic' : 'Slim'}
+                  {skin.model === 1 ? 'Classic' : 'Slim'}
                 </Badge>
               )}
               <Badge
@@ -341,7 +336,11 @@ function EditResourceDialog({
           {isSkin && (
             <div className="space-y-2">
               <Label>模型类型</Label>
-              <Select value={model} onValueChange={setModel} disabled={isSaving}>
+              <Select
+                value={model}
+                onValueChange={setModel}
+                disabled={isSaving}
+              >
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
@@ -360,12 +359,20 @@ function EditResourceDialog({
                 开启后所有用户均可使用
               </p>
             </div>
-            <Switch checked={isPublic} onCheckedChange={setIsPublic} disabled={isSaving} />
+            <Switch
+              checked={isPublic}
+              onCheckedChange={setIsPublic}
+              disabled={isSaving}
+            />
           </div>
         </div>
 
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={isSaving}>
+          <Button
+            variant="outline"
+            onClick={() => onOpenChange(false)}
+            disabled={isSaving}
+          >
             取消
           </Button>
           <Button

@@ -19,12 +19,17 @@ interface SkinPreviewProps {
 }
 
 /** 默认 Steve 皮肤 URL（仅展示披风时作为底模） */
-const DEFAULT_SKIN_URL = 'https://crafatar.com/skins/8667ba71-b85a-4004-af54-457a9734eed7'
+const DEFAULT_SKIN_URL =
+  'https://crafatar.com/skins/8667ba71-b85a-4004-af54-457a9734eed7'
 
 /** 缩放系数：让 3D 模型略小于容器，留出呼吸空间 */
 const SCALE = 0.75
 
-export function SkinPreview({ skinUrl, capeUrl, autoRotate = false }: SkinPreviewProps) {
+export function SkinPreview({
+  skinUrl,
+  capeUrl,
+  autoRotate = false,
+}: SkinPreviewProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [size, setSize] = useState({ width: 150, height: 200 })
 
@@ -51,7 +56,10 @@ export function SkinPreview({ skinUrl, capeUrl, autoRotate = false }: SkinPrevie
   }, [])
 
   return (
-    <div ref={containerRef} className="w-full h-full flex items-center justify-center">
+    <div
+      ref={containerRef}
+      className="w-full h-full flex items-center justify-center"
+    >
       <ReactSkinview3d
         skinUrl={skinUrl ?? DEFAULT_SKIN_URL}
         capeUrl={capeUrl}

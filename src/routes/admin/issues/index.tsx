@@ -76,50 +76,62 @@ function AdminIssuesPage() {
   const columns: ColumnDef<IssueListItem, unknown>[] = [
     {
       id: 'title',
-      header: ({ column }) => <TableColumnHeader column={column} title="标题" />,
+      header: ({ column }) => (
+        <TableColumnHeader column={column} title="标题" />
+      ),
       cell: ({ row }) => {
-        const item = row.original as IssueListItem
+        const item = row.original
         return (
-          <span className="font-medium text-sm block truncate">{item.issue.title}</span>
+          <span className="font-medium text-sm block truncate">
+            {item.issue.title}
+          </span>
         )
       },
     },
     {
       id: 'user',
-      header: ({ column }) => <TableColumnHeader column={column} title="用户" />,
+      header: ({ column }) => (
+        <TableColumnHeader column={column} title="用户" />
+      ),
       cell: ({ row }) => {
-        const item = row.original as IssueListItem
-        return (
-          <span className="text-xs">{item.issue.username}</span>
-        )
+        const item = row.original
+        return <span className="text-xs">{item.issue.username}</span>
       },
       size: 120,
     },
     {
       id: 'type',
-      header: ({ column }) => <TableColumnHeader column={column} title="类型" />,
+      header: ({ column }) => (
+        <TableColumnHeader column={column} title="类型" />
+      ),
       cell: ({ row }) => {
-        const item = row.original as IssueListItem
+        const item = row.original
         return (
-          <span className="text-xs bg-muted px-2 py-0.5 rounded-full">{item.issue_type_name}</span>
+          <span className="text-xs bg-muted px-2 py-0.5 rounded-full">
+            {item.issue_type_name}
+          </span>
         )
       },
       size: 96,
     },
     {
       accessorKey: 'issue.priority',
-      header: ({ column }) => <TableColumnHeader column={column} title="优先级" />,
+      header: ({ column }) => (
+        <TableColumnHeader column={column} title="优先级" />
+      ),
       cell: ({ row }) => {
-        const item = row.original as IssueListItem
+        const item = row.original
         return <IssuePriorityBadge priority={item.issue.priority} />
       },
       size: 80,
     },
     {
       accessorKey: 'issue.status',
-      header: ({ column }) => <TableColumnHeader column={column} title="状态" />,
+      header: ({ column }) => (
+        <TableColumnHeader column={column} title="状态" />
+      ),
       cell: ({ row }) => {
-        const item = row.original as IssueListItem
+        const item = row.original
         return <IssueStatusBadge status={item.issue.status} />
       },
       size: 80,
@@ -128,18 +140,22 @@ function AdminIssuesPage() {
       id: 'replies',
       header: () => <span className="text-sm font-medium">回复</span>,
       cell: ({ row }) => {
-        const item = row.original as IssueListItem
+        const item = row.original
         return (
-          <span className="text-xs text-muted-foreground tabular-nums">{item.reply_count}</span>
+          <span className="text-xs text-muted-foreground tabular-nums">
+            {item.reply_count}
+          </span>
         )
       },
       size: 56,
     },
     {
       accessorKey: 'issue.updated_at',
-      header: ({ column }) => <TableColumnHeader column={column} title="更新时间" />,
+      header: ({ column }) => (
+        <TableColumnHeader column={column} title="更新时间" />
+      ),
       cell: ({ row }) => {
-        const item = row.original as IssueListItem
+        const item = row.original
         return (
           <span className="text-[13px] text-muted-foreground whitespace-nowrap">
             {formatTime(item.issue.updated_at)}
@@ -152,7 +168,7 @@ function AdminIssuesPage() {
       id: 'actions',
       header: () => <span className="text-sm font-medium">操作</span>,
       cell: ({ row }) => {
-        const item = row.original as IssueListItem
+        const item = row.original
         return (
           <Link to={`/admin/issues/${item.issue.id}` as any}>
             <Button variant="ghost" size="sm" className="h-7 px-2 text-xs">
@@ -176,11 +192,17 @@ function AdminIssuesPage() {
       animate="animate"
     >
       <motion.div variants={fadeUpItem}>
-        <PageHeader title="问题管理" description="查看和处理所有用户提交的问题反馈" />
+        <PageHeader
+          title="问题管理"
+          description="查看和处理所有用户提交的问题反馈"
+        />
       </motion.div>
 
       {/* 筛选栏 */}
-      <motion.div variants={fadeUpItem} className="flex flex-wrap items-center gap-3">
+      <motion.div
+        variants={fadeUpItem}
+        className="flex flex-wrap items-center gap-3"
+      >
         <div className="relative flex-1 max-w-xs">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
@@ -237,7 +259,10 @@ function AdminIssuesPage() {
         )}
       </motion.div>
 
-      <motion.div variants={fadeUpItem} className="rounded-xl border border-border/70 overflow-hidden">
+      <motion.div
+        variants={fadeUpItem}
+        className="rounded-xl border border-border/70 overflow-hidden"
+      >
         <TableProvider columns={columns} data={issues}>
           <TSTableHeader>
             {({ headerGroup }) => (

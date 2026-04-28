@@ -8,8 +8,23 @@
 import { useState } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 import { toast } from 'sonner'
-import { Gamepad2, Plus, Shirt, Flag, ExternalLink, Pencil, Check, X } from 'lucide-react'
-import { Card, CardContent, CardHeader, CardTitle, CardAction } from '#/components/ui/card'
+import {
+  Gamepad2,
+  Plus,
+  Shirt,
+  Flag,
+  ExternalLink,
+  Pencil,
+  Check,
+  X,
+} from 'lucide-react'
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardAction,
+} from '#/components/ui/card'
 import { Button } from '#/components/ui/button'
 import { Input } from '#/components/ui/input'
 import { Badge } from '#/components/ui/badge'
@@ -73,7 +88,11 @@ const fadeUpItem = {
 
 export default function ProfilesPage() {
   const isAuthenticated = authStore.state.isAuthenticated
-  const { data: profiles = [], isLoading, error } = useGameProfiles({ enabled: isAuthenticated })
+  const {
+    data: profiles = [],
+    isLoading,
+    error,
+  } = useGameProfiles({ enabled: isAuthenticated })
   const { data: quota } = useGameProfileQuota({ enabled: isAuthenticated })
   const createMutation = useCreateGameProfileMutation()
   const [dialogOpen, setDialogOpen] = useState(false)
@@ -81,120 +100,148 @@ export default function ProfilesPage() {
 
   const isQuotaExhausted = quota != null && quota.used >= quota.total
 
-  const handleCreateSuccess = () => { setDialogOpen(false); setNewProfileName('') }
-  const handleCreateError = (err: Error) => toast.error(`创建失败: ${err.message}`)
+  const handleCreateSuccess = () => {
+    setDialogOpen(false)
+    setNewProfileName('')
+  }
+  const handleCreateError = (err: Error) =>
+    toast.error(`创建失败: ${err.message}`)
 
   return (
-    <motion.div className="space-y-6" variants={staggerContainer} initial="initial" animate="animate">
+    <motion.div
+      className="space-y-6"
+      variants={staggerContainer}
+      initial="initial"
+      animate="animate"
+    >
       {/* 页面标题 + 操作 */}
       <motion.div variants={fadeUpItem}>
-      <div className="space-y-1.5">
-        <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-foreground font-display">游戏档案</h1>
-          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-            <DialogTrigger asChild>
-              <Button
-                size="lg"
-                className="gap-1.5 bg-linear-to-r from-primary to-primary text-white hover:opacity-90"
-                disabled={isQuotaExhausted}
-              >
-                <Plus className="size-4" />
-                绑定档案
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>绑定新档案</DialogTitle>
-                <DialogDescription>
-                  输入你的 Minecraft 游戏内用户名来创建档案
-                </DialogDescription>
-              </DialogHeader>
-              <Input
-                placeholder="游戏内用户名"
-                value={newProfileName}
-                onChange={(e) => setNewProfileName(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' && newProfileName.trim()) {
-                    createMutation.mutate(
-                      { name: newProfileName.trim() },
-                      { onSuccess: handleCreateSuccess, onError: handleCreateError },
-                    )
-                  }
-                }}
-              />
-              <DialogFooter>
-                <Button variant="outline" onClick={() => setDialogOpen(false)}>取消</Button>
+        <div className="space-y-1.5">
+          <div className="flex items-center justify-between">
+            <h1 className="text-2xl font-bold text-foreground font-display">
+              游戏档案
+            </h1>
+            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+              <DialogTrigger asChild>
                 <Button
-                  className="bg-linear-to-r from-primary to-primary text-white hover:opacity-90"
-                  disabled={!newProfileName.trim() || createMutation.isPending}
-                  onClick={() =>
-                    createMutation.mutate(
-                      { name: newProfileName.trim() },
-                      { onSuccess: handleCreateSuccess, onError: handleCreateError },
-                    )
-                  }
+                  size="lg"
+                  className="gap-1.5 bg-linear-to-r from-primary to-primary text-white hover:opacity-90"
+                  disabled={isQuotaExhausted}
                 >
-                  {createMutation.isPending ? '创建中...' : '确认绑定'}
+                  <Plus className="size-4" />
+                  绑定档案
                 </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>绑定新档案</DialogTitle>
+                  <DialogDescription>
+                    输入你的 Minecraft 游戏内用户名来创建档案
+                  </DialogDescription>
+                </DialogHeader>
+                <Input
+                  placeholder="游戏内用户名"
+                  value={newProfileName}
+                  onChange={(e) => setNewProfileName(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && newProfileName.trim()) {
+                      createMutation.mutate(
+                        { name: newProfileName.trim() },
+                        {
+                          onSuccess: handleCreateSuccess,
+                          onError: handleCreateError,
+                        },
+                      )
+                    }
+                  }}
+                />
+                <DialogFooter>
+                  <Button
+                    variant="outline"
+                    onClick={() => setDialogOpen(false)}
+                  >
+                    取消
+                  </Button>
+                  <Button
+                    className="bg-linear-to-r from-primary to-primary text-white hover:opacity-90"
+                    disabled={
+                      !newProfileName.trim() || createMutation.isPending
+                    }
+                    onClick={() =>
+                      createMutation.mutate(
+                        { name: newProfileName.trim() },
+                        {
+                          onSuccess: handleCreateSuccess,
+                          onError: handleCreateError,
+                        },
+                      )
+                    }
+                  >
+                    {createMutation.isPending ? '创建中...' : '确认绑定'}
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </div>
+          <div className="flex items-center gap-3">
+            <p className="text-sm text-muted-foreground">
+              管理你的 Minecraft 角色档案
+            </p>
+            {quota && (
+              <Badge variant="secondary" className="text-xs">
+                配额 {quota.used} / {quota.total}
+              </Badge>
+            )}
+          </div>
         </div>
-        <div className="flex items-center gap-3">
-          <p className="text-sm text-muted-foreground">管理你的 Minecraft 角色档案</p>
-          {quota && (
-            <Badge variant="secondary" className="text-xs">
-              配额 {quota.used} / {quota.total}
-            </Badge>
-          )}
-        </div>
-      </div>
       </motion.div>
 
       {/* 档案列表 */}
       <motion.div variants={fadeUpItem}>
-      {isLoading ? (
-        <div className="grid grid-cols-2 gap-4">
-          {Array.from({ length: 2 }).map((_, i) => (
-            <Card key={i}>
-              <CardHeader><Skeleton className="h-5 w-32" /></CardHeader>
-              <CardContent className="space-y-2">
-                <Skeleton className="h-3 w-48" />
-                <Skeleton className="h-3 w-24" />
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      ) : error ? (
-        <Card className="border-destructive/50">
-          <CardContent className="py-8 text-center">
-            <p className="text-destructive">加载档案失败: {error.message}</p>
-          </CardContent>
-        </Card>
-      ) : profiles.length > 0 ? (
-        <div className="grid grid-cols-2 gap-4">
-          {profiles.map((profile) => (
-            <ProfileCard key={profile.id} profile={profile} />
-          ))}
-        </div>
-      ) : (
-        <Card className="border-dashed">
-          <CardContent className="py-12 text-center">
-            <Gamepad2 className="mx-auto size-12 text-muted-foreground/30" />
-            <h3 className="mt-4 font-medium text-foreground">暂无游戏档案</h3>
-            <p className="mt-1 text-sm text-muted-foreground">
-              绑定你的 Minecraft 角色以开始使用皮肤和披风
-            </p>
-            <Button
-              className="mt-4 gap-1.5 bg-linear-to-r from-primary to-primary text-white hover:opacity-90"
-              onClick={() => setDialogOpen(true)}
-            >
-              <Plus className="size-4" />
-              绑定第一个档案
-            </Button>
-          </CardContent>
-        </Card>
-      )}
+        {isLoading ? (
+          <div className="grid grid-cols-2 gap-4">
+            {Array.from({ length: 2 }).map((_, i) => (
+              <Card key={i}>
+                <CardHeader>
+                  <Skeleton className="h-5 w-32" />
+                </CardHeader>
+                <CardContent className="space-y-2">
+                  <Skeleton className="h-3 w-48" />
+                  <Skeleton className="h-3 w-24" />
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        ) : error ? (
+          <Card className="border-destructive/50">
+            <CardContent className="py-8 text-center">
+              <p className="text-destructive">加载档案失败: {error.message}</p>
+            </CardContent>
+          </Card>
+        ) : profiles.length > 0 ? (
+          <div className="grid grid-cols-2 gap-4">
+            {profiles.map((profile) => (
+              <ProfileCard key={profile.id} profile={profile} />
+            ))}
+          </div>
+        ) : (
+          <Card className="border-dashed">
+            <CardContent className="py-12 text-center">
+              <Gamepad2 className="mx-auto size-12 text-muted-foreground/30" />
+              <h3 className="mt-4 font-medium text-foreground">暂无游戏档案</h3>
+              <p className="mt-1 text-sm text-muted-foreground">
+                绑定你的 Minecraft 角色以开始使用皮肤和披风
+              </p>
+              <Button
+                className="mt-4 gap-1.5 bg-linear-to-r from-primary to-primary text-white hover:opacity-90"
+                onClick={() => setDialogOpen(true)}
+              >
+                <Plus className="size-4" />
+                绑定第一个档案
+              </Button>
+            </CardContent>
+          </Card>
+        )}
       </motion.div>
     </motion.div>
   )
@@ -234,9 +281,12 @@ function ProfileCard({ profile }: { profile: GameProfile }) {
           <CardContent>
             <div className="flex items-start justify-between gap-4">
               <div className="space-y-2">
-                <p className="text-xs text-muted-foreground font-mono">UUID: {profile.uuid}</p>
+                <p className="text-xs text-muted-foreground font-mono">
+                  UUID: {profile.uuid}
+                </p>
                 <span className="text-xs text-muted-foreground">
-                  更新于: {new Date(profile.updated_at).toLocaleDateString('zh-CN')}
+                  更新于:{' '}
+                  {new Date(profile.updated_at).toLocaleDateString('zh-CN')}
                 </span>
               </div>
               <div className="flex flex-col gap-1.5 shrink-0">
@@ -265,7 +315,11 @@ function ProfileCard({ profile }: { profile: GameProfile }) {
       </motion.div>
 
       {/* 关联 Dialog */}
-      <ProfileDetailDialog profileId={profile.id} open={detailOpen} onOpenChange={setDetailOpen} />
+      <ProfileDetailDialog
+        profileId={profile.id}
+        open={detailOpen}
+        onOpenChange={setDetailOpen}
+      />
       <SkinSelectDialog
         profileId={profile.id}
         currentId={profile.skin_library_id}
@@ -286,13 +340,16 @@ function ProfileCard({ profile }: { profile: GameProfile }) {
 
 type LibraryType = 'skin' | 'cape'
 
-const LIBRARY_CONFIG: Record<LibraryType, {
-  label: string
-  emptyHint: string
-  uploadHint: string
-  equipMsg: string
-  unequipMsg: string
-}> = {
+const LIBRARY_CONFIG: Record<
+  LibraryType,
+  {
+    label: string
+    emptyHint: string
+    uploadHint: string
+    equipMsg: string
+    unequipMsg: string
+  }
+> = {
   skin: {
     label: '皮肤',
     emptyHint: '你还没有上传任何皮肤',
@@ -327,7 +384,7 @@ function LibrarySelectInner({
   config: (typeof LIBRARY_CONFIG)[LibraryType]
   items: LibrarySimpleItem[]
   isLoading: boolean
-  mutation: { mutate(...args: unknown[]): void; isPending: boolean }
+  mutation: { mutate: (...args: unknown[]) => void; isPending: boolean }
 }) {
   const [selectedId, setSelectedId] = useState<string>('')
   const hasCurrentValue = currentId != null
@@ -335,7 +392,7 @@ function LibrarySelectInner({
   function handleConfirm() {
     const isUnequip = selectedId === '__unequip__'
     // 雪花算法 ID 使用 string 传递以避免精度丢失
-    const payload = isUnequip ? null : (selectedId || null)
+    const payload = isUnequip ? null : selectedId || null
     mutation.mutate(
       type === 'skin'
         ? { skin_library_id: payload }
@@ -361,7 +418,9 @@ function LibrarySelectInner({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>更换{config.label}</DialogTitle>
-          <DialogDescription>选择要装备的{config.label}，或卸下当前{config.label}</DialogDescription>
+          <DialogDescription>
+            选择要装备的{config.label}，或卸下当前{config.label}
+          </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-3 py-2">
@@ -401,7 +460,9 @@ function LibrarySelectInner({
         </div>
 
         <DialogFooter>
-          <Button variant="outline" onClick={() => handleOpenChange(false)}>取消</Button>
+          <Button variant="outline" onClick={() => handleOpenChange(false)}>
+            取消
+          </Button>
           <Button
             className="bg-linear-to-r from-primary to-primary text-white hover:opacity-90"
             disabled={!selectedId || mutation.isPending}
@@ -423,7 +484,9 @@ function SkinSelectDialog(props: {
   onOpenChange: (open: boolean) => void
 }) {
   const isAuthenticated = authStore.state.isAuthenticated
-  const { data, isLoading } = useSkinsList({ enabled: props.open && isAuthenticated })
+  const { data, isLoading } = useSkinsList({
+    enabled: props.open && isAuthenticated,
+  })
   const mutation = useSetSkinMutation(props.profileId)
 
   return (
@@ -446,7 +509,9 @@ function CapeSelectDialog(props: {
   onOpenChange: (open: boolean) => void
 }) {
   const isAuthenticated = authStore.state.isAuthenticated
-  const { data, isLoading } = useCapesList({ enabled: props.open && isAuthenticated })
+  const { data, isLoading } = useCapesList({
+    enabled: props.open && isAuthenticated,
+  })
   const mutation = useSetCapeMutation(props.profileId)
 
   return (
@@ -472,7 +537,9 @@ function ProfileDetailDialog({
   open: boolean
   onOpenChange: (open: boolean) => void
 }) {
-  const { data: profile, isLoading } = useGameProfileDetail(open ? profileId : null)
+  const { data: profile, isLoading } = useGameProfileDetail(
+    open ? profileId : null,
+  )
   const updateMutation = useUpdateUsernameMutation(profileId)
   const [isEditing, setIsEditing] = useState(false)
   const [editName, setEditName] = useState('')
@@ -491,7 +558,10 @@ function ProfileDetailDialog({
     updateMutation.mutate(
       { new_name: trimmed },
       {
-        onSuccess: () => { toast.success('用户名修改成功'); setIsEditing(false) },
+        onSuccess: () => {
+          toast.success('用户名修改成功')
+          setIsEditing(false)
+        },
         onError: (err) => toast.error(`修改失败: ${err.message}`),
       },
     )
@@ -504,7 +574,10 @@ function ProfileDetailDialog({
 
   function handleOpenChange(newOpen: boolean) {
     onOpenChange(newOpen)
-    if (!newOpen) { setIsEditing(false); setEditName('') }
+    if (!newOpen) {
+      setIsEditing(false)
+      setEditName('')
+    }
   }
 
   return (
@@ -556,13 +629,20 @@ function ProfileDetailDialog({
                       autoFocus
                     />
                     <Button
-                      size="sm" variant="ghost" className="size-7 p-0 text-green-600 hover:text-green-700"
+                      size="sm"
+                      variant="ghost"
+                      className="size-7 p-0 text-green-600 hover:text-green-700"
                       onClick={confirmEdit}
                       disabled={updateMutation.isPending}
                     >
                       <Check className="size-3.5" />
                     </Button>
-                    <Button size="sm" variant="ghost" className="size-7 p-0 text-muted-foreground" onClick={cancelEdit}>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className="size-7 p-0 text-muted-foreground"
+                      onClick={cancelEdit}
+                    >
                       <X className="size-3.5" />
                     </Button>
                   </div>
@@ -570,7 +650,9 @@ function ProfileDetailDialog({
                   <div className="flex items-center gap-1.5">
                     <span className="font-medium">{profile.name}</span>
                     <Button
-                      size="sm" variant="ghost" className="size-6 p-0 text-muted-foreground hover:text-foreground"
+                      size="sm"
+                      variant="ghost"
+                      className="size-6 p-0 text-muted-foreground hover:text-foreground"
                       onClick={() => startEdit(profile.name)}
                     >
                       <Pencil className="size-3" />
@@ -593,12 +675,16 @@ function ProfileDetailDialog({
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">更新时间</span>
-                <span>{new Date(profile.updated_at).toLocaleString('zh-CN')}</span>
+                <span>
+                  {new Date(profile.updated_at).toLocaleString('zh-CN')}
+                </span>
               </div>
             </div>
           </div>
         ) : (
-          <p className="text-sm text-muted-foreground text-center py-4">加载失败</p>
+          <p className="text-sm text-muted-foreground text-center py-4">
+            加载失败
+          </p>
         )}
       </DialogContent>
     </Dialog>

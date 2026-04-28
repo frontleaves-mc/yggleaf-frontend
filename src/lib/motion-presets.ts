@@ -7,7 +7,7 @@
  * @see src/components/ui/page-transition.tsx 页面入场动画参考
  */
 
-import { type Transition } from 'motion/react'
+import type {Transition} from 'motion/react';
 
 // ─── 通用过渡配置 ──────────────────────────────────────
 
@@ -29,7 +29,11 @@ export const childMotionTransition: Transition = {
 
 /** 卡片上浮 + 阴影变体 */
 export const cardHoverVariants = {
-  rest: { y: 0, boxShadow: '0 1px 3px 0 oklch(from var(--foreground) l c h / 0.04), 0 1px 2px -1px oklch(from var(--foreground) l c h / 0.04)' },
+  rest: {
+    y: 0,
+    boxShadow:
+      '0 1px 3px 0 oklch(from var(--foreground) l c h / 0.04), 0 1px 2px -1px oklch(from var(--foreground) l c h / 0.04)',
+  },
   hover: {
     y: -2,
     boxShadow:

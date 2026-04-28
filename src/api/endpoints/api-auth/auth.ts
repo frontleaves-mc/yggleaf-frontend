@@ -44,7 +44,8 @@ export async function handleOAuthCallback(
   // 2. 临时写入 Token（后续获取用户信息需要 Authorization header）
   const { authStore } = await import('#/stores/auth-store')
   const { setCookie, AT_MAX_AGE, RT_MAX_AGE } = await import('#/lib/cookie')
-  const { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } = await import('#/config/constants')
+  const { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } =
+    await import('#/config/constants')
 
   setCookie(ACCESS_TOKEN_KEY, tokenData.access_token, AT_MAX_AGE)
   setCookie(REFRESH_TOKEN_KEY, tokenData.refresh_token, RT_MAX_AGE)

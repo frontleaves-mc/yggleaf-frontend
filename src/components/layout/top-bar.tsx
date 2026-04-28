@@ -29,7 +29,10 @@ function useBreadcrumbs() {
   return matches
     .filter((match) => match.pathname !== '/' && match.pathname)
     .map((match) => ({
-      label: breadcrumbLabels[match.pathname] ?? match.pathname.split('/').pop() ?? '页面',
+      label:
+        breadcrumbLabels[match.pathname] ??
+        match.pathname.split('/').pop() ??
+        '页面',
       href: match.pathname,
       isCurrent: match.pathname === matches[matches.length - 1]?.pathname,
     }))
@@ -43,13 +46,17 @@ function useThemeMode() {
   const [mode, setMode] = React.useState<ThemeMode>(() => {
     if (typeof window === 'undefined') return 'auto'
     const stored = localStorage.getItem('theme')
-    if (stored === 'light' || stored === 'dark' || stored === 'auto') return stored
+    if (stored === 'light' || stored === 'dark' || stored === 'auto')
+      return stored
     return 'auto'
   })
 
   const applyTheme = React.useCallback((newMode: ThemeMode) => {
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-    const resolved = newMode === 'auto' ? (prefersDark ? 'dark' : 'light') : newMode
+    const prefersDark = window.matchMedia(
+      '(prefers-color-scheme: dark)',
+    ).matches
+    const resolved =
+      newMode === 'auto' ? (prefersDark ? 'dark' : 'light') : newMode
     const root = document.documentElement
 
     root.classList.remove('light', 'dark')
@@ -65,10 +72,13 @@ function useThemeMode() {
     localStorage.setItem('theme', newMode)
   }, [])
 
-  const changeMode = React.useCallback((newMode: ThemeMode) => {
-    setMode(newMode)
-    applyTheme(newMode)
-  }, [applyTheme])
+  const changeMode = React.useCallback(
+    (newMode: ThemeMode) => {
+      setMode(newMode)
+      applyTheme(newMode)
+    },
+    [applyTheme],
+  )
 
   return { mode, changeMode }
 }
@@ -76,11 +86,14 @@ function useThemeMode() {
 function ThemeToggle() {
   const { mode, changeMode } = useThemeMode()
 
-  const icon = mode === 'light'
-    ? <Sun className="size-4" />
-    : mode === 'dark'
-      ? <Moon className="size-4" />
-      : <Monitor className="size-4" />
+  const icon =
+    mode === 'light' ? (
+      <Sun className="size-4" />
+    ) : mode === 'dark' ? (
+      <Moon className="size-4" />
+    ) : (
+      <Monitor className="size-4" />
+    )
 
   return (
     <DropdownMenu>

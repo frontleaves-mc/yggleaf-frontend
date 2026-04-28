@@ -43,15 +43,28 @@ const fadeUpItem = {
 
 export default function SkinsPage() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
-  const { data, isLoading } = useSkins({ mode: 'market', page: 1, page_size: 50 })
+  const { data, isLoading } = useSkins({
+    mode: 'market',
+    page: 1,
+    page_size: 50,
+  })
   const skins = data?.items ?? []
 
   return (
-    <motion.div className="space-y-6" variants={staggerContainer} initial="initial" animate="animate">
+    <motion.div
+      className="space-y-6"
+      variants={staggerContainer}
+      initial="initial"
+      animate="animate"
+    >
       {/* 页面标题 */}
       <motion.div variants={fadeUpItem}>
-        <h1 className="text-2xl font-bold text-foreground font-display">皮肤库</h1>
-        <p className="mt-1 text-sm text-muted-foreground">浏览并选择你喜欢的角色皮肤</p>
+        <h1 className="text-2xl font-bold text-foreground font-display">
+          皮肤库
+        </h1>
+        <p className="mt-1 text-sm text-muted-foreground">
+          浏览并选择你喜欢的角色皮肤
+        </p>
       </motion.div>
 
       {/* 工具栏：搜索 + 视图切换 */}
@@ -85,11 +98,14 @@ export default function SkinsPage() {
 
       {/* 皮肤网格 */}
       {!isLoading && (
-        <motion.div variants={fadeUpItem} className={
-          viewMode === 'grid'
-            ? "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4"
-            : "flex flex-col gap-3"
-        }>
+        <motion.div
+          variants={fadeUpItem}
+          className={
+            viewMode === 'grid'
+              ? 'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4'
+              : 'flex flex-col gap-3'
+          }
+        >
           {skins.map((skin) => (
             <SkinCard key={skin.id} skin={skin} viewMode={viewMode} />
           ))}
@@ -103,7 +119,9 @@ export default function SkinsPage() {
             <CardContent className="py-12 text-center">
               <Shirt className="mx-auto size-12 text-muted-foreground/30" />
               <h3 className="mt-4 font-medium text-foreground">暂无皮肤</h3>
-              <p className="mt-1 text-sm text-muted-foreground">目前还没有公开的皮肤资源</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                目前还没有公开的皮肤资源
+              </p>
             </CardContent>
           </Card>
         </motion.div>
@@ -114,7 +132,13 @@ export default function SkinsPage() {
 
 // ─── 皮肤卡片组件 ─────────────────────────────────────────
 
-function SkinCard({ skin, viewMode }: { skin: SkinLibrary; viewMode: 'grid' | 'list' }) {
+function SkinCard({
+  skin,
+  viewMode,
+}: {
+  skin: SkinLibrary
+  viewMode: 'grid' | 'list'
+}) {
   if (viewMode === 'list') {
     return (
       <motion.div
@@ -126,30 +150,32 @@ function SkinCard({ skin, viewMode }: { skin: SkinLibrary; viewMode: 'grid' | 'l
       >
         <Card className="ring-0 border border-border/70 overflow-hidden">
           <CardContent className="flex items-center gap-4 p-4">
-          <div className="size-14 rounded-lg overflow-hidden flex-shrink-0">
-            <SkinPreview skinUrl={skin.texture_url} />
-          </div>
-          <div className="flex-1 min-w-0">
-            <h3 className="font-medium text-foreground truncate">{skin.name}</h3>
-            <div className="flex items-center gap-2 mt-0.5">
-              <Badge variant="secondary" className="font-mono text-xs">
-                {skin.model === 1 ? 'Classic' : 'Slim'}
-              </Badge>
-              <Badge
-                className={
-                  skin.is_public
-                    ? 'bg-chart-2/10 text-chart-2 border-chart-2/20 text-[10px]'
-                    : 'text-[10px]'
-                }
-                variant="secondary"
-              >
-                {skin.is_public ? '公开' : '私有'}
-              </Badge>
+            <div className="size-14 rounded-lg overflow-hidden flex-shrink-0">
+              <SkinPreview skinUrl={skin.texture_url} />
             </div>
-          </div>
-        </CardContent>
-      </Card>
-    </motion.div>
+            <div className="flex-1 min-w-0">
+              <h3 className="font-medium text-foreground truncate">
+                {skin.name}
+              </h3>
+              <div className="flex items-center gap-2 mt-0.5">
+                <Badge variant="secondary" className="font-mono text-xs">
+                  {skin.model === 1 ? 'Classic' : 'Slim'}
+                </Badge>
+                <Badge
+                  className={
+                    skin.is_public
+                      ? 'bg-chart-2/10 text-chart-2 border-chart-2/20 text-[10px]'
+                      : 'text-[10px]'
+                  }
+                  variant="secondary"
+                >
+                  {skin.is_public ? '公开' : '私有'}
+                </Badge>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
     )
   }
 
@@ -163,24 +189,24 @@ function SkinCard({ skin, viewMode }: { skin: SkinLibrary; viewMode: 'grid' | 'l
     >
       <Card className="ring-0 border border-border/70 overflow-hidden group">
         <CardContent className="p-4">
-        {/* 皮肤预览区 — 3D 渲染 */}
-        <div className="aspect-[3/4] rounded-lg bg-gradient-to-br from-primary/5 to-primary/10 mb-3 flex items-center justify-center relative overflow-hidden">
-          <SkinPreview skinUrl={skin.texture_url} />
-          {/* Hover 遮罩 */}
-          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors rounded-lg" />
-        </div>
+          {/* 皮肤预览区 — 3D 渲染 */}
+          <div className="aspect-[3/4] rounded-lg bg-gradient-to-br from-primary/5 to-primary/10 mb-3 flex items-center justify-center relative overflow-hidden">
+            <SkinPreview skinUrl={skin.texture_url} />
+            {/* Hover 遮罩 */}
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors rounded-lg" />
+          </div>
 
-        {/* 信息 */}
-        <h3 className="font-medium text-sm text-foreground truncate group-hover:text-primary transition-colors">
-          {skin.name}
-        </h3>
-        <div className="flex items-center gap-1.5 mt-1">
-          <Badge variant="secondary" className="font-mono text-[10px]">
-            {skin.model === 1 ? 'Classic' : 'Slim'}
-          </Badge>
-        </div>
-      </CardContent>
-    </Card>
+          {/* 信息 */}
+          <h3 className="font-medium text-sm text-foreground truncate group-hover:text-primary transition-colors">
+            {skin.name}
+          </h3>
+          <div className="flex items-center gap-1.5 mt-1">
+            <Badge variant="secondary" className="font-mono text-[10px]">
+              {skin.model === 1 ? 'Classic' : 'Slim'}
+            </Badge>
+          </div>
+        </CardContent>
+      </Card>
     </motion.div>
   )
 }

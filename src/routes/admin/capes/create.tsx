@@ -3,7 +3,7 @@
  * 表单创建新的披风资源
  */
 
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link, useNavigate  } from '@tanstack/react-router'
 import { useCreateCapeMutation } from '#/api/endpoints/api-auth/cape-library'
 import { Button } from '#/components/ui/button'
 import {
@@ -17,7 +17,6 @@ import { Input } from '#/components/ui/input'
 import { Label } from '#/components/ui/label'
 import { Switch } from '#/components/ui/switch'
 import { Loader2, ArrowLeft, Save } from 'lucide-react'
-import { Link, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { motion } from 'motion/react'
 
@@ -119,7 +118,9 @@ function CreateCapePage() {
 
               <div className="flex items-center justify-between rounded-lg border border-border p-3.5">
                 <div className="space-y-0.5">
-                  <Label htmlFor="cape-public" className="text-sm">公开披风</Label>
+                  <Label htmlFor="cape-public" className="text-sm">
+                    公开披风
+                  </Label>
                   <p className="text-[12px] text-muted-foreground">
                     开启后所有用户均可使用此披风
                   </p>
@@ -134,7 +135,13 @@ function CreateCapePage() {
 
               <div className="flex gap-3 pt-2">
                 <Link to="/admin/capes">
-                  <Button variant="outline" type="button" disabled={createMutation.isPending}>取消</Button>
+                  <Button
+                    variant="outline"
+                    type="button"
+                    disabled={createMutation.isPending}
+                  >
+                    取消
+                  </Button>
                 </Link>
                 <Button
                   type="submit"
@@ -142,9 +149,15 @@ function CreateCapePage() {
                   className="bg-gradient-to-r from-primary to-primary text-white hover:opacity-90 flex-1 sm:flex-none"
                 >
                   {createMutation.isPending ? (
-                    <><Loader2 className="mr-2 h-4 w-4 animate-spin" />创建中...</>
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      创建中...
+                    </>
                   ) : (
-                    <><Save className="mr-2 h-4 w-4" />创建披风</>
+                    <>
+                      <Save className="mr-2 h-4 w-4" />
+                      创建披风
+                    </>
                   )}
                 </Button>
               </div>

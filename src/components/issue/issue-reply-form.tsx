@@ -23,7 +23,10 @@ interface IssueReplyFormProps {
 
 const MAX_LENGTH = 5000
 
-export function IssueReplyForm({ issueId, disabled = false }: IssueReplyFormProps) {
+export function IssueReplyForm({
+  issueId,
+  disabled = false,
+}: IssueReplyFormProps) {
   const [content, setContent] = useState('')
   const replyMutation = useReplyIssueMutation(issueId)
 
@@ -55,7 +58,7 @@ export function IssueReplyForm({ issueId, disabled = false }: IssueReplyFormProp
           'transition-all duration-200 ease-out',
           'has-[[data-slot=input-group-control]:focus-visible]:shadow-md has-[[data-slot=input-group-control]:focus-visible]:border-primary/30',
           'has-[[data-slot=input-group-control]:focus-visible]:ring-[3px] has-[[data-slot=input-group-control]:focus-visible]:ring-primary/10',
-          isDisabled && 'opacity-50 pointer-events-none'
+          isDisabled && 'opacity-50 pointer-events-none',
         )}
         data-disabled={isDisabled || undefined}
       >
@@ -67,13 +70,16 @@ export function IssueReplyForm({ issueId, disabled = false }: IssueReplyFormProp
           maxLength={MAX_LENGTH}
           className="min-h-20 px-4 text-sm leading-relaxed placeholder:text-muted-foreground/50"
         />
-        <InputGroupAddon align="block-end" className="border-t border-border/40 bg-muted/20 px-4 py-2.5">
+        <InputGroupAddon
+          align="block-end"
+          className="border-t border-border/40 bg-muted/20 px-4 py-2.5"
+        >
           <InputGroupText
             className={cn(
               'ml-auto tabular-nums text-xs tracking-wide transition-colors duration-200',
               isAtLimit && 'font-semibold text-destructive',
               isNearLimit && !isAtLimit && 'text-amber-600 dark:text-amber-400',
-              !isNearLimit && 'text-muted-foreground'
+              !isNearLimit && 'text-muted-foreground',
             )}
           >
             {charCount.toLocaleString()}/{MAX_LENGTH.toLocaleString()}

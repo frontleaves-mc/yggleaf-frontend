@@ -6,7 +6,7 @@
 import { useEffect } from 'react'
 import { createFileRoute, Link, useParams } from '@tanstack/react-router'
 import { LoadingPage } from '#/components/public/loading-page'
-import { IssueDetailContent } from '#/components/issue/issue-detail-content'
+import { IssueDetailContent, formatTime  } from '#/components/issue/issue-detail-content'
 import { IssueStatusBadge } from '#/components/issue/issue-status-badge'
 import { IssuePriorityBadge } from '#/components/issue/issue-priority-badge'
 import { IssueReplyList } from '#/components/issue/issue-reply-list'
@@ -15,7 +15,6 @@ import { AdminIssueActions } from '#/components/issue/admin-issue-actions'
 import { useIssueDetail } from '#/api/endpoints/api-auth/issue'
 import { ArrowLeft, MessageSquare, FileQuestion, Clock } from 'lucide-react'
 import { motion } from 'motion/react'
-import { formatTime } from '#/components/issue/issue-detail-content'
 import { useSetPageTitle } from '#/components/layout/page-title-context'
 
 export const Route = createFileRoute('/admin/issues/$issueId')({
@@ -38,7 +37,7 @@ const fadeUpItem = {
 }
 
 function AdminIssueDetailPage() {
-  const { issueId } = useParams({ strict: false }) as { issueId: string }
+  const { issueId } = useParams({ strict: false })
   const { data: issueDetail, isLoading } = useIssueDetail(issueId)
   const setTitle = useSetPageTitle()
 
@@ -48,7 +47,10 @@ function AdminIssueDetailPage() {
   }, [issueDetail, setTitle])
 
   if (isLoading) return <LoadingPage />
-  if (!issueDetail) return <div className="p-8 text-center text-muted-foreground">问题不存在</div>
+  if (!issueDetail)
+    return (
+      <div className="p-8 text-center text-muted-foreground">问题不存在</div>
+    )
 
   return (
     <motion.div
@@ -116,7 +118,10 @@ function AdminIssueDetailPage() {
         </motion.div>
 
         {/* 右侧：管理员操作 */}
-        <motion.aside variants={fadeUpItem} className="lg:sticky lg:top-6 lg:self-start">
+        <motion.aside
+          variants={fadeUpItem}
+          className="lg:sticky lg:top-6 lg:self-start"
+        >
           <AdminIssueActions issue={issueDetail.issue} />
         </motion.aside>
       </div>

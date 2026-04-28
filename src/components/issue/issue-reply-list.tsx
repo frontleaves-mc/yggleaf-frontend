@@ -15,9 +15,7 @@ interface IssueReplyListProps {
 export function IssueReplyList({ replies }: IssueReplyListProps) {
   if (replies.length === 0) {
     return (
-      <p className="text-sm text-muted-foreground text-center py-6">
-        暂无回复
-      </p>
+      <p className="text-sm text-muted-foreground text-center py-6">暂无回复</p>
     )
   }
 
@@ -40,7 +38,10 @@ export function IssueReplyList({ replies }: IssueReplyListProps) {
             )}
             <span className="text-sm font-medium">{reply.username}</span>
             {reply.issue_reply.is_admin_reply && (
-              <Badge variant="secondary" className="text-[10px] h-4 px-1.5 bg-primary/10 text-primary">
+              <Badge
+                variant="secondary"
+                className="text-[10px] h-4 px-1.5 bg-primary/10 text-primary"
+              >
                 管理
               </Badge>
             )}

@@ -27,18 +27,23 @@ export interface SkinListParams {
 // ─── 端点函数 ──────────────────────────────────────────────
 
 /** 获取皮肤列表 */
-export async function getSkins(params?: SkinListParams): Promise<LibraryListResponse<SkinLibrary>> {
+export async function getSkins(
+  params?: SkinListParams,
+): Promise<LibraryListResponse<SkinLibrary>> {
   const searchParams = new URLSearchParams()
   if (params?.mode !== undefined) searchParams.set('mode', params.mode)
   if (params?.page !== undefined) searchParams.set('page', String(params.page))
-  if (params?.page_size !== undefined) searchParams.set('page_size', String(params.page_size))
+  if (params?.page_size !== undefined)
+    searchParams.set('page_size', String(params.page_size))
   const query = searchParams.toString()
   const path = query ? `/library/skins?${query}` : '/library/skins'
   return authApiClient.get<LibraryListResponse<SkinLibrary>>(path)
 }
 
 /** 创建皮肤 */
-export async function createSkin(data: CreateSkinRequest): Promise<SkinLibrary> {
+export async function createSkin(
+  data: CreateSkinRequest,
+): Promise<SkinLibrary> {
   return authApiClient.post<SkinLibrary>('/library/skins', data)
 }
 
@@ -68,7 +73,10 @@ export async function getSkinsList(): Promise<LibrarySimpleListResponse> {
 // ─── TanStack Query Hooks ───────────────────────────────────
 
 /** 皮肤列表 Query */
-export function useSkins(params?: SkinListParams, options?: { enabled?: boolean }) {
+export function useSkins(
+  params?: SkinListParams,
+  options?: { enabled?: boolean },
+) {
   return useQuery({
     queryKey: ['skins', params],
     queryFn: () => getSkins(params),

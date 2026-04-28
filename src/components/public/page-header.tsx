@@ -14,9 +14,19 @@ interface PageHeaderProps {
   className?: string
 }
 
-export function PageHeader({ title, description, children, className }: PageHeaderProps) {
+export function PageHeader({
+  title,
+  description,
+  children,
+  className,
+}: PageHeaderProps) {
   return (
-    <div className={cn("mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between", className)}>
+    <div
+      className={cn(
+        'mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between',
+        className,
+      )}
+    >
       <div className="min-w-0">
         <h1 className="text-[22px] font-bold tracking-tight text-foreground sm:text-[24px]">
           {title}

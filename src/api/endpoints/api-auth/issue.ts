@@ -37,12 +37,16 @@ export const ISSUE_DETAIL_QUERY_KEY = ['issue-detail'] as const
 // ─── 端点函数 ──────────────────────────────────────────────
 
 /** 提交问题 */
-export async function createIssue(data: CreateIssueRequest): Promise<IssueDetailResponse> {
+export async function createIssue(
+  data: CreateIssueRequest,
+): Promise<IssueDetailResponse> {
   return authApiClient.post<IssueDetailResponse>('/issue', data)
 }
 
 /** 我的问题列表 */
-export async function getMyIssues(params?: IssueListParams): Promise<IssueListResponse> {
+export async function getMyIssues(
+  params?: IssueListParams,
+): Promise<IssueListResponse> {
   const sp = new URLSearchParams()
   if (params?.page) sp.set('page', String(params.page))
   if (params?.page_size) sp.set('page_size', String(params.page_size))
@@ -50,7 +54,9 @@ export async function getMyIssues(params?: IssueListParams): Promise<IssueListRe
   if (params?.priority) sp.set('priority', params.priority)
   if (params?.issue_type_id) sp.set('issue_type_id', params.issue_type_id)
   const qs = sp.toString()
-  return authApiClient.get<IssueListResponse>(qs ? `/issue/list?${qs}` : '/issue/list')
+  return authApiClient.get<IssueListResponse>(
+    qs ? `/issue/list?${qs}` : '/issue/list',
+  )
 }
 
 /** 问题详情 */
@@ -63,7 +69,10 @@ export async function uploadAttachment(
   issueId: string,
   data: UploadAttachmentRequest,
 ): Promise<IssueAttachmentItem> {
-  return authApiClient.post<IssueAttachmentItem>(`/issue/${issueId}/attachment`, data)
+  return authApiClient.post<IssueAttachmentItem>(
+    `/issue/${issueId}/attachment`,
+    data,
+  )
 }
 
 /** 回复问题 */
@@ -115,7 +124,9 @@ export function useReplyIssueMutation(issueId: string) {
   return useMutation({
     mutationFn: (data: ReplyIssueRequest) => replyIssue(issueId, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [...ISSUE_DETAIL_QUERY_KEY, issueId] })
+      queryClient.invalidateQueries({
+        queryKey: [...ISSUE_DETAIL_QUERY_KEY, issueId],
+      })
     },
   })
 }
@@ -124,9 +135,12 @@ export function useReplyIssueMutation(issueId: string) {
 export function useUploadAttachmentMutation(issueId: string) {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: (data: UploadAttachmentRequest) => uploadAttachment(issueId, data),
+    mutationFn: (data: UploadAttachmentRequest) =>
+      uploadAttachment(issueId, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [...ISSUE_DETAIL_QUERY_KEY, issueId] })
+      queryClient.invalidateQueries({
+        queryKey: [...ISSUE_DETAIL_QUERY_KEY, issueId],
+      })
     },
   })
 }
@@ -137,7 +151,9 @@ export function useDeleteAttachmentMutation(issueId: string) {
   return useMutation({
     mutationFn: deleteAttachment,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [...ISSUE_DETAIL_QUERY_KEY, issueId] })
+      queryClient.invalidateQueries({
+        queryKey: [...ISSUE_DETAIL_QUERY_KEY, issueId],
+      })
     },
   })
 }

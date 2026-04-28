@@ -24,12 +24,16 @@ interface SidebarProps {
 
 export function Sidebar({ mode, items }: SidebarProps) {
   return (
-    <SidebarRoot collapsible="icon" variant="floating" style={{ '--sidebar-width-icon': '4.5rem' } as React.CSSProperties}>
+    <SidebarRoot
+      collapsible="icon"
+      variant="floating"
+      style={{ '--sidebar-width-icon': '4.5rem' } as React.CSSProperties}
+    >
       {/* Logo 区域 */}
       <SidebarHeader mode={mode} />
 
       <div className="flex flex-col items-center px-4 pb-1">
-        <SidebarSeparator className='p-0.5 rounded-full' />
+        <SidebarSeparator className="p-0.5 rounded-full" />
       </div>
 
       {/* 菜单内容区 */}

@@ -9,16 +9,19 @@
  * 本地开发走 Vite proxy（/api-auth → http://localhost:5577、/api-mc → http://localhost:5599）
  * 生产环境使用完整后端地址
  */
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api-auth/api/v1'
+export const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || '/api-auth/api/v1'
 
 /** MC 服务 AJAX API 基础地址 */
-export const MC_API_BASE_URL = import.meta.env.VITE_MC_API_BASE_URL || '/api-mc/api/v1'
+export const MC_API_BASE_URL =
+  import.meta.env.VITE_MC_API_BASE_URL || '/api-mc/api/v1'
 
 /**
  * SSO 登录跳转地址（浏览器直接导航，不走 AJAX）
  * 本地开发需要跳转到后端真实地址，因为 Vite proxy 不支持 302 重定向跟随
  */
-export const SSO_LOGIN_BASE_URL = import.meta.env.VITE_SSO_BASE_URL || 'http://localhost:5577/api/v1'
+export const SSO_LOGIN_BASE_URL =
+  import.meta.env.VITE_SSO_BASE_URL || 'http://localhost:5577/api/v1'
 
 /** API 请求超时时间（毫秒） */
 export const API_TIMEOUT = 30000

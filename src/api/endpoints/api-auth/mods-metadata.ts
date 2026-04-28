@@ -11,7 +11,9 @@ import type { ModsMetadataResponse } from '#/api/types'
 
 /** 获取服务器模组元数据列表 */
 export async function getModsMetadata(): Promise<ModsMetadataResponse> {
-  return authApiClient.get<ModsMetadataResponse>('/sync/mods/metadata', { skipAuth: true })
+  return authApiClient.get<ModsMetadataResponse>('/sync/mods/metadata', {
+    skipAuth: true,
+  })
 }
 
 // ─── TanStack Query Hooks ───────────────────────────────────

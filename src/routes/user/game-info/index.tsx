@@ -241,9 +241,7 @@ export default function GameInfoPage() {
                 {searchQuery ? '未找到匹配的模组' : '暂无模组'}
               </h3>
               <p className="mt-1 text-sm text-muted-foreground">
-                {searchQuery
-                  ? '尝试其他关键词搜索'
-                  : '服务器尚未安装任何模组'}
+                {searchQuery ? '尝试其他关键词搜索' : '服务器尚未安装任何模组'}
               </p>
             </CardContent>
           </Card>

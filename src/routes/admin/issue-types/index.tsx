@@ -178,34 +178,44 @@ function IssueTypesPage() {
     },
     {
       accessorKey: 'name',
-      header: ({ column }) => <TableColumnHeader column={column} title="名称" />,
+      header: ({ column }) => (
+        <TableColumnHeader column={column} title="名称" />
+      ),
       cell: ({ row }) => (
         <span className="font-medium text-sm">{row.getValue('name')}</span>
       ),
     },
     {
       accessorKey: 'description',
-      header: ({ column }) => <TableColumnHeader column={column} title="描述" />,
+      header: ({ column }) => (
+        <TableColumnHeader column={column} title="描述" />
+      ),
       cell: ({ row }) => (
         <span className="text-sm text-muted-foreground truncate max-w-[200px] block">
-          {(row.getValue('description') as string) || '-'}
+          {(row.getValue('description')) || '-'}
         </span>
       ),
     },
     {
       accessorKey: 'sort_order',
-      header: ({ column }) => <TableColumnHeader column={column} title="排序" />,
+      header: ({ column }) => (
+        <TableColumnHeader column={column} title="排序" />
+      ),
       cell: ({ row }) => (
-        <span className="text-sm tabular-nums">{row.getValue('sort_order')}</span>
+        <span className="text-sm tabular-nums">
+          {row.getValue('sort_order')}
+        </span>
       ),
       size: 80,
     },
     {
       accessorKey: 'is_enabled',
-      header: ({ column }) => <TableColumnHeader column={column} title="状态" />,
+      header: ({ column }) => (
+        <TableColumnHeader column={column} title="状态" />
+      ),
       cell: ({ row }) => {
-        const enabled = row.getValue('is_enabled') as boolean
-        const type = row.original as IssueType
+        const enabled = row.getValue('is_enabled')
+        const type = row.original
         return (
           <Badge
             variant="secondary"
@@ -226,7 +236,7 @@ function IssueTypesPage() {
       id: 'actions',
       header: () => <span className="text-sm font-medium">操作</span>,
       cell: ({ row }) => {
-        const type = row.original as IssueType
+        const type = row.original
         return (
           <div className="flex items-center gap-1">
             <Button
@@ -270,7 +280,10 @@ function IssueTypesPage() {
         </PageHeader>
       </motion.div>
 
-      <motion.div variants={fadeUpItem} className="rounded-xl border border-border/70 overflow-hidden">
+      <motion.div
+        variants={fadeUpItem}
+        className="rounded-xl border border-border/70 overflow-hidden"
+      >
         <TableProvider columns={columns} data={types}>
           <TSTableHeader>
             {({ headerGroup }) => (
@@ -291,7 +304,9 @@ function IssueTypesPage() {
         {types.length === 0 && (
           <div className="py-16 text-center">
             <Tags className="mx-auto h-8 w-8 text-muted-foreground/30 mb-3" />
-            <p className="text-sm text-muted-foreground">暂无问题类型，点击右上角新建</p>
+            <p className="text-sm text-muted-foreground">
+              暂无问题类型，点击右上角新建
+            </p>
           </div>
         )}
       </motion.div>
@@ -311,7 +326,9 @@ function IssueTypesPage() {
           <DialogHeader>
             <DialogTitle>{editTarget ? '编辑类型' : '新建类型'}</DialogTitle>
             <DialogDescription>
-              {editTarget ? '修改问题类型的名称、描述或排序' : '创建新的问题分类类型'}
+              {editTarget
+                ? '修改问题类型的名称、描述或排序'
+                : '创建新的问题分类类型'}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-2">
@@ -356,9 +373,17 @@ function IssueTypesPage() {
             </Button>
             <Button
               onClick={editTarget ? handleUpdate : handleCreate}
-              disabled={createMutation.isPending || updateMutation.isPending || !formName.trim()}
+              disabled={
+                createMutation.isPending ||
+                updateMutation.isPending ||
+                !formName.trim()
+              }
             >
-              {(createMutation.isPending || updateMutation.isPending) ? '处理中...' : (editTarget ? '保存' : '创建')}
+              {createMutation.isPending || updateMutation.isPending
+                ? '处理中...'
+                : editTarget
+                  ? '保存'
+                  : '创建'}
             </Button>
           </DialogFooter>
         </DialogContent>

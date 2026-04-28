@@ -4,7 +4,12 @@
  * 处理流程：用授权码换 Token → 获取用户信息 → 跳转管理后台
  */
 
-import { createFileRoute, redirect, useNavigate, Link } from '@tanstack/react-router'
+import {
+  createFileRoute,
+  redirect,
+  useNavigate,
+  Link,
+} from '@tanstack/react-router'
 import { handleOAuthCallback } from '#/api/endpoints/api-auth/auth'
 import { USER_INFO_QUERY_KEY } from '#/api/endpoints/api-auth/user'
 import type { UserCurrentResponse } from '#/api/types'
@@ -44,7 +49,8 @@ function CallbackPage() {
     handleOAuthCallback(code, state, queryClient)
       .then(() => {
         // Token 获取成功后，从缓存读取用户信息检查账户是否已完善
-        const userInfo = queryClient.getQueryData<UserCurrentResponse>(USER_INFO_QUERY_KEY)
+        const userInfo =
+          queryClient.getQueryData<UserCurrentResponse>(USER_INFO_QUERY_KEY)
         if (userInfo && userInfo.extend?.account_ready !== 'ready') {
           // 账户未就绪 → 引导到设置页
           navigate({ to: '/setup/password' as any })
@@ -84,8 +90,12 @@ function CallbackPage() {
       <div className="flex flex-col items-center gap-4">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
         <div className="text-center">
-          <p className="text-[15px] font-medium text-foreground">正在完成登录...</p>
-          <p className="mt-1 text-[13px] text-muted-foreground">正在获取授权凭证并验证身份</p>
+          <p className="text-[15px] font-medium text-foreground">
+            正在完成登录...
+          </p>
+          <p className="mt-1 text-[13px] text-muted-foreground">
+            正在获取授权凭证并验证身份
+          </p>
         </div>
       </div>
     </div>

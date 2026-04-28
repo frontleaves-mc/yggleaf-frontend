@@ -54,7 +54,9 @@ function LoginPage() {
               Y
             </div>
             <div className="flex flex-col gap-0.5">
-              <span className="text-2xl font-bold tracking-tight text-white">Yggleaf</span>
+              <span className="text-2xl font-bold tracking-tight text-white">
+                Yggleaf
+              </span>
               <span className="text-sm text-white/40">Minecraft 资源平台</span>
             </div>
           </div>
@@ -62,7 +64,11 @@ function LoginPage() {
           {/* 标题 */}
           <div className="max-w-lg">
             <h1 className="font-display mb-3 text-[2rem] font-bold leading-tight tracking-tight text-white">
-              安全登录，<br />继续管理你的<br />游戏资源。
+              安全登录，
+              <br />
+              继续管理你的
+              <br />
+              游戏资源。
             </h1>
             <p className="text-sm leading-relaxed text-white/45">
               使用统一认证平台完成登录，进入后即可继续管理皮肤、披风和游戏档案。
@@ -71,9 +77,21 @@ function LoginPage() {
 
           {/* 功能条目 */}
           <div className="grid gap-3 sm:grid-cols-3">
-            <FeatureItem icon={<Shirt className="h-4 w-4" />} label="皮肤管理" desc="上传与整理角色形象资源" />
-            <FeatureItem icon={<Flag className="h-4 w-4" />} label="披风管理" desc="统一维护披风资源与分发" />
-            <FeatureItem icon={<ShieldCheck className="h-4 w-4" />} label="安全认证" desc="OAuth 2.0 + PKCE 登录流程" />
+            <FeatureItem
+              icon={<Shirt className="h-4 w-4" />}
+              label="皮肤管理"
+              desc="上传与整理角色形象资源"
+            />
+            <FeatureItem
+              icon={<Flag className="h-4 w-4" />}
+              label="披风管理"
+              desc="统一维护披风资源与分发"
+            />
+            <FeatureItem
+              icon={<ShieldCheck className="h-4 w-4" />}
+              label="安全认证"
+              desc="OAuth 2.0 + PKCE 登录流程"
+            />
           </div>
         </RiseTransition>
 
@@ -105,7 +123,9 @@ function LoginPage() {
 
           {/* 标题 */}
           <div className="flex flex-col gap-2">
-            <h2 className="text-[1.75rem] font-bold tracking-tight text-foreground">欢迎回来</h2>
+            <h2 className="text-[1.75rem] font-bold tracking-tight text-foreground">
+              欢迎回来
+            </h2>
             <p className="text-sm leading-relaxed text-muted-foreground">
               通过统一认证平台登录 Yggleaf，继续管理 Minecraft 资源与账号数据。
             </p>
@@ -136,9 +156,12 @@ function LoginPage() {
             <div className="flex items-start gap-3">
               <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
               <div className="flex flex-col gap-1">
-                <p className="text-sm font-semibold text-foreground">安全认证说明</p>
+                <p className="text-sm font-semibold text-foreground">
+                  安全认证说明
+                </p>
                 <p className="text-xs leading-relaxed text-muted-foreground">
-                  使用 OAuth 2.0 统一认证。密码由 SSO 提供商保管，登录完成后会自动回跳当前应用。
+                  使用 OAuth 2.0 统一认证。密码由 SSO
+                  提供商保管，登录完成后会自动回跳当前应用。
                 </p>
               </div>
             </div>
@@ -156,7 +179,15 @@ function LoginPage() {
 
 /* ─── 功能条目组件 ─── */
 
-function FeatureItem({ icon, label, desc }: { icon: React.ReactNode; label: string; desc: string }) {
+function FeatureItem({
+  icon,
+  label,
+  desc,
+}: {
+  icon: React.ReactNode
+  label: string
+  desc: string
+}) {
   return (
     <div className="rounded-2xl border border-white/[0.06] bg-white/[0.04] p-3.5">
       <div className="flex items-start gap-3">

@@ -25,12 +25,17 @@ export async function getIssueTypes(): Promise<IssueType[]> {
 }
 
 /** 创建问题类型（管理） */
-export async function createIssueType(data: CreateIssueTypeRequest): Promise<IssueType> {
+export async function createIssueType(
+  data: CreateIssueTypeRequest,
+): Promise<IssueType> {
   return authApiClient.post<IssueType>('/admin/issue-type', data)
 }
 
 /** 更新问题类型（管理） */
-export async function updateIssueType(id: string, data: UpdateIssueTypeRequest): Promise<IssueType> {
+export async function updateIssueType(
+  id: string,
+  data: UpdateIssueTypeRequest,
+): Promise<IssueType> {
   return authApiClient.put<IssueType>(`/admin/issue-type/${id}`, data)
 }
 

@@ -3,8 +3,12 @@
  * 编辑已有皮肤的属性信息
  */
 
-import { createFileRoute } from '@tanstack/react-router'
-import { useSkinDetail, useUpdateSkinMutation, useDeleteSkinMutation } from '#/api/endpoints/api-auth/skin-library'
+import { createFileRoute, Link, useParams, useNavigate  } from '@tanstack/react-router'
+import {
+  useSkinDetail,
+  useUpdateSkinMutation,
+  useDeleteSkinMutation,
+} from '#/api/endpoints/api-auth/skin-library'
 import { Button } from '#/components/ui/button'
 import {
   Card,
@@ -16,11 +20,16 @@ import {
 import { Input } from '#/components/ui/input'
 import { Label } from '#/components/ui/label'
 import { Switch } from '#/components/ui/switch'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '#/components/ui/select'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '#/components/ui/select'
 import { Badge } from '#/components/ui/badge'
 import { ConfirmDialog } from '#/components/public/confirm-dialog'
 import { Loader2, ArrowLeft, Save, Trash2 } from 'lucide-react'
-import { Link, useParams, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { motion } from 'motion/react'
 
@@ -46,7 +55,7 @@ export const Route = createFileRoute('/admin/skins/$skinId')({
 })
 
 function EditSkinPage() {
-  const { skinId } = useParams({ strict: false }) as { skinId: string }
+  const { skinId } = useParams({ strict: false })
   const navigate = useNavigate()
   const { data: skin, isLoading } = useSkinDetail(skinId)
 
@@ -87,9 +96,17 @@ function EditSkinPage() {
     }
   }
 
-  if (isLoading) return <div><LoadingSkeleton /></div>
+  if (isLoading)
+    return (
+      <div>
+        <LoadingSkeleton />
+      </div>
+    )
 
-  if (!skin) return <div className="text-center py-12 text-muted-foreground">皮肤不存在</div>
+  if (!skin)
+    return (
+      <div className="text-center py-12 text-muted-foreground">皮肤不存在</div>
+    )
 
   return (
     <motion.div
@@ -117,7 +134,9 @@ function EditSkinPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <CardTitle className="text-lg">编辑皮肤</CardTitle>
-                  <CardDescription>修改皮肤 #{skin.id} 的属性信息</CardDescription>
+                  <CardDescription>
+                    修改皮肤 #{skin.id} 的属性信息
+                  </CardDescription>
                 </div>
                 <Badge variant="secondary" className="font-mono text-xs">
                   ID: {skin.id}
@@ -139,7 +158,11 @@ function EditSkinPage() {
 
                 <div className="space-y-2">
                   <Label htmlFor="edit-skin-model">模型类型</Label>
-                  <Select value={model} onValueChange={setModel} disabled={updateMutation.isPending}>
+                  <Select
+                    value={model}
+                    onValueChange={setModel}
+                    disabled={updateMutation.isPending}
+                  >
                     <SelectTrigger id="edit-skin-model">
                       <SelectValue />
                     </SelectTrigger>
@@ -157,12 +180,22 @@ function EditSkinPage() {
                       开启后所有用户均可使用
                     </p>
                   </div>
-                  <Switch checked={isPublic} onCheckedChange={setIsPublic} disabled={updateMutation.isPending} />
+                  <Switch
+                    checked={isPublic}
+                    onCheckedChange={setIsPublic}
+                    disabled={updateMutation.isPending}
+                  />
                 </div>
 
                 <div className="flex gap-3 pt-2">
                   <Link to="/admin/skins">
-                    <Button variant="outline" type="button" disabled={updateMutation.isPending}>取消</Button>
+                    <Button
+                      variant="outline"
+                      type="button"
+                      disabled={updateMutation.isPending}
+                    >
+                      取消
+                    </Button>
                   </Link>
                   <Button
                     type="submit"
@@ -170,9 +203,15 @@ function EditSkinPage() {
                     className="bg-gradient-to-r from-primary to-primary text-white hover:opacity-90 flex-1 sm:flex-none"
                   >
                     {updateMutation.isPending ? (
-                      <><Loader2 className="mr-2 h-4 w-4 animate-spin" />保存中...</>
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        保存中...
+                      </>
                     ) : (
-                      <><Save className="mr-2 h-4 w-4" />保存修改</>
+                      <>
+                        <Save className="mr-2 h-4 w-4" />
+                        保存修改
+                      </>
                     )}
                   </Button>
                 </div>
@@ -187,8 +226,15 @@ function EditSkinPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <InfoRow label="ID" value={String(skin.id)} />
-              <InfoRow label="纹理哈希" value={skin.texture_hash.slice(0, 12) + '...'} mono />
-              <InfoRow label="创建者" value={skin.user?.username ?? '系统内置'} />
+              <InfoRow
+                label="纹理哈希"
+                value={skin.texture_hash.slice(0, 12) + '...'}
+                mono
+              />
+              <InfoRow
+                label="创建者"
+                value={skin.user?.username ?? '系统内置'}
+              />
               <InfoRow
                 label="更新时间"
                 value={new Date(skin.updated_at).toLocaleString('zh-CN')}
@@ -223,11 +269,25 @@ function EditSkinPage() {
   )
 }
 
-function InfoRow({ label, value, mono }: { label: string; value: string; mono?: boolean }) {
+function InfoRow({
+  label,
+  value,
+  mono,
+}: {
+  label: string
+  value: string
+  mono?: boolean
+}) {
   return (
     <div className="flex items-start justify-between gap-3">
-      <span className="text-[13px] text-muted-foreground shrink-0">{label}</span>
-      <span className={`text-[13px] font-medium break-all ${mono ? 'font-mono text-xs' : ''}`}>{value}</span>
+      <span className="text-[13px] text-muted-foreground shrink-0">
+        {label}
+      </span>
+      <span
+        className={`text-[13px] font-medium break-all ${mono ? 'font-mono text-xs' : ''}`}
+      >
+        {value}
+      </span>
     </div>
   )
 }

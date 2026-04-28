@@ -34,7 +34,9 @@ export const ADMIN_USER_DETAIL_QUERY_KEY = ['admin', 'user', 'detail'] as const
 // ─── 端点函数 ──────────────────────────────────────────────
 
 /** 管理员获取用户列表 */
-export async function getAdminUsers(params?: AdminUserListParams): Promise<AdminUserListResponse> {
+export async function getAdminUsers(
+  params?: AdminUserListParams,
+): Promise<AdminUserListResponse> {
   const sp = new URLSearchParams()
   if (params?.page) sp.set('page', String(params.page))
   if (params?.page_size) sp.set('page_size', String(params.page_size))
@@ -43,11 +45,15 @@ export async function getAdminUsers(params?: AdminUserListParams): Promise<Admin
   if (params?.start_time) sp.set('start_time', params.start_time)
   if (params?.end_time) sp.set('end_time', params.end_time)
   const qs = sp.toString()
-  return authApiClient.get<AdminUserListResponse>(qs ? `/admin/users?${qs}` : '/admin/users')
+  return authApiClient.get<AdminUserListResponse>(
+    qs ? `/admin/users?${qs}` : '/admin/users',
+  )
 }
 
 /** 管理员获取用户详情 */
-export async function getAdminUserDetail(userId: string): Promise<AdminUserDetailResponse> {
+export async function getAdminUserDetail(
+  userId: string,
+): Promise<AdminUserDetailResponse> {
   return authApiClient.get<AdminUserDetailResponse>(`/admin/users/${userId}`)
 }
 

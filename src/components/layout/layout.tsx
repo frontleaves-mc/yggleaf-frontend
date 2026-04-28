@@ -13,10 +13,7 @@
  */
 
 import { useEffect } from 'react'
-import {
-  SidebarProvider,
-  SidebarInset,
-} from '#/components/ui/sidebar'
+import { SidebarProvider, SidebarInset } from '#/components/ui/sidebar'
 import { Sidebar } from './sidebar'
 import { TopBar } from './top-bar'
 import { PageTitleProvider } from './page-title-context'
@@ -63,7 +60,10 @@ export function Layout({ children, mode, items }: LayoutProps) {
   }, [])
 
   return (
-    <SidebarProvider defaultOpen={getInitialOpen()} className="bg-primary/[0.02]">
+    <SidebarProvider
+      defaultOpen={getInitialOpen()}
+      className="bg-primary/[0.02]"
+    >
       <Sidebar mode={mode} items={items} />
 
       <SidebarInset>
@@ -72,7 +72,9 @@ export function Layout({ children, mode, items }: LayoutProps) {
             <TopBar />
 
             <main className="flex-1 bg-primary/[0.02] px-3.5 py-3.5 pb-7 sm:px-5 sm:pb-8 lg:px-6 lg:py-4 lg:pb-10">
-              <PageTransition className="relative mx-auto max-w-(--page-max)">{children}</PageTransition>
+              <PageTransition className="relative mx-auto max-w-(--page-max)">
+                {children}
+              </PageTransition>
             </main>
           </div>
         </PageTitleProvider>

@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import type {
   Cell,
@@ -9,24 +9,24 @@ import type {
   Row,
   SortingState,
   Table,
-} from "@tanstack/react-table"
+} from '@tanstack/react-table'
 import {
   flexRender,
   getCoreRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table"
-import { atom, useAtom } from "jotai"
-import { ArrowDownIcon, ArrowUpIcon, ChevronsUpDownIcon } from "lucide-react"
-import type { HTMLAttributes, ReactNode } from "react"
-import { createContext, memo, useCallback, useContext } from "react"
-import { Button } from "#/components/ui/button"
+} from '@tanstack/react-table'
+import { atom, useAtom } from 'jotai'
+import { ArrowDownIcon, ArrowUpIcon, ChevronsUpDownIcon } from 'lucide-react'
+import type { HTMLAttributes, ReactNode } from 'react'
+import { createContext, memo, useCallback, useContext } from 'react'
+import { Button } from '#/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "#/components/ui/dropdown-menu"
+} from '#/components/ui/dropdown-menu'
 import {
   TableBody as TableBodyRaw,
   TableCell as TableCellRaw,
@@ -34,10 +34,10 @@ import {
   TableHead as TableHeadRaw,
   Table as TableRaw,
   TableRow as TableRowRaw,
-} from "#/components/ui/table"
-import { cn } from "#/lib/utils"
+} from '#/components/ui/table'
+import { cn } from '#/lib/utils'
 
-export type { ColumnDef } from "@tanstack/react-table"
+export type { ColumnDef } from '@tanstack/react-table'
 
 const sortingAtom = atom<SortingState>([])
 
@@ -70,7 +70,7 @@ export function TableProvider<TData, TValue>({
     columns,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    onSortingChange: updater => {
+    onSortingChange: (updater) => {
       // @ts-expect-error updater is a function that returns a sorting object
       const newSorting = updater(sorting)
       setSorting(newSorting)
@@ -100,20 +100,25 @@ export interface TSTableHeadProps {
 
 export const TSTableHead = memo(({ header, className }: TSTableHeadProps) => (
   <TableHeadRaw className={className} key={header.id}>
-    {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+    {header.isPlaceholder
+      ? null
+      : flexRender(header.column.columnDef.header, header.getContext())}
   </TableHeadRaw>
 ))
 
-TSTableHead.displayName = "TSTableHead"
+TSTableHead.displayName = 'TSTableHead'
 
 export interface TSTableHeaderGroupProps {
   headerGroup: HeaderGroup<unknown>
   children: (props: { header: Header<unknown, unknown> }) => ReactNode
 }
 
-export const TSTableHeaderGroup = ({ headerGroup, children }: TSTableHeaderGroupProps) => (
+export const TSTableHeaderGroup = ({
+  headerGroup,
+  children,
+}: TSTableHeaderGroupProps) => (
   <TableRowRaw key={headerGroup.id}>
-    {headerGroup.headers.map(header => children({ header }))}
+    {headerGroup.headers.map((header) => children({ header }))}
   </TableRowRaw>
 )
 
@@ -127,12 +132,15 @@ export const TSTableHeader = ({ className, children }: TSTableHeaderProps) => {
 
   return (
     <TableHeaderRaw className={className}>
-      {table?.getHeaderGroups().map(headerGroup => children({ headerGroup }))}
+      {table?.getHeaderGroups().map((headerGroup) => children({ headerGroup }))}
     </TableHeaderRaw>
   )
 }
 
-export interface TableColumnHeaderProps<TData, TValue> extends HTMLAttributes<HTMLDivElement> {
+export interface TableColumnHeaderProps<
+  TData,
+  TValue,
+> extends HTMLAttributes<HTMLDivElement> {
   column: Column<TData, TValue>
   title: string
 }
@@ -155,14 +163,18 @@ export function TableColumnHeader<TData, TValue>({
   }
 
   return (
-    <div className={cn("flex items-center space-x-2", className)}>
+    <div className={cn('flex items-center space-x-2', className)}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button className="-ml-3 h-8 data-[state=open]:bg-accent" size="sm" variant="ghost">
+          <Button
+            className="-ml-3 h-8 data-[state=open]:bg-accent"
+            size="sm"
+            variant="ghost"
+          >
             <span>{title}</span>
-            {column.getIsSorted() === "desc" ? (
+            {column.getIsSorted() === 'desc' ? (
               <ArrowDownIcon className="ml-2 h-4 w-4" />
-            ) : column.getIsSorted() === "asc" ? (
+            ) : column.getIsSorted() === 'asc' ? (
               <ArrowUpIcon className="ml-2 h-4 w-4" />
             ) : (
               <ChevronsUpDownIcon className="ml-2 h-4 w-4" />
@@ -202,8 +214,12 @@ export interface TSTableRowProps {
 }
 
 export const TSTableRow = ({ row, children, className }: TSTableRowProps) => (
-  <TableRowRaw className={className} data-state={row.getIsSelected() && "selected"} key={row.id}>
-    {row.getVisibleCells().map(cell => children({ cell }))}
+  <TableRowRaw
+    className={className}
+    data-state={row.getIsSelected() && 'selected'}
+    key={row.id}
+  >
+    {row.getVisibleCells().map((cell) => children({ cell }))}
   </TableRowRaw>
 )
 
@@ -219,7 +235,7 @@ export const TSTableBody = ({ children, className }: TSTableBodyProps) => {
   return (
     <TableBodyRaw className={className}>
       {rows?.length ? (
-        rows.map(row => children({ row }))
+        rows.map((row) => children({ row }))
       ) : (
         <TableRowRaw>
           <TableCellRaw className="h-24 text-center" colSpan={columns.length}>

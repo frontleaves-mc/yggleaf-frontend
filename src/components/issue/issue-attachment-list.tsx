@@ -11,7 +11,10 @@ import { useState, useRef, useMemo, useCallback } from 'react'
 import Lightbox from 'yet-another-react-lightbox'
 import 'yet-another-react-lightbox/styles.css'
 import { Button } from '#/components/ui/button'
-import { useUploadAttachmentMutation, useDeleteAttachmentMutation } from '#/api/endpoints/api-auth/issue'
+import {
+  useUploadAttachmentMutation,
+  useDeleteAttachmentMutation,
+} from '#/api/endpoints/api-auth/issue'
 import { ConfirmDialog } from '#/components/public/confirm-dialog'
 import {
   Loader2,
@@ -195,7 +198,9 @@ export function IssueAttachmentList({
   const uploadMutation = useUploadAttachmentMutation(issueId)
   const deleteMutation = useDeleteAttachmentMutation(issueId)
   const fileInputRef = useRef<HTMLInputElement>(null)
-  const [deleteTarget, setDeleteTarget] = useState<IssueAttachmentItem | null>(null)
+  const [deleteTarget, setDeleteTarget] = useState<IssueAttachmentItem | null>(
+    null,
+  )
   const [lightboxIndex, setLightboxIndex] = useState(-1)
 
   // 分离图片和非图片附件

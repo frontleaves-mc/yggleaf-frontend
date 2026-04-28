@@ -1,38 +1,98 @@
-"use client"
+'use client'
 
-import type { HTMLAttributes, TdHTMLAttributes, ThHTMLAttributes } from "react"
-import { cn } from "#/lib/utils"
+import type { HTMLAttributes, TdHTMLAttributes, ThHTMLAttributes } from 'react'
+import { cn } from '#/lib/utils'
 
-export const Table = ({ className, ...props }: HTMLAttributes<HTMLTableElement>) => (
+export const Table = ({
+  className,
+  ...props
+}: HTMLAttributes<HTMLTableElement>) => (
   <div className="relative w-full overflow-auto">
-    <table className={cn("w-full caption-bottom text-sm", className)} {...props} />
+    <table
+      className={cn('w-full caption-bottom text-sm', className)}
+      {...props}
+    />
   </div>
 )
 
-export const TableHeader = ({ className, ...props }: HTMLAttributes<HTMLTableSectionElement>) => (
-  <thead className={cn("bg-muted/40 [&_tr]:border-b [&_tr]:border-foreground/8", className)} {...props} />
+export const TableHeader = ({
+  className,
+  ...props
+}: HTMLAttributes<HTMLTableSectionElement>) => (
+  <thead
+    className={cn(
+      'bg-muted/40 [&_tr]:border-b [&_tr]:border-foreground/8',
+      className,
+    )}
+    {...props}
+  />
 )
 
-export const TableBody = ({ className, ...props }: HTMLAttributes<HTMLTableSectionElement>) => (
-  <tbody className={cn("[&_tr:last-child]:border-0", className)} {...props} />
+export const TableBody = ({
+  className,
+  ...props
+}: HTMLAttributes<HTMLTableSectionElement>) => (
+  <tbody className={cn('[&_tr:last-child]:border-0', className)} {...props} />
 )
 
-export const TableFooter = ({ className, ...props }: HTMLAttributes<HTMLTableSectionElement>) => (
-  <tfoot className={cn("border-t bg-muted/50 font-medium [&>tr]:last:border-b-0", className)} {...props} />
+export const TableFooter = ({
+  className,
+  ...props
+}: HTMLAttributes<HTMLTableSectionElement>) => (
+  <tfoot
+    className={cn(
+      'border-t bg-muted/50 font-medium [&>tr]:last:border-b-0',
+      className,
+    )}
+    {...props}
+  />
 )
 
-export const TableRow = ({ className, ...props }: HTMLAttributes<HTMLTableRowElement>) => (
-  <tr className={cn("border-b border-foreground/5 bg-card transition-colors duration-150 hover:bg-muted/40 data-[state=selected]:bg-muted/60", className)} {...props} />
+export const TableRow = ({
+  className,
+  ...props
+}: HTMLAttributes<HTMLTableRowElement>) => (
+  <tr
+    className={cn(
+      'border-b border-foreground/5 bg-card transition-colors duration-150 hover:bg-muted/40 data-[state=selected]:bg-muted/60',
+      className,
+    )}
+    {...props}
+  />
 )
 
-export const TableHead = ({ className, ...props }: ThHTMLAttributes<HTMLTableCellElement>) => (
-  <th className={cn("h-10 px-4 text-left align-middle text-sm font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0", className)} {...props} />
+export const TableHead = ({
+  className,
+  ...props
+}: ThHTMLAttributes<HTMLTableCellElement>) => (
+  <th
+    className={cn(
+      'h-10 px-4 text-left align-middle text-sm font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0',
+      className,
+    )}
+    {...props}
+  />
 )
 
-export const TableCell = ({ className, ...props }: TdHTMLAttributes<HTMLTableCellElement>) => (
-  <td className={cn("p-4 align-middle text-sm [&:has([role=checkbox])]:pr-0", className)} {...props} />
+export const TableCell = ({
+  className,
+  ...props
+}: TdHTMLAttributes<HTMLTableCellElement>) => (
+  <td
+    className={cn(
+      'p-4 align-middle text-sm [&:has([role=checkbox])]:pr-0',
+      className,
+    )}
+    {...props}
+  />
 )
 
-export const TableCaption = ({ className, ...props }: HTMLAttributes<HTMLTableCaptionElement>) => (
-  <caption className={cn("mt-4 text-sm text-muted-foreground", className)} {...props} />
+export const TableCaption = ({
+  className,
+  ...props
+}: HTMLAttributes<HTMLTableCaptionElement>) => (
+  <caption
+    className={cn('mt-4 text-sm text-muted-foreground', className)}
+    {...props}
+  />
 )

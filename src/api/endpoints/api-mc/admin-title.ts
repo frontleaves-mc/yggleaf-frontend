@@ -19,18 +19,27 @@ import type {
 // ─── Query Keys ────────────────────────────────────────────
 
 export const ADMIN_TITLE_LIST_QUERY_KEY = ['admin', 'mc', 'titles'] as const
-export const ADMIN_TITLE_DETAIL_QUERY_KEY = ['admin', 'mc', 'title', 'detail'] as const
+export const ADMIN_TITLE_DETAIL_QUERY_KEY = [
+  'admin',
+  'mc',
+  'title',
+  'detail',
+] as const
 
 // ─── 端点函数 ──────────────────────────────────────────────
 
 /** 管理员查询称号列表（分页 + 类型筛选） */
-export async function getAdminTitles(params?: AdminTitleListParams): Promise<TitleListResponse> {
+export async function getAdminTitles(
+  params?: AdminTitleListParams,
+): Promise<TitleListResponse> {
   const sp = new URLSearchParams()
   if (params?.page) sp.set('page', String(params.page))
   if (params?.page_size) sp.set('page_size', String(params.page_size))
   if (params?.type !== undefined) sp.set('type', String(params.type))
   const qs = sp.toString()
-  return mcApiClient.get<TitleListResponse>(qs ? `/admin/titles?${qs}` : '/admin/titles')
+  return mcApiClient.get<TitleListResponse>(
+    qs ? `/admin/titles?${qs}` : '/admin/titles',
+  )
 }
 
 /** 管理员查询称号详情 */
@@ -39,12 +48,17 @@ export async function getAdminTitleDetail(id: string): Promise<TitleResponse> {
 }
 
 /** 管理员创建称号 */
-export async function createTitle(data: CreateTitleRequest): Promise<TitleResponse> {
+export async function createTitle(
+  data: CreateTitleRequest,
+): Promise<TitleResponse> {
   return mcApiClient.post<TitleResponse>('/admin/titles', data)
 }
 
 /** 管理员更新称号 */
-export async function updateTitle(id: string, data: UpdateTitleRequest): Promise<TitleResponse> {
+export async function updateTitle(
+  id: string,
+  data: UpdateTitleRequest,
+): Promise<TitleResponse> {
   return mcApiClient.put<TitleResponse>(`/admin/titles/${id}`, data)
 }
 
@@ -54,12 +68,18 @@ export async function deleteTitle(id: string): Promise<void> {
 }
 
 /** 管理员分配称号给玩家 */
-export async function assignTitle(id: string, data: AssignTitleRequest): Promise<void> {
+export async function assignTitle(
+  id: string,
+  data: AssignTitleRequest,
+): Promise<void> {
   return mcApiClient.post(`/admin/titles/${id}/assign`, data)
 }
 
 /** 管理员撤销玩家称号 */
-export async function revokeTitle(id: string, data: AssignTitleRequest): Promise<void> {
+export async function revokeTitle(
+  id: string,
+  data: AssignTitleRequest,
+): Promise<void> {
   return mcApiClient.delete(`/admin/titles/${id}/assign`, data)
 }
 
@@ -101,7 +121,9 @@ export function useUpdateTitleMutation() {
       updateTitle(id, data),
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: ADMIN_TITLE_LIST_QUERY_KEY })
-      queryClient.invalidateQueries({ queryKey: [...ADMIN_TITLE_DETAIL_QUERY_KEY, variables.id] })
+      queryClient.invalidateQueries({
+        queryKey: [...ADMIN_TITLE_DETAIL_QUERY_KEY, variables.id],
+      })
     },
   })
 }
@@ -125,7 +147,9 @@ export function useAssignTitleMutation() {
       assignTitle(id, data),
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: ADMIN_TITLE_LIST_QUERY_KEY })
-      queryClient.invalidateQueries({ queryKey: [...ADMIN_TITLE_DETAIL_QUERY_KEY, variables.id] })
+      queryClient.invalidateQueries({
+        queryKey: [...ADMIN_TITLE_DETAIL_QUERY_KEY, variables.id],
+      })
     },
   })
 }
@@ -138,7 +162,9 @@ export function useRevokeTitleMutation() {
       revokeTitle(id, data),
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: ADMIN_TITLE_LIST_QUERY_KEY })
-      queryClient.invalidateQueries({ queryKey: [...ADMIN_TITLE_DETAIL_QUERY_KEY, variables.id] })
+      queryClient.invalidateQueries({
+        queryKey: [...ADMIN_TITLE_DETAIL_QUERY_KEY, variables.id],
+      })
     },
   })
 }

@@ -27,18 +27,23 @@ export interface CapeListParams {
 // ─── 端点函数 ──────────────────────────────────────────────
 
 /** 获取披风列表 */
-export async function getCapes(params?: CapeListParams): Promise<LibraryListResponse<CapeLibrary>> {
+export async function getCapes(
+  params?: CapeListParams,
+): Promise<LibraryListResponse<CapeLibrary>> {
   const searchParams = new URLSearchParams()
   if (params?.mode !== undefined) searchParams.set('mode', params.mode)
   if (params?.page !== undefined) searchParams.set('page', String(params.page))
-  if (params?.page_size !== undefined) searchParams.set('page_size', String(params.page_size))
+  if (params?.page_size !== undefined)
+    searchParams.set('page_size', String(params.page_size))
   const query = searchParams.toString()
   const path = query ? `/library/capes?${query}` : '/library/capes'
   return authApiClient.get<LibraryListResponse<CapeLibrary>>(path)
 }
 
 /** 创建披风 */
-export async function createCape(data: CreateCapeRequest): Promise<CapeLibrary> {
+export async function createCape(
+  data: CreateCapeRequest,
+): Promise<CapeLibrary> {
   return authApiClient.post<CapeLibrary>('/library/capes', data)
 }
 
@@ -68,7 +73,10 @@ export async function getCapesList(): Promise<LibrarySimpleListResponse> {
 // ─── TanStack Query Hooks ───────────────────────────────────
 
 /** 披风列表 Query */
-export function useCapes(params?: CapeListParams, options?: { enabled?: boolean }) {
+export function useCapes(
+  params?: CapeListParams,
+  options?: { enabled?: boolean },
+) {
   return useQuery({
     queryKey: ['capes', params],
     queryFn: () => getCapes(params),

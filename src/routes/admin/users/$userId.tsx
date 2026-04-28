@@ -3,7 +3,12 @@
  * 展示用户完整信息 + 资源库数据 + 游戏档案配额调整
  */
 
-import { createFileRoute, Link, useParams, useNavigate } from '@tanstack/react-router'
+import {
+  createFileRoute,
+  Link,
+  useParams,
+  useNavigate,
+} from '@tanstack/react-router'
 import { useState } from 'react'
 import { motion } from 'motion/react'
 import {
@@ -128,7 +133,7 @@ export const Route = createFileRoute('/admin/users/$userId')({
 
 function AdminUserDetailPage() {
   const navigate = useNavigate()
-  const { userId } = useParams({ strict: false }) as { userId: string }
+  const { userId } = useParams({ strict: false })
   const { data: userInfo } = useUserInfo()
   const { data: detail, isLoading } = useAdminUserDetail(userId)
   const quotaMutation = useAdjustGameProfileQuotaMutation(userId)
@@ -173,7 +178,9 @@ function AdminUserDetailPage() {
         delta,
         remark: remark || undefined,
       })
-      toast.success(`配额已${delta > 0 ? '增加' : '减少'} ${Math.abs(delta)} 个`)
+      toast.success(
+        `配额已${delta > 0 ? '增加' : '减少'} ${Math.abs(delta)} 个`,
+      )
       setDeltaInput('')
       setRemark('')
     } catch {
@@ -235,10 +242,18 @@ function AdminUserDetailPage() {
             </CardHeader>
             <CardContent>
               <div className="grid gap-3 sm:grid-cols-2">
-                <InfoRow icon={User} label="用户 ID" value={<code className="text-xs">{user.id}</code>} />
+                <InfoRow
+                  icon={User}
+                  label="用户 ID"
+                  value={<code className="text-xs">{user.id}</code>}
+                />
                 <InfoRow icon={User} label="用户名" value={user.username} />
                 <InfoRow icon={Mail} label="邮箱" value={user.email || '-'} />
-                <InfoRow icon={Phone} label="手机号" value={user.phone || '-'} />
+                <InfoRow
+                  icon={Phone}
+                  label="手机号"
+                  value={user.phone || '-'}
+                />
                 <InfoRow
                   icon={rc.Icon}
                   label="角色"
@@ -260,10 +275,22 @@ function AdminUserDetailPage() {
                     </Badge>
                   }
                 />
-                <InfoRow icon={Calendar} label="注册时间" value={formatTime(user.created_at)} />
-                <InfoRow icon={Calendar} label="更新时间" value={formatTime(user.updated_at)} />
+                <InfoRow
+                  icon={Calendar}
+                  label="注册时间"
+                  value={formatTime(user.created_at)}
+                />
+                <InfoRow
+                  icon={Calendar}
+                  label="更新时间"
+                  value={formatTime(user.updated_at)}
+                />
                 {user.jailed_at && (
-                  <InfoRow icon={Ban} label="监禁时间" value={formatTime(user.jailed_at)} />
+                  <InfoRow
+                    icon={Ban}
+                    label="监禁时间"
+                    value={formatTime(user.jailed_at)}
+                  />
                 )}
               </div>
             </CardContent>
@@ -271,148 +298,174 @@ function AdminUserDetailPage() {
 
           {superMode && (
             <>
-            {/* 资源库配额 */}
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium flex items-center gap-1.5">
-                <Shirt className="h-3.5 w-3.5" />
-                资源库配额
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="space-y-3">
-                  <p className="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
+              {/* 资源库配额 */}
+              <Card>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-sm font-medium flex items-center gap-1.5">
                     <Shirt className="h-3.5 w-3.5" />
-                    皮肤配额
-                  </p>
-                  <QuotaBar
-                    label="私有"
-                    used={library_quota.skins_private_used}
-                    total={library_quota.skins_private_total}
-                  />
-                  <QuotaBar
-                    label="公开"
-                    used={library_quota.skins_public_used}
-                    total={library_quota.skins_public_total}
-                  />
-                </div>
-                <div className="space-y-3">
-                  <p className="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
-                    <Flag className="h-3.5 w-3.5" />
-                    披风配额
-                  </p>
-                  <QuotaBar
-                    label="私有"
-                    used={library_quota.capes_private_used}
-                    total={library_quota.capes_private_total}
-                  />
-                  <QuotaBar
-                    label="公开"
-                    used={library_quota.capes_public_used}
-                    total={library_quota.capes_public_total}
-                  />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-            </>
-          )}
-
-          {superMode && (
-            <>
-            {/* 皮肤列表 */}
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium flex items-center gap-1.5">
-                <Shirt className="h-3.5 w-3.5" />
-                皮肤列表
-                <span className="ml-auto text-xs font-normal text-muted-foreground tabular-nums">
-                  {skin_list.length} 个
-                </span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              {skin_list.length === 0 ? (
-                <p className="py-6 text-center text-sm text-muted-foreground">暂无皮肤</p>
-              ) : (
-                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                  {skin_list.map((skin) => (
-                    <div key={skin.id} className="flex items-center gap-3 rounded-lg border border-border p-3">
-                      <div className="h-12 w-12 shrink-0 rounded-md overflow-hidden bg-muted">
-                        {skin.texture_url ? (
-                          <img src={skin.texture_url} alt={skin.name} className="h-full w-full object-cover" />
-                        ) : (
-                          <div className="flex h-full w-full items-center justify-center">
-                            <ImageIcon className="h-5 w-5 text-muted-foreground" />
-                          </div>
-                        )}
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <p className="text-sm font-medium truncate">{skin.name}</p>
-                        <div className="flex items-center gap-2 mt-0.5">
-                          <span className="text-[11px] text-muted-foreground">{skin.model}</span>
-                          <Badge
-                            variant={skin.is_public ? 'secondary' : 'outline'}
-                            className="text-[10px] px-1.5 py-0"
-                          >
-                            {skin.is_public ? '公开' : '私有'}
-                          </Badge>
-                        </div>
-                      </div>
+                    资源库配额
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div className="space-y-3">
+                      <p className="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
+                        <Shirt className="h-3.5 w-3.5" />
+                        皮肤配额
+                      </p>
+                      <QuotaBar
+                        label="私有"
+                        used={library_quota.skins_private_used}
+                        total={library_quota.skins_private_total}
+                      />
+                      <QuotaBar
+                        label="公开"
+                        used={library_quota.skins_public_used}
+                        total={library_quota.skins_public_total}
+                      />
                     </div>
-                  ))}
-                </div>
-              )}
-            </CardContent>
-          </Card>
+                    <div className="space-y-3">
+                      <p className="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
+                        <Flag className="h-3.5 w-3.5" />
+                        披风配额
+                      </p>
+                      <QuotaBar
+                        label="私有"
+                        used={library_quota.capes_private_used}
+                        total={library_quota.capes_private_total}
+                      />
+                      <QuotaBar
+                        label="公开"
+                        used={library_quota.capes_public_used}
+                        total={library_quota.capes_public_total}
+                      />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </>
           )}
 
           {superMode && (
             <>
-            {/* 披风列表 */}
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium flex items-center gap-1.5">
-                <Flag className="h-3.5 w-3.5" />
-                披风列表
-                <span className="ml-auto text-xs font-normal text-muted-foreground tabular-nums">
-                  {cape_list.length} 个
-                </span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              {cape_list.length === 0 ? (
-                <p className="py-6 text-center text-sm text-muted-foreground">暂无披风</p>
-              ) : (
-                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                  {cape_list.map((cape) => (
-                    <div key={cape.id} className="flex items-center gap-3 rounded-lg border border-border p-3">
-                      <div className="h-12 w-12 shrink-0 rounded-md overflow-hidden bg-muted aspect-[2/3]">
-                        {cape.texture_url ? (
-                          <img src={cape.texture_url} alt={cape.name} className="h-full w-full object-cover" />
-                        ) : (
-                          <div className="flex h-full w-full items-center justify-center">
-                            <ImageIcon className="h-5 w-5 text-muted-foreground" />
-                          </div>
-                        )}
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <p className="text-sm font-medium truncate">{cape.name}</p>
-                        <Badge
-                          variant={cape.is_public ? 'secondary' : 'outline'}
-                          className="text-[10px] px-1.5 py-0 mt-0.5"
+              {/* 皮肤列表 */}
+              <Card>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-sm font-medium flex items-center gap-1.5">
+                    <Shirt className="h-3.5 w-3.5" />
+                    皮肤列表
+                    <span className="ml-auto text-xs font-normal text-muted-foreground tabular-nums">
+                      {skin_list.length} 个
+                    </span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {skin_list.length === 0 ? (
+                    <p className="py-6 text-center text-sm text-muted-foreground">
+                      暂无皮肤
+                    </p>
+                  ) : (
+                    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                      {skin_list.map((skin) => (
+                        <div
+                          key={skin.id}
+                          className="flex items-center gap-3 rounded-lg border border-border p-3"
                         >
-                          {cape.is_public ? '公开' : '私有'}
-                        </Badge>
-                      </div>
+                          <div className="h-12 w-12 shrink-0 rounded-md overflow-hidden bg-muted">
+                            {skin.texture_url ? (
+                              <img
+                                src={skin.texture_url}
+                                alt={skin.name}
+                                className="h-full w-full object-cover"
+                              />
+                            ) : (
+                              <div className="flex h-full w-full items-center justify-center">
+                                <ImageIcon className="h-5 w-5 text-muted-foreground" />
+                              </div>
+                            )}
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <p className="text-sm font-medium truncate">
+                              {skin.name}
+                            </p>
+                            <div className="flex items-center gap-2 mt-0.5">
+                              <span className="text-[11px] text-muted-foreground">
+                                {skin.model}
+                              </span>
+                              <Badge
+                                variant={
+                                  skin.is_public ? 'secondary' : 'outline'
+                                }
+                                className="text-[10px] px-1.5 py-0"
+                              >
+                                {skin.is_public ? '公开' : '私有'}
+                              </Badge>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              )}
-            </CardContent>
-          </Card>
+                  )}
+                </CardContent>
+              </Card>
+            </>
+          )}
+
+          {superMode && (
+            <>
+              {/* 披风列表 */}
+              <Card>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-sm font-medium flex items-center gap-1.5">
+                    <Flag className="h-3.5 w-3.5" />
+                    披风列表
+                    <span className="ml-auto text-xs font-normal text-muted-foreground tabular-nums">
+                      {cape_list.length} 个
+                    </span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {cape_list.length === 0 ? (
+                    <p className="py-6 text-center text-sm text-muted-foreground">
+                      暂无披风
+                    </p>
+                  ) : (
+                    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                      {cape_list.map((cape) => (
+                        <div
+                          key={cape.id}
+                          className="flex items-center gap-3 rounded-lg border border-border p-3"
+                        >
+                          <div className="h-12 w-12 shrink-0 rounded-md overflow-hidden bg-muted aspect-[2/3]">
+                            {cape.texture_url ? (
+                              <img
+                                src={cape.texture_url}
+                                alt={cape.name}
+                                className="h-full w-full object-cover"
+                              />
+                            ) : (
+                              <div className="flex h-full w-full items-center justify-center">
+                                <ImageIcon className="h-5 w-5 text-muted-foreground" />
+                              </div>
+                            )}
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <p className="text-sm font-medium truncate">
+                              {cape.name}
+                            </p>
+                            <Badge
+                              variant={cape.is_public ? 'secondary' : 'outline'}
+                              className="text-[10px] px-1.5 py-0 mt-0.5"
+                            >
+                              {cape.is_public ? '公开' : '私有'}
+                            </Badge>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
             </>
           )}
         </motion.div>
@@ -456,88 +509,90 @@ function AdminUserDetailPage() {
 
           {superMode && (
             <>
-            {/* 配额调整操作 */}
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium flex items-center gap-1.5">
-                <Plus className="h-3.5 w-3.5" />
-                调整配额
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="space-y-1.5">
-                <label className="text-xs text-muted-foreground">
-                  变化量（正数增加，负数减少）
-                </label>
-                <div className="flex items-center gap-2">
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className="h-9 w-9 shrink-0"
-                    onClick={() =>
-                      setDeltaInput((v) => String(Number(v || 0) - 1))
-                    }
-                  >
-                    <Minus className="h-3.5 w-3.5" />
-                  </Button>
-                  <Input
-                    type="number"
-                    className="text-center font-mono text-sm"
-                    value={deltaInput}
-                    onChange={(e) => setDeltaInput(e.target.value)}
-                    placeholder="0"
-                  />
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className="h-9 w-9 shrink-0"
-                    onClick={() =>
-                      setDeltaInput((v) => String(Number(v || 0) + 1))
-                    }
-                  >
+              {/* 配额调整操作 */}
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm font-medium flex items-center gap-1.5">
                     <Plus className="h-3.5 w-3.5" />
+                    调整配额
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <div className="space-y-1.5">
+                    <label className="text-xs text-muted-foreground">
+                      变化量（正数增加，负数减少）
+                    </label>
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="h-9 w-9 shrink-0"
+                        onClick={() =>
+                          setDeltaInput((v) => String(Number(v || 0) - 1))
+                        }
+                      >
+                        <Minus className="h-3.5 w-3.5" />
+                      </Button>
+                      <Input
+                        type="number"
+                        className="text-center font-mono text-sm"
+                        value={deltaInput}
+                        onChange={(e) => setDeltaInput(e.target.value)}
+                        placeholder="0"
+                      />
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="h-9 w-9 shrink-0"
+                        onClick={() =>
+                          setDeltaInput((v) => String(Number(v || 0) + 1))
+                        }
+                      >
+                        <Plus className="h-3.5 w-3.5" />
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-xs text-muted-foreground">
+                      备注（可选）
+                    </label>
+                    <Textarea
+                      rows={2}
+                      maxLength={255}
+                      className="resize-none text-sm"
+                      value={remark}
+                      onChange={(e) => setRemark(e.target.value)}
+                      placeholder="调整原因..."
+                    />
+                    <div className="text-right text-[11px] text-muted-foreground tabular-nums">
+                      {remark.length}/255
+                    </div>
+                  </div>
+                  <Button
+                    className="w-full"
+                    size="sm"
+                    onClick={handleAdjustQuota}
+                    disabled={
+                      quotaMutation.isPending ||
+                      !deltaInput ||
+                      isNaN(Number(deltaInput)) ||
+                      Number(deltaInput) === 0
+                    }
+                  >
+                    {quotaMutation.isPending ? (
+                      <>
+                        <Loader2 className="h-4 w-4 mr-1.5 animate-spin" />
+                        处理中...
+                      </>
+                    ) : (
+                      <>
+                        <Save className="h-4 w-4 mr-1.5" />
+                        确认调整
+                      </>
+                    )}
                   </Button>
-                </div>
-              </div>
-              <div className="space-y-1.5">
-                <label className="text-xs text-muted-foreground">备注（可选）</label>
-                <Textarea
-                  rows={2}
-                  maxLength={255}
-                  className="resize-none text-sm"
-                  value={remark}
-                  onChange={(e) => setRemark(e.target.value)}
-                  placeholder="调整原因..."
-                />
-                <div className="text-right text-[11px] text-muted-foreground tabular-nums">
-                  {remark.length}/255
-                </div>
-              </div>
-              <Button
-                className="w-full"
-                size="sm"
-                onClick={handleAdjustQuota}
-                disabled={
-                  quotaMutation.isPending ||
-                  !deltaInput ||
-                  isNaN(Number(deltaInput)) ||
-                  Number(deltaInput) === 0
-                }
-              >
-                {quotaMutation.isPending ? (
-                  <>
-                    <Loader2 className="h-4 w-4 mr-1.5 animate-spin" />
-                    处理中...
-                  </>
-                ) : (
-                  <>
-                    <Save className="h-4 w-4 mr-1.5" />
-                    确认调整
-                  </>
-                )}
-              </Button>
-            </CardContent>
-          </Card>
+                </CardContent>
+              </Card>
             </>
           )}
         </motion.aside>

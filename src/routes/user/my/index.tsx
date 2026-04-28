@@ -108,7 +108,12 @@ const fadeUpItem = {
 
 export default function MyPage() {
   return (
-    <motion.div className="space-y-6" variants={staggerContainer} initial="initial" animate="animate">
+    <motion.div
+      className="space-y-6"
+      variants={staggerContainer}
+      initial="initial"
+      animate="animate"
+    >
       {/* 页面标题 */}
       <motion.div variants={fadeUpItem}>
         <h1 className="text-2xl font-bold text-foreground font-display">
@@ -121,34 +126,34 @@ export default function MyPage() {
 
       {/* 标签页 */}
       <motion.div variants={fadeUpItem}>
-      <Tabs defaultValue="upload">
-        <TabsList variant="line">
-          <TabsTrigger value="upload">
-            <Upload className="size-3.5" />
-            上传资源
-          </TabsTrigger>
-          <TabsTrigger value="sync">
-            <Download className="size-3.5" />
-            官方同步
-          </TabsTrigger>
-          <TabsTrigger value="resources">
-            <FolderOpen className="size-3.5" />
-            我的资源
-          </TabsTrigger>
-        </TabsList>
+        <Tabs defaultValue="upload">
+          <TabsList variant="line">
+            <TabsTrigger value="upload">
+              <Upload className="size-3.5" />
+              上传资源
+            </TabsTrigger>
+            <TabsTrigger value="sync">
+              <Download className="size-3.5" />
+              官方同步
+            </TabsTrigger>
+            <TabsTrigger value="resources">
+              <FolderOpen className="size-3.5" />
+              我的资源
+            </TabsTrigger>
+          </TabsList>
 
-        <TabsContent value="upload" className="mt-6">
-          <UploadSection />
-        </TabsContent>
+          <TabsContent value="upload" className="mt-6">
+            <UploadSection />
+          </TabsContent>
 
-        <TabsContent value="sync" className="mt-6">
-          <OfficialSyncSection />
-        </TabsContent>
+          <TabsContent value="sync" className="mt-6">
+            <OfficialSyncSection />
+          </TabsContent>
 
-        <TabsContent value="resources" className="mt-6">
-          <MyResourcesSection />
-        </TabsContent>
-      </Tabs>
+          <TabsContent value="resources" className="mt-6">
+            <MyResourcesSection />
+          </TabsContent>
+        </Tabs>
       </motion.div>
     </motion.div>
   )
@@ -252,7 +257,11 @@ function SkinUploadCard() {
 
               <div className="space-y-2">
                 <Label>模型类型</Label>
-                <Select value={model} onValueChange={setModel} disabled={createMutation.isPending}>
+                <Select
+                  value={model}
+                  onValueChange={setModel}
+                  disabled={createMutation.isPending}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="选择模型类型" />
                   </SelectTrigger>
@@ -271,7 +280,11 @@ function SkinUploadCard() {
                   开启后所有用户均可使用此皮肤
                 </p>
               </div>
-              <Switch checked={isPublic} onCheckedChange={setIsPublic} disabled={createMutation.isPending} />
+              <Switch
+                checked={isPublic}
+                onCheckedChange={setIsPublic}
+                disabled={createMutation.isPending}
+              />
             </div>
           </div>
         </div>
@@ -390,7 +403,11 @@ function CapeUploadCard() {
                   开启后所有用户均可使用此披风
                 </p>
               </div>
-              <Switch checked={isPublic} onCheckedChange={setIsPublic} disabled={createMutation.isPending} />
+              <Switch
+                checked={isPublic}
+                onCheckedChange={setIsPublic}
+                disabled={createMutation.isPending}
+              />
             </div>
           </div>
         </div>
@@ -448,7 +465,10 @@ function OfficialSyncSection() {
       <CardContent className="space-y-4">
         <div className="space-y-2">
           <Label>选择游戏档案</Label>
-          <Select value={selectedProfileId} onValueChange={setSelectedProfileId}>
+          <Select
+            value={selectedProfileId}
+            onValueChange={setSelectedProfileId}
+          >
             <SelectTrigger>
               <SelectValue placeholder="选择一个游戏档案" />
             </SelectTrigger>
@@ -506,8 +526,7 @@ function OfficialSyncSection() {
                 </>
               ) : (
                 <>
-                  <Download className="mr-2 size-4" />
-                  从 Mojang 下载皮肤
+                  <Download className="mr-2 size-4" />从 Mojang 下载皮肤
                 </>
               )}
             </Button>
@@ -638,11 +657,7 @@ function QuotaCard({
         <div className="mt-2 h-1.5 w-full rounded-full bg-muted">
           <div
             className={`h-full rounded-full transition-all ${
-              isFull
-                ? 'bg-destructive'
-                : pct > 80
-                  ? 'bg-chart-4'
-                  : 'bg-primary'
+              isFull ? 'bg-destructive' : pct > 80 ? 'bg-chart-4' : 'bg-primary'
             }`}
             style={{ width: `${Math.min(pct, 100)}%` }}
           />
@@ -652,7 +667,10 @@ function QuotaCard({
             {used} / {total}
           </span>
           {isFull && (
-            <Badge variant="secondary" className="text-[10px] bg-destructive/10 text-destructive">
+            <Badge
+              variant="secondary"
+              className="text-[10px] bg-destructive/10 text-destructive"
+            >
               已满
             </Badge>
           )}

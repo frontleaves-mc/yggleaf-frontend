@@ -7,13 +7,31 @@
  *   - 快速导航卡片（皮肤库、披风库、游戏档案）
  */
 
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate  } from '@tanstack/react-router'
 import { useUserInfo } from '#/api/endpoints/api-auth/user'
-import { Shirt, Flag, Gamepad2, ArrowRight, Sparkles, ShieldCheck, Server } from 'lucide-react'
-import { useNavigate } from '@tanstack/react-router'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '#/components/ui/card'
+import {
+  Shirt,
+  Flag,
+  Gamepad2,
+  ArrowRight,
+  Sparkles,
+  ShieldCheck,
+  Server,
+} from 'lucide-react'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '#/components/ui/card'
 import { motion } from 'motion/react'
-import { cardHoverVariants, hoverLiftTransition, arrowSlideVariants, childMotionTransition } from '#/lib/motion-presets'
+import {
+  cardHoverVariants,
+  hoverLiftTransition,
+  arrowSlideVariants,
+  childMotionTransition,
+} from '#/lib/motion-presets'
 
 export const Route = createFileRoute('/user/dashboard')({
   component: DashboardPage,
@@ -78,8 +96,16 @@ function DashboardPage() {
   ]
 
   return (
-    <motion.div className="flex flex-col gap-6" variants={staggerContainer} initial="initial" animate="animate">
-      <motion.section variants={fadeUpItem} className="rounded-[1.25rem] border border-border/70 p-4.5 sm:p-6 bg-gradient-to-b from-card to-card/95 shadow-[0_16px_40px_-28px_oklch(0.18_0.025_195_/_0.18)] relative overflow-hidden">
+    <motion.div
+      className="flex flex-col gap-6"
+      variants={staggerContainer}
+      initial="initial"
+      animate="animate"
+    >
+      <motion.section
+        variants={fadeUpItem}
+        className="rounded-[1.25rem] border border-border/70 p-4.5 sm:p-6 bg-gradient-to-b from-card to-card/95 shadow-[0_16px_40px_-28px_oklch(0.18_0.025_195_/_0.18)] relative overflow-hidden"
+      >
         <div className="pointer-events-none absolute inset-y-0 right-0 w-1/2 bg-[radial-gradient(circle_at_top_right,oklch(from_var(--primary)_l_c_h_/_0.05),transparent_62%)]" />
         <div className="pointer-events-none absolute bottom-0 left-0 h-28 w-28 rounded-full bg-primary/5 blur-3xl" />
 
@@ -100,10 +126,15 @@ function DashboardPage() {
             </div>
             <div className="flex flex-wrap gap-2.5">
               {spotlightStats.map(({ label, value, icon: Icon }) => (
-                <div key={label} className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-background/80 px-3 py-2 shadow-[inset_0_1px_0_oklch(1_0_0_/_0.45)]">
+                <div
+                  key={label}
+                  className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-background/80 px-3 py-2 shadow-[inset_0_1px_0_oklch(1_0_0_/_0.45)]"
+                >
                   <Icon className="size-4 text-primary" />
                   <span className="text-xs text-muted-foreground">{label}</span>
-                  <span className="text-sm font-semibold text-foreground">{value}</span>
+                  <span className="text-sm font-semibold text-foreground">
+                    {value}
+                  </span>
                 </div>
               ))}
             </div>
@@ -112,7 +143,9 @@ function DashboardPage() {
           <Card className="border border-border/70 bg-card/95 backdrop-blur-[10px] shadow-[0_16px_40px_-28px_oklch(0.18_0.025_195_/_0.18)] border-border/60 py-0">
             <CardHeader className="gap-2 border-b border-border/50 py-5">
               <CardTitle className="text-base">服务器公告</CardTitle>
-              <CardDescription>一眼看到当前平台状态与使用提醒。</CardDescription>
+              <CardDescription>
+                一眼看到当前平台状态与使用提醒。
+              </CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col gap-3 py-5">
               <div className="inline-flex w-fit items-center gap-2 rounded-full border border-primary/15 bg-primary/5 px-3 py-1.5 text-sm font-medium text-primary">
@@ -120,7 +153,8 @@ function DashboardPage() {
                 服务器运行中
               </div>
               <p className="text-sm leading-6.5 text-muted-foreground">
-                欢迎来到 Yggleaf。请先确认你的账号已绑定正确角色，这样皮肤与披风的配置才能即时生效。
+                欢迎来到
+                Yggleaf。请先确认你的账号已绑定正确角色，这样皮肤与披风的配置才能即时生效。
                 如果显示异常，优先检查档案绑定状态，再联系管理员处理。
               </p>
             </CardContent>
@@ -131,8 +165,12 @@ function DashboardPage() {
       <motion.section variants={fadeUpItem} className="flex flex-col gap-3">
         <div className="flex items-center justify-between gap-4">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">Quick Access</p>
-            <h2 className="text-xl font-semibold text-foreground">从这里开始切换你的资源</h2>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">
+              Quick Access
+            </p>
+            <h2 className="text-xl font-semibold text-foreground">
+              从这里开始切换你的资源
+            </h2>
           </div>
         </div>
 
@@ -148,7 +186,9 @@ function DashboardPage() {
               className="border border-border/70 bg-card/95 backdrop-blur-[10px] shadow-[0_16px_40px_-28px_oklch(0.18_0.025_195_/_0.18)] hover:border-primary/24 group flex flex-col gap-4 rounded-[18px] p-5 text-left"
             >
               <div className="flex items-start justify-between gap-4">
-                <div className={`flex size-11 items-center justify-center rounded-xl bg-gradient-to-br ${link.accent}`}>
+                <div
+                  className={`flex size-11 items-center justify-center rounded-xl bg-gradient-to-br ${link.accent}`}
+                >
                   <link.icon className="size-5 text-primary" />
                 </div>
                 <motion.span
@@ -163,7 +203,9 @@ function DashboardPage() {
                 <h3 className="text-base font-semibold text-foreground transition-colors group-hover:text-primary">
                   {link.title}
                 </h3>
-                <p className="text-sm leading-7 text-muted-foreground">{link.desc}</p>
+                <p className="text-sm leading-7 text-muted-foreground">
+                  {link.desc}
+                </p>
               </div>
             </motion.button>
           ))}

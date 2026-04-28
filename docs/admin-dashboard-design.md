@@ -10,16 +10,16 @@ Yggleaf 管理后台是一个基于 **React 19 + TanStack Start** 的 Minecraft 
 
 ### 技术栈
 
-| 类别 | 技术 | 版本 |
-|------|------|------|
-| 框架 | React / TanStack Start | 19 / latest |
-| 路由 | TanStack Router (文件路由) | latest |
-| 状态管理 | TanStack Store + TanStack Query | latest |
-| 样式 | Tailwind CSS 4 (oklch) | 4.x |
-| UI 组件库 | Shadcn UI (new-york) | latest |
-| 图标 | Lucide React | latest |
-| 语言 | TypeScript (strict) | 5.7 |
-| 包管理器 | pnpm | - |
+| 类别      | 技术                            | 版本        |
+| --------- | ------------------------------- | ----------- |
+| 框架      | React / TanStack Start          | 19 / latest |
+| 路由      | TanStack Router (文件路由)      | latest      |
+| 状态管理  | TanStack Store + TanStack Query | latest      |
+| 样式      | Tailwind CSS 4 (oklch)          | 4.x         |
+| UI 组件库 | Shadcn UI (new-york)            | latest      |
+| 图标      | Lucide React                    | latest      |
+| 语言      | TypeScript (strict)             | 5.7         |
+| 包管理器  | pnpm                            | -           |
 
 ---
 
@@ -137,11 +137,11 @@ src/
 
 ### 3.1 Token 存储策略
 
-| Key | 类型 | 用途 |
-|-----|------|------|
-| `yggleaf_access_token` | string | API 请求 Authorization Bearer Token |
-| `yggleaf_refresh_token` | string | 刷新访问令牌 (Rotation 机制) |
-| `yggleaf_user` | JSON | 用户信息缓存，减少重复请求 |
+| Key                     | 类型   | 用途                                |
+| ----------------------- | ------ | ----------------------------------- |
+| `yggleaf_access_token`  | string | API 请求 Authorization Bearer Token |
+| `yggleaf_refresh_token` | string | 刷新访问令牌 (Rotation 机制)        |
+| `yggleaf_user`          | JSON   | 用户信息缓存，减少重复请求          |
 
 存储位置: `localStorage` (SPA 标准做法)
 
@@ -180,6 +180,7 @@ src/
 ### 4.1 HTTP Client (`api/client.ts`)
 
 核心能力：
+
 - 基于 `fetch` 零依赖封装
 - 自动注入 `Authorization: Bearer <token>` 请求头
 - 401 响应自动触发 Token Refresh (Promise 去重队列防并发)
@@ -188,37 +189,37 @@ src/
 
 ### 4.2 接口映射表 (19 个端点)
 
-| 功能 | 方法 | 路径 | 认证 | 页面 |
-|------|------|------|------|------|
-| 密码登录 | POST | `/sso/account/login/password` | 公开 | Login |
-| 邮箱注册 | POST | `/sso/account/register/email` | 公开 | - |
-| 刷新令牌 | POST | `/sso/account/token/refresh` | 公开 | 拦截器自动 |
-| 注销令牌 | POST | `/sso/account/token/revoke` | 需认证 | Logout |
-| 修改密码 | POST | `/sso/account/password/change` | 需认证 | Profile |
-| OAuth 登出 | POST | `/sso/oauth/logout` | 需认证 | Logout |
-| 用户信息 | GET | `/user/info` | 需认证 | Dashboard/Profile |
-| 创建游戏档案 | POST | `/game-profile` | 需认证 | GameProfiles |
-| 修改用户名 | PATCH | `/game-profile/{id}/username` | 需认证 | GameProfiles |
-| 皮肤列表 | GET | `/library/skins` | 需认证 | Skins |
-| 创建皮肤 | POST | `/library/skins` | 需认证 | Skins/Create |
-| 编辑皮肤 | PATCH | `/library/skins/{id}` | 需认证 | Skins/Edit |
-| 删除皮肤 | DELETE | `/library/skins/{id}` | 需认证 | Skins |
-| 披风列表 | GET | `/library/capes` | 需认证 | Capes |
-| 创建披风 | POST | `/library/capes` | 需认证 | Capes/Create |
-| 编辑披风 | PATCH | `/library/capes/{id}` | 需认证 | Capes/Edit |
-| 删除披风 | DELETE | `/library/capes/{id}` | 需认证 | Capes |
+| 功能         | 方法   | 路径                           | 认证   | 页面              |
+| ------------ | ------ | ------------------------------ | ------ | ----------------- |
+| 密码登录     | POST   | `/sso/account/login/password`  | 公开   | Login             |
+| 邮箱注册     | POST   | `/sso/account/register/email`  | 公开   | -                 |
+| 刷新令牌     | POST   | `/sso/account/token/refresh`   | 公开   | 拦截器自动        |
+| 注销令牌     | POST   | `/sso/account/token/revoke`    | 需认证 | Logout            |
+| 修改密码     | POST   | `/sso/account/password/change` | 需认证 | Profile           |
+| OAuth 登出   | POST   | `/sso/oauth/logout`            | 需认证 | Logout            |
+| 用户信息     | GET    | `/user/info`                   | 需认证 | Dashboard/Profile |
+| 创建游戏档案 | POST   | `/game-profile`                | 需认证 | GameProfiles      |
+| 修改用户名   | PATCH  | `/game-profile/{id}/username`  | 需认证 | GameProfiles      |
+| 皮肤列表     | GET    | `/library/skins`               | 需认证 | Skins             |
+| 创建皮肤     | POST   | `/library/skins`               | 需认证 | Skins/Create      |
+| 编辑皮肤     | PATCH  | `/library/skins/{id}`          | 需认证 | Skins/Edit        |
+| 删除皮肤     | DELETE | `/library/skins/{id}`          | 需认证 | Skins             |
+| 披风列表     | GET    | `/library/capes`               | 需认证 | Capes             |
+| 创建披风     | POST   | `/library/capes`               | 需认证 | Capes/Create      |
+| 编辑披风     | PATCH  | `/library/capes/{id}`          | 需认证 | Capes/Edit        |
+| 删除披风     | DELETE | `/library/capes/{id}`          | 需认证 | Capes             |
 
 ### 4.3 标准响应格式
 
 ```typescript
 interface BaseResponse<T> {
-  code: number            // 200 = 成功
-  message: string         // 人类可读描述
-  context: string         // X-Request-UUID 追踪 ID
-  error_message?: string  // 补充错误详情
-  output?: string         // 输出标识 (Success/PARAMETER_ERROR...)
-  overhead?: number       // 处理耗时 (微秒)
-  data?: T                // 实际业务数据
+  code: number // 200 = 成功
+  message: string // 人类可读描述
+  context: string // X-Request-UUID 追踪 ID
+  error_message?: string // 补充错误详情
+  output?: string // 输出标识 (Success/PARAMETER_ERROR...)
+  overhead?: number // 处理耗时 (微秒)
+  data?: T // 实际业务数据
 }
 ```
 
@@ -230,13 +231,13 @@ interface BaseResponse<T> {
 
 项目采用 **Lagoon (青绿色)** 作为主色调，基于 oklch 色彩空间：
 
-| Token | Light Mode | Dark Mode | 用途 |
-|-------|-----------|-----------|------|
-| `--lagoon` | `#4fb8b2` | `#4fb8b2` | 主色调 (按钮、链接、激活态) |
-| `--lagoon-deep` | `#328f97` | `#328f97` | 深色辅助 (图标、渐变终点) |
-| `--primary` | `oklch(0.21 0.006 285.885)` | 浅色反转 | 主要操作色 |
-| `--sidebar-bg` | `oklch(0.985 0 0)` | `oklch(0.21 0.006 285.885)` | 侧边栏背景 |
-| `--sidebar-fg` | `oklch(0.141 0.005 285.823)` | 浅色 | 侧边栏文字 |
+| Token           | Light Mode                   | Dark Mode                   | 用途                        |
+| --------------- | ---------------------------- | --------------------------- | --------------------------- |
+| `--lagoon`      | `#4fb8b2`                    | `#4fb8b2`                   | 主色调 (按钮、链接、激活态) |
+| `--lagoon-deep` | `#328f97`                    | `#328f97`                   | 深色辅助 (图标、渐变终点)   |
+| `--primary`     | `oklch(0.21 0.006 285.885)`  | 浅色反转                    | 主要操作色                  |
+| `--sidebar-bg`  | `oklch(0.985 0 0)`           | `oklch(0.21 0.006 285.885)` | 侧边栏背景                  |
+| `--sidebar-fg`  | `oklch(0.141 0.005 285.823)` | 浅色                        | 侧边栏文字                  |
 
 ### 5.2 设计语言: "Refined Organic Admin"
 
@@ -252,11 +253,11 @@ interface BaseResponse<T> {
 
 ### 5.3 响应式断点
 
-| 断点 | 行为 |
-|------|------|
-| < 768px | 侧边栏变为 Sheet 抽屉式，内容区全宽 |
-| 768px - 1024px | 侧边栏可折叠为纯图标模式 (w-68) |
-| > 1024px | 侧边栏完全展开 (w-260)，双列内容布局 |
+| 断点           | 行为                                 |
+| -------------- | ------------------------------------ |
+| < 768px        | 侧边栏变为 Sheet 抽屉式，内容区全宽  |
+| 768px - 1024px | 侧边栏可折叠为纯图标模式 (w-68)      |
+| > 1024px       | 侧边栏完全展开 (w-260)，双列内容布局 |
 
 ---
 
@@ -265,16 +266,31 @@ interface BaseResponse<T> {
 ```typescript
 // src/config/menu.ts
 const adminMenuItems = [
-  { key: 'dashboard',   label: '仪表盘',   icon: LayoutDashboard, to: '/admin' },
-  { key: 'users',       label: '用户管理', icon: Users,          to: '/admin/users' },
-  { key: 'game',        label: '游戏',     icon: Gamepad2,       children: [
-    { key: 'game-profiles', label: '游戏档案', icon: UserCircle, to: '/admin/game-profiles' },
-  ]},
-  { key: 'library',     label: '资源库',   icon: Shirt,         children: [
-    { key: 'skins', label: '皮肤库', icon: Shirt,   to: '/admin/skins' },
-    { key: 'capes', label: '披风库', icon: Flag,    to: '/admin/capes' },
-  ]},
-  { key: 'profile',     label: '个人设置', icon: Settings,       to: '/admin/profile' },
+  { key: 'dashboard', label: '仪表盘', icon: LayoutDashboard, to: '/admin' },
+  { key: 'users', label: '用户管理', icon: Users, to: '/admin/users' },
+  {
+    key: 'game',
+    label: '游戏',
+    icon: Gamepad2,
+    children: [
+      {
+        key: 'game-profiles',
+        label: '游戏档案',
+        icon: UserCircle,
+        to: '/admin/game-profiles',
+      },
+    ],
+  },
+  {
+    key: 'library',
+    label: '资源库',
+    icon: Shirt,
+    children: [
+      { key: 'skins', label: '皮肤库', icon: Shirt, to: '/admin/skins' },
+      { key: 'capes', label: '披风库', icon: Flag, to: '/admin/capes' },
+    ],
+  },
+  { key: 'profile', label: '个人设置', icon: Settings, to: '/admin/profile' },
 ]
 ```
 
@@ -284,15 +300,15 @@ const adminMenuItems = [
 
 ### 7.1 各模块完成度
 
-| 模块 | 状态 | 说明 |
-|------|------|------|
-| Phase 1: 基础设施 | ✅ 完成 | Shadcn 组件、类型定义、配置文件 |
-| Phase 2: API 层 | ✅ 完成 | Client、拦截器、19 个端点 Hooks |
-| Phase 3: 布局组件 | ✅ 完成 | 10 个布局组件 + 6 个共享组件 |
-| Phase 4: 路由 + 登录 | ✅ 完成 | 18 个路由文件、认证守卫、登录页 |
-| Phase 5: Dashboard | ✅ 完成 | 统计卡片、快捷操作、真实数据对接 |
-| Phase 6: CRUD 页面 | ✅ 完成 | 皮肤/披风完整 CRUD、档案/用户/设置占位 |
-| Phase 7: 文档输出 | ✅ 完成 | 本设计文档 |
+| 模块                 | 状态    | 说明                                   |
+| -------------------- | ------- | -------------------------------------- |
+| Phase 1: 基础设施    | ✅ 完成 | Shadcn 组件、类型定义、配置文件        |
+| Phase 2: API 层      | ✅ 完成 | Client、拦截器、19 个端点 Hooks        |
+| Phase 3: 布局组件    | ✅ 完成 | 10 个布局组件 + 6 个共享组件           |
+| Phase 4: 路由 + 登录 | ✅ 完成 | 18 个路由文件、认证守卫、登录页        |
+| Phase 5: Dashboard   | ✅ 完成 | 统计卡片、快捷操作、真实数据对接       |
+| Phase 6: CRUD 页面   | ✅ 完成 | 皮肤/披风完整 CRUD、档案/用户/设置占位 |
+| Phase 7: 文档输出    | ✅ 完成 | 本设计文档                             |
 
 ### 7.2 待完善项
 
@@ -319,6 +335,7 @@ const adminMenuItems = [
 ### 8.2 TanStack Store v0.10 API
 
 Store 的 `setState` 只接受函数形式 `(prev: T) => T`，不接受普通对象：
+
 ```typescript
 // ✅ 正确
 setAuthState((prev) => ({ ...prev, isAuthenticated: true }))

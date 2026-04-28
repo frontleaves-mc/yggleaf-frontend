@@ -56,7 +56,9 @@ export function IssueDetailContent({
               <Paperclip className="h-3.5 w-3.5" />
               附件
               {attachments.length > 0 && (
-                <span className="text-xs font-normal">({attachments.length})</span>
+                <span className="text-xs font-normal">
+                  ({attachments.length})
+                </span>
               )}
             </CardTitle>
           </CardHeader>

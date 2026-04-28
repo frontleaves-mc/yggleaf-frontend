@@ -6,7 +6,14 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { motion } from 'motion/react'
-import { Search, ChevronLeft, ChevronRight, Eye, Shield, ShieldAlert } from 'lucide-react'
+import {
+  Search,
+  ChevronLeft,
+  ChevronRight,
+  Eye,
+  Shield,
+  ShieldAlert,
+} from 'lucide-react'
 import { PageHeader } from '#/components/public/page-header'
 import type { ColumnDef } from '#/components/ui/tanstack-table'
 import {
@@ -121,7 +128,9 @@ function AdminUserListPage() {
     },
     {
       id: 'username',
-      header: ({ column }) => <TableColumnHeader column={column} title="用户名" />,
+      header: ({ column }) => (
+        <TableColumnHeader column={column} title="用户名" />
+      ),
       cell: ({ row }) => (
         <div className="flex items-center gap-2.5">
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-primary/20 to-primary/10 text-xs font-bold text-primary">
@@ -134,20 +143,28 @@ function AdminUserListPage() {
             >
               {row.original.username}
             </Link>
-            <p className="text-[11px] text-muted-foreground truncate">{row.original.email}</p>
+            <p className="text-[11px] text-muted-foreground truncate">
+              {row.original.email}
+            </p>
           </div>
         </div>
       ),
     },
     {
       accessorKey: 'role_name',
-      header: ({ column }) => <TableColumnHeader column={column} title="角色" />,
+      header: ({ column }) => (
+        <TableColumnHeader column={column} title="角色" />
+      ),
       cell: ({ row }) => {
         const r = roleLabels[row.original.role_name] ?? roleLabels.PLAYER
         return (
           <Badge variant="secondary" className={`text-xs ${r.color}`}>
-            {row.original.role_name === 'SUPER_ADMIN' && <ShieldAlert className="mr-1 h-3 w-3" />}
-            {row.original.role_name === 'ADMIN' && <Shield className="mr-1 h-3 w-3" />}
+            {row.original.role_name === 'SUPER_ADMIN' && (
+              <ShieldAlert className="mr-1 h-3 w-3" />
+            )}
+            {row.original.role_name === 'ADMIN' && (
+              <Shield className="mr-1 h-3 w-3" />
+            )}
             {r.label}
           </Badge>
         )
@@ -156,9 +173,14 @@ function AdminUserListPage() {
     },
     {
       accessorKey: 'has_ban',
-      header: ({ column }) => <TableColumnHeader column={column} title="状态" />,
+      header: ({ column }) => (
+        <TableColumnHeader column={column} title="状态" />
+      ),
       cell: ({ row }) => (
-        <Badge variant={row.original.has_ban ? 'destructive' : 'secondary'} className="text-xs">
+        <Badge
+          variant={row.original.has_ban ? 'destructive' : 'secondary'}
+          className="text-xs"
+        >
           {row.original.has_ban ? '已封禁' : '正常'}
         </Badge>
       ),
@@ -166,7 +188,9 @@ function AdminUserListPage() {
     },
     {
       accessorKey: 'created_at',
-      header: ({ column }) => <TableColumnHeader column={column} title="注册时间" />,
+      header: ({ column }) => (
+        <TableColumnHeader column={column} title="注册时间" />
+      ),
       cell: ({ row }) => (
         <span className="text-[13px] text-muted-foreground whitespace-nowrap">
           {formatTime(row.original.created_at)}
@@ -201,12 +225,17 @@ function AdminUserListPage() {
       {/* 页面标题 */}
       <motion.div variants={fadeUpItem}>
         <PageHeader title="用户管理" description="管理系统中的所有用户账号">
-          <span className="text-xs text-muted-foreground tabular-nums">共 {total} 位用户</span>
+          <span className="text-xs text-muted-foreground tabular-nums">
+            共 {total} 位用户
+          </span>
         </PageHeader>
       </motion.div>
 
       {/* 筛选栏 */}
-      <motion.div variants={fadeUpItem} className="flex flex-wrap items-center gap-3">
+      <motion.div
+        variants={fadeUpItem}
+        className="flex flex-wrap items-center gap-3"
+      >
         <div className="relative flex-1 max-w-xs">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
@@ -241,7 +270,10 @@ function AdminUserListPage() {
       </motion.div>
 
       {/* 数据表格 */}
-      <motion.div variants={fadeUpItem} className="rounded-xl border border-border/70 overflow-hidden">
+      <motion.div
+        variants={fadeUpItem}
+        className="rounded-xl border border-border/70 overflow-hidden"
+      >
         <TableProvider columns={columns} data={list}>
           <TSTableHeader>
             {({ headerGroup }) => (

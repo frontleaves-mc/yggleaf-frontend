@@ -3,8 +3,11 @@
  * 展示所有披风资源，支持查看、编辑、删除操作
  */
 
-import { createFileRoute } from '@tanstack/react-router'
-import { useCapes, useDeleteCapeMutation } from '#/api/endpoints/api-auth/cape-library'
+import { createFileRoute, Link  } from '@tanstack/react-router'
+import {
+  useCapes,
+  useDeleteCapeMutation,
+} from '#/api/endpoints/api-auth/cape-library'
 import { PageHeader } from '#/components/public/page-header'
 import type { ColumnDef } from '#/components/ui/tanstack-table'
 import {
@@ -21,13 +24,7 @@ import { LoadingPage } from '#/components/public/loading-page'
 import { ConfirmDialog } from '#/components/public/confirm-dialog'
 import { Button } from '#/components/ui/button'
 import { Badge } from '#/components/ui/badge'
-import {
-  Plus,
-  Pencil,
-  Trash2,
-  Flag,
-} from 'lucide-react'
-import { Link } from '@tanstack/react-router'
+import { Plus, Pencil, Trash2, Flag } from 'lucide-react'
 import { useState } from 'react'
 import type { CapeLibrary } from '#/api/types'
 import { motion } from 'motion/react'
@@ -74,13 +71,17 @@ function CapeListPage() {
       accessorKey: 'id',
       header: ({ column }) => <TableColumnHeader column={column} title="ID" />,
       cell: ({ row }) => (
-        <span className="tabular-nums text-muted-foreground">#{row.original.id}</span>
+        <span className="tabular-nums text-muted-foreground">
+          #{row.original.id}
+        </span>
       ),
       size: 64,
     },
     {
       accessorKey: 'name',
-      header: ({ column }) => <TableColumnHeader column={column} title="名称" />,
+      header: ({ column }) => (
+        <TableColumnHeader column={column} title="名称" />
+      ),
       cell: ({ row }) => (
         <div className="flex items-center gap-2.5">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
@@ -92,7 +93,9 @@ function CapeListPage() {
     },
     {
       accessorKey: 'is_public',
-      header: ({ column }) => <TableColumnHeader column={column} title="状态" />,
+      header: ({ column }) => (
+        <TableColumnHeader column={column} title="状态" />
+      ),
       cell: ({ row }) => {
         const isPublic = row.original.is_public
         return (
@@ -112,7 +115,9 @@ function CapeListPage() {
     },
     {
       accessorKey: 'texture_hash',
-      header: ({ column }) => <TableColumnHeader column={column} title="纹理哈希" />,
+      header: ({ column }) => (
+        <TableColumnHeader column={column} title="纹理哈希" />
+      ),
       cell: ({ row }) => (
         <span className="font-mono text-xs text-muted-foreground">
           {row.original.texture_hash.slice(0, 10)}...
@@ -121,7 +126,9 @@ function CapeListPage() {
     },
     {
       accessorKey: 'updated_at',
-      header: ({ column }) => <TableColumnHeader column={column} title="更新时间" />,
+      header: ({ column }) => (
+        <TableColumnHeader column={column} title="更新时间" />
+      ),
       cell: ({ row }) => (
         <span className="text-[13px] text-muted-foreground">
           {new Date(row.original.updated_at).toLocaleDateString('zh-CN')}
@@ -168,7 +175,10 @@ function CapeListPage() {
       animate="animate"
     >
       <motion.div variants={fadeUpItem}>
-        <PageHeader title="披风库管理" description="管理和预览所有 Minecraft 披风资源">
+        <PageHeader
+          title="披风库管理"
+          description="管理和预览所有 Minecraft 披风资源"
+        >
           <Link to="/admin/capes/create">
             <Button className="gap-1.5 bg-gradient-to-r from-primary to-primary text-white hover:opacity-90 text-sm">
               <Plus className="h-4 w-4" />
@@ -178,7 +188,10 @@ function CapeListPage() {
         </PageHeader>
       </motion.div>
 
-      <motion.div variants={fadeUpItem} className="rounded-xl border border-border/70 overflow-hidden">
+      <motion.div
+        variants={fadeUpItem}
+        className="rounded-xl border border-border/70 overflow-hidden"
+      >
         <TableProvider columns={columns} data={capes ?? []}>
           <TSTableHeader>
             {({ headerGroup }) => (
@@ -197,7 +210,9 @@ function CapeListPage() {
         </TableProvider>
         {(capes ?? []).length === 0 && (
           <div className="py-16 text-center">
-            <p className="text-sm text-muted-foreground">暂无披风数据，点击右上角新建</p>
+            <p className="text-sm text-muted-foreground">
+              暂无披风数据，点击右上角新建
+            </p>
           </div>
         )}
       </motion.div>

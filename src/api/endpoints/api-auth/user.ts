@@ -59,7 +59,9 @@ export function useUserInfo(options?: { enabled?: boolean }) {
  */
 export function useUserInfoSync(): UserCurrentResponse | null {
   const queryClient = useQueryClient()
-  return queryClient.getQueryData<UserCurrentResponse>(USER_INFO_QUERY_KEY) ?? null
+  return (
+    queryClient.getQueryData<UserCurrentResponse>(USER_INFO_QUERY_KEY) ?? null
+  )
 }
 
 /**
