@@ -252,8 +252,9 @@ class ApiClient {
     return unwrapData<T>(response)
   }
 
-  async delete<T>(path: string, config?: RequestConfig): Promise<T> {
+  async delete<T>(path: string, body?: unknown, config?: RequestConfig): Promise<T> {
     const response = await this.inst.delete<ApiResponse<T>>(path, {
+      data: body,
       skipAuth: config?.skipAuth,
     } as CustomAxiosConfig)
     return unwrapData<T>(response)

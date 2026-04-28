@@ -4,7 +4,7 @@
  */
 
 import { useQuery } from '@tanstack/react-query'
-import { authApiClient } from '../client'
+import { authApiClient } from '../../client'
 import type { ModsMetadataResponse } from '#/api/types'
 
 // ─── 端点函数 ──────────────────────────────────────────────

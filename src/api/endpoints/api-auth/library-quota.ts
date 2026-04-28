@@ -4,7 +4,7 @@
  */
 
 import { useQuery } from '@tanstack/react-query'
-import { authApiClient } from '../client'
+import { authApiClient } from '../../client'
 import type { LibraryQuota } from '#/api/types'
 
 // ─── 端点函数 ──────────────────────────────────────────────

@@ -5,7 +5,7 @@
 export type {
   OAuthTokenData,
   TokenPair,
-} from './auth'
+} from './api-auth/auth'
 
 export type {
   RoleName,
@@ -42,7 +42,7 @@ export type {
   AdminCapeItem,
   AdminUserDetailResponse,
   AdjustGameProfileQuotaRequest,
-} from './user'
+} from './api-auth/user'
 
 export type {
   ApiResponse,
@@ -71,9 +71,24 @@ export type {
   UpdateIssueStatusRequest,
   CreateIssueTypeRequest,
   UpdateIssueTypeRequest,
-} from './issue'
+} from './api-auth/issue'
 
 export type {
   ModFileMetadata,
   ModsMetadataResponse,
-} from './sync'
+} from './api-auth/sync'
+
+// ─── 锋楪核心 (mcApiClient) 类型 ──────────────────────────────
+
+export {
+  TitleType,
+} from './api-mc/title'
+
+export type {
+  TitleResponse,
+  TitleListResponse,
+  CreateTitleRequest,
+  UpdateTitleRequest,
+  AssignTitleRequest,
+  AdminTitleListParams,
+} from './api-mc/title'

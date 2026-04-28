@@ -6,7 +6,7 @@
  */
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { authApiClient } from '../client'
+import { authApiClient } from '../../client'
 import { authStore } from '#/stores/auth-store'
 import type {
   UpdateGamePasswordRequest,

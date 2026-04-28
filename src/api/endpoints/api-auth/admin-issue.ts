@@ -6,7 +6,7 @@
  */
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { authApiClient } from '../client'
+import { authApiClient } from '../../client'
 import type {
   IssueListResponse,
   IssuePriority,

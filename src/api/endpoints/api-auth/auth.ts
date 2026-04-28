@@ -8,7 +8,7 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import type { QueryClient } from '@tanstack/react-query'
-import { authApiClient } from '../client'
+import { authApiClient } from '../../client'
 import { clearAuth, setAuthState } from '#/stores/auth-store'
 import { getUserInfo, USER_INFO_QUERY_KEY } from './user'
 import { SSO_LOGIN_BASE_URL } from '#/config/constants'
