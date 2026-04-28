@@ -117,7 +117,7 @@ export function TopBar() {
 
   return (
     <header className="border-b border-border/40 bg-background/60 backdrop-blur-md pt-2">
-      <div className="mx-auto flex max-w-(--page-max) items-center gap-3 p-3 sm:p-3.5">
+      <div className="mx-auto flex max-w-(--page-max) items-center gap-3 p-3.5 sm:p-4">
         <SidebarTrigger className="shrink-0 rounded-lg" />
 
         <div className="min-w-0 flex-1">

@@ -107,7 +107,7 @@ export function SidebarMenuRenderer({ items }: SidebarMenuRendererProps) {
 
   return (
     <SidebarGroup className="py-2 group-data-[collapsible=icon]:p-2">
-      <SidebarMenu className="gap-0.5 group-data-[collapsible=icon]:items-center">
+      <SidebarMenu className="gap-1 group-data-[collapsible=icon]:items-center">
         {filteredItems.map((item) =>
           item.children ? (
             <CollapsibleMenuItem

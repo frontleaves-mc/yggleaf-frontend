@@ -24,7 +24,7 @@ interface SidebarProps {
 
 export function Sidebar({ mode, items }: SidebarProps) {
   return (
-    <SidebarRoot collapsible="icon" variant="floating" style={{ '--sidebar-width-icon': '4rem' } as React.CSSProperties}>
+    <SidebarRoot collapsible="icon" variant="floating" style={{ '--sidebar-width-icon': '4.5rem' } as React.CSSProperties}>
       {/* Logo 区域 */}
       <SidebarHeader mode={mode} />
 

@@ -10,7 +10,7 @@ export const Table = ({ className, ...props }: HTMLAttributes<HTMLTableElement>)
 )
 
 export const TableHeader = ({ className, ...props }: HTMLAttributes<HTMLTableSectionElement>) => (
-  <thead className={cn("[&_tr]:border-b", className)} {...props} />
+  <thead className={cn("bg-muted/40 [&_tr]:border-b [&_tr]:border-foreground/8", className)} {...props} />
 )
 
 export const TableBody = ({ className, ...props }: HTMLAttributes<HTMLTableSectionElement>) => (
@@ -22,15 +22,15 @@ export const TableFooter = ({ className, ...props }: HTMLAttributes<HTMLTableSec
 )
 
 export const TableRow = ({ className, ...props }: HTMLAttributes<HTMLTableRowElement>) => (
-  <tr className={cn("border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted", className)} {...props} />
+  <tr className={cn("border-b border-foreground/5 bg-card transition-colors duration-150 hover:bg-muted/40 data-[state=selected]:bg-muted/60", className)} {...props} />
 )
 
 export const TableHead = ({ className, ...props }: ThHTMLAttributes<HTMLTableCellElement>) => (
-  <th className={cn("h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0", className)} {...props} />
+  <th className={cn("h-10 px-4 text-left align-middle text-sm font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0", className)} {...props} />
 )
 
 export const TableCell = ({ className, ...props }: TdHTMLAttributes<HTMLTableCellElement>) => (
-  <td className={cn("p-4 align-middle [&:has([role=checkbox])]:pr-0", className)} {...props} />
+  <td className={cn("p-4 align-middle text-sm [&:has([role=checkbox])]:pr-0", className)} {...props} />
 )
 
 export const TableCaption = ({ className, ...props }: HTMLAttributes<HTMLTableCaptionElement>) => (

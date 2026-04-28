@@ -30,7 +30,7 @@ export function SidebarHeader({ mode }: SidebarHeaderProps) {
             'bg-linear-to-br from-primary to-primary',
             'text-white font-bold shadow-md shadow-primary/20',
             'transition-all duration-300 hover:shadow-lg hover:shadow-primary/30',
-            isCollapsed ? 'mx-auto size-8 text-xs' : 'size-9 text-sm',
+            isCollapsed ? 'mx-auto size-9 text-sm' : 'size-10 text-base',
           )}
           style={{ clipPath: 'polygon(8% 0%, 100% 0%, 92% 100%, 0% 100%)' }}
         >
@@ -39,10 +39,10 @@ export function SidebarHeader({ mode }: SidebarHeaderProps) {
 
         {!isCollapsed && (
           <div className="min-w-0 flex-1">
-            <p className="truncate text-[15px] font-bold tracking-tight leading-tight text-sidebar-foreground">
+            <p className="truncate text-base font-bold tracking-tight leading-tight text-sidebar-foreground">
               Yggleaf
             </p>
-            <p className="mt-0.5 text-[11px] font-medium leading-tight uppercase tracking-[0.16em] text-sidebar-foreground/50">
+            <p className="mt-0.5 text-xs font-medium leading-tight uppercase tracking-[0.16em] text-sidebar-foreground/50">
               {MODE_LABELS[mode]}
             </p>
           </div>
