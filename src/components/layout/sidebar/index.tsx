@@ -6,43 +6,47 @@
  */
 
 import {
-  Sidebar as SidebarRoot,
-  SidebarContent,
-  SidebarSeparator,
-} from '#/components/ui/sidebar'
-import { SidebarHeader } from './header'
-import { SidebarFooter } from './footer'
-import { SidebarMenuRenderer } from './menu-renderer'
-import type { MenuConfig } from './menu-renderer'
+	SidebarContent,
+	Sidebar as SidebarRoot,
+} from "#/components/ui/sidebar";
+import { SidebarFooter } from "./footer";
+import { SidebarHeader } from "./header";
+import type { MenuConfig } from "./menu-renderer";
+import { SidebarMenuRenderer } from "./menu-renderer";
+import { ViewSwitcher } from "./view-switcher";
 
 interface SidebarProps {
-  /** 布局模式：用户端 or 管理员端 */
-  mode: 'user' | 'admin'
-  /** 菜单配置 */
-  items: MenuConfig[]
+	mode: "user" | "admin";
+	items: MenuConfig[];
 }
 
 export function Sidebar({ mode, items }: SidebarProps) {
-  return (
-    <SidebarRoot
-      collapsible="icon"
-      variant="floating"
-      style={{ '--sidebar-width-icon': '4.5rem' } as React.CSSProperties}
-    >
-      {/* Logo 区域 */}
-      <SidebarHeader mode={mode} />
+	return (
+		<SidebarRoot
+			collapsible="icon"
+			variant="floating"
+			style={
+				{
+					"--sidebar-width-icon": "4.5rem",
+					"--sidebar-mode-accent": "oklch(from var(--sidebar-primary) l c h)",
+				} as React.CSSProperties
+			}
+			className="overflow-hidden rounded-tl-2xl group-data-[variant=floating]:shadow-[0_16px_40px_-28px_oklch(0.18_0.025_195_/_0.18)]"
+			data-mode={mode}
+		>
+			<SidebarHeader mode={mode} />
 
-      <div className="flex flex-col items-center px-4 pb-1">
-        <SidebarSeparator className="p-0.5 rounded-full" />
-      </div>
+			<div className="px-4 pt-1 pb-3" aria-hidden="true">
+				<div className="h-px bg-gradient-to-r from-transparent via-sidebar-border/80 to-transparent" />
+			</div>
 
-      {/* 菜单内容区 */}
-      <SidebarContent>
-        <SidebarMenuRenderer items={items} />
-      </SidebarContent>
+			<ViewSwitcher mode={mode} />
 
-      {/* 底部用户区域 */}
-      <SidebarFooter />
-    </SidebarRoot>
-  )
+			<SidebarContent>
+				<SidebarMenuRenderer items={items} mode={mode} />
+			</SidebarContent>
+
+			<SidebarFooter mode={mode} />
+		</SidebarRoot>
+	);
 }
