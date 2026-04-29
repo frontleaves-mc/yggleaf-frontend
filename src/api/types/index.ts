@@ -81,3 +81,11 @@ export type {
   AssignTitleRequest,
   AdminTitleListParams,
 } from './api-mc/title'
+
+export type {
+  PluginCredentialResponse,
+  PluginCredentialListResponse,
+  CreatePluginCredentialRequest,
+  UpdatePluginCredentialRequest,
+  PluginCredentialListParams,
+} from './api-mc/plugin-credential'

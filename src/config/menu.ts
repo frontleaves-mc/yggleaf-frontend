@@ -20,6 +20,7 @@ import {
   Tags,
   Puzzle,
   Map,
+  KeyRound,
 } from 'lucide-react'
 
 // ─── 类型定义 ────────────────────────────────────────────
@@ -112,6 +113,21 @@ export const adminMenuItems: MenuItem[] = [
         label: '问题类型',
         icon: Tags,
         to: '/admin/issue-types',
+        roles: ['SUPER_ADMIN'],
+      },
+    ],
+  },
+  {
+    key: 'plugin',
+    label: '插件管理',
+    icon: Puzzle,
+    roles: ['SUPER_ADMIN'],
+    children: [
+      {
+        key: 'plugin-credentials',
+        label: '插件凭证',
+        icon: KeyRound,
+        to: '/admin/plugin-credentials',
         roles: ['SUPER_ADMIN'],
       },
     ],
@@ -224,5 +240,7 @@ export const breadcrumbLabels: Record<string, string> = {
   '/admin/issues/$issueId': '问题详情',
   '/admin/issue-types': '问题类型',
   '/admin/titles': '称号管理',
+  '/admin/plugin-credentials': '插件凭证',
+  '/admin/plugin-credentials/$credentialId': '凭证详情',
   '/admin/profile': '个人设置',
 }
