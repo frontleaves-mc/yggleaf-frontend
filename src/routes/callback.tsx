@@ -29,7 +29,8 @@ export const Route = createFileRoute('/callback')({
 })
 
 function CallbackPage() {
-  const [error, setError] = useState<string | null>(null)
+  const [status, setStatus] = useState<'loading' | 'error'>('loading')
+  const [errorMsg, setErrorMsg] = useState('')
   const navigate = useNavigate()
   const queryClient = useQueryClient()
 
@@ -37,35 +38,54 @@ function CallbackPage() {
     const params = new URLSearchParams(window.location.search)
     const code = params.get('code')
     const state = params.get('state')
+    const redirectTo = params.get('redirect') || '/user/dashboard'
 
     if (!code || !state) {
-      setError('缺少授权参数，请重新登录')
+      setErrorMsg('缺少授权参数，请重新登录')
+      setStatus('error')
       return
     }
 
-    // 清除 URL 中的授权参数（避免刷新重复提交）
-    window.history.replaceState({}, '', '/callback')
+    let cancelled = false
 
     handleOAuthCallback(code, state, queryClient)
       .then(() => {
-        // Token 获取成功后，从缓存读取用户信息检查账户是否已完善
+        if (cancelled) return
+
+        window.history.replaceState({}, '', '/callback')
+
         const userInfo =
           queryClient.getQueryData<UserCurrentResponse>(USER_INFO_QUERY_KEY)
         if (userInfo && userInfo.extend?.account_ready !== 'ready') {
-          // 账户未就绪 → 引导到设置页
           navigate({ to: '/setup/password' as any })
           return
         }
 
-        const redirectTo = params.get('redirect') || '/user/dashboard'
         navigate({ to: redirectTo as any })
       })
       .catch((err) => {
-        setError(err instanceof Error ? err.message : '登录失败，请重试')
+        if (cancelled) return
+
+        // Token 交换成功但后续步骤失败时，用户实际已认证
+        // 直接尝试跳转，让目标页面的 guard 链处理后续逻辑
+        if (checkIsAuthenticated()) {
+          window.history.replaceState({}, '', '/callback')
+          navigate({ to: redirectTo as any })
+          return
+        }
+
+        setErrorMsg(
+          err instanceof Error ? err.message : '登录失败，请重试',
+        )
+        setStatus('error')
       })
+
+    return () => {
+      cancelled = true
+    }
   }, [navigate, queryClient])
 
-  if (error) {
+  if (status === 'error') {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background">
         <div className="w-full max-w-sm space-y-4 px-6 text-center">
@@ -73,7 +93,7 @@ function CallbackPage() {
             <span className="text-xl text-destructive">!</span>
           </div>
           <h2 className="text-lg font-semibold text-foreground">登录失败</h2>
-          <p className="text-sm text-muted-foreground">{error}</p>
+          <p className="text-sm text-muted-foreground">{errorMsg}</p>
           <Link
             to="/login"
             className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-primary to-primary px-5 py-2.5 text-sm font-semibold text-white no-underline hover:opacity-90"
