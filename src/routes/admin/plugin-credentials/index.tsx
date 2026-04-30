@@ -6,10 +6,11 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { motion } from 'motion/react'
-import { Plus, Trash2, KeyRound, Eye } from 'lucide-react'
+import { Plus, Trash2, KeyRound, Eye, Lock } from 'lucide-react'
 import { Button } from '#/components/ui/button'
 import { Input } from '#/components/ui/input'
 import { Label } from '#/components/ui/label'
+import { Badge } from '#/components/ui/badge'
 import {
   Dialog,
   DialogContent,
@@ -158,7 +159,12 @@ function PluginCredentialsPage() {
         <TableColumnHeader column={column} title="凭证名称" />
       ),
       cell: ({ row }) => (
-        <span className="font-medium text-sm">{row.getValue('name')}</span>
+        <div className="flex items-center gap-2.5">
+          <div className="flex size-8 items-center justify-center rounded-lg bg-primary/10">
+            <KeyRound className="size-4 text-primary" />
+          </div>
+          <span className="font-medium text-sm">{row.getValue('name')}</span>
+        </div>
       ),
     },
     {
@@ -178,9 +184,12 @@ function PluginCredentialsPage() {
         <TableColumnHeader column={column} title="密钥" />
       ),
       cell: ({ row }) => (
-        <span className="font-mono text-xs text-muted-foreground">
-          {row.original.secret_key}
-        </span>
+        <div className="flex items-center gap-1.5 rounded-md bg-muted/60 px-2.5 py-1.5">
+          <Lock className="size-3 text-muted-foreground shrink-0" />
+          <span className="font-mono text-xs text-muted-foreground truncate max-w-[180px]">
+            {row.original.secret_key}
+          </span>
+        </div>
       ),
     },
     {
@@ -188,11 +197,24 @@ function PluginCredentialsPage() {
       header: ({ column }) => (
         <TableColumnHeader column={column} title="创建时间" />
       ),
-      cell: ({ row }) => (
-        <span className="text-sm text-muted-foreground">
-          {new Date(row.original.created_at).toLocaleString('zh-CN')}
-        </span>
-      ),
+      cell: ({ row }) => {
+        const date = new Date(row.original.created_at)
+        const now = new Date()
+        const diffMs = now.getTime() - date.getTime()
+        const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
+        return (
+          <div className="flex flex-col gap-0.5">
+            <span className="text-[13px] text-foreground">
+              {date.toLocaleDateString('zh-CN')}
+            </span>
+            <span className="text-[11px] text-muted-foreground">
+              {diffDays === 0 ? '今天' : diffDays === 1 ? '昨天' : `${diffDays} 天前`}
+              {' · '}
+              {date.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}
+            </span>
+          </div>
+        )
+      },
     },
     {
       id: 'actions',
@@ -201,19 +223,19 @@ function PluginCredentialsPage() {
         const credential = row.original
         return (
           <div className="flex items-center gap-1">
-            <Button variant="ghost" size="sm" className="h-7 px-2 text-xs" asChild>
+            <Button variant="ghost" size="sm" className="h-8 px-2.5 text-xs rounded-md hover:bg-muted transition-colors" asChild>
               <Link to="/admin/plugin-credentials/$credentialId" params={{ credentialId: credential.id }}>
-                <Eye className="mr-1 h-3 w-3" />
+                <Eye data-icon="inline-start" className="size-3.5" />
                 详情
               </Link>
             </Button>
             <Button
               variant="ghost"
               size="sm"
-              className="h-7 px-2 text-xs text-destructive hover:text-destructive/90 hover:bg-destructive/10"
+              className="h-8 px-2.5 text-xs text-destructive hover:text-destructive hover:bg-destructive/10 rounded-md transition-colors"
               onClick={() => setDeleteTarget(credential)}
             >
-              <Trash2 className="mr-1 h-3 w-3" />
+              <Trash2 data-icon="inline-start" className="size-3.5" />
               删除
             </Button>
           </div>
@@ -237,8 +259,8 @@ function PluginCredentialsPage() {
           title="插件凭证"
           description="管理 API 插件凭证，查看、创建或删除凭证密钥"
         >
-          <Button onClick={openCreate} className="gap-1.5 text-sm">
-            <Plus className="h-4 w-4" />
+          <Button onClick={openCreate} className="gap-1.5 text-sm bg-gradient-to-r from-primary to-primary text-white hover:opacity-90">
+            <Plus className="size-4" />
             创建凭证
           </Button>
         </PageHeader>
@@ -257,12 +279,15 @@ function PluginCredentialsPage() {
             )}
           </TSTableHeader>
           <TSTableBody emptyContent={
-            <>
-              <KeyRound className="mx-auto h-8 w-8 text-muted-foreground/30 mb-3" />
-              <p className="text-sm text-muted-foreground">
-                暂无插件凭证，点击右上角创建
-              </p>
-            </>
+            <div className="flex flex-col items-center gap-3 py-8">
+              <div className="flex size-14 items-center justify-center rounded-2xl bg-primary/5 border border-primary/10">
+                <KeyRound className="size-7 text-primary/40" />
+              </div>
+              <div className="text-center space-y-1">
+                <p className="text-sm font-medium text-muted-foreground">暂无插件凭证</p>
+                <p className="text-xs text-muted-foreground/70">点击右上角「创建凭证」开始</p>
+              </div>
+            </div>
           }>
             {({ row }) => (
               <TSTableRow row={row}>
@@ -277,9 +302,9 @@ function PluginCredentialsPage() {
       {totalPages > 1 && (
         <motion.div
           variants={fadeUpItem}
-          className="flex items-center justify-between"
+          className="flex items-center justify-between rounded-lg border border-border/60 bg-muted/30 px-4 py-3"
         >
-          <p className="text-sm text-muted-foreground">
+          <p className="text-[13px] text-muted-foreground">
             共 {data?.total ?? 0} 条记录，第 {page}/{totalPages} 页
           </p>
           <div className="flex items-center gap-2">

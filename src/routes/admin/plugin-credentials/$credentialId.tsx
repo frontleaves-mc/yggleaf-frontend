@@ -6,7 +6,7 @@
 import { createFileRoute, Link, useParams, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { motion } from 'motion/react'
-import { ArrowLeft, Pencil, Save, X, RefreshCw } from 'lucide-react'
+import { ArrowLeft, Pencil, Save, X, RefreshCw, KeyRound, Lock, ShieldAlert } from 'lucide-react'
 import { Button } from '#/components/ui/button'
 import { Textarea } from '#/components/ui/textarea'
 import {
@@ -141,10 +141,12 @@ function CredentialDetailPage() {
       <motion.div variants={fadeUpItem}>
         <Link
           to="/admin/plugin-credentials"
-          className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          className="group inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
-          <ArrowLeft className="h-4 w-4" />
-          返回凭证列表
+          <ArrowLeft className="size-4 transition-transform group-hover:-translate-x-0.5" />
+          <span className="border-b border-transparent group-hover:border-foreground/30 transition-colors">
+            返回凭证列表
+          </span>
         </Link>
       </motion.div>
 
@@ -153,110 +155,118 @@ function CredentialDetailPage() {
           {/* 主信息卡 */}
           <Card className="lg:col-span-2">
             <CardHeader>
-              <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle className="text-lg">凭证详情</CardTitle>
-                  <CardDescription>
-                    查看和管理插件凭证信息
-                  </CardDescription>
+              <div className="flex items-start justify-between gap-4">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <div className="flex size-11 items-center justify-center rounded-xl bg-primary/10 ring-1 ring-primary/15">
+                      <KeyRound className="size-5 text-primary" />
+                    </div>
+                    <div>
+                      <CardTitle className="text-xl font-semibold tracking-tight">{credential.name}</CardTitle>
+                      <CardDescription>
+                        插件凭证详情与管理
+                      </CardDescription>
+                    </div>
+                  </div>
                 </div>
-                <Badge variant="secondary" className="font-mono text-xs">
-                  {credential.id.slice(0, 8)}...
+                <Badge variant="secondary" className="font-mono text-xs shrink-0 mt-1">
+                  {credential.id.slice(0, 8)}…
                 </Badge>
               </div>
             </CardHeader>
             <CardContent className="space-y-5">
               {/* 凭证名称 */}
-              <div className="space-y-1">
-                <p className="text-[13px] text-muted-foreground">凭证名称</p>
-                <p className="text-sm font-medium">{credential.name}</p>
-              </div>
+              <InfoRow label="凭证名称" value={credential.name} />
 
               {/* 描述（可编辑） */}
-              <div className="space-y-1">
-                <div className="flex items-center justify-between">
-                  <p className="text-[13px] text-muted-foreground">描述</p>
+              <div className="flex items-start justify-between gap-3">
+                <span className="text-[13px] text-muted-foreground shrink-0 pt-1">描述</span>
+                <div className="flex-1 min-w-0">
                   {!isEditingDesc && (
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="h-6 px-2 text-xs"
-                      onClick={startEditDesc}
-                    >
-                      <Pencil className="mr-1 h-3 w-3" />
-                      编辑
-                    </Button>
-                  )}
-                </div>
-                {isEditingDesc ? (
-                  <div className="space-y-2">
-                    <Textarea
-                      value={editDesc}
-                      onChange={(e) => setEditDesc(e.target.value)}
-                      placeholder="凭证用途描述"
-                      maxLength={255}
-                      rows={3}
-                    />
-                    <div className="flex gap-2">
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="text-[13px] font-medium">{credential.description || '-'}</p>
                       <Button
+                        variant="ghost"
                         size="sm"
-                        className="h-7 text-xs gap-1"
-                        onClick={handleSaveDesc}
-                        disabled={updateMutation.isPending || !editDesc.trim()}
+                        className="h-7 px-2 text-xs shrink-0"
+                        onClick={startEditDesc}
                       >
-                        <Save className="h-3 w-3" />
-                        {updateMutation.isPending ? '保存中...' : '保存'}
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="h-7 text-xs gap-1"
-                        onClick={cancelEditDesc}
-                        disabled={updateMutation.isPending}
-                      >
-                        <X className="h-3 w-3" />
-                        取消
+                        <Pencil data-icon="inline-start" className="size-3" />
+                        编辑
                       </Button>
                     </div>
-                  </div>
-                ) : (
-                  <p className="text-sm">{credential.description || '-'}</p>
-                )}
+                  )}
+                  {isEditingDesc && (
+                    <div className="space-y-2">
+                      <Textarea
+                        value={editDesc}
+                        onChange={(e) => setEditDesc(e.target.value)}
+                        placeholder="凭证用途描述"
+                        maxLength={255}
+                        rows={3}
+                      />
+                      <div className="flex gap-2">
+                        <Button
+                          size="sm"
+                          className="h-7 text-xs gap-1"
+                          onClick={handleSaveDesc}
+                          disabled={updateMutation.isPending || !editDesc.trim()}
+                        >
+                          <Save className="size-3" />
+                          {updateMutation.isPending ? '保存中...' : '保存'}
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="h-7 text-xs gap-1"
+                          onClick={cancelEditDesc}
+                          disabled={updateMutation.isPending}
+                        >
+                          <X className="size-3" />
+                          取消
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
 
-              {/* 密钥（脱敏） */}
-              <div className="space-y-1">
-                <p className="text-[13px] text-muted-foreground">密钥</p>
-                <p className="font-mono text-xs text-muted-foreground">
+              {/* 密钥（脱敏） - 安全展示区 */}
+              <div className="rounded-lg border border-border/60 bg-muted/30 p-4 space-y-2">
+                <div className="flex items-center gap-1.5 text-[13px] text-muted-foreground">
+                  <Lock className="size-3" />
+                  密钥（脱敏）
+                </div>
+                <p className="font-mono text-xs text-muted-foreground bg-background rounded-md px-3 py-2 border border-border/40">
                   {credential.secret_key}
                 </p>
               </div>
 
               {/* 创建时间 */}
-              <div className="space-y-1">
-                <p className="text-[13px] text-muted-foreground">创建时间</p>
-                <p className="text-sm">
-                  {new Date(credential.created_at).toLocaleString('zh-CN')}
-                </p>
-              </div>
+              <InfoRow label="创建时间" value={new Date(credential.created_at).toLocaleString('zh-CN')} />
             </CardContent>
           </Card>
 
           {/* 侧边操作卡 */}
-          <Card>
+          <Card className="border-destructive/20">
             <CardHeader>
-              <CardTitle className="text-base">密钥操作</CardTitle>
+              <div className="flex items-center gap-2">
+                <ShieldAlert className="size-4 text-destructive" />
+                <CardTitle className="text-base">密钥操作</CardTitle>
+              </div>
             </CardHeader>
             <CardContent className="space-y-4">
-              <p className="text-[13px] text-muted-foreground">
-                重置密钥将使当前密钥立即失效。重置后会生成新的密钥，请确保及时更新使用该密钥的插件配置。
-              </p>
+              <div className="rounded-md bg-destructive/5 border border-destructive/10 p-3 space-y-2">
+                <p className="text-[13px] text-muted-foreground leading-relaxed">
+                  重置密钥将使当前密钥立即失效。重置后会生成新的密钥，请确保及时更新使用该密钥的插件配置。
+                </p>
+              </div>
               <Button
                 variant="destructive"
                 className="w-full gap-1.5 text-sm"
                 onClick={() => setIsResetKeyDialogOpen(true)}
               >
-                <RefreshCw className="h-4 w-4" />
+                <RefreshCw className="size-4" />
                 重置密钥
               </Button>
             </CardContent>
@@ -284,5 +294,24 @@ function CredentialDetailPage() {
         credentialName={revealedCredentialName}
       />
     </motion.div>
+  )
+}
+
+function InfoRow({
+  label,
+  value,
+}: {
+  label: string
+  value: string
+}) {
+  return (
+    <div className="flex items-start justify-between gap-3">
+      <span className="text-[13px] text-muted-foreground shrink-0">
+        {label}
+      </span>
+      <span className="text-[13px] font-medium break-all">
+        {value}
+      </span>
+    </div>
   )
 }
