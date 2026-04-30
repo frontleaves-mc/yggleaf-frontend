@@ -89,3 +89,9 @@ export type {
   UpdatePluginCredentialRequest,
   PluginCredentialListParams,
 } from './api-mc/plugin-credential'
+
+export type {
+  PlayerStatusInfo,
+  ServerStatusResponse,
+  ServerStatusListResponse,
+} from './api-mc/server-status'
