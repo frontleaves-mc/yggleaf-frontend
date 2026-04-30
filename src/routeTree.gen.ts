@@ -20,6 +20,7 @@ import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as UserMapRouteImport } from './routes/user/map'
 import { Route as UserDashboardRouteImport } from './routes/user/dashboard'
 import { Route as SetupPasswordRouteImport } from './routes/setup/password'
+import { Route as AdminDashboardRouteImport } from './routes/admin/dashboard'
 import { Route as UserSkinsIndexRouteImport } from './routes/user/skins/index'
 import { Route as UserProfilesIndexRouteImport } from './routes/user/profiles/index'
 import { Route as UserProfileIndexRouteImport } from './routes/user/profile/index'
@@ -100,6 +101,11 @@ const SetupPasswordRoute = SetupPasswordRouteImport.update({
   id: '/password',
   path: '/password',
   getParentRoute: () => SetupRoute,
+} as any)
+const AdminDashboardRoute = AdminDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AdminRoute,
 } as any)
 const UserSkinsIndexRoute = UserSkinsIndexRouteImport.update({
   id: '/skins/',
@@ -237,6 +243,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/setup': typeof SetupRouteWithChildren
   '/user': typeof UserRouteWithChildren
+  '/admin/dashboard': typeof AdminDashboardRoute
   '/setup/password': typeof SetupPasswordRoute
   '/user/dashboard': typeof UserDashboardRoute
   '/user/map': typeof UserMapRoute
@@ -273,6 +280,7 @@ export interface FileRoutesByTo {
   '/callback': typeof CallbackRoute
   '/login': typeof LoginRoute
   '/setup': typeof SetupRouteWithChildren
+  '/admin/dashboard': typeof AdminDashboardRoute
   '/setup/password': typeof SetupPasswordRoute
   '/user/dashboard': typeof UserDashboardRoute
   '/user/map': typeof UserMapRoute
@@ -312,6 +320,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/setup': typeof SetupRouteWithChildren
   '/user': typeof UserRouteWithChildren
+  '/admin/dashboard': typeof AdminDashboardRoute
   '/setup/password': typeof SetupPasswordRoute
   '/user/dashboard': typeof UserDashboardRoute
   '/user/map': typeof UserMapRoute
@@ -352,6 +361,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/setup'
     | '/user'
+    | '/admin/dashboard'
     | '/setup/password'
     | '/user/dashboard'
     | '/user/map'
@@ -388,6 +398,7 @@ export interface FileRouteTypes {
     | '/callback'
     | '/login'
     | '/setup'
+    | '/admin/dashboard'
     | '/setup/password'
     | '/user/dashboard'
     | '/user/map'
@@ -426,6 +437,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/setup'
     | '/user'
+    | '/admin/dashboard'
     | '/setup/password'
     | '/user/dashboard'
     | '/user/map'
@@ -545,6 +557,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/setup/password'
       preLoaderRoute: typeof SetupPasswordRouteImport
       parentRoute: typeof SetupRoute
+    }
+    '/admin/dashboard': {
+      id: '/admin/dashboard'
+      path: '/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AdminDashboardRouteImport
+      parentRoute: typeof AdminRoute
     }
     '/user/skins/': {
       id: '/user/skins/'
@@ -725,6 +744,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteChildren {
+  AdminDashboardRoute: typeof AdminDashboardRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminCapesCapeIdRoute: typeof AdminCapesCapeIdRoute
   AdminCapesCreateRoute: typeof AdminCapesCreateRoute
@@ -746,6 +766,7 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminDashboardRoute: AdminDashboardRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminCapesCapeIdRoute: AdminCapesCapeIdRoute,
   AdminCapesCreateRoute: AdminCapesCreateRoute,

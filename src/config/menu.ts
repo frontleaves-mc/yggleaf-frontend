@@ -49,7 +49,7 @@ export const adminMenuItems: MenuItem[] = [
     key: 'dashboard',
     label: '仪表盘',
     icon: LayoutDashboard,
-    to: '/admin',
+    to: '/admin/dashboard',
   },
   {
     key: 'users',
@@ -225,7 +225,7 @@ export const breadcrumbLabels: Record<string, string> = {
   '/setup/password': '设置游戏密码',
 
   // ── 管理端 ──
-  '/admin': '仪表盘',
+  '/admin/dashboard': '仪表盘',
   '/admin/users': '用户管理',
   '/admin/users/$userId': '用户详情',
   '/admin/game-profiles': '游戏档案',
