@@ -63,6 +63,7 @@ export function Layout({ children, mode, items }: LayoutProps) {
     <SidebarProvider
       defaultOpen={getInitialOpen()}
       className="bg-primary/[0.02]"
+      data-mode={mode}
     >
       <Sidebar mode={mode} items={items} />
 

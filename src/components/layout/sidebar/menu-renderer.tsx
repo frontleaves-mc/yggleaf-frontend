@@ -153,13 +153,8 @@ function FlatMenuItem({
 	mode: "user" | "admin";
 }) {
 	const Icon = item.icon;
-	const isAdminMode = mode === "admin";
-	const activeBg = isAdminMode
-		? "bg-gradient-to-r from-[oklch(0.55_0.20_25/0.12)] to-[oklch(0.55_0.20_25/0.05)] shadow-[inset_0_0_0_1px_oklch(0.55_0.20_25/0.10)]"
-		: "bg-gradient-to-r from-sidebar-primary/12 to-sidebar-primary/6 shadow-[inset_0_0_0_1px_oklch(from_var(--sidebar-primary)_l_c_h_/_0.10)]";
-	const activeIcon = isAdminMode
-		? "text-[oklch(0.55_0.20_25)] drop-shadow-[0_0_6px_oklch(0.55_0.20_25/0.30)]"
-		: "text-sidebar-primary drop-shadow-[0_0_6px_oklch(from_var(--sidebar-primary)_l_c_h_/_0.30)]";
+	const activeBg = "bg-gradient-to-r from-sidebar-primary/12 to-sidebar-primary/6 shadow-[inset_0_0_0_1px_oklch(from_var(--sidebar-primary)_l_c_h_/_0.10)]";
+	const activeIcon = "text-sidebar-primary drop-shadow-[0_0_6px_oklch(from_var(--sidebar-primary)_l_c_h_/_0.30)]";
 
 	return (
 		<SidebarMenuItem>
@@ -205,17 +200,10 @@ function CollapsibleMenuItem({
 	const location = useLocation();
 	const pathname = location.pathname;
 	const Icon = item.icon;
-	const isAdminMode = mode === "admin";
-
 	const isActivePath = (to?: string): boolean => matchPath(pathname, to);
 	const hasActiveInChildren = checkActiveChildren(pathname, item.children);
-
-	const parentActiveBg = isAdminMode
-		? "bg-gradient-to-r from-[oklch(0.55_0.20_25/0.08)] to-transparent"
-		: "bg-gradient-to-r from-sidebar-primary/8 to-transparent";
-	const parentActiveIcon = isAdminMode
-		? "text-[oklch(0.55_0.20_25)]"
-		: "text-sidebar-primary";
+	const parentActiveBg = "bg-gradient-to-r from-sidebar-primary/8 to-transparent";
+	const parentActiveIcon = "text-sidebar-primary";
 
 	return (
 		<Collapsible
@@ -266,10 +254,8 @@ function CollapsibleMenuItem({
 										<child.icon
 											className={cn(
 												"size-4 transition-all duration-200",
-												isActivePath(child.to) &&
-													(isAdminMode
-														? "text-[oklch(0.55_0.20_25)]"
-														: "text-sidebar-primary"),
+											isActivePath(child.to) &&
+												"text-sidebar-primary",
 											)}
 										/>
 										<span>{child.label}</span>

@@ -42,6 +42,23 @@
   --sidebar-ring: oklch(0.723 0.014 214.4);
 }
 
+/* Admin 模式红色主题覆盖 — data-mode 属性设置在 Layout 的 SidebarProvider 上 */
+[data-mode="admin"] {
+  --primary: oklch(0.55 0.20 25);
+  --primary-foreground: oklch(0.984 0.019 200.873);
+  --ring: oklch(0.55 0.15 25);
+  --sidebar-primary: oklch(0.55 0.20 25);
+  --sidebar-primary-foreground: oklch(0.984 0.019 200.873);
+}
+
+.dark [data-mode="admin"] {
+  --primary: oklch(0.55 0.20 25);
+  --primary-foreground: oklch(0.984 0.019 200.873);
+  --ring: oklch(0.55 0.15 25);
+  --sidebar-primary: oklch(0.55 0.20 25);
+  --sidebar-primary-foreground: oklch(0.984 0.019 200.873);
+}
+
 .dark {
   --background: oklch(0.148 0.004 228.8);
   --foreground: oklch(0.987 0.002 197.1);

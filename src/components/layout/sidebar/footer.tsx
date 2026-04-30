@@ -29,8 +29,6 @@ export function SidebarFooter({ mode = "user" }: { mode?: "user" | "admin" }) {
 	const navigate = useNavigate();
 	const { data: userInfo } = useUserInfo();
 	const user = userInfo?.user;
-	const isAdminMode = mode === "admin";
-
 	const initials = user?.username?.slice(0, 2).toUpperCase() ?? "YK";
 
 	const handleLogout = () => {
@@ -57,9 +55,7 @@ export function SidebarFooter({ mode = "user" }: { mode?: "user" | "admin" }) {
 										"rounded-xl border transition-all duration-200 ease-out",
 										"shadow-[inset_0_1px_0_oklch(from_var(--sidebar-foreground)_l_c_h_/_0.04)]",
 										"data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground",
-										isAdminMode
-											? "border-[oklch(0.55_0.20_25/0.15)] bg-gradient-to-b from-[oklch(0.55_0.20_25/0.06)] to-[oklch(0.55_0.20_25/0.03)] hover:border-[oklch(0.55_0.20_25/0.25)] hover:shadow-[0_4px_12px_-4px_oklch(0.55_0.20_25/0.12)]"
-											: "border-sidebar-border/40 bg-gradient-to-b from-sidebar-accent/50 to-sidebar-accent/30 hover:border-sidebar-primary/20 hover:shadow-[0_4px_12px_-4px_oklch(from_var(--sidebar-primary)_l_c_h_/_0.10)]",
+										"border-sidebar-border/40 bg-gradient-to-b from-sidebar-accent/50 to-sidebar-accent/30 hover:border-sidebar-primary/20 hover:shadow-[0_4px_12px_-4px_oklch(from_var(--sidebar-primary)_l_c_h_/_0.10)]",
 									)}
 								>
 									<div className="relative">
@@ -67,9 +63,7 @@ export function SidebarFooter({ mode = "user" }: { mode?: "user" | "admin" }) {
 											<AvatarFallback
 												className={cn(
 													"rounded-lg text-xs font-bold",
-													isAdminMode
-														? "border border-[oklch(0.55_0.20_25/0.20)] bg-gradient-to-br from-[oklch(0.55_0.20_25/0.15)] to-[oklch(0.55_0.20_25/0.05)] text-[oklch(0.55_0.20_25)]"
-														: "border border-sidebar-primary/15 bg-gradient-to-br from-sidebar-primary/20 via-primary/12 to-primary/8 text-sidebar-primary",
+													"border border-sidebar-primary/15 bg-gradient-to-br from-sidebar-primary/20 via-primary/12 to-primary/8 text-sidebar-primary",
 												)}
 											>
 												{initials}

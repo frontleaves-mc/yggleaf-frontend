@@ -29,9 +29,7 @@ export function SidebarHeader({ mode }: SidebarHeaderProps) {
 			<div
 				className={cn(
 					"pointer-events-none rounded-lg absolute inset-0",
-					mode === "admin"
-						? "bg-[radial-gradient(ellipse_at_top_left,oklch(0.55_0.20_25/0.10),transparent_70%)]"
-						: "bg-[radial-gradient(ellipse_at_top_left,oklch(from_var(--sidebar-primary)_l_c_h/0.12),transparent_70%)]",
+					"bg-[radial-gradient(ellipse_at_top_left,oklch(from_var(--sidebar-primary)_l_c_h/0.12),transparent_70%)]",
 				)}
 				aria-hidden="true"
 			/>
@@ -46,9 +44,7 @@ export function SidebarHeader({ mode }: SidebarHeaderProps) {
 					alt="Yggleaf"
 					className={cn(
 						"shrink-0 rounded-lg object-cover",
-						mode === "admin"
-							? "shadow-[0_2px_8px_-4px_oklch(0.55_0.20_25/0.25)]"
-							: "shadow-[0_2px_8px_-4px_oklch(from_var(--sidebar-primary)_l_c_h/0.25)]",
+						"shadow-[0_2px_8px_-4px_oklch(from_var(--sidebar-primary)_l_c_h/0.25)]",
 						"transition-all duration-300 ease-out",
 						isCollapsed ? "mx-auto size-9" : "size-10",
 					)}
@@ -62,9 +58,7 @@ export function SidebarHeader({ mode }: SidebarHeaderProps) {
 						<p
 							className={cn(
 								"mt-0.5 text-xs font-medium leading-tight uppercase tracking-[0.16em]",
-								mode === "admin"
-									? "text-[oklch(0.55_0.20_25)]"
-									: "text-sidebar-primary/70",
+								"text-sidebar-primary/70",
 							)}
 						>
 							{MODE_LABELS[mode]}
