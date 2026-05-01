@@ -70,3 +70,22 @@ export const decorationLineVariants = {
   rest: { opacity: 0 },
   hover: { opacity: 1 },
 }
+
+// ─── Dashboard 页面级动画 ──────────────────────────────────
+
+/** 交错容器 — 子元素逐个入场 */
+export const staggerContainer = {
+  animate: {
+    transition: { staggerChildren: 0.08, delayChildren: 0.05 },
+  },
+}
+
+/** 淡入上浮项目 — 用于 Dashboard 各 section */
+export const fadeUpItem = {
+  initial: { opacity: 0, y: 16 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
+  },
+}
