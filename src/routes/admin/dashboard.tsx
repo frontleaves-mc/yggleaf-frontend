@@ -117,7 +117,7 @@ function DashboardPage() {
 			iconBg: "bg-chart-4/[0.12]",
 			iconColor: "text-chart-4",
 			accentGradient: "from-chart-4/[0.06] to-transparent",
-			glow: "shadow-[0_0_18px_-4px_var(--chart-4_/_0.25)]",
+			glow: "shadow-[0_0_18px_-4px_oklch(0.508_0.118_165.612_/_0.25)]",
 		},
 	];
 
