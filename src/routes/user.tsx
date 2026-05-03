@@ -6,15 +6,14 @@
 
 import { createFileRoute, Outlet, redirect, useNavigate  } from '@tanstack/react-router'
 import { Layout } from '#/components/layout/layout'
-import { checkIsAuthenticated } from '#/hooks/use-auth-guard'
+import { ensureAuthenticated } from '#/hooks/use-auth-guard'
 import { useUserInfo } from '#/api/endpoints/api-auth/user'
 import { useEffect } from 'react'
-import { userMenuItems } from '#/config/menu'
+import { userMenuSections } from '#/config/menu'
 
 export const Route = createFileRoute('/user')({
-  beforeLoad: ({ location }) => {
-    // 未登录 → 跳转登录
-    if (!checkIsAuthenticated()) {
+  beforeLoad: async ({ location }) => {
+    if (!(await ensureAuthenticated())) {
       throw redirect({
         to: '/login' as any,
         search: { redirect: location.href } as any,
@@ -40,7 +39,7 @@ function AccountReadyGuard() {
 
 function UserLayoutWrapper() {
   return (
-    <Layout mode="user" items={userMenuItems}>
+    <Layout mode="user" sections={userMenuSections}>
       <AccountReadyGuard />
       <Outlet />
     </Layout>

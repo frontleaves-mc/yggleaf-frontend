@@ -6,12 +6,11 @@
 
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
 import { motion } from 'motion/react'
-import { checkIsAuthenticated } from '#/hooks/use-auth-guard'
+import { ensureAuthenticated } from '#/hooks/use-auth-guard'
 
 export const Route = createFileRoute('/setup')({
-  beforeLoad: ({ location }) => {
-    // 未登录 → 跳转登录
-    if (!checkIsAuthenticated()) {
+  beforeLoad: async ({ location }) => {
+    if (!(await ensureAuthenticated())) {
       throw redirect({
         to: '/login' as any,
         search: { redirect: location.href } as any,

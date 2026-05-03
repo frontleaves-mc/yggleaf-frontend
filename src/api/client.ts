@@ -111,7 +111,7 @@ function applyRequestInterceptor(inst: AxiosInstance): void {
  * 使用 RefreshToken 刷新 Access Token
  * 始终通过 authInstance 调用，确保刷新请求打到认证后端
  */
-async function refreshAccessToken(): Promise<OAuthTokenData> {
+export async function refreshAccessToken(): Promise<OAuthTokenData> {
   const currentToken =
     authStore.state.accessToken || getCookie(ACCESS_TOKEN_KEY)
   const refreshTokenValue =
