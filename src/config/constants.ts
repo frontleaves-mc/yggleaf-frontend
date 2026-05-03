@@ -40,6 +40,9 @@ export const REDIRECT_KEY = 'yggleaf_redirect_url'
 /** 侧边栏折叠状态 key */
 export const SIDEBAR_COLLAPSED_KEY = 'yggleaf_sidebar_collapsed'
 
+/** 选中的游戏档案 localStorage key */
+export const SELECTED_GAME_PROFILE_KEY = 'yggleaf_selected_game_profile'
+
 // ─── 应用信息 ──────────────────────────────────────────────
 
 /** 应用名称 */

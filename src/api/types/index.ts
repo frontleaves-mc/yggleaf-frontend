@@ -83,6 +83,12 @@ export type {
 } from './api-mc/title'
 
 export type {
+  PlayerTitleResponse,
+  EquippedTitleResponse,
+  EquipTitleRequest,
+} from './api-mc/title'
+
+export type {
   PluginCredentialResponse,
   PluginCredentialListResponse,
   CreatePluginCredentialRequest,

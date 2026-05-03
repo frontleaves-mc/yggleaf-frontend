@@ -42,169 +42,237 @@ export interface MenuItem {
   roles?: readonly RoleName[]
 }
 
+/** 菜单分组：将菜单项按功能模块归类，渲染为带标题的视觉分组 */
+export interface MenuSection {
+  /** 分组唯一标识 */
+  key: string
+  /** 分组标题（留空则不显示标题，用于无分组的顶层菜单项） */
+  label?: string
+  /** 该分组下的菜单项 */
+  items: MenuItem[]
+}
+
 // ─── 管理后台菜单配置 ─────────────────────────────────────
 
-export const adminMenuItems: MenuItem[] = [
+export const adminMenuSections: MenuSection[] = [
   {
-    key: 'dashboard',
-    label: '仪表盘',
-    icon: LayoutDashboard,
-    to: '/admin/dashboard',
-  },
-  {
-    key: 'users',
-    label: '用户管理',
-    icon: Users,
-    to: '/admin/users',
-    roles: ['SUPER_ADMIN'],
+    key: 'default',
+    items: [
+      {
+        key: 'dashboard',
+        label: '仪表盘',
+        icon: LayoutDashboard,
+        to: '/admin/dashboard',
+      },
+    ],
   },
   {
     key: 'game',
     label: '游戏',
-    icon: Gamepad2,
-    children: [
+    items: [
       {
-        key: 'game-profiles',
-        label: '游戏档案',
-        icon: UserCircle,
-        to: '/admin/game-profiles',
-      },
-      {
-        key: 'titles',
-        label: '称号管理',
-        icon: Tags,
-        to: '/admin/titles',
-        roles: ['SUPER_ADMIN'],
+        key: 'game',
+        label: '游戏',
+        icon: Gamepad2,
+        children: [
+          {
+            key: 'game-profiles',
+            label: '游戏档案',
+            icon: UserCircle,
+            to: '/admin/game-profiles',
+          },
+          {
+            key: 'titles',
+            label: '称号管理',
+            icon: Tags,
+            to: '/admin/titles',
+            roles: ['SUPER_ADMIN'],
+          },
+        ],
       },
     ],
   },
   {
     key: 'library',
     label: '资源库',
-    icon: Shirt,
-    children: [
+    items: [
       {
-        key: 'skins',
-        label: '皮肤库',
+        key: 'library',
+        label: '资源库',
         icon: Shirt,
-        to: '/admin/skins',
-      },
-      {
-        key: 'capes',
-        label: '披风库',
-        icon: Flag,
-        to: '/admin/capes',
+        children: [
+          {
+            key: 'skins',
+            label: '皮肤库',
+            icon: Shirt,
+            to: '/admin/skins',
+          },
+          {
+            key: 'capes',
+            label: '披风库',
+            icon: Flag,
+            to: '/admin/capes',
+          },
+        ],
       },
     ],
   },
   {
     key: 'issues',
-    label: '问题管理',
-    icon: MessageSquareWarning,
-    children: [
+    label: '社区',
+    items: [
       {
-        key: 'issue-list',
-        label: '问题列表',
+        key: 'issues',
+        label: '问题管理',
         icon: MessageSquareWarning,
-        to: '/admin/issues',
-      },
-      {
-        key: 'issue-types',
-        label: '问题类型',
-        icon: Tags,
-        to: '/admin/issue-types',
-        roles: ['SUPER_ADMIN'],
-      },
-    ],
-  },
-  {
-    key: 'plugin',
-    label: '插件管理',
-    icon: Puzzle,
-    roles: ['SUPER_ADMIN'],
-    children: [
-      {
-        key: 'plugin-credentials',
-        label: '插件凭证',
-        icon: KeyRound,
-        to: '/admin/plugin-credentials',
-        roles: ['SUPER_ADMIN'],
+        children: [
+          {
+            key: 'issue-list',
+            label: '问题列表',
+            icon: MessageSquareWarning,
+            to: '/admin/issues',
+          },
+          {
+            key: 'issue-types',
+            label: '问题类型',
+            icon: Tags,
+            to: '/admin/issue-types',
+            roles: ['SUPER_ADMIN'],
+          },
+        ],
       },
     ],
   },
   {
-    key: 'profile',
-    label: '个人设置',
-    icon: Settings,
-    to: '/admin/profile',
+    key: 'system',
+    label: '系统',
+    items: [
+      {
+        key: 'users',
+        label: '用户管理',
+        icon: Users,
+        to: '/admin/users',
+        roles: ['SUPER_ADMIN'],
+      },
+      {
+        key: 'plugin',
+        label: '插件管理',
+        icon: Puzzle,
+        roles: ['SUPER_ADMIN'],
+        children: [
+          {
+            key: 'plugin-credentials',
+            label: '插件凭证',
+            icon: KeyRound,
+            to: '/admin/plugin-credentials',
+            roles: ['SUPER_ADMIN'],
+          },
+        ],
+      },
+      {
+        key: 'profile',
+        label: '个人设置',
+        icon: Settings,
+        to: '/admin/profile',
+      },
+    ],
   },
 ]
+
+/** @deprecated 使用 adminMenuSections 替代 */
+export const adminMenuItems: MenuItem[] = adminMenuSections.flatMap((s) => s.items)
 
 // ─── 用户端菜单配置 ───────────────────────────────────────
 
-export const userMenuItems: MenuItem[] = [
+export const userMenuSections: MenuSection[] = [
   {
-    key: 'dashboard',
-    label: '仪表盘',
-    icon: LayoutDashboard,
-    to: '/user/dashboard',
-  },
-  {
-    key: 'profiles',
-    label: '游戏档案',
-    icon: Gamepad2,
-    to: '/user/profiles',
-  },
-  {
-    key: 'game-info',
-    label: '游戏信息',
-    icon: Puzzle,
-    to: '/user/game-info',
-  },
-  {
-    key: 'market',
-    label: '资源社区',
-    icon: Store,
-    children: [
+    key: 'default',
+    items: [
       {
-        key: 'skins',
-        label: '皮肤库',
-        icon: Shirt,
-        to: '/user/skins',
-      },
-      {
-        key: 'capes',
-        label: '披风库',
-        icon: Flag,
-        to: '/user/capes',
-      },
-      {
-        key: 'my',
-        label: '我的资源库',
-        icon: UserCircle,
-        to: '/user/my',
+        key: 'dashboard',
+        label: '仪表盘',
+        icon: LayoutDashboard,
+        to: '/user/dashboard',
       },
     ],
   },
   {
-    key: 'issues',
-    label: '问题反馈',
-    icon: MessageSquareWarning,
-    to: '/user/issues',
+    key: 'game',
+    label: '游戏',
+    items: [
+      {
+        key: 'profiles',
+        label: '游戏档案',
+        icon: Gamepad2,
+        to: '/user/profiles',
+      },
+      {
+        key: 'game-info',
+        label: '游戏信息',
+        icon: Puzzle,
+        to: '/user/game-info',
+      },
+      {
+        key: 'map',
+        label: '地图',
+        icon: Map,
+        to: '/user/map',
+      },
+      {
+        key: 'my-titles',
+        label: '我的称号',
+        icon: Tags,
+        to: '/user/my-titles',
+      },
+    ],
   },
   {
-    key: 'map',
-    label: '地图',
-    icon: Map,
-    to: '/user/map',
-  },
-  {
-    key: 'profile',
-    label: '个人中心',
-    icon: Settings,
-    to: '/user/profile',
+    key: 'community',
+    label: '社区',
+    items: [
+      {
+        key: 'market',
+        label: '资源社区',
+        icon: Store,
+        children: [
+          {
+            key: 'skins',
+            label: '皮肤库',
+            icon: Shirt,
+            to: '/user/skins',
+          },
+          {
+            key: 'capes',
+            label: '披风库',
+            icon: Flag,
+            to: '/user/capes',
+          },
+          {
+            key: 'my',
+            label: '我的资源库',
+            icon: UserCircle,
+            to: '/user/my',
+          },
+        ],
+      },
+      {
+        key: 'issues',
+        label: '问题反馈',
+        icon: MessageSquareWarning,
+        to: '/user/issues',
+      },
+      {
+        key: 'profile',
+        label: '个人中心',
+        icon: Settings,
+        to: '/user/profile',
+      },
+    ],
   },
 ]
+
+/** @deprecated 使用 userMenuSections 替代 */
+export const userMenuItems: MenuItem[] = userMenuSections.flatMap((s) => s.items)
 
 // ─── 面包屑标签映射（路由路径 → 显示名称） ─────────────────
 
@@ -221,6 +289,7 @@ export const breadcrumbLabels: Record<string, string> = {
   '/user/issues/$issueId': '问题详情',
   '/user/profile': '个人中心',
   '/user/my': '我的资源库',
+  '/user/my-titles': '我的称号',
   '/setup': '账户设置',
   '/setup/password': '设置游戏密码',
 

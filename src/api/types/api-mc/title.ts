@@ -62,3 +62,47 @@ export interface AdminTitleListParams {
   page_size?: number
   type?: TitleType
 }
+
+// ─── 玩家称号类型（用户端） ──────────────────────────────────
+
+/** 玩家拥有的称号 */
+export interface PlayerTitleResponse {
+  /** 称号 ID */
+  id: string
+  /** 称号名称 */
+  name: string
+  /** 称号描述 */
+  description: string
+  /** 称号类型 */
+  type: TitleType
+  /** 权限组 */
+  permission_group: string
+  /** 是否激活 */
+  is_active: boolean
+  /** 是否已装备 */
+  is_equipped: boolean
+  /** 来源 */
+  source: string
+  /** 创建时间 */
+  created_at: string
+  /** 授予时间 */
+  granted_at: string
+}
+
+/** 当前装备的称号 */
+export interface EquippedTitleResponse {
+  /** 称号 ID */
+  title_id: string
+  /** 称号名称 */
+  name: string
+  /** 称号描述 */
+  description: string
+  /** 称号类型 */
+  type: TitleType
+}
+
+/** 装备称号请求 */
+export interface EquipTitleRequest {
+  /** 称号 ID */
+  title_id: string
+}
