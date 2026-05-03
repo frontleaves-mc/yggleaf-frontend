@@ -19,6 +19,7 @@ import { TopBar } from './top-bar'
 import { PageTitleProvider } from './page-title-context'
 import type { MenuConfig } from './sidebar/menu-renderer'
 import { PageTransition } from '#/components/ui/page-transition'
+import { GridPattern } from '#/components/ui/grid-pattern'
 
 // ─── 类型定义 ────────────────────────────────────────────
 
@@ -72,7 +73,12 @@ export function Layout({ children, mode, items }: LayoutProps) {
           <div className="relative flex min-h-svh flex-col">
             <TopBar />
 
-            <main className="flex-1 bg-primary/[0.02] px-3.5 py-3.5 pb-7 sm:px-5 sm:pb-8 lg:px-6 lg:py-4 lg:pb-10">
+            <main className="relative flex-1 overflow-hidden px-3.5 py-3.5 pb-7 sm:px-5 sm:pb-8 lg:px-6 lg:py-4 lg:pb-10">
+              <GridPattern
+                width={32}
+                height={32}
+                className="fill-muted-foreground/5 stroke-muted-foreground/5 [mask-image:radial-gradient(ellipse_at_center,white,transparent_80%)]"
+              />
               <PageTransition className="relative mx-auto max-w-(--page-max)">
                 {children}
               </PageTransition>

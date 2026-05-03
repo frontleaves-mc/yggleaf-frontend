@@ -169,8 +169,6 @@ function DashboardPage() {
 					serverLoading={serverLoading}
 				/>
 
-				<div className="h-px bg-border/30" />
-
 				<section className="flex flex-col gap-4">
 					<div className="flex items-center gap-2">
 						<div className="flex size-7 items-center justify-center rounded-lg bg-primary/[0.08]">
