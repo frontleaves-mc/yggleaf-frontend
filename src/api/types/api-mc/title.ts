@@ -21,6 +21,7 @@ export interface TitleResponse {
   id: string
   name: string
   description: string
+  color: string
   type: TitleType
   permission_group: string
   is_active: boolean
@@ -39,6 +40,7 @@ export interface TitleListResponse {
 export interface CreateTitleRequest {
   name: string
   description: string
+  color: string
   type: TitleType
   permission_group?: string
 }
@@ -46,6 +48,7 @@ export interface CreateTitleRequest {
 export interface UpdateTitleRequest {
   name: string
   description: string
+  color: string
   type: TitleType
   permission_group?: string
   is_active?: boolean
@@ -73,6 +76,7 @@ export interface PlayerTitleResponse {
   name: string
   /** 称号描述 */
   description: string
+  color: string
   /** 称号类型 */
   type: TitleType
   /** 权限组 */
@@ -97,6 +101,7 @@ export interface EquippedTitleResponse {
   name: string
   /** 称号描述 */
   description: string
+  color: string
   /** 称号类型 */
   type: TitleType
 }
