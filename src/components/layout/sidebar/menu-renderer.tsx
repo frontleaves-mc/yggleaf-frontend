@@ -23,6 +23,7 @@ import {
 } from "#/components/ui/collapsible";
 import {
 	SidebarGroup,
+	SidebarGroupLabel,
 	SidebarMenu,
 	SidebarMenuBadge,
 	SidebarMenuButton,
@@ -36,20 +37,19 @@ import { cn } from "#/lib/utils";
 // ─── 类型定义 ────────────────────────────────────────────
 
 export interface MenuConfig {
-	/** 唯一标识 */
 	key: string;
-	/** 显示标签 */
 	label: string;
-	/** 图标 */
 	icon: LucideIcon | LucideIconType;
-	/** 路由路径 */
 	to?: string;
-	/** 子菜单 */
 	children?: MenuConfig[];
-	/** 通知角标 */
 	badge?: number | string;
-	/** 允许访问的角色列表 */
 	roles?: readonly RoleName[];
+}
+
+export interface MenuSectionConfig {
+	key: string;
+	label?: string;
+	items: MenuConfig[];
 }
 
 // ─── 权限过滤 Hook ──────────────────────────────────────
@@ -59,6 +59,21 @@ export function useFilteredMenuItems(items: MenuConfig[]): MenuConfig[] {
 	const role = userInfo?.user?.role_name;
 
 	return useMemo(() => filterByRole(items, role), [items, role]);
+}
+
+export function useFilteredMenuSections(
+	sections: MenuSectionConfig[],
+): MenuSectionConfig[] {
+	const userInfo = useUserInfoSync();
+	const role = userInfo?.user?.role_name;
+
+	return useMemo(() => {
+		const filtered = sections.map((section) => ({
+			...section,
+			items: filterByRole(section.items, role),
+		}));
+		return filtered.filter((s) => s.items.length > 0);
+	}, [sections, role]);
 }
 
 function filterByRole(
@@ -83,7 +98,8 @@ function filterByRole(
 // ─── 组件 ────────────────────────────────────────────────
 
 interface SidebarMenuRendererProps {
-	items: MenuConfig[];
+	sections?: MenuSectionConfig[];
+	items?: MenuConfig[];
 	mode?: "user" | "admin";
 }
 
@@ -105,17 +121,30 @@ function checkActiveChildren(
 }
 
 export function SidebarMenuRenderer({
+	sections,
 	items,
 	mode = "user",
 }: SidebarMenuRendererProps) {
 	const location = useLocation();
-	const filteredItems = useFilteredMenuItems(items);
 	const pathname = location.pathname;
 
-	const isActive = (to?: string): boolean => matchPath(pathname, to);
+	const filteredItems = useFilteredMenuItems(items ?? []);
+	const filteredSections = useFilteredMenuSections(sections ?? []);
 
+	const isActive = (to?: string): boolean => matchPath(pathname, to);
 	const hasActiveChild = (children?: MenuConfig[]): boolean =>
 		checkActiveChildren(pathname, children);
+
+	if (sections && sections.length > 0) {
+		return (
+			<SidebarSectionedMenu
+				sections={filteredSections}
+				mode={mode}
+				isActive={isActive}
+				hasActiveChild={hasActiveChild}
+			/>
+		);
+	}
 
 	return (
 		<SidebarGroup className="py-2 group-data-[collapsible=icon]:p-2">
@@ -139,6 +168,55 @@ export function SidebarMenuRenderer({
 				)}
 			</SidebarMenu>
 		</SidebarGroup>
+	);
+}
+
+function SidebarSectionedMenu({
+	sections,
+	mode,
+	isActive,
+	hasActiveChild,
+}: {
+	sections: MenuSectionConfig[];
+	mode: "user" | "admin";
+	isActive: (to?: string) => boolean;
+	hasActiveChild: (children?: MenuConfig[]) => boolean;
+}) {
+
+	return (
+		<>
+			{sections.map((section) => (
+				<SidebarGroup
+					key={section.key}
+					className="py-2 group-data-[collapsible=icon]:p-2"
+				>
+					{section.label && (
+						<SidebarGroupLabel className="text-xs font-semibold uppercase tracking-wider text-sidebar-foreground/50">
+							{section.label}
+						</SidebarGroupLabel>
+					)}
+					<SidebarMenu className="gap-0.5 group-data-[collapsible=icon]:items-center">
+						{section.items.map((item) =>
+							item.children ? (
+								<CollapsibleMenuItem
+									key={item.key}
+									item={item}
+									defaultOpen={hasActiveChild(item.children)}
+									mode={mode}
+								/>
+							) : (
+								<FlatMenuItem
+									key={item.key}
+									item={item}
+									active={isActive(item.to)}
+									mode={mode}
+								/>
+							),
+						)}
+					</SidebarMenu>
+				</SidebarGroup>
+			))}
+		</>
 	);
 }
 

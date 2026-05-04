@@ -81,13 +81,8 @@ function AdminIssueDetailPage() {
         <div className="ml-auto flex items-center gap-3 text-xs text-muted-foreground shrink-0">
           <span className="inline-flex items-center gap-1">
             <Clock className="h-3 w-3" />
-            提交于 {formatTime(issueDetail.issue.created_at)}
+            更新于 {formatTime(issueDetail.issue.updated_at)}
           </span>
-          {issueDetail.issue.updated_at !== issueDetail.issue.created_at && (
-            <span className="inline-flex items-center gap-1">
-              更新于 {formatTime(issueDetail.issue.updated_at)}
-            </span>
-          )}
         </div>
       </motion.header>
 

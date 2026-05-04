@@ -11,16 +11,17 @@ import {
 } from "#/components/ui/sidebar";
 import { SidebarFooter } from "./footer";
 import { SidebarHeader } from "./header";
-import type { MenuConfig } from "./menu-renderer";
+import type { MenuConfig, MenuSectionConfig } from "./menu-renderer";
 import { SidebarMenuRenderer } from "./menu-renderer";
 import { ViewSwitcher } from "./view-switcher";
 
 interface SidebarProps {
 	mode: "user" | "admin";
-	items: MenuConfig[];
+	items?: MenuConfig[];
+	sections?: MenuSectionConfig[];
 }
 
-export function Sidebar({ mode, items }: SidebarProps) {
+export function Sidebar({ mode, items, sections }: SidebarProps) {
 	return (
 		<SidebarRoot
 			collapsible="icon"
@@ -43,7 +44,7 @@ export function Sidebar({ mode, items }: SidebarProps) {
 			<ViewSwitcher mode={mode} />
 
 			<SidebarContent>
-				<SidebarMenuRenderer items={items} mode={mode} />
+				<SidebarMenuRenderer items={items} sections={sections} mode={mode} />
 			</SidebarContent>
 
 			<SidebarFooter mode={mode} />

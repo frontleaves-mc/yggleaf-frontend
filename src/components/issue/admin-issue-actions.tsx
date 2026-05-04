@@ -1,6 +1,6 @@
 /**
  * AdminIssueActions - 管理员操作面板
- * 备注编辑 + 优先级选择 + 状态选择
+ * 备注编辑 + 优先级选择 + 状态管理
  */
 
 import { useState, useEffect } from 'react'
@@ -15,12 +15,27 @@ import {
   SelectValue,
 } from '#/components/ui/select'
 import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '#/components/ui/tooltip'
+import {
   useUpdateIssueNoteMutation,
   useUpdateIssuePriorityMutation,
   useUpdateIssueStatusMutation,
 } from '#/api/endpoints/api-auth/admin-issue'
 import type { IssueEntity, IssuePriority, IssueStatus } from '#/api/types'
-import { Loader2, Save, StickyNote, Gauge, ToggleRight } from 'lucide-react'
+import {
+  Loader2,
+  Save,
+  StickyNote,
+  Gauge,
+  ArrowRight,
+  Lock,
+  CheckCircle2,
+  XCircle,
+  Ban,
+} from 'lucide-react'
 import { toast } from 'sonner'
 import { IssueStatusBadge } from './issue-status-badge'
 
@@ -39,8 +54,8 @@ const STATUS_TRANSITIONS: Record<IssueStatus, IssueStatus[]> = {
   registered: ['pending', 'processing', 'unplanned', 'closed'],
   pending: ['processing', 'resolved', 'closed'],
   processing: ['pending', 'resolved', 'closed'],
-  resolved: ['closed'],
-  unplanned: ['closed'],
+  resolved: [],
+  unplanned: [],
   closed: [],
 }
 
@@ -51,6 +66,40 @@ const STATUS_LABELS: Record<IssueStatus, string> = {
   resolved: '已解决',
   unplanned: '无计划',
   closed: '已关闭',
+}
+
+/** 终态对应的图标和描述 */
+const TERMINAL_STATE_INFO: Partial<
+  Record<IssueStatus, { icon: React.ElementType; description: string }>
+> = {
+  resolved: {
+    icon: CheckCircle2,
+    description: '问题已解决，状态锁定',
+  },
+  unplanned: {
+    icon: Ban,
+    description: '已标记无计划，状态锁定',
+  },
+  closed: {
+    icon: XCircle,
+    description: '问题已关闭，状态锁定',
+  },
+}
+
+/** 状态转换按钮的配色 */
+const TRANSITION_BUTTON_STYLE: Record<IssueStatus, string> = {
+  registered:
+    'border-blue-200 text-blue-600 hover:bg-blue-50 hover:border-blue-300 dark:border-blue-800 dark:text-blue-400 dark:hover:bg-blue-950',
+  pending:
+    'border-yellow-200 text-yellow-700 hover:bg-yellow-50 hover:border-yellow-300 dark:border-yellow-800 dark:text-yellow-400 dark:hover:bg-yellow-950',
+  processing:
+    'border-primary/25 text-primary hover:bg-primary/5 hover:border-primary/40',
+  resolved:
+    'border-green-200 text-green-700 hover:bg-green-50 hover:border-green-300 dark:border-green-800 dark:text-green-400 dark:hover:bg-green-950',
+  unplanned:
+    'border-muted text-muted-foreground hover:bg-muted/50',
+  closed:
+    'border-secondary text-secondary-foreground hover:bg-secondary/50',
 }
 
 export function AdminIssueActions({ issue }: AdminIssueActionsProps) {
@@ -89,6 +138,10 @@ export function AdminIssueActions({ issue }: AdminIssueActionsProps) {
       toast.error('更新状态失败')
     }
   }
+
+  const availableTransitions = STATUS_TRANSITIONS[issue.status]
+  const isTerminal = availableTransitions.length === 0
+  const terminalInfo = TERMINAL_STATE_INFO[issue.status]
 
   return (
     <div className="space-y-4">
@@ -156,42 +209,63 @@ export function AdminIssueActions({ issue }: AdminIssueActionsProps) {
         </CardContent>
       </Card>
 
-      {/* 状态 */}
+      {/* 状态管理 */}
       <Card>
         <CardHeader className="pb-2">
           <CardTitle className="text-sm font-medium flex items-center gap-1.5">
-            <ToggleRight className="h-3.5 w-3.5" />
-            状态
+            <ArrowRight className="h-3.5 w-3.5" />
+            状态管理
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
-          <div className="flex items-center gap-2 rounded-md bg-muted/50 px-3 py-2">
-            <span className="text-xs text-muted-foreground shrink-0">当前</span>
+          {/* 当前状态 */}
+          <div className="flex items-center gap-2.5 rounded-lg border border-border/50 bg-muted/30 px-3 py-2.5">
+            <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground shrink-0">
+              当前
+            </span>
             <IssueStatusBadge status={issue.status} />
           </div>
-          {STATUS_TRANSITIONS[issue.status].length > 0 && (
+
+          {/* 可切换的状态 */}
+          {!isTerminal && (
             <div className="space-y-2">
-              <span className="text-xs text-muted-foreground">切换至</span>
+              <div className="flex items-center gap-1.5">
+                <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+                  切换至
+                </span>
+                <span className="h-px flex-1 bg-border/50" />
+              </div>
               <div className="flex flex-wrap gap-1.5">
-                {STATUS_TRANSITIONS[issue.status].map((target) => (
-                  <Button
-                    key={target}
-                    variant="outline"
-                    size="sm"
-                    disabled={statusMutation.isPending}
-                    onClick={() => handleStatusChange(target)}
-                    className="transition-colors hover:bg-primary/5 hover:border-primary/30 hover:text-primary"
-                  >
-                    {STATUS_LABELS[target]}
-                  </Button>
+                {availableTransitions.map((target) => (
+                  <Tooltip key={target}>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        disabled={statusMutation.isPending}
+                        onClick={() => handleStatusChange(target)}
+                        className={`text-xs font-medium transition-all duration-200 ${TRANSITION_BUTTON_STYLE[target]}`}
+                      >
+                        {STATUS_LABELS[target]}
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent side="bottom" className="text-xs">
+                      {STATUS_LABELS[issue.status]} → {STATUS_LABELS[target]}
+                    </TooltipContent>
+                  </Tooltip>
                 ))}
               </div>
             </div>
           )}
-          {STATUS_TRANSITIONS[issue.status].length === 0 && (
-            <p className="text-xs text-muted-foreground italic rounded-md bg-muted/30 px-3 py-2">
-              此状态为终态，不可变更
-            </p>
+
+          {/* 终态提示 */}
+          {isTerminal && terminalInfo && (
+            <div className="flex items-center gap-2.5 rounded-lg border border-border/40 bg-muted/20 px-3 py-2.5">
+              <Lock className="h-3.5 w-3.5 shrink-0 text-muted-foreground/60" />
+              <span className="text-xs text-muted-foreground">
+                {terminalInfo.description}
+              </span>
+            </div>
           )}
         </CardContent>
       </Card>

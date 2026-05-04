@@ -194,15 +194,15 @@ function UserIssuesPage() {
       size: 56,
     },
     {
-      accessorKey: 'issue.created_at',
+      accessorKey: 'issue.updated_at',
       header: ({ column }) => (
-        <TableColumnHeader column={column} title="创建时间" />
+        <TableColumnHeader column={column} title="更新时间" />
       ),
       cell: ({ row }) => {
         const item = row.original
         return (
           <span className="text-[13px] text-muted-foreground whitespace-nowrap">
-            {formatTime(item.issue.created_at)}
+            {formatTime(item.issue.updated_at)}
           </span>
         )
       },

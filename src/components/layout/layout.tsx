@@ -17,7 +17,7 @@ import { SidebarProvider, SidebarInset } from '#/components/ui/sidebar'
 import { Sidebar } from './sidebar'
 import { TopBar } from './top-bar'
 import { PageTitleProvider } from './page-title-context'
-import type { MenuConfig } from './sidebar/menu-renderer'
+import type { MenuConfig, MenuSectionConfig } from './sidebar/menu-renderer'
 import { PageTransition } from '#/components/ui/page-transition'
 import { GridPattern } from '#/components/ui/grid-pattern'
 
@@ -25,10 +25,9 @@ import { GridPattern } from '#/components/ui/grid-pattern'
 
 export interface LayoutProps {
   children: React.ReactNode
-  /** 布局模式：决定显示哪套菜单 */
   mode: 'user' | 'admin'
-  /** 菜单配置项 */
-  items: MenuConfig[]
+  items?: MenuConfig[]
+  sections?: MenuSectionConfig[]
 }
 
 // ─── 从 localStorage 恢复侧边栏状态 ─────────────────────
@@ -47,7 +46,7 @@ function getInitialOpen(): boolean {
 
 // ─── 主组件 ──────────────────────────────────────────────
 
-export function Layout({ children, mode, items }: LayoutProps) {
+export function Layout({ children, mode, items, sections }: LayoutProps) {
   // 同步旧版 localStorage key 到新版 cookie（兼容性）
   useEffect(() => {
     try {
@@ -66,7 +65,7 @@ export function Layout({ children, mode, items }: LayoutProps) {
       className="bg-primary/[0.02]"
       data-mode={mode}
     >
-      <Sidebar mode={mode} items={items} />
+      <Sidebar mode={mode} items={items} sections={sections} />
 
       <SidebarInset>
         <PageTitleProvider>
