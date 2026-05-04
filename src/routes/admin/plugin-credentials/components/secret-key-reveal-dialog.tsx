@@ -84,7 +84,9 @@ export function SecretKeyRevealDialog({
         <div className="rounded-lg border border-amber-500/25 bg-gradient-to-r from-amber-500/8 to-amber-500/3 p-3.5 space-y-1.5">
           <div className="flex items-center gap-2">
             <AlertTriangle className="size-4 text-amber-500 shrink-0" />
-            <span className="text-[13px] font-medium text-amber-600 dark:text-amber-400">安全提示</span>
+            <span className="text-[13px] font-medium text-amber-600 dark:text-amber-400">
+              安全提示
+            </span>
           </div>
           <p className="text-[13px] text-amber-600/80 dark:text-amber-400/80 leading-relaxed pl-6">
             此密钥仅展示一次，关闭后将无法再次查看。请立即复制并妥善保管！
@@ -98,7 +100,9 @@ export function SecretKeyRevealDialog({
           <div className="relative">
             <div className="flex items-center gap-1.5 mb-2">
               <div className="size-1.5 rounded-full bg-primary/60 animate-pulse" />
-              <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Secret Key</span>
+              <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+                Secret Key
+              </span>
             </div>
             <p className="font-mono text-sm leading-relaxed break-all select-all text-foreground bg-background rounded-lg px-3.5 py-3 border border-border/50 shadow-sm">
               {secretKey}
@@ -107,10 +111,7 @@ export function SecretKeyRevealDialog({
         </div>
 
         <DialogFooter>
-          <Button
-            variant="outline"
-            onClick={() => onOpenChange(false)}
-          >
+          <Button variant="outline" onClick={() => onOpenChange(false)}>
             关闭
           </Button>
           <Button
@@ -119,7 +120,7 @@ export function SecretKeyRevealDialog({
               'gap-1.5 transition-all duration-200',
               copied
                 ? 'bg-emerald-600 hover:bg-emerald-700 text-white border-emerald-600'
-                : ''
+                : '',
             )}
           >
             {copied ? (

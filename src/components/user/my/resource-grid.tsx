@@ -133,9 +133,7 @@ export function ResourceGrid({ type }: ResourceGridProps) {
         ? (items as SkinLibrary[]).map((skin) => (
             <ResourceCard key={skin.id} skin={skin} />
           ))
-        : (items).map((cape) => (
-            <ResourceCard key={cape.id} cape={cape} />
-          ))}
+        : items.map((cape) => <ResourceCard key={cape.id} cape={cape} />)}
     </div>
   )
 }

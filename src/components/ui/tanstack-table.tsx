@@ -229,7 +229,11 @@ export interface TSTableBodyProps {
   emptyContent?: ReactNode
 }
 
-export const TSTableBody = ({ children, className, emptyContent }: TSTableBodyProps) => {
+export const TSTableBody = ({
+  children,
+  className,
+  emptyContent,
+}: TSTableBodyProps) => {
   const { columns, table } = useContext(TableContext)
   const rows = table?.getRowModel().rows
 

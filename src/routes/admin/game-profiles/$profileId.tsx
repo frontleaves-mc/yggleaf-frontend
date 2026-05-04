@@ -3,7 +3,7 @@
  * 查看单个游戏档案的详细信息
  */
 
-import { createFileRoute, Link  } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { motion } from 'motion/react'
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
 import { ArrowLeft } from 'lucide-react'

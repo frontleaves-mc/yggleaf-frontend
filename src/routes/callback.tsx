@@ -74,9 +74,7 @@ function CallbackPage() {
           return
         }
 
-        setErrorMsg(
-          err instanceof Error ? err.message : '登录失败，请重试',
-        )
+        setErrorMsg(err instanceof Error ? err.message : '登录失败，请重试')
         setStatus('error')
       })
 

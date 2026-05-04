@@ -17,7 +17,10 @@ import type {
 
 // ─── Query Keys ────────────────────────────────────────────
 
-export const PLUGIN_CREDENTIAL_LIST_QUERY_KEY = ['admin', 'plugin-credentials'] as const
+export const PLUGIN_CREDENTIAL_LIST_QUERY_KEY = [
+  'admin',
+  'plugin-credentials',
+] as const
 export const PLUGIN_CREDENTIAL_DETAIL_QUERY_KEY = [
   'admin',
   'plugin-credentials',

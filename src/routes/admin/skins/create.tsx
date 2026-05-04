@@ -3,7 +3,7 @@
  * 表单创建新的皮肤资源
  */
 
-import { createFileRoute, Link, useNavigate  } from '@tanstack/react-router'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useCreateSkinMutation } from '#/api/endpoints/api-auth/skin-library'
 import { Button } from '#/components/ui/button'
 import {

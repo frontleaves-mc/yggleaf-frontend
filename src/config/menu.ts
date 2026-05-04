@@ -160,7 +160,9 @@ export const adminMenuSections: MenuSection[] = [
 ]
 
 /** @deprecated 使用 adminMenuSections 替代 */
-export const adminMenuItems: MenuItem[] = adminMenuSections.flatMap((s) => s.items)
+export const adminMenuItems: MenuItem[] = adminMenuSections.flatMap(
+  (s) => s.items,
+)
 
 // ─── 用户端菜单配置 ───────────────────────────────────────
 
@@ -252,7 +254,9 @@ export const userMenuSections: MenuSection[] = [
 ]
 
 /** @deprecated 使用 userMenuSections 替代 */
-export const userMenuItems: MenuItem[] = userMenuSections.flatMap((s) => s.items)
+export const userMenuItems: MenuItem[] = userMenuSections.flatMap(
+  (s) => s.items,
+)
 
 // ─── 面包屑标签映射（路由路径 → 显示名称） ─────────────────
 

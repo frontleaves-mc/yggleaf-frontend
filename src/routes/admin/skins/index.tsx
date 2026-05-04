@@ -201,11 +201,13 @@ function SkinListPage() {
               </TSTableHeaderGroup>
             )}
           </TSTableHeader>
-          <TSTableBody emptyContent={
-            <p className="text-sm text-muted-foreground">
-              暂无皮肤数据，点击右上角新建
-            </p>
-          }>
+          <TSTableBody
+            emptyContent={
+              <p className="text-sm text-muted-foreground">
+                暂无皮肤数据，点击右上角新建
+              </p>
+            }
+          >
             {({ row }) => (
               <TSTableRow row={row}>
                 {({ cell }) => <TSTableCell cell={cell} />}

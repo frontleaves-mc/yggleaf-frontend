@@ -3,7 +3,12 @@
  * 编辑已有披风的属性信息
  */
 
-import { createFileRoute, Link, useParams, useNavigate  } from '@tanstack/react-router'
+import {
+  createFileRoute,
+  Link,
+  useParams,
+  useNavigate,
+} from '@tanstack/react-router'
 import {
   useCapeDetail,
   useUpdateCapeMutation,

@@ -3,7 +3,7 @@
  * 展示所有披风资源，支持查看、编辑、删除操作
  */
 
-import { createFileRoute, Link  } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import {
   useCapes,
   useDeleteCapeMutation,
@@ -200,11 +200,13 @@ function CapeListPage() {
               </TSTableHeaderGroup>
             )}
           </TSTableHeader>
-          <TSTableBody emptyContent={
-            <p className="text-sm text-muted-foreground">
-              暂无披风数据，点击右上角新建
-            </p>
-          }>
+          <TSTableBody
+            emptyContent={
+              <p className="text-sm text-muted-foreground">
+                暂无披风数据，点击右上角新建
+              </p>
+            }
+          >
             {({ row }) => (
               <TSTableRow row={row}>
                 {({ cell }) => <TSTableCell cell={cell} />}

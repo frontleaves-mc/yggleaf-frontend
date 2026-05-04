@@ -282,9 +282,11 @@ function AdminUserListPage() {
               </TSTableHeaderGroup>
             )}
           </TSTableHeader>
-          <TSTableBody emptyContent={
-            <p className="text-sm text-muted-foreground">暂无用户数据</p>
-          }>
+          <TSTableBody
+            emptyContent={
+              <p className="text-sm text-muted-foreground">暂无用户数据</p>
+            }
+          >
             {({ row }) => (
               <TSTableRow row={row}>
                 {({ cell }) => <TSTableCell cell={cell} />}

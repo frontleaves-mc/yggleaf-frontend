@@ -3,7 +3,12 @@
  * 编辑已有皮肤的属性信息
  */
 
-import { createFileRoute, Link, useParams, useNavigate  } from '@tanstack/react-router'
+import {
+  createFileRoute,
+  Link,
+  useParams,
+  useNavigate,
+} from '@tanstack/react-router'
 import {
   useSkinDetail,
   useUpdateSkinMutation,

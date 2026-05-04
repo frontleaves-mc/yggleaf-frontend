@@ -33,7 +33,8 @@ export async function ensureAuthenticated(): Promise<boolean> {
   }
 
   // 2. AT 缺失，检查 RT 是否存在
-  const refreshToken = authStore.state.refreshToken || getCookie(REFRESH_TOKEN_KEY)
+  const refreshToken =
+    authStore.state.refreshToken || getCookie(REFRESH_TOKEN_KEY)
   if (!refreshToken) {
     return false
   }

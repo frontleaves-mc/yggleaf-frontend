@@ -96,10 +96,8 @@ const TRANSITION_BUTTON_STYLE: Record<IssueStatus, string> = {
     'border-primary/25 text-primary hover:bg-primary/5 hover:border-primary/40',
   resolved:
     'border-green-200 text-green-700 hover:bg-green-50 hover:border-green-300 dark:border-green-800 dark:text-green-400 dark:hover:bg-green-950',
-  unplanned:
-    'border-muted text-muted-foreground hover:bg-muted/50',
-  closed:
-    'border-secondary text-secondary-foreground hover:bg-secondary/50',
+  unplanned: 'border-muted text-muted-foreground hover:bg-muted/50',
+  closed: 'border-secondary text-secondary-foreground hover:bg-secondary/50',
 }
 
 export function AdminIssueActions({ issue }: AdminIssueActionsProps) {

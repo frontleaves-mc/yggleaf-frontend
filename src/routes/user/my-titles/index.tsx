@@ -172,9 +172,7 @@ export default function MyTitlesPage() {
                       {/* 图标区域 */}
                       <div
                         className={`flex size-11 shrink-0 items-center justify-center rounded-lg ${
-                          equippedTitle
-                            ? 'ring-1'
-                            : 'bg-muted'
+                          equippedTitle ? 'ring-1' : 'bg-muted'
                         } ${eqColor ? '' : equippedTitle ? 'bg-primary/10 ring-primary/20' : ''}`}
                         style={
                           eqColor
@@ -207,7 +205,9 @@ export default function MyTitlesPage() {
                             <p
                               className="mt-0.5 truncate font-semibold"
                               style={eqColor ? { color: eqColor } : undefined}
-                              {...(!eqColor && { className: 'text-foreground' })}
+                              {...(!eqColor && {
+                                className: 'text-foreground',
+                              })}
                             >
                               {equippedTitle.name}
                             </p>
@@ -236,7 +236,10 @@ export default function MyTitlesPage() {
                         }}
                         disabled={unequipMutation.isPending}
                       >
-                        <ShieldOff data-icon="inline-start" className="size-4" />
+                        <ShieldOff
+                          data-icon="inline-start"
+                          className="size-4"
+                        />
                         卸下
                       </Button>
                     )}
@@ -344,11 +347,15 @@ function TitleCard({
             {/* 左侧类型强调条 */}
             <div
               className={`pointer-events-none absolute left-0 top-0 h-full w-1 ${
-                titleColor ? '' : `bg-gradient-to-b ${style.accentFrom} ${style.accentTo}`
+                titleColor
+                  ? ''
+                  : `bg-gradient-to-b ${style.accentFrom} ${style.accentTo}`
               }`}
               style={
                 titleColor
-                  ? { background: `linear-gradient(to bottom, ${titleColor}, ${titleColor}88)` }
+                  ? {
+                      background: `linear-gradient(to bottom, ${titleColor}, ${titleColor}88)`,
+                    }
                   : undefined
               }
             />
@@ -369,7 +376,9 @@ function TitleCard({
                     !titleColor ? style.iconBg : ''
                   }`}
                   style={
-                    titleColor ? { backgroundColor: `${titleColor}1A` } : undefined
+                    titleColor
+                      ? { backgroundColor: `${titleColor}1A` }
+                      : undefined
                   }
                 >
                   <TypeIcon
@@ -411,9 +420,7 @@ function TitleCard({
           </motion.div>
         </motion.div>
       </TooltipTrigger>
-      <TooltipContent side="bottom">
-        {title.description}
-      </TooltipContent>
+      <TooltipContent side="bottom">{title.description}</TooltipContent>
     </Tooltip>
   )
 }

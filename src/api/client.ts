@@ -9,8 +9,8 @@
  */
 
 import axios from 'axios'
-import type {AxiosInstance, InternalAxiosRequestConfig} from 'axios';
-import type { ApiResponse, OAuthTokenData  } from '#/api/types'
+import type { AxiosInstance, InternalAxiosRequestConfig } from 'axios'
+import type { ApiResponse, OAuthTokenData } from '#/api/types'
 import { ApiError } from '#/api/types'
 import type { QueryClient } from '@tanstack/react-query'
 import { authStore, clearAuth, updateTokens } from '#/stores/auth-store'

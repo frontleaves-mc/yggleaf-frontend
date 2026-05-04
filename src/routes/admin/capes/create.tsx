@@ -3,7 +3,7 @@
  * 表单创建新的披风资源
  */
 
-import { createFileRoute, Link, useNavigate  } from '@tanstack/react-router'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useCreateCapeMutation } from '#/api/endpoints/api-auth/cape-library'
 import { Button } from '#/components/ui/button'
 import {

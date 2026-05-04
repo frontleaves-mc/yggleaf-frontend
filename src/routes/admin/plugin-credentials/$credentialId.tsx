@@ -3,10 +3,24 @@
  * 展示脱敏信息 + 编辑描述 + 重置密钥
  */
 
-import { createFileRoute, Link, useParams, useNavigate } from '@tanstack/react-router'
+import {
+  createFileRoute,
+  Link,
+  useParams,
+  useNavigate,
+} from '@tanstack/react-router'
 import { useState } from 'react'
 import { motion } from 'motion/react'
-import { ArrowLeft, Pencil, Save, X, RefreshCw, KeyRound, Lock, ShieldAlert } from 'lucide-react'
+import {
+  ArrowLeft,
+  Pencil,
+  Save,
+  X,
+  RefreshCw,
+  KeyRound,
+  Lock,
+  ShieldAlert,
+} from 'lucide-react'
 import { Button } from '#/components/ui/button'
 import { Textarea } from '#/components/ui/textarea'
 import {
@@ -48,9 +62,11 @@ const fadeUpItem = {
 
 // ─── 路由注册 ──────────────────────────────────────────────
 
-export const Route = createFileRoute('/admin/plugin-credentials/$credentialId')({
-  component: CredentialDetailPage,
-})
+export const Route = createFileRoute('/admin/plugin-credentials/$credentialId')(
+  {
+    component: CredentialDetailPage,
+  },
+)
 
 function CredentialDetailPage() {
   const navigate = useNavigate()
@@ -62,7 +78,11 @@ function CredentialDetailPage() {
   }
 
   // ─── 数据查询 ────────────────────────────────────────
-  const { data: credential, isLoading, error } = usePluginCredentialDetail(credentialId!)
+  const {
+    data: credential,
+    isLoading,
+    error,
+  } = usePluginCredentialDetail(credentialId!)
   const updateMutation = useUpdatePluginCredentialMutation()
   const resetKeyMutation = useResetPluginCredentialKeyMutation()
 
@@ -162,14 +182,17 @@ function CredentialDetailPage() {
                       <KeyRound className="size-5 text-primary" />
                     </div>
                     <div>
-                      <CardTitle className="text-xl font-semibold tracking-tight">{credential.name}</CardTitle>
-                      <CardDescription>
-                        插件凭证详情与管理
-                      </CardDescription>
+                      <CardTitle className="text-xl font-semibold tracking-tight">
+                        {credential.name}
+                      </CardTitle>
+                      <CardDescription>插件凭证详情与管理</CardDescription>
                     </div>
                   </div>
                 </div>
-                <Badge variant="secondary" className="font-mono text-xs shrink-0 mt-1">
+                <Badge
+                  variant="secondary"
+                  className="font-mono text-xs shrink-0 mt-1"
+                >
                   {credential.id.slice(0, 8)}…
                 </Badge>
               </div>
@@ -180,11 +203,15 @@ function CredentialDetailPage() {
 
               {/* 描述（可编辑） */}
               <div className="flex items-start justify-between gap-3">
-                <span className="text-[13px] text-muted-foreground shrink-0 pt-1">描述</span>
+                <span className="text-[13px] text-muted-foreground shrink-0 pt-1">
+                  描述
+                </span>
                 <div className="flex-1 min-w-0">
                   {!isEditingDesc && (
                     <div className="flex items-center justify-between gap-2">
-                      <p className="text-[13px] font-medium">{credential.description || '-'}</p>
+                      <p className="text-[13px] font-medium">
+                        {credential.description || '-'}
+                      </p>
                       <Button
                         variant="ghost"
                         size="sm"
@@ -210,7 +237,9 @@ function CredentialDetailPage() {
                           size="sm"
                           className="h-7 text-xs gap-1"
                           onClick={handleSaveDesc}
-                          disabled={updateMutation.isPending || !editDesc.trim()}
+                          disabled={
+                            updateMutation.isPending || !editDesc.trim()
+                          }
                         >
                           <Save className="size-3" />
                           {updateMutation.isPending ? '保存中...' : '保存'}
@@ -243,7 +272,10 @@ function CredentialDetailPage() {
               </div>
 
               {/* 创建时间 */}
-              <InfoRow label="创建时间" value={new Date(credential.created_at).toLocaleString('zh-CN')} />
+              <InfoRow
+                label="创建时间"
+                value={new Date(credential.created_at).toLocaleString('zh-CN')}
+              />
             </CardContent>
           </Card>
 
@@ -297,21 +329,13 @@ function CredentialDetailPage() {
   )
 }
 
-function InfoRow({
-  label,
-  value,
-}: {
-  label: string
-  value: string
-}) {
+function InfoRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-start justify-between gap-3">
       <span className="text-[13px] text-muted-foreground shrink-0">
         {label}
       </span>
-      <span className="text-[13px] font-medium break-all">
-        {value}
-      </span>
+      <span className="text-[13px] font-medium break-all">{value}</span>
     </div>
   )
 }

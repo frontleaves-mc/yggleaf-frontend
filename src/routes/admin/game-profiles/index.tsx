@@ -149,11 +149,13 @@ function GameProfileListPage() {
                 </TSTableHeaderGroup>
               )}
             </TSTableHeader>
-            <TSTableBody emptyContent={
-              <p className="text-sm text-muted-foreground">
-                暂无游戏档案数据，完整列表接口开发中
-              </p>
-            }>
+            <TSTableBody
+              emptyContent={
+                <p className="text-sm text-muted-foreground">
+                  暂无游戏档案数据，完整列表接口开发中
+                </p>
+              }
+            >
               {({ row }) => (
                 <TSTableRow row={row}>
                   {({ cell }) => <TSTableCell cell={cell} />}

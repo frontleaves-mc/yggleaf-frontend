@@ -7,7 +7,7 @@
  * @see src/components/ui/page-transition.tsx 页面入场动画参考
  */
 
-import type {Transition} from 'motion/react';
+import type { Transition } from 'motion/react'
 
 // ─── 通用过渡配置 ──────────────────────────────────────
 

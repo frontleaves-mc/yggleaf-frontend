@@ -50,12 +50,8 @@ import {
   useRevokeTitleMutation,
 } from '#/api/endpoints/api-mc/admin-title'
 import { useUserInfo } from '#/api/endpoints/api-auth/user'
-import {
-  TitleType
-  
-  
-} from '#/api/types'
-import type {TitleResponse, AdminTitleListParams} from '#/api/types';
+import { TitleType } from '#/api/types'
+import type { TitleResponse, AdminTitleListParams } from '#/api/types'
 import { toast } from 'sonner'
 import { isSuperAdmin } from '#/lib/permissions'
 
@@ -333,7 +329,7 @@ function TitlesAdminPage() {
       ),
       cell: ({ row }) => (
         <span className="text-sm text-muted-foreground truncate max-w-[200px] block">
-          {(row.getValue('description')) || '-'}
+          {row.getValue('description') || '-'}
         </span>
       ),
     },
@@ -352,7 +348,7 @@ function TitlesAdminPage() {
       ),
       cell: ({ row }) => (
         <span className="text-sm text-muted-foreground">
-          {(row.getValue('permission_group')) || '-'}
+          {row.getValue('permission_group') || '-'}
         </span>
       ),
       size: 100,
@@ -457,14 +453,16 @@ function TitlesAdminPage() {
               </TSTableHeaderGroup>
             )}
           </TSTableHeader>
-          <TSTableBody emptyContent={
-            <>
-              <Tags className="mx-auto h-8 w-8 text-muted-foreground/30 mb-3" />
-              <p className="text-sm text-muted-foreground">
-                暂无称号，点击右上角新建
-              </p>
-            </>
-          }>
+          <TSTableBody
+            emptyContent={
+              <>
+                <Tags className="mx-auto h-8 w-8 text-muted-foreground/30 mb-3" />
+                <p className="text-sm text-muted-foreground">
+                  暂无称号，点击右上角新建
+                </p>
+              </>
+            }
+          >
             {({ row }) => (
               <TSTableRow row={row}>
                 {({ cell }) => <TSTableCell cell={cell} />}

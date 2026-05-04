@@ -29,9 +29,7 @@ export const PLAYER_EQUIPPED_TITLE_QUERY_KEY = [
 export async function getPlayerTitles(
   uuid: string,
 ): Promise<PlayerTitleResponse[]> {
-  return mcApiClient.get<PlayerTitleResponse[]>(
-    `/game-profiles/${uuid}/titles`,
-  )
+  return mcApiClient.get<PlayerTitleResponse[]>(`/game-profiles/${uuid}/titles`)
 }
 
 /** 装备称号（PUT 幂等，后端自动卸下旧的） */

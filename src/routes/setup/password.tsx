@@ -9,7 +9,7 @@
  *   - 只有 account_ready === 'game_password' 才允许在此页面停留
  */
 
-import { createFileRoute, useNavigate  } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
 import { Lock } from 'lucide-react'
 import { toast } from 'sonner'

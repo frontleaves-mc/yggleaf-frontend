@@ -80,7 +80,10 @@ function PluginCredentialsPage() {
   const [pageSize] = useState(15)
 
   // ─── 数据查询 ────────────────────────────────────────
-  const { data, isLoading } = usePluginCredentialList({ page, page_size: pageSize })
+  const { data, isLoading } = usePluginCredentialList({
+    page,
+    page_size: pageSize,
+  })
   const createMutation = useCreatePluginCredentialMutation()
   const deleteMutation = useDeletePluginCredentialMutation()
 
@@ -89,7 +92,8 @@ function PluginCredentialsPage() {
   const [isKeyRevealDialogOpen, setIsKeyRevealDialogOpen] = useState(false)
   const [revealedKey, setRevealedKey] = useState('')
   const [revealedCredentialName, setRevealedCredentialName] = useState('')
-  const [deleteTarget, setDeleteTarget] = useState<PluginCredentialResponse | null>(null)
+  const [deleteTarget, setDeleteTarget] =
+    useState<PluginCredentialResponse | null>(null)
 
   // ─── 创建表单状态 ────────────────────────────────────
   const [formName, setFormName] = useState('')
@@ -208,9 +212,16 @@ function PluginCredentialsPage() {
               {date.toLocaleDateString('zh-CN')}
             </span>
             <span className="text-[11px] text-muted-foreground">
-              {diffDays === 0 ? '今天' : diffDays === 1 ? '昨天' : `${diffDays} 天前`}
+              {diffDays === 0
+                ? '今天'
+                : diffDays === 1
+                  ? '昨天'
+                  : `${diffDays} 天前`}
               {' · '}
-              {date.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}
+              {date.toLocaleTimeString('zh-CN', {
+                hour: '2-digit',
+                minute: '2-digit',
+              })}
             </span>
           </div>
         )
@@ -223,8 +234,16 @@ function PluginCredentialsPage() {
         const credential = row.original
         return (
           <div className="flex items-center gap-1">
-            <Button variant="ghost" size="sm" className="h-8 px-2.5 text-xs rounded-md hover:bg-muted transition-colors" asChild>
-              <Link to="/admin/plugin-credentials/$credentialId" params={{ credentialId: credential.id }}>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 px-2.5 text-xs rounded-md hover:bg-muted transition-colors"
+              asChild
+            >
+              <Link
+                to="/admin/plugin-credentials/$credentialId"
+                params={{ credentialId: credential.id }}
+              >
                 <Eye data-icon="inline-start" className="size-3.5" />
                 详情
               </Link>
@@ -259,7 +278,10 @@ function PluginCredentialsPage() {
           title="插件凭证"
           description="管理 API 插件凭证，查看、创建或删除凭证密钥"
         >
-          <Button onClick={openCreate} className="gap-1.5 text-sm bg-gradient-to-r from-primary to-primary text-white hover:opacity-90">
+          <Button
+            onClick={openCreate}
+            className="gap-1.5 text-sm bg-gradient-to-r from-primary to-primary text-white hover:opacity-90"
+          >
             <Plus className="size-4" />
             创建凭证
           </Button>
@@ -278,17 +300,23 @@ function PluginCredentialsPage() {
               </TSTableHeaderGroup>
             )}
           </TSTableHeader>
-          <TSTableBody emptyContent={
-            <div className="flex flex-col items-center gap-3 py-8">
-              <div className="flex size-14 items-center justify-center rounded-2xl bg-primary/5 border border-primary/10">
-                <KeyRound className="size-7 text-primary/40" />
+          <TSTableBody
+            emptyContent={
+              <div className="flex flex-col items-center gap-3 py-8">
+                <div className="flex size-14 items-center justify-center rounded-2xl bg-primary/5 border border-primary/10">
+                  <KeyRound className="size-7 text-primary/40" />
+                </div>
+                <div className="text-center space-y-1">
+                  <p className="text-sm font-medium text-muted-foreground">
+                    暂无插件凭证
+                  </p>
+                  <p className="text-xs text-muted-foreground/70">
+                    点击右上角「创建凭证」开始
+                  </p>
+                </div>
               </div>
-              <div className="text-center space-y-1">
-                <p className="text-sm font-medium text-muted-foreground">暂无插件凭证</p>
-                <p className="text-xs text-muted-foreground/70">点击右上角「创建凭证」开始</p>
-              </div>
-            </div>
-          }>
+            }
+          >
             {({ row }) => (
               <TSTableRow row={row}>
                 {({ cell }) => <TSTableCell cell={cell} />}
@@ -380,9 +408,7 @@ function PluginCredentialsPage() {
             <Button
               onClick={handleCreate}
               disabled={
-                createMutation.isPending ||
-                !formName.trim() ||
-                !formDesc.trim()
+                createMutation.isPending || !formName.trim() || !formDesc.trim()
               }
             >
               {createMutation.isPending ? '创建中...' : '创建'}

@@ -192,7 +192,7 @@ function IssueTypesPage() {
       ),
       cell: ({ row }) => (
         <span className="text-sm text-muted-foreground truncate max-w-[200px] block">
-          {(row.getValue('description')) || '-'}
+          {row.getValue('description') || '-'}
         </span>
       ),
     },
@@ -292,14 +292,16 @@ function IssueTypesPage() {
               </TSTableHeaderGroup>
             )}
           </TSTableHeader>
-          <TSTableBody emptyContent={
-            <>
-              <Tags className="mx-auto h-8 w-8 text-muted-foreground/30 mb-3" />
-              <p className="text-sm text-muted-foreground">
-                暂无问题类型，点击右上角新建
-              </p>
-            </>
-          }>
+          <TSTableBody
+            emptyContent={
+              <>
+                <Tags className="mx-auto h-8 w-8 text-muted-foreground/30 mb-3" />
+                <p className="text-sm text-muted-foreground">
+                  暂无问题类型，点击右上角新建
+                </p>
+              </>
+            }
+          >
             {({ row }) => (
               <TSTableRow row={row}>
                 {({ cell }) => <TSTableCell cell={cell} />}

@@ -33,7 +33,9 @@ export function ServerStatusBar({
       <div className="flex items-center gap-6">
         <div className="h-4 w-16 animate-pulse rounded bg-muted-foreground/10" />
         <div className="h-4 w-12 animate-pulse rounded bg-muted-foreground/10" />
-        {showTps && <div className="h-4 w-10 animate-pulse rounded bg-muted-foreground/10" />}
+        {showTps && (
+          <div className="h-4 w-10 animate-pulse rounded bg-muted-foreground/10" />
+        )}
       </div>
     )
   }
@@ -62,10 +64,7 @@ export function ServerStatusBar({
         )}
       </StatusItem>
 
-      <StatusItem
-        label="PLAYERS"
-        value={`${server.online_players} 在线`}
-      >
+      <StatusItem label="PLAYERS" value={`${server.online_players} 在线`}>
         {server.online_players > 0 && (
           <span className="mr-1.5 inline-block size-1.5 rounded-full bg-primary/60" />
         )}
@@ -108,7 +107,9 @@ function StatusItem({
       <span className="text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground/35">
         {label}
       </span>
-      <span className={`flex items-center text-[13px] font-semibold tabular-nums ${valueClassName ?? 'text-foreground/80'}`}>
+      <span
+        className={`flex items-center text-[13px] font-semibold tabular-nums ${valueClassName ?? 'text-foreground/80'}`}
+      >
         {children}
         {value}
       </span>
