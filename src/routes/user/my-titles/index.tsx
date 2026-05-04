@@ -2,37 +2,95 @@
  * 用户端 - 我的称号页
  *
  * 展示玩家拥有的称号卡片网格，支持装备/卸下操作
+ * 采用自定义卡片设计，无 shadcn Card 组件，避免多余间距注入
+ * 使用 UserPageLayout 统一页面布局结构
  */
 
 import { createFileRoute } from '@tanstack/react-router'
-import { motion } from 'motion/react'
 import {
-  staggerContainer,
-  fadeUpItem,
-  cardHoverVariants,
-  hoverLiftTransition,
-} from '#/lib/motion-presets'
+  Award,
+  Crown,
+  Gamepad2,
+  Gem,
+  Shield,
+  ShieldOff,
+  Sparkles,
+} from 'lucide-react'
+import { motion } from 'motion/react'
+import { toast } from 'sonner'
+import {
+  useEquippedTitle,
+  useEquipTitleMutation,
+  usePlayerTitles,
+  useUnequipTitleMutation,
+} from '#/api/endpoints/api-mc/player-title'
+import type { PlayerTitleResponse } from '#/api/types'
+import { TitleType } from '#/api/types'
 import { GameProfileSelector } from '#/components/public/game-profile-selector'
-import { PageHeader } from '#/components/public/page-header'
 import { LoadingPage } from '#/components/public/loading-page'
-import { Card, CardContent } from '#/components/ui/card'
+import { UserPageLayout } from '#/components/public/user-page-layout'
 import { Badge } from '#/components/ui/badge'
 import { Button } from '#/components/ui/button'
-import { Gamepad2, Award, ShieldOff } from 'lucide-react'
-import { toast } from 'sonner'
 import { useGameProfileStore } from '#/hooks/use-game-profile-store'
 import {
-  usePlayerTitles,
-  useEquipTitleMutation,
-  useUnequipTitleMutation,
-  useEquippedTitle,
-} from '#/api/endpoints/api-mc/player-title'
-import { TitleType } from '#/api/types'
-import type { PlayerTitleResponse } from '#/api/types'
+  cardHoverVariants,
+  fadeUpItem,
+  hoverLiftTransition,
+  staggerContainer,
+} from '#/lib/motion-presets'
 
 export const Route = createFileRoute('/user/my-titles/')({
   component: MyTitlesPage,
 })
+
+// ─── 称号类型视觉配置 ─────────────────────────────────────
+
+/** 各称号类型的视觉风格映射 */
+const TITLE_TYPE_STYLES: Record<
+  number,
+  {
+    label: string
+    badgeVariant: 'secondary' | 'default' | 'outline'
+    accentFrom: string
+    accentTo: string
+    iconBg: string
+    iconColor: string
+    glowColor: string
+    bgGradient: string
+  }
+> = {
+  [TitleType.General]: {
+    label: '通用',
+    badgeVariant: 'secondary',
+    accentFrom: 'from-zinc-400',
+    accentTo: 'to-zinc-500',
+    iconBg: 'bg-zinc-100 dark:bg-zinc-800/60',
+    iconColor: 'text-zinc-500',
+    glowColor: 'shadow-zinc-200/50 dark:shadow-zinc-800/30',
+    bgGradient: '',
+  },
+  [TitleType.Group]: {
+    label: '权限组',
+    badgeVariant: 'default',
+    accentFrom: 'from-indigo-500',
+    accentTo: 'to-blue-500',
+    iconBg: 'bg-indigo-100 dark:bg-indigo-900/40',
+    iconColor: 'text-indigo-500',
+    glowColor: 'shadow-indigo-200/50 dark:shadow-indigo-900/30',
+    bgGradient: '',
+  },
+  [TitleType.Exclusive]: {
+    label: '专属',
+    badgeVariant: 'outline',
+    accentFrom: 'from-amber-400',
+    accentTo: 'to-orange-500',
+    iconBg: 'bg-amber-100 dark:bg-amber-900/40',
+    iconColor: 'text-amber-500',
+    glowColor: 'shadow-amber-200/50 dark:shadow-amber-900/30',
+    bgGradient:
+      'bg-gradient-to-br from-amber-500/[0.03] via-transparent to-orange-500/[0.03]',
+  },
+}
 
 // ─── 页面组件 ─────────────────────────────────────────────
 
@@ -49,65 +107,80 @@ export default function MyTitlesPage() {
   const isLoading = titlesLoading || equippedLoading
 
   return (
-    <motion.div
-      className="space-y-6"
-      variants={staggerContainer}
-      initial="initial"
-      animate="animate"
+    <UserPageLayout
+      title="我的称号"
+      description="管理你的游戏称号，装备独特的称号来彰显个性"
+      actions={<GameProfileSelector />}
     >
-      {/* 页面标题 */}
-      <motion.div variants={fadeUpItem}>
-        <PageHeader
-          title="我的称号"
-          description="管理你的游戏称号，装备独特的称号来彰显个性"
-        />
-      </motion.div>
-
-      {/* 游戏档案选择器 */}
-      <motion.div variants={fadeUpItem}>
-        <GameProfileSelector />
-      </motion.div>
-
       {/* 内容区域 — 依状态分支渲染 */}
       {!uuid ? (
         <motion.div variants={fadeUpItem}>
-          <Card className="border-dashed">
-            <CardContent className="flex flex-col items-center justify-center py-12 text-center">
-              <Gamepad2 className="h-10 w-10 text-muted-foreground mb-3" />
-              <p className="text-sm text-muted-foreground">请先选择游戏档案</p>
-            </CardContent>
-          </Card>
+          <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border py-12 text-center">
+            <Gamepad2 className="mb-3 size-10 text-muted-foreground" />
+            <p className="text-sm text-muted-foreground">请先选择游戏档案</p>
+          </div>
         </motion.div>
       ) : isLoading ? (
         <LoadingPage />
       ) : (
         <>
-          {/* 当前装备的称号 */}
+          {/* 当前装备的称号 — 横幅式展示 */}
           <motion.div variants={fadeUpItem}>
-            <Card
-              className={equippedTitle ? 'border-primary/50 bg-primary/5' : ''}
+            <div
+              className={`relative overflow-hidden rounded-xl border p-5 transition-colors ${
+                equippedTitle
+                  ? 'border-primary/30 bg-gradient-to-r from-primary/[0.04] via-primary/[0.02] to-transparent'
+                  : 'border-dashed border-border bg-muted/30'
+              }`}
             >
-              <CardContent className="flex items-center justify-between p-4">
-                <div className="flex items-center gap-3">
-                  <Award className="h-5 w-5 text-primary" />
-                  <div>
-                    <p className="text-xs text-muted-foreground">当前装备</p>
+              {/* 装备状态下的装饰光晕 */}
+              {equippedTitle && (
+                <>
+                  <div className="pointer-events-none absolute -top-6 -right-6 size-24 rounded-full bg-primary/10 blur-2xl" />
+                  <div className="pointer-events-none absolute -bottom-4 -left-4 size-16 rounded-full bg-primary/8 blur-xl" />
+                </>
+              )}
+
+              <div className="relative flex items-center justify-between gap-4">
+                <div className="flex items-center gap-3.5">
+                  {/* 图标区域 */}
+                  <div
+                    className={`flex size-11 shrink-0 items-center justify-center rounded-lg ${
+                      equippedTitle
+                        ? 'bg-primary/10 ring-1 ring-primary/20'
+                        : 'bg-muted'
+                    }`}
+                  >
+                    {equippedTitle ? (
+                      <Crown className="size-5 text-primary" />
+                    ) : (
+                      <Award className="size-5 text-muted-foreground/60" />
+                    )}
+                  </div>
+
+                  {/* 文字信息 */}
+                  <div className="min-w-0">
+                    <p className="text-xs font-medium text-muted-foreground">
+                      当前装备
+                    </p>
                     {equippedTitle ? (
                       <>
-                        <p className="font-semibold text-foreground">
+                        <p className="mt-0.5 truncate font-semibold text-foreground">
                           {equippedTitle.name}
                         </p>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="mt-0.5 truncate text-xs text-muted-foreground">
                           {equippedTitle.description}
                         </p>
                       </>
                     ) : (
-                      <p className="text-sm text-muted-foreground">
+                      <p className="mt-0.5 text-sm text-muted-foreground">
                         未装备称号
                       </p>
                     )}
                   </div>
                 </div>
+
+                {/* 卸下按钮 */}
                 {equippedTitle && (
                   <Button
                     variant="outline"
@@ -120,18 +193,18 @@ export default function MyTitlesPage() {
                     }}
                     disabled={unequipMutation.isPending}
                   >
-                    <ShieldOff className="h-4 w-4 mr-1" />
+                    <ShieldOff data-icon="inline-start" className="size-4" />
                     卸下
                   </Button>
                 )}
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </motion.div>
 
           {/* 称号卡片网格 */}
           {titles && titles.length > 0 ? (
             <motion.div
-              className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4"
+              className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4"
               variants={staggerContainer}
             >
               {titles.map((title) => (
@@ -155,17 +228,15 @@ export default function MyTitlesPage() {
             </motion.div>
           ) : (
             <motion.div variants={fadeUpItem}>
-              <Card className="border-dashed">
-                <CardContent className="flex flex-col items-center justify-center py-12 text-center">
-                  <Award className="h-10 w-10 text-muted-foreground mb-3" />
-                  <p className="text-sm text-muted-foreground">暂无称号</p>
-                </CardContent>
-              </Card>
+              <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border py-12 text-center">
+                <Award className="mb-3 size-10 text-muted-foreground" />
+                <p className="text-sm text-muted-foreground">暂无称号</p>
+              </div>
             </motion.div>
           )}
         </>
       )}
-    </motion.div>
+    </UserPageLayout>
   )
 }
 
@@ -182,18 +253,17 @@ function TitleCard({
   onEquip: () => void
   isPending: boolean
 }) {
-  const typeLabel = (() => {
-    switch (title.type) {
-      case TitleType.General:
-        return '通用'
-      case TitleType.Group:
-        return '权限组'
-      case TitleType.Exclusive:
-        return '专属'
-      default:
-        return '未知'
-    }
-  })()
+  // 获取当前类型对应的视觉配置（兜底使用 General 样式）
+  const style =
+    TITLE_TYPE_STYLES[title.type] ?? TITLE_TYPE_STYLES[TitleType.General]
+
+  // 根据类型选择图标
+  const TypeIcon =
+    title.type === TitleType.Exclusive
+      ? Gem
+      : title.type === TitleType.Group
+        ? Shield
+        : Award
 
   return (
     <motion.div variants={fadeUpItem}>
@@ -202,38 +272,73 @@ function TitleCard({
         transition={hoverLiftTransition}
         initial="rest"
         whileHover="hover"
+        className={`group relative overflow-hidden rounded-lg border bg-card transition-shadow ${
+          isEquipped
+            ? `border-primary/40 shadow-md ${style.glowColor} ring-1 ring-primary/10`
+            : 'border-border shadow-sm hover:shadow-md'
+        } ${style.bgGradient}`}
       >
-        <Card className={isEquipped ? 'border-primary shadow-sm' : ''}>
-          <CardContent className="p-4 space-y-2">
-            <div className="flex items-center justify-between">
-              <h3 className="font-semibold text-sm truncate">{title.name}</h3>
-              {isEquipped && (
-                <Badge variant="default" className="text-xs shrink-0">
-                  已装备
-                </Badge>
-              )}
+        {/* 左侧类型强调条 */}
+        <div
+          className={`pointer-events-none absolute left-0 top-0 h-full w-1 bg-gradient-to-b ${style.accentFrom} ${style.accentTo}`}
+        />
+
+        {/* 已装备状态 — 角标皇冠 */}
+        {isEquipped && (
+          <div className="absolute right-2 top-2 flex size-5 items-center justify-center rounded-full bg-primary text-background shadow-sm">
+            <Crown className="size-3" />
+          </div>
+        )}
+
+        {/* 卡片主体内容 */}
+        <div className="flex flex-col gap-2.5 p-3.5 pt-3">
+          {/* 头部：图标 + 名称 */}
+          <div className="flex items-start gap-2.5">
+            <div
+              className={`flex size-9 shrink-0 items-center justify-center rounded-md ${style.iconBg} transition-transform duration-200 group-hover:scale-110`}
+            >
+              <TypeIcon className={`size-4 ${style.iconColor}`} />
             </div>
-            <p className="text-xs text-muted-foreground line-clamp-2">
-              {title.description}
-            </p>
-            <div className="flex items-center justify-between pt-1">
-              <Badge variant="secondary" className="text-xs">
-                {typeLabel}
-              </Badge>
-              {!isEquipped && (
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={onEquip}
-                  disabled={isPending}
-                  className="h-7 text-xs"
-                >
-                  装备
-                </Button>
-              )}
+            <div className="min-w-0 flex-1 pt-0.5">
+              <h3 className="truncate text-sm font-semibold leading-tight text-foreground">
+                {title.name}
+              </h3>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+
+          {/* 描述文字 */}
+          <p className="line-clamp-2 text-xs leading-relaxed text-muted-foreground">
+            {title.description}
+          </p>
+
+          {/* 底部：类型标签 + 操作按钮 */}
+          <div className="flex items-center justify-between gap-2 pt-0.5">
+            <Badge variant={style.badgeVariant} className="text-[10px]">
+              {title.type === TitleType.Exclusive && (
+                <Sparkles data-icon="inline-start" className="mr-1 size-3" />
+              )}
+              {style.label}
+            </Badge>
+
+            {!isEquipped && (
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={onEquip}
+                disabled={isPending}
+                className="h-7 gap-1 px-2.5 text-xs"
+              >
+                装备
+              </Button>
+            )}
+
+            {isEquipped && (
+              <span className="text-[10px] font-medium text-primary">
+                使用中
+              </span>
+            )}
+          </div>
+        </div>
       </motion.div>
     </motion.div>
   )
