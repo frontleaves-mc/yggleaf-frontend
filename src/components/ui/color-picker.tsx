@@ -1,5 +1,3 @@
-import 'react-colorful/dist/index.css'
-
 import { HexColorPicker } from 'react-colorful'
 
 import { Input } from '#/components/ui/input'

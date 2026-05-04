@@ -11,6 +11,7 @@ import { Button } from '#/components/ui/button'
 import { Input } from '#/components/ui/input'
 import { Badge } from '#/components/ui/badge'
 import { Label } from '#/components/ui/label'
+import { ColorPicker } from '#/components/ui/color-picker'
 import {
   Select,
   SelectContent,
@@ -141,12 +142,14 @@ function TitlesAdminPage() {
   const [formDesc, setFormDesc] = useState('')
   const [formType, setFormType] = useState<string>(String(TitleType.General))
   const [formPermGroup, setFormPermGroup] = useState('')
+  const [formColor, setFormColor] = useState('#000000')
   const [formIsActive, setFormIsActive] = useState(true)
   const [formPlayerUuid, setFormPlayerUuid] = useState('')
 
   const resetForm = () => {
     setFormName('')
     setFormDesc('')
+    setFormColor('#000000')
     setFormType(String(TitleType.General))
     setFormPermGroup('')
     setFormIsActive(true)
@@ -164,6 +167,7 @@ function TitlesAdminPage() {
   const openEdit = (title: TitleResponse) => {
     setFormName(title.name)
     setFormDesc(title.description)
+    setFormColor(title.color ?? '#000000')
     setFormType(String(title.type))
     setFormPermGroup(title.permission_group ?? '')
     setFormIsActive(title.is_active)
@@ -174,10 +178,15 @@ function TitlesAdminPage() {
 
   const handleCreate = async () => {
     if (!formName.trim()) return
+    if (!/^#[0-9A-Fa-f]{6}$/.test(formColor)) {
+      toast.error('颜色格式无效，请选择有效的十六进制颜色')
+      return
+    }
     try {
       await createMutation.mutateAsync({
         name: formName.trim(),
         description: formDesc.trim(),
+        color: formColor,
         type: Number(formType) as TitleType,
         permission_group: formPermGroup.trim() || undefined,
       })
@@ -191,12 +200,17 @@ function TitlesAdminPage() {
 
   const handleUpdate = async () => {
     if (!editTarget || !formName.trim()) return
+    if (!/^#[0-9A-Fa-f]{6}$/.test(formColor)) {
+      toast.error('颜色格式无效，请选择有效的十六进制颜色')
+      return
+    }
     try {
       await updateMutation.mutateAsync({
         id: editTarget.id,
         data: {
           name: formName.trim(),
           description: formDesc.trim(),
+          color: formColor,
           type: Number(formType) as TitleType,
           permission_group: formPermGroup.trim() || undefined,
           is_active: formIsActive,
@@ -228,6 +242,7 @@ function TitlesAdminPage() {
         data: {
           name: title.name,
           description: title.description,
+          color: title.color,
           type: title.type,
           permission_group: title.permission_group || undefined,
           is_active: !title.is_active,
@@ -297,6 +312,19 @@ function TitlesAdminPage() {
       cell: ({ row }) => (
         <span className="font-medium text-sm">{row.getValue('name')}</span>
       ),
+    },
+    {
+      accessorKey: 'color',
+      header: ({ column }) => (
+        <TableColumnHeader column={column} title="颜色" />
+      ),
+      cell: ({ row }) => (
+        <div
+          className="size-6 rounded-full border"
+          style={{ backgroundColor: row.original.color }}
+        />
+      ),
+      size: 64,
     },
     {
       accessorKey: 'description',
@@ -514,6 +542,10 @@ function TitlesAdminPage() {
                 placeholder="称号描述"
                 maxLength={255}
               />
+            </div>
+            <div className="space-y-2">
+              <Label>颜色</Label>
+              <ColorPicker value={formColor} onChange={setFormColor} />
             </div>
             <div className="space-y-2">
               <Label htmlFor="title-type">类型 *</Label>

@@ -97,6 +97,13 @@ const TITLE_TYPE_STYLES: Record<
   },
 }
 
+// ─── 颜色辅助函数 ──────────────────────────────────────────
+
+/** 从称号对象中提取自定义颜色，无 color 时返回 null */
+function getTitleColor(title: { color?: string }): string | null {
+  return title.color ?? null
+}
+
 // ─── 页面组件 ─────────────────────────────────────────────
 
 export default function MyTitlesPage() {
@@ -131,79 +138,110 @@ export default function MyTitlesPage() {
         <>
           {/* 当前装备的称号 — 横幅式展示 */}
           <motion.div variants={fadeUpItem}>
-            <div
-              className={`relative overflow-hidden rounded-xl border p-5 transition-colors ${
-                equippedTitle
-                  ? 'border-primary/30 bg-gradient-to-r from-primary/[0.04] via-primary/[0.02] to-transparent'
-                  : 'border-dashed border-border bg-muted/30'
-              }`}
-            >
-              {/* 装备状态下的装饰光晕 */}
-              {equippedTitle && (
-                <>
-                  <div className="pointer-events-none absolute -top-6 -right-6 size-24 rounded-full bg-primary/10 blur-2xl" />
-                  <div className="pointer-events-none absolute -bottom-4 -left-4 size-16 rounded-full bg-primary/8 blur-xl" />
-                </>
-              )}
+            {(() => {
+              const eqColor = getTitleColor(equippedTitle ?? {})
+              return (
+                <div
+                  className={`relative overflow-hidden rounded-xl border p-5 transition-colors ${
+                    !eqColor && !equippedTitle
+                      ? 'border-dashed border-border bg-muted/30'
+                      : ''
+                  }`}
+                  style={
+                    eqColor
+                      ? {
+                          borderColor: eqColor,
+                          background: `linear-gradient(to right, ${eqColor}0D, transparent)`,
+                          boxShadow: `0 0 20px ${eqColor}33`,
+                        }
+                      : undefined
+                  }
+                >
+                  {/* 装备状态下的装饰光晕 */}
+                  {equippedTitle && !eqColor && (
+                    <>
+                      <div className="pointer-events-none absolute -top-6 -right-6 size-24 rounded-full bg-primary/10 blur-2xl" />
+                      <div className="pointer-events-none absolute -bottom-4 -left-4 size-16 rounded-full bg-primary/8 blur-xl" />
+                    </>
+                  )}
 
-              <div className="relative flex items-center justify-between gap-4">
-                <div className="flex items-center gap-3.5">
-                  {/* 图标区域 */}
-                  <div
-                    className={`flex size-11 shrink-0 items-center justify-center rounded-lg ${
-                      equippedTitle
-                        ? 'bg-primary/10 ring-1 ring-primary/20'
-                        : 'bg-muted'
-                    }`}
-                  >
-                    {equippedTitle ? (
-                      <Crown className="size-5 text-primary" />
-                    ) : (
-                      <Award className="size-5 text-muted-foreground/60" />
-                    )}
-                  </div>
+                  <div className="relative flex items-center justify-between gap-4">
+                    <div className="flex items-center gap-3.5">
+                      {/* 图标区域 */}
+                      <div
+                        className={`flex size-11 shrink-0 items-center justify-center rounded-lg ${
+                          equippedTitle
+                            ? 'ring-1'
+                            : 'bg-muted'
+                        } ${eqColor ? '' : equippedTitle ? 'bg-primary/10 ring-primary/20' : ''}`}
+                        style={
+                          eqColor
+                            ? {
+                                backgroundColor: `${eqColor}1A`,
+                                ...(equippedTitle && {
+                                  boxShadow: `inset 0 0 0 1px ${eqColor}33`,
+                                }),
+                              }
+                            : undefined
+                        }
+                      >
+                        {equippedTitle ? (
+                          <Crown
+                            className={`size-5 ${!eqColor ? 'text-primary' : ''}`}
+                            style={eqColor ? { color: eqColor } : undefined}
+                          />
+                        ) : (
+                          <Award className="size-5 text-muted-foreground/60" />
+                        )}
+                      </div>
 
-                  {/* 文字信息 */}
-                  <div className="min-w-0">
-                    <p className="text-xs font-medium text-muted-foreground">
-                      当前装备
-                    </p>
-                    {equippedTitle ? (
-                      <>
-                        <p className="mt-0.5 truncate font-semibold text-foreground">
-                          {equippedTitle.name}
+                      {/* 文字信息 */}
+                      <div className="min-w-0">
+                        <p className="text-xs font-medium text-muted-foreground">
+                          当前装备
                         </p>
-                        <p className="mt-0.5 truncate text-xs text-muted-foreground">
-                          {equippedTitle.description}
-                        </p>
-                      </>
-                    ) : (
-                      <p className="mt-0.5 text-sm text-muted-foreground">
-                        未装备称号
-                      </p>
+                        {equippedTitle ? (
+                          <>
+                            <p
+                              className="mt-0.5 truncate font-semibold"
+                              style={eqColor ? { color: eqColor } : undefined}
+                              {...(!eqColor && { className: 'text-foreground' })}
+                            >
+                              {equippedTitle.name}
+                            </p>
+                            <p className="mt-0.5 truncate text-xs text-muted-foreground">
+                              {equippedTitle.description}
+                            </p>
+                          </>
+                        ) : (
+                          <p className="mt-0.5 text-sm text-muted-foreground">
+                            未装备称号
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* 卸下按钮 */}
+                    {equippedTitle && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          unequipMutation.mutate(undefined, {
+                            onSuccess: () => toast.success('称号已卸下'),
+                            onError: () => toast.error('卸下失败，请重试'),
+                          })
+                        }}
+                        disabled={unequipMutation.isPending}
+                      >
+                        <ShieldOff data-icon="inline-start" className="size-4" />
+                        卸下
+                      </Button>
                     )}
                   </div>
                 </div>
-
-                {/* 卸下按钮 */}
-                {equippedTitle && (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => {
-                      unequipMutation.mutate(undefined, {
-                        onSuccess: () => toast.success('称号已卸下'),
-                        onError: () => toast.error('卸下失败，请重试'),
-                      })
-                    }}
-                    disabled={unequipMutation.isPending}
-                  >
-                    <ShieldOff data-icon="inline-start" className="size-4" />
-                    卸下
-                  </Button>
-                )}
-              </div>
-            </div>
+              )
+            })()}
           </motion.div>
 
           {/* 称号卡片网格 */}
@@ -262,6 +300,8 @@ function TitleCard({
   const style =
     TITLE_TYPE_STYLES[title.type] ?? TITLE_TYPE_STYLES[TitleType.General]
 
+  const titleColor = getTitleColor(title)
+
   // 根据类型选择图标
   const TypeIcon =
     title.type === TitleType.Exclusive
@@ -281,14 +321,34 @@ function TitleCard({
             whileHover={isEquipped ? undefined : 'hover'}
             onClick={isEquipped || isPending ? undefined : onEquip}
             className={`group relative overflow-hidden rounded-lg border bg-card transition-shadow ${
-              isEquipped
+              isEquipped && !titleColor
                 ? `border-primary/40 shadow-md ${style.glowColor} ring-1 ring-primary/10`
-                : 'cursor-pointer border-border shadow-sm hover:shadow-md'
-            } ${style.bgGradient}`}
+                : !isEquipped
+                  ? 'cursor-pointer border-border shadow-sm hover:shadow-md'
+                  : ''
+            } ${!titleColor ? style.bgGradient : ''}`}
+            style={
+              titleColor
+                ? {
+                    borderColor: `${titleColor}66`,
+                    boxShadow: isEquipped
+                      ? `0 0 12px ${titleColor}22, inset 0 0 0 1px ${titleColor}22`
+                      : undefined,
+                    background: `linear-gradient(to br, ${titleColor}08, transparent, ${titleColor}08)`,
+                  }
+                : undefined
+            }
           >
             {/* 左侧类型强调条 */}
             <div
-              className={`pointer-events-none absolute left-0 top-0 h-full w-1 bg-gradient-to-b ${style.accentFrom} ${style.accentTo}`}
+              className={`pointer-events-none absolute left-0 top-0 h-full w-1 ${
+                titleColor ? '' : `bg-gradient-to-b ${style.accentFrom} ${style.accentTo}`
+              }`}
+              style={
+                titleColor
+                  ? { background: `linear-gradient(to bottom, ${titleColor}, ${titleColor}88)` }
+                  : undefined
+              }
             />
 
             {/* 已装备状态 — 角标皇冠 */}
@@ -303,12 +363,25 @@ function TitleCard({
               {/* 头部：图标 + 名称 */}
               <div className="flex items-center gap-2.5">
                 <div
-                  className={`flex size-9 shrink-0 items-center justify-center rounded-md ${style.iconBg} transition-transform duration-200 group-hover:scale-110`}
+                  className={`flex size-9 shrink-0 items-center justify-center rounded-md transition-transform duration-200 group-hover:scale-110 ${
+                    !titleColor ? style.iconBg : ''
+                  }`}
+                  style={
+                    titleColor ? { backgroundColor: `${titleColor}1A` } : undefined
+                  }
                 >
-                  <TypeIcon className={`size-4 ${style.iconColor}`} />
+                  <TypeIcon
+                    className={`size-4 ${!titleColor ? style.iconColor : ''}`}
+                    style={titleColor ? { color: titleColor } : undefined}
+                  />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h3 className="truncate text-sm font-semibold leading-tight text-foreground">
+                  <h3
+                    className={`truncate text-sm font-semibold leading-tight ${
+                      !titleColor ? 'text-foreground' : ''
+                    }`}
+                    style={titleColor ? { color: titleColor } : undefined}
+                  >
                     {title.name}
                   </h3>
                 </div>
