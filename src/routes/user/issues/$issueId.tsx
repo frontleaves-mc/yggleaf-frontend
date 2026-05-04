@@ -8,6 +8,7 @@ import { createFileRoute, Link, useParams } from '@tanstack/react-router'
 import { LoadingPage } from '#/components/public/loading-page'
 import { IssueStatusBadge } from '#/components/issue/issue-status-badge'
 import { IssuePriorityBadge } from '#/components/issue/issue-priority-badge'
+import { MarkdownRenderer } from '#/components/ui/markdown-renderer'
 import { IssueAttachmentList } from '#/components/issue/issue-attachment-list'
 import { IssueReplyList } from '#/components/issue/issue-reply-list'
 import { IssueReplyForm } from '#/components/issue/issue-reply-form'
@@ -109,9 +110,7 @@ function UserIssueDetailPage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-sm leading-relaxed whitespace-pre-wrap break-words">
-                {issue.content}
-              </div>
+              <MarkdownRenderer content={issue.content} className="text-sm" />
             </CardContent>
           </Card>
 

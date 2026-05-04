@@ -4,6 +4,7 @@
 @import 'shadcn/tailwind.css';
 @import '@fontsource-variable/inter';
 @import '@fontsource-variable/figtree';
+@plugin '@tailwindcss/typography';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -43,19 +44,19 @@
 }
 
 /* Admin 模式红色主题覆盖 — data-mode 属性设置在 Layout 的 SidebarProvider 上 */
-[data-mode="admin"] {
-  --primary: oklch(0.55 0.20 25);
+[data-mode='admin'] {
+  --primary: oklch(0.55 0.2 25);
   --primary-foreground: oklch(0.984 0.019 200.873);
   --ring: oklch(0.55 0.15 25);
-  --sidebar-primary: oklch(0.55 0.20 25);
+  --sidebar-primary: oklch(0.55 0.2 25);
   --sidebar-primary-foreground: oklch(0.984 0.019 200.873);
 }
 
-.dark [data-mode="admin"] {
-  --primary: oklch(0.55 0.20 25);
+.dark [data-mode='admin'] {
+  --primary: oklch(0.55 0.2 25);
   --primary-foreground: oklch(0.984 0.019 200.873);
   --ring: oklch(0.55 0.15 25);
-  --sidebar-primary: oklch(0.55 0.20 25);
+  --sidebar-primary: oklch(0.55 0.2 25);
   --sidebar-primary-foreground: oklch(0.984 0.019 200.873);
 }
 
@@ -226,4 +227,75 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* ── Highlight.js custom theme (light/dark) ─────────────── */
+.hljs {
+  color: var(--foreground);
+  background: transparent;
+}
+.hljs-comment,
+.hljs-quote {
+  color: oklch(0.55 0.02 220);
+  font-style: italic;
+}
+.dark .hljs-comment,
+.dark .hljs-quote {
+  color: oklch(0.6 0.02 220);
+}
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-type {
+  color: oklch(0.5 0.15 280);
+}
+.dark .hljs-keyword,
+.dark .hljs-selector-tag,
+.dark .hljs-type {
+  color: oklch(0.7 0.15 280);
+}
+.hljs-string,
+.hljs-addition {
+  color: oklch(0.45 0.12 155);
+}
+.dark .hljs-string,
+.dark .hljs-addition {
+  color: oklch(0.7 0.14 155);
+}
+.hljs-number,
+.hljs-literal {
+  color: oklch(0.55 0.18 30);
+}
+.dark .hljs-number,
+.dark .hljs-literal {
+  color: oklch(0.75 0.15 30);
+}
+.hljs-built_in,
+.hljs-variable,
+.hljs-attr {
+  color: oklch(0.5 0.12 200);
+}
+.dark .hljs-built_in,
+.dark .hljs-variable,
+.dark .hljs-attr {
+  color: oklch(0.72 0.1 200);
+}
+.hljs-title,
+.hljs-function .hljs-title {
+  color: oklch(0.5 0.14 250);
+}
+.dark .hljs-title,
+.dark .hljs-function .hljs-title {
+  color: oklch(0.75 0.12 250);
+}
+.hljs-deletion {
+  color: oklch(0.55 0.2 25);
+}
+.dark .hljs-deletion {
+  color: oklch(0.7 0.18 25);
+}
+.hljs-meta {
+  color: oklch(0.5 0.08 60);
+}
+.dark .hljs-meta {
+  color: oklch(0.7 0.08 60);
 }

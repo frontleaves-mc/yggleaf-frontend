@@ -6,14 +6,17 @@
 import { useEffect } from 'react'
 import { createFileRoute, Link, useParams } from '@tanstack/react-router'
 import { LoadingPage } from '#/components/public/loading-page'
-import { IssueDetailContent, formatTime  } from '#/components/issue/issue-detail-content'
+import {
+  IssueDetailContent,
+  formatTime,
+} from '#/components/issue/issue-detail-content'
 import { IssueStatusBadge } from '#/components/issue/issue-status-badge'
 import { IssuePriorityBadge } from '#/components/issue/issue-priority-badge'
 import { IssueReplyList } from '#/components/issue/issue-reply-list'
 import { IssueReplyForm } from '#/components/issue/issue-reply-form'
 import { AdminIssueActions } from '#/components/issue/admin-issue-actions'
 import { useIssueDetail } from '#/api/endpoints/api-auth/issue'
-import { ArrowLeft, MessageSquare, FileQuestion, Clock } from 'lucide-react'
+import { ArrowLeft, MessageSquare, FileQuestion, Clock, User } from 'lucide-react'
 import { motion } from 'motion/react'
 import { useSetPageTitle } from '#/components/layout/page-title-context'
 
@@ -79,6 +82,10 @@ function AdminIssueDetailPage() {
           </span>
         </div>
         <div className="ml-auto flex items-center gap-3 text-xs text-muted-foreground shrink-0">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-border/50 bg-muted/50 px-2.5 py-0.5 font-medium">
+            <User className="h-3 w-3" />
+            {issueDetail.issue.username}
+          </span>
           <span className="inline-flex items-center gap-1">
             <Clock className="h-3 w-3" />
             更新于 {formatTime(issueDetail.issue.updated_at)}

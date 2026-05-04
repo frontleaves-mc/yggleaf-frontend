@@ -4,6 +4,7 @@
  */
 
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
+import { MarkdownRenderer } from '#/components/ui/markdown-renderer'
 import { IssueAttachmentList } from './issue-attachment-list'
 import type { IssueDetailResponse } from '#/api/types'
 import { MessageSquare, Paperclip } from 'lucide-react'
@@ -42,9 +43,7 @@ export function IssueDetailContent({
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-sm leading-relaxed whitespace-pre-wrap break-words">
-            {issue.content}
-          </div>
+          <MarkdownRenderer content={issue.content} className="text-sm" />
         </CardContent>
       </Card>
 

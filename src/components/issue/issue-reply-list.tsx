@@ -4,6 +4,7 @@
  */
 
 import { Badge } from '#/components/ui/badge'
+import { MarkdownRenderer } from '#/components/ui/markdown-renderer'
 import { formatTime } from './issue-detail-content'
 import type { IssueReplyItem } from '#/api/types'
 import { User, Shield } from 'lucide-react'
@@ -49,8 +50,11 @@ export function IssueReplyList({ replies }: IssueReplyListProps) {
               {formatTime(reply.issue_reply.created_at)}
             </span>
           </div>
-          <div className="text-sm leading-relaxed whitespace-pre-wrap break-words pl-6">
-            {reply.issue_reply.content}
+          <div className="pl-6">
+            <MarkdownRenderer
+              content={reply.issue_reply.content}
+              className="text-sm"
+            />
           </div>
         </div>
       ))}
