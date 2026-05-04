@@ -9,7 +9,6 @@ import {
 	Gamepad2,
 	Palette,
 	RefreshCw,
-	Settings,
 	Shield,
 	Shirt,
 	Users,
@@ -108,16 +107,6 @@ function DashboardPage() {
 			iconColor: "text-[oklch(0.45_0.17_20)]",
 			accentGradient: "from-[oklch(0.55_0.15_20)]/[0.06] to-transparent",
 			glow: "shadow-[0_0_18px_-4px_oklch(0.55_0.15_20_/_0.25)]",
-		},
-		{
-			title: "个人设置",
-			description: "修改密码、账户信息",
-			icon: Settings,
-			to: "/admin/profile/",
-			iconBg: "bg-chart-4/[0.12]",
-			iconColor: "text-chart-4",
-			accentGradient: "from-chart-4/[0.06] to-transparent",
-			glow: "shadow-[0_0_18px_-4px_oklch(0.508_0.118_165.612_/_0.25)]",
 		},
 	];
 

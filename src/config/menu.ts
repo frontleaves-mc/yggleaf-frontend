@@ -71,24 +71,17 @@ export const adminMenuSections: MenuSection[] = [
     label: '游戏',
     items: [
       {
-        key: 'game',
-        label: '游戏',
-        icon: Gamepad2,
-        children: [
-          {
-            key: 'game-profiles',
-            label: '游戏档案',
-            icon: UserCircle,
-            to: '/admin/game-profiles',
-          },
-          {
-            key: 'titles',
-            label: '称号管理',
-            icon: Tags,
-            to: '/admin/titles',
-            roles: ['SUPER_ADMIN'],
-          },
-        ],
+        key: 'game-profiles',
+        label: '游戏档案',
+        icon: UserCircle,
+        to: '/admin/game-profiles',
+      },
+      {
+        key: 'titles',
+        label: '称号管理',
+        icon: Tags,
+        to: '/admin/titles',
+        roles: ['SUPER_ADMIN'],
       },
     ],
   },
@@ -97,23 +90,16 @@ export const adminMenuSections: MenuSection[] = [
     label: '资源库',
     items: [
       {
-        key: 'library',
-        label: '资源库',
+        key: 'skins',
+        label: '皮肤库',
         icon: Shirt,
-        children: [
-          {
-            key: 'skins',
-            label: '皮肤库',
-            icon: Shirt,
-            to: '/admin/skins',
-          },
-          {
-            key: 'capes',
-            label: '披风库',
-            icon: Flag,
-            to: '/admin/capes',
-          },
-        ],
+        to: '/admin/skins',
+      },
+      {
+        key: 'capes',
+        label: '披风库',
+        icon: Flag,
+        to: '/admin/capes',
       },
     ],
   },
@@ -168,12 +154,6 @@ export const adminMenuSections: MenuSection[] = [
             roles: ['SUPER_ADMIN'],
           },
         ],
-      },
-      {
-        key: 'profile',
-        label: '个人设置',
-        icon: Settings,
-        to: '/admin/profile',
       },
     ],
   },
@@ -311,5 +291,4 @@ export const breadcrumbLabels: Record<string, string> = {
   '/admin/titles': '称号管理',
   '/admin/plugin-credentials': '插件凭证',
   '/admin/plugin-credentials/$credentialId': '凭证详情',
-  '/admin/profile': '个人设置',
 }

@@ -32,7 +32,6 @@ import { Route as UserCapesIndexRouteImport } from './routes/user/capes/index'
 import { Route as AdminUsersIndexRouteImport } from './routes/admin/users/index'
 import { Route as AdminTitlesIndexRouteImport } from './routes/admin/titles/index'
 import { Route as AdminSkinsIndexRouteImport } from './routes/admin/skins/index'
-import { Route as AdminProfileIndexRouteImport } from './routes/admin/profile/index'
 import { Route as AdminPluginCredentialsIndexRouteImport } from './routes/admin/plugin-credentials/index'
 import { Route as AdminIssuesIndexRouteImport } from './routes/admin/issues/index'
 import { Route as AdminIssueTypesIndexRouteImport } from './routes/admin/issue-types/index'
@@ -163,11 +162,6 @@ const AdminSkinsIndexRoute = AdminSkinsIndexRouteImport.update({
   path: '/skins/',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminProfileIndexRoute = AdminProfileIndexRouteImport.update({
-  id: '/profile/',
-  path: '/profile/',
-  getParentRoute: () => AdminRoute,
-} as any)
 const AdminPluginCredentialsIndexRoute =
   AdminPluginCredentialsIndexRouteImport.update({
     id: '/plugin-credentials/',
@@ -269,7 +263,6 @@ export interface FileRoutesByFullPath {
   '/admin/issue-types/': typeof AdminIssueTypesIndexRoute
   '/admin/issues/': typeof AdminIssuesIndexRoute
   '/admin/plugin-credentials/': typeof AdminPluginCredentialsIndexRoute
-  '/admin/profile/': typeof AdminProfileIndexRoute
   '/admin/skins/': typeof AdminSkinsIndexRoute
   '/admin/titles/': typeof AdminTitlesIndexRoute
   '/admin/users/': typeof AdminUsersIndexRoute
@@ -307,7 +300,6 @@ export interface FileRoutesByTo {
   '/admin/issue-types': typeof AdminIssueTypesIndexRoute
   '/admin/issues': typeof AdminIssuesIndexRoute
   '/admin/plugin-credentials': typeof AdminPluginCredentialsIndexRoute
-  '/admin/profile': typeof AdminProfileIndexRoute
   '/admin/skins': typeof AdminSkinsIndexRoute
   '/admin/titles': typeof AdminTitlesIndexRoute
   '/admin/users': typeof AdminUsersIndexRoute
@@ -348,7 +340,6 @@ export interface FileRoutesById {
   '/admin/issue-types/': typeof AdminIssueTypesIndexRoute
   '/admin/issues/': typeof AdminIssuesIndexRoute
   '/admin/plugin-credentials/': typeof AdminPluginCredentialsIndexRoute
-  '/admin/profile/': typeof AdminProfileIndexRoute
   '/admin/skins/': typeof AdminSkinsIndexRoute
   '/admin/titles/': typeof AdminTitlesIndexRoute
   '/admin/users/': typeof AdminUsersIndexRoute
@@ -390,7 +381,6 @@ export interface FileRouteTypes {
     | '/admin/issue-types/'
     | '/admin/issues/'
     | '/admin/plugin-credentials/'
-    | '/admin/profile/'
     | '/admin/skins/'
     | '/admin/titles/'
     | '/admin/users/'
@@ -428,7 +418,6 @@ export interface FileRouteTypes {
     | '/admin/issue-types'
     | '/admin/issues'
     | '/admin/plugin-credentials'
-    | '/admin/profile'
     | '/admin/skins'
     | '/admin/titles'
     | '/admin/users'
@@ -468,7 +457,6 @@ export interface FileRouteTypes {
     | '/admin/issue-types/'
     | '/admin/issues/'
     | '/admin/plugin-credentials/'
-    | '/admin/profile/'
     | '/admin/skins/'
     | '/admin/titles/'
     | '/admin/users/'
@@ -654,13 +642,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminSkinsIndexRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/admin/profile/': {
-      id: '/admin/profile/'
-      path: '/profile'
-      fullPath: '/admin/profile/'
-      preLoaderRoute: typeof AdminProfileIndexRouteImport
-      parentRoute: typeof AdminRoute
-    }
     '/admin/plugin-credentials/': {
       id: '/admin/plugin-credentials/'
       path: '/plugin-credentials'
@@ -778,7 +759,6 @@ interface AdminRouteChildren {
   AdminIssueTypesIndexRoute: typeof AdminIssueTypesIndexRoute
   AdminIssuesIndexRoute: typeof AdminIssuesIndexRoute
   AdminPluginCredentialsIndexRoute: typeof AdminPluginCredentialsIndexRoute
-  AdminProfileIndexRoute: typeof AdminProfileIndexRoute
   AdminSkinsIndexRoute: typeof AdminSkinsIndexRoute
   AdminTitlesIndexRoute: typeof AdminTitlesIndexRoute
   AdminUsersIndexRoute: typeof AdminUsersIndexRoute
@@ -801,7 +781,6 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminIssueTypesIndexRoute: AdminIssueTypesIndexRoute,
   AdminIssuesIndexRoute: AdminIssuesIndexRoute,
   AdminPluginCredentialsIndexRoute: AdminPluginCredentialsIndexRoute,
-  AdminProfileIndexRoute: AdminProfileIndexRoute,
   AdminSkinsIndexRoute: AdminSkinsIndexRoute,
   AdminTitlesIndexRoute: AdminTitlesIndexRoute,
   AdminUsersIndexRoute: AdminUsersIndexRoute,
