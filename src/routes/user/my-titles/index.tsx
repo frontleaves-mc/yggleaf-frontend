@@ -143,9 +143,11 @@ export default function MyTitlesPage() {
               return (
                 <div
                   className={`relative overflow-hidden rounded-xl border p-5 transition-colors ${
-                    !eqColor && !equippedTitle
+                    !equippedTitle
                       ? 'border-dashed border-border bg-muted/30'
-                      : ''
+                      : !eqColor
+                        ? 'border-primary/30 bg-gradient-to-r from-primary/[0.04] via-primary/[0.02] to-transparent'
+                        : ''
                   }`}
                   style={
                     eqColor
@@ -334,7 +336,7 @@ function TitleCard({
                     boxShadow: isEquipped
                       ? `0 0 12px ${titleColor}22, inset 0 0 0 1px ${titleColor}22`
                       : undefined,
-                    background: `linear-gradient(to br, ${titleColor}08, transparent, ${titleColor}08)`,
+                    background: `linear-gradient(to bottom right, ${titleColor}08, transparent, ${titleColor}08)`,
                   }
                 : undefined
             }
