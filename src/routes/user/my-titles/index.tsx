@@ -31,6 +31,11 @@ import { LoadingPage } from '#/components/public/loading-page'
 import { UserPageLayout } from '#/components/public/user-page-layout'
 import { Badge } from '#/components/ui/badge'
 import { Button } from '#/components/ui/button'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '#/components/ui/tooltip'
 import { useGameProfileStore } from '#/hooks/use-game-profile-store'
 import {
   cardHoverVariants,
@@ -266,80 +271,74 @@ function TitleCard({
         : Award
 
   return (
-    <motion.div variants={fadeUpItem}>
-      <motion.div
-        variants={cardHoverVariants}
-        transition={hoverLiftTransition}
-        initial="rest"
-        whileHover="hover"
-        className={`group relative overflow-hidden rounded-lg border bg-card transition-shadow ${
-          isEquipped
-            ? `border-primary/40 shadow-md ${style.glowColor} ring-1 ring-primary/10`
-            : 'border-border shadow-sm hover:shadow-md'
-        } ${style.bgGradient}`}
-      >
-        {/* 左侧类型强调条 */}
-        <div
-          className={`pointer-events-none absolute left-0 top-0 h-full w-1 bg-gradient-to-b ${style.accentFrom} ${style.accentTo}`}
-        />
-
-        {/* 已装备状态 — 角标皇冠 */}
-        {isEquipped && (
-          <div className="absolute right-2 top-2 flex size-5 items-center justify-center rounded-full bg-primary text-background shadow-sm">
-            <Crown className="size-3" />
-          </div>
-        )}
-
-        {/* 卡片主体内容 */}
-        <div className="flex flex-col gap-2.5 p-3.5 pt-3">
-          {/* 头部：图标 + 名称 */}
-          <div className="flex items-start gap-2.5">
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <motion.div variants={fadeUpItem}>
+          <motion.div
+            variants={cardHoverVariants}
+            transition={hoverLiftTransition}
+            initial="rest"
+            whileHover={isEquipped ? undefined : 'hover'}
+            onClick={isEquipped || isPending ? undefined : onEquip}
+            className={`group relative overflow-hidden rounded-lg border bg-card transition-shadow ${
+              isEquipped
+                ? `border-primary/40 shadow-md ${style.glowColor} ring-1 ring-primary/10`
+                : 'cursor-pointer border-border shadow-sm hover:shadow-md'
+            } ${style.bgGradient}`}
+          >
+            {/* 左侧类型强调条 */}
             <div
-              className={`flex size-9 shrink-0 items-center justify-center rounded-md ${style.iconBg} transition-transform duration-200 group-hover:scale-110`}
-            >
-              <TypeIcon className={`size-4 ${style.iconColor}`} />
-            </div>
-            <div className="min-w-0 flex-1 pt-0.5">
-              <h3 className="truncate text-sm font-semibold leading-tight text-foreground">
-                {title.name}
-              </h3>
-            </div>
-          </div>
+              className={`pointer-events-none absolute left-0 top-0 h-full w-1 bg-gradient-to-b ${style.accentFrom} ${style.accentTo}`}
+            />
 
-          {/* 描述文字 */}
-          <p className="line-clamp-2 text-xs leading-relaxed text-muted-foreground">
-            {title.description}
-          </p>
-
-          {/* 底部：类型标签 + 操作按钮 */}
-          <div className="flex items-center justify-between gap-2 pt-0.5">
-            <Badge variant={style.badgeVariant} className="text-[10px]">
-              {title.type === TitleType.Exclusive && (
-                <Sparkles data-icon="inline-start" className="mr-1 size-3" />
-              )}
-              {style.label}
-            </Badge>
-
-            {!isEquipped && (
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={onEquip}
-                disabled={isPending}
-                className="h-7 gap-1 px-2.5 text-xs"
-              >
-                装备
-              </Button>
-            )}
-
+            {/* 已装备状态 — 角标皇冠 */}
             {isEquipped && (
-              <span className="text-[10px] font-medium text-primary">
-                使用中
-              </span>
+              <div className="absolute right-2 top-2 flex size-5 items-center justify-center rounded-full bg-primary text-background shadow-sm">
+                <Crown className="size-3" />
+              </div>
             )}
-          </div>
-        </div>
-      </motion.div>
-    </motion.div>
+
+            {/* 卡片主体内容 */}
+            <div className="flex flex-col gap-2 p-3.5 pt-3">
+              {/* 头部：图标 + 名称 */}
+              <div className="flex items-center gap-2.5">
+                <div
+                  className={`flex size-9 shrink-0 items-center justify-center rounded-md ${style.iconBg} transition-transform duration-200 group-hover:scale-110`}
+                >
+                  <TypeIcon className={`size-4 ${style.iconColor}`} />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h3 className="truncate text-sm font-semibold leading-tight text-foreground">
+                    {title.name}
+                  </h3>
+                </div>
+              </div>
+
+              {/* 底部：类型标签 + 状态 */}
+              <div className="flex items-center gap-2">
+                <Badge variant={style.badgeVariant} className="text-[10px]">
+                  {title.type === TitleType.Exclusive && (
+                    <Sparkles
+                      data-icon="inline-start"
+                      className="mr-1 size-3"
+                    />
+                  )}
+                  {style.label}
+                </Badge>
+
+                {isEquipped && (
+                  <span className="text-[10px] font-medium text-primary">
+                    使用中
+                  </span>
+                )}
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
+      </TooltipTrigger>
+      <TooltipContent side="bottom">
+        {title.description}
+      </TooltipContent>
+    </Tooltip>
   )
 }
