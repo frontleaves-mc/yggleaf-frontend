@@ -18,6 +18,17 @@ export type AnnouncementStatus = number
 
 // ─── 响应类型 ──────────────────────────────────────────────
 
+/** 公告列表项 */
+export interface AnnouncementListItem {
+  id: string
+  title: string
+  desc: string
+  type: number
+  status: number
+  created_at: string
+  published_at: string
+}
+
 /** 公告详情 */
 export interface AnnouncementResponse {
   id: string
@@ -31,7 +42,7 @@ export interface AnnouncementResponse {
 
 /** 公告列表响应 */
 export interface AnnouncementListResponse {
-  list: AnnouncementResponse[]
+  list: AnnouncementListItem[]
   total: number
   page: number
   page_size: number

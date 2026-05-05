@@ -57,7 +57,7 @@ import {
   useOfflineAnnouncementMutation,
 } from '#/api/endpoints/api-mc/admin-announcement'
 import type {
-  AnnouncementResponse,
+  AnnouncementListItem,
   AdminAnnouncementListParams,
 } from '#/api/types/api-mc/announcement'
 import { AnnouncementType } from '#/api/types/api-mc/announcement'
@@ -192,9 +192,9 @@ function AdminAnnouncementsPage() {
     setShowCreate(true)
   }
 
-  const openEdit = (item: AnnouncementResponse) => {
+  const openEdit = (item: AnnouncementListItem) => {
     setFormTitle(item.title ?? '')
-    setFormContent(item.content ?? '')
+    setFormContent(item.desc ?? '')
     setFormType(String(item.type))
     setEditTarget(item)
   }

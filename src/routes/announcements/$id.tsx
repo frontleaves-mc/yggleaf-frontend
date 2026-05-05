@@ -83,7 +83,7 @@ function PublicAnnouncementDetailPage() {
 
               <hr className="border-border/60" />
 
-              <MarkdownRenderer content={data.content} />
+              <MarkdownRenderer content={data.content ?? ''} />
             </motion.div>
           ) : (
             <motion.div

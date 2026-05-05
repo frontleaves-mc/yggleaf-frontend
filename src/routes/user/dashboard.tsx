@@ -6,7 +6,7 @@
  *   - 右侧：快捷引导 + 游戏配置指南
  */
 
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import {
   BookOpen,
   ExternalLink,
@@ -19,6 +19,9 @@ import {
 } from 'lucide-react'
 import { motion } from 'motion/react'
 import { useUserInfo } from '#/api/endpoints/api-auth/user'
+import {
+  usePublicAnnouncements,
+} from '#/api/endpoints/api-mc/public-announcement'
 import { useServerStatus } from '#/api/endpoints/api-mc/server-status'
 import { DashboardWelcome } from '#/components/dashboard/dashboard-welcome'
 import { fadeUpItem, staggerContainer } from '#/lib/motion-presets'
@@ -27,22 +30,8 @@ export const Route = createFileRoute('/user/dashboard')({
   component: DashboardPage,
 })
 
-const mockAnnouncements = [
-  {
-    id: '1',
-    title: '欢迎来到 Yggleaf 皮肤管理平台',
-    content:
-      '你可以在这里管理你的 Minecraft 皮肤和披风资源。开始浏览皮肤库，选择你喜欢的角色外观吧！',
-    date: '2026-04-30',
-  },
-  {
-    id: '2',
-    title: '皮肤库全新上线',
-    content:
-      '我们已上线大量全新皮肤资源，快来挑选属于你的独特外观。如果你有自己喜欢的皮肤，也支持上传使用。',
-    date: '2026-04-28',
-  },
-]
+/** 仪表盘展示的公告条数 */
+const DASHBOARD_ANNOUNCEMENT_LIMIT = 3
 
 const quickLinks = [
   {
@@ -149,8 +138,13 @@ function DashboardPage() {
   const navigate = useNavigate()
   const { data: userInfo } = useUserInfo()
   const { data: serverStatusData, isLoading: serverLoading } = useServerStatus()
+  const { data: announcementsData, isLoading: announcementsLoading } = usePublicAnnouncements({
+    page: 1,
+    page_size: DASHBOARD_ANNOUNCEMENT_LIMIT,
+  })
   const server = serverStatusData?.[0]
   const user = userInfo?.user
+  const announcements = announcementsData?.list ?? []
 
   return (
     <motion.div
@@ -178,39 +172,46 @@ function DashboardPage() {
             <h2 className="text-sm font-semibold text-foreground">公告</h2>
           </div>
 
-          {/*
-						TODO: 接入公告 API
-						- API 端点: GET /announcements
-						- 类型定义:
-						  type Announcement = {
-						    id: string
-						    title: string
-						    content: string
-						    created_at: number
-						    pinned: boolean
-						  }
-						- Hook: useAnnouncements() → useQuery({ queryKey: ['announcements'], queryFn: ... })
-						- 替换下方 mockData 为真实数据
-					*/}
           <div className="flex flex-col gap-3">
-            {mockAnnouncements.map((item) => (
-              <div
-                key={item.id}
-                className="rounded-xl border border-border/60 bg-card/90 backdrop-blur-[10px] px-4 py-3"
-              >
-                <div className="flex items-center justify-between gap-3">
-                  <h3 className="text-sm font-medium text-foreground/90">
-                    {item.title}
-                  </h3>
-                  <span className="shrink-0 text-[11px] tabular-nums text-muted-foreground/50">
-                    {item.date}
-                  </span>
+            {announcementsLoading ? (
+              ['a', 'b'].map((k) => (
+                <div
+                  key={k}
+                  className="animate-pulse rounded-xl border border-border/60 bg-card/90 px-4 py-3"
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="h-4 w-2/5 rounded bg-muted" />
+                    <div className="h-3 w-16 rounded bg-muted" />
+                  </div>
+                  <div className="mt-2 h-3 w-full rounded bg-muted" />
                 </div>
-                <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground/70">
-                  {item.content}
-                </p>
+              ))
+            ) : announcements.length > 0 ? (
+              announcements.map((item) => (
+                <Link
+                  key={item.id}
+                  to="/announcements/$id"
+                  params={{ id: item.id }}
+                  className="rounded-xl border border-border/60 bg-card/90 backdrop-blur-[10px] px-4 py-3 transition-colors hover:border-primary/20"
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <h3 className="text-sm font-medium text-foreground/90">
+                      {item.title}
+                    </h3>
+                    <span className="shrink-0 text-[11px] tabular-nums text-muted-foreground/50">
+                      {new Date(item.published_at).toLocaleDateString('zh-CN')}
+                    </span>
+                  </div>
+                  <p className="mt-1.5 line-clamp-2 text-[13px] leading-relaxed text-muted-foreground/70">
+                    {item.desc ?? ''}
+                  </p>
+                </Link>
+              ))
+            ) : (
+              <div className="rounded-xl border border-dashed border-border/60 py-8 text-center text-sm text-muted-foreground/60">
+                暂无公告
               </div>
-            ))}
+            )}
           </div>
         </section>
       </motion.div>

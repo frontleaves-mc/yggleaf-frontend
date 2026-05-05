@@ -110,6 +110,7 @@ export { AnnouncementType } from './api-mc/announcement'
 
 export type {
   AnnouncementStatus,
+  AnnouncementListItem,
   AnnouncementResponse,
   AnnouncementListResponse,
   CreateAnnouncementRequest,

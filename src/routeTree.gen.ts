@@ -31,7 +31,6 @@ import { Route as UserMyTitlesIndexRouteImport } from './routes/user/my-titles/i
 import { Route as UserIssuesIndexRouteImport } from './routes/user/issues/index'
 import { Route as UserGameInfoIndexRouteImport } from './routes/user/game-info/index'
 import { Route as UserCapesIndexRouteImport } from './routes/user/capes/index'
-import { Route as UserAnnouncementsIndexRouteImport } from './routes/user/announcements/index'
 import { Route as AdminUsersIndexRouteImport } from './routes/admin/users/index'
 import { Route as AdminTitlesIndexRouteImport } from './routes/admin/titles/index'
 import { Route as AdminSkinsIndexRouteImport } from './routes/admin/skins/index'
@@ -160,11 +159,6 @@ const UserGameInfoIndexRoute = UserGameInfoIndexRouteImport.update({
 const UserCapesIndexRoute = UserCapesIndexRouteImport.update({
   id: '/capes/',
   path: '/capes/',
-  getParentRoute: () => UserRoute,
-} as any)
-const UserAnnouncementsIndexRoute = UserAnnouncementsIndexRouteImport.update({
-  id: '/announcements/',
-  path: '/announcements/',
   getParentRoute: () => UserRoute,
 } as any)
 const AdminUsersIndexRoute = AdminUsersIndexRouteImport.update({
@@ -301,7 +295,6 @@ export interface FileRoutesByFullPath {
   '/admin/skins/': typeof AdminSkinsIndexRoute
   '/admin/titles/': typeof AdminTitlesIndexRoute
   '/admin/users/': typeof AdminUsersIndexRoute
-  '/user/announcements/': typeof UserAnnouncementsIndexRoute
   '/user/capes/': typeof UserCapesIndexRoute
   '/user/game-info/': typeof UserGameInfoIndexRoute
   '/user/issues/': typeof UserIssuesIndexRoute
@@ -343,7 +336,6 @@ export interface FileRoutesByTo {
   '/admin/skins': typeof AdminSkinsIndexRoute
   '/admin/titles': typeof AdminTitlesIndexRoute
   '/admin/users': typeof AdminUsersIndexRoute
-  '/user/announcements': typeof UserAnnouncementsIndexRoute
   '/user/capes': typeof UserCapesIndexRoute
   '/user/game-info': typeof UserGameInfoIndexRoute
   '/user/issues': typeof UserIssuesIndexRoute
@@ -388,7 +380,6 @@ export interface FileRoutesById {
   '/admin/skins/': typeof AdminSkinsIndexRoute
   '/admin/titles/': typeof AdminTitlesIndexRoute
   '/admin/users/': typeof AdminUsersIndexRoute
-  '/user/announcements/': typeof UserAnnouncementsIndexRoute
   '/user/capes/': typeof UserCapesIndexRoute
   '/user/game-info/': typeof UserGameInfoIndexRoute
   '/user/issues/': typeof UserIssuesIndexRoute
@@ -434,7 +425,6 @@ export interface FileRouteTypes {
     | '/admin/skins/'
     | '/admin/titles/'
     | '/admin/users/'
-    | '/user/announcements/'
     | '/user/capes/'
     | '/user/game-info/'
     | '/user/issues/'
@@ -476,7 +466,6 @@ export interface FileRouteTypes {
     | '/admin/skins'
     | '/admin/titles'
     | '/admin/users'
-    | '/user/announcements'
     | '/user/capes'
     | '/user/game-info'
     | '/user/issues'
@@ -520,7 +509,6 @@ export interface FileRouteTypes {
     | '/admin/skins/'
     | '/admin/titles/'
     | '/admin/users/'
-    | '/user/announcements/'
     | '/user/capes/'
     | '/user/game-info/'
     | '/user/issues/'
@@ -696,13 +684,6 @@ declare module '@tanstack/react-router' {
       path: '/capes'
       fullPath: '/user/capes/'
       preLoaderRoute: typeof UserCapesIndexRouteImport
-      parentRoute: typeof UserRoute
-    }
-    '/user/announcements/': {
-      id: '/user/announcements/'
-      path: '/announcements'
-      fullPath: '/user/announcements/'
-      preLoaderRoute: typeof UserAnnouncementsIndexRouteImport
       parentRoute: typeof UserRoute
     }
     '/admin/users/': {
@@ -905,7 +886,6 @@ interface UserRouteChildren {
   UserMapRoute: typeof UserMapRoute
   UserIndexRoute: typeof UserIndexRoute
   UserIssuesIssueIdRoute: typeof UserIssuesIssueIdRoute
-  UserAnnouncementsIndexRoute: typeof UserAnnouncementsIndexRoute
   UserCapesIndexRoute: typeof UserCapesIndexRoute
   UserGameInfoIndexRoute: typeof UserGameInfoIndexRoute
   UserIssuesIndexRoute: typeof UserIssuesIndexRoute
@@ -921,7 +901,6 @@ const UserRouteChildren: UserRouteChildren = {
   UserMapRoute: UserMapRoute,
   UserIndexRoute: UserIndexRoute,
   UserIssuesIssueIdRoute: UserIssuesIssueIdRoute,
-  UserAnnouncementsIndexRoute: UserAnnouncementsIndexRoute,
   UserCapesIndexRoute: UserCapesIndexRoute,
   UserGameInfoIndexRoute: UserGameInfoIndexRoute,
   UserIssuesIndexRoute: UserIssuesIndexRoute,

@@ -61,7 +61,8 @@ function PublicAnnouncementsPage() {
     setPage(1)
   }
 
-  const truncateContent = (content: string, len = 100): string => {
+  const truncateContent = (content: string | undefined | null, len = 100): string => {
+    if (!content) return ''
     if (content.length <= len) return content
     return content.slice(0, len) + '...'
   }
@@ -155,7 +156,7 @@ function PublicAnnouncementsPage() {
                       </span>
                     </div>
                     <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">
-                      {truncateContent(item.content)}
+                      {truncateContent(item.desc)}
                     </p>
                   </Link>
                 </motion.div>
