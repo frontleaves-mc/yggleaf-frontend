@@ -36,8 +36,8 @@ export async function getAdminAnnouncements(
   params?: AdminAnnouncementListParams,
 ): Promise<AnnouncementListResponse> {
   const sp = new URLSearchParams()
-  if (params?.page) sp.set('page', String(params.page))
-  if (params?.page_size) sp.set('page_size', String(params.page_size))
+  if (params?.page !== undefined) sp.set('page', String(params.page))
+  if (params?.page_size !== undefined) sp.set('page_size', String(params.page_size))
   if (params?.type !== undefined) sp.set('type', String(params.type))
   if (params?.status !== undefined) sp.set('status', String(params.status))
   const qs = sp.toString()

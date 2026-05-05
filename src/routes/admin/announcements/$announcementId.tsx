@@ -31,51 +31,37 @@ import {
   SelectTrigger,
   SelectValue,
 } from '#/components/ui/select'
-import { Badge } from '#/components/ui/badge'
 import { MarkdownSplitEditor } from '#/components/ui/markdown-split-editor'
+import { Badge } from '#/components/ui/badge'
 import { Loader2, ArrowLeft, Save } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
 import { toast } from 'sonner'
-import { AnnouncementType } from '#/api/types/api-mc/announcement'
-
-const staggerContainer = {
-  animate: {
-    transition: { staggerChildren: 0.08, delayChildren: 0.05 },
-  },
-}
-
-const fadeUpItem = {
-  initial: { opacity: 0, y: 16 },
-  animate: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
-  },
-}
+import { staggerContainer, fadeUpItem } from '#/lib/motion-presets'
+import { getAnnouncementTypeBadge, getAnnouncementStatusBadge } from '#/lib/announcement-helpers'
 
 export const Route = createFileRoute('/admin/announcements/$announcementId')({
   component: EditAnnouncementPage,
 })
 
 function EditAnnouncementPage() {
-  const { announcementId } = useParams({ strict: false })
+  const { announcementId } = useParams({ strict: false }) as { announcementId: string }
   const navigate = useNavigate()
   const { data: announcement, isLoading } =
-    useAdminAnnouncementDetail(announcementId)
+    useAdminAnnouncementDetail(announcementId!)
 
   const updateMutation = useUpdateAnnouncementMutation()
   const [formTitle, setFormTitle] = useState('')
   const [formContent, setFormContent] = useState('')
   const [formType, setFormType] = useState<string>('')
-  const [initialized, setInitialized] = useState(false)
 
-  if (announcement && !initialized) {
-    setFormTitle(announcement.title)
-    setFormContent(announcement.content)
-    setFormType(String(announcement.type))
-    setInitialized(true)
-  }
+  useEffect(() => {
+    if (announcement) {
+      setFormTitle(announcement.title)
+      setFormContent(announcement.content)
+      setFormType(String(announcement.type))
+    }
+  }, [announcement])
 
   const isDirty = announcement
     ? formTitle !== announcement.title ||
@@ -89,10 +75,10 @@ function EditAnnouncementPage() {
     e.preventDefault()
     try {
       await updateMutation.mutateAsync({
-        id: announcementId,
+        id: announcementId!,
         data: {
           title: formTitle.trim(),
-          content: formContent,
+          content: formContent.trim(),
           type: Number(formType),
         },
       })
@@ -136,9 +122,9 @@ function EditAnnouncementPage() {
       </motion.div>
 
       <motion.div variants={fadeUpItem}>
-        <div className="grid gap-6 lg:grid-cols-3">
+        <div className="grid gap-6 lg:grid-cols-4">
           {/* 主表单 */}
-          <Card className="lg:col-span-2">
+          <Card className="lg:col-span-3">
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div>
@@ -270,54 +256,6 @@ function EditAnnouncementPage() {
   )
 }
 
-function getAnnouncementTypeBadge(type: number) {
-  const map: Record<number, { label: string; className: string }> = {
-    [AnnouncementType.InSite]: {
-      label: '站内',
-      className: 'bg-blue-500/10 text-blue-600 dark:text-blue-400',
-    },
-    [AnnouncementType.Global]: {
-      label: '全局',
-      className: 'bg-purple-500/10 text-purple-600 dark:text-purple-400',
-    },
-  }
-  const info = map[type] ?? {
-    label: '未知',
-    className: 'bg-muted text-muted-foreground',
-  }
-  return (
-    <Badge variant="secondary" className={info.className}>
-      {info.label}
-    </Badge>
-  )
-}
-
-function getAnnouncementStatusBadge(status: number) {
-  const map: Record<number, { label: string; className: string }> = {
-    1: {
-      label: '草稿',
-      className: 'bg-yellow-500/10 text-yellow-600 dark:text-yellow-400',
-    },
-    2: {
-      label: '已发布',
-      className: 'bg-green-500/10 text-green-600 dark:text-green-400',
-    },
-    3: {
-      label: '已下线',
-      className: 'bg-gray-500/10 text-gray-600 dark:text-gray-400',
-    },
-  }
-  const info = map[status] ?? {
-    label: '未知',
-    className: 'bg-muted text-muted-foreground',
-  }
-  return (
-    <Badge variant="secondary" className={info.className}>
-      {info.label}
-    </Badge>
-  )
-}
-
 function InfoRow({
   label,
   value,
@@ -343,13 +281,23 @@ function InfoRow({
 
 function LoadingSkeleton() {
   return (
-    <div className="space-y-4 max-w-xl">
-      {[...Array(4)].map((_, i) => (
-        <div key={i} className="space-y-2">
-          <div className="h-4 w-20 rounded bg-muted animate-pulse" />
-          <div className="h-10 w-full rounded-md border border-border bg-card animate-pulse" />
-        </div>
-      ))}
+    <div className="space-y-4">
+      <div className="space-y-2">
+        <div className="h-4 w-20 rounded bg-muted animate-pulse" />
+        <div className="h-10 w-full rounded-md border border-border bg-card animate-pulse" />
+      </div>
+      <div className="space-y-2">
+        <div className="h-4 w-20 rounded bg-muted animate-pulse" />
+        <div className="h-10 w-full rounded-md border border-border bg-card animate-pulse" />
+      </div>
+      <div className="space-y-2">
+        <div className="h-4 w-20 rounded bg-muted animate-pulse" />
+        <div className="h-10 w-full rounded-md border border-border bg-card animate-pulse" />
+      </div>
+      <div className="space-y-2">
+        <div className="h-4 w-20 rounded bg-muted animate-pulse" />
+        <div className="h-10 w-full rounded-md border border-border bg-card animate-pulse" />
+      </div>
     </div>
   )
 }

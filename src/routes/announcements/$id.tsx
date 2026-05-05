@@ -77,7 +77,7 @@ function PublicAnnouncementDetailPage() {
                   <Badge variant="secondary" className={typeBadgeVariant(data.type).className}>
                     {typeBadgeVariant(data.type).label}
                   </Badge>
-                  <span>发布于 {new Date(data.published_at).toLocaleDateString('zh-CN')}</span>
+                  <span>发布于 {data.published_at ? new Date(data.published_at).toLocaleDateString('zh-CN') : '未知时间'}</span>
                 </div>
               </div>
 

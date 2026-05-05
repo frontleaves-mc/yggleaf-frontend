@@ -13,8 +13,15 @@ export enum AnnouncementType {
   Global = 2,
 }
 
-/** 公告状态（后端值未确认，UI 层通过 label map 映射显示） */
-export type AnnouncementStatus = number
+/** 公告状态 */
+export enum AnnouncementStatus {
+  /** 草稿 */
+  Draft = 1,
+  /** 已发布 */
+  Published = 2,
+  /** 已下线 */
+  Offline = 3,
+}
 
 // ─── 响应类型 ──────────────────────────────────────────────
 
@@ -23,10 +30,11 @@ export interface AnnouncementListItem {
   id: string
   title: string
   desc: string
+  content?: string
   type: number
   status: number
   created_at: string
-  published_at: string
+  published_at: string | null
 }
 
 /** 公告详情 */
@@ -34,10 +42,11 @@ export interface AnnouncementResponse {
   id: string
   title: string
   content: string
+  desc?: string
   type: number
   status: number
   created_at: string
-  published_at: string
+  published_at: string | null
 }
 
 /** 公告列表响应 */

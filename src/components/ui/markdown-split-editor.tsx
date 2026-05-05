@@ -132,7 +132,7 @@ function MarkdownSplitEditor({
     <div
       data-slot="markdown-editor"
       className={cn(
-        'group/markdown-editor rounded-xl border border-border/60 bg-card shadow-sm transition-all duration-200 ease-out',
+        'group/markdown-editor rounded-xl border border-border/60 bg-card shadow-sm transition-all duration-200 ease-out h-[500px]',
         'has-[[data-slot=markdown-textarea]:focus-visible]:border-primary/30',
         'has-[[data-slot=markdown-textarea]:focus-visible]:shadow-md',
         'has-[[data-slot=markdown-textarea]:focus-visible]:ring-[3px]',
@@ -306,7 +306,7 @@ function MarkdownSplitEditor({
             disabled={disabled}
             onScroll={handleEditorScroll}
             className={cn(
-              'h-full px-4 py-3 text-sm leading-relaxed resize-none overflow-y-auto min-h-[300px]',
+              'h-full px-4 py-3 text-sm leading-relaxed resize-none overflow-y-auto',
               'bg-transparent border-0 focus-visible:ring-0 focus-visible:outline-none w-full',
             )}
           />
@@ -316,7 +316,7 @@ function MarkdownSplitEditor({
           <div
             ref={previewRef}
             onScroll={handlePreviewScroll}
-            className="h-full overflow-y-auto px-4 py-3 min-h-[300px]"
+            className="h-full overflow-y-auto px-4 py-3"
           >
             {value.trim().length > 0 ? (
               <MarkdownRenderer content={value} />

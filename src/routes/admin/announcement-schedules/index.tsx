@@ -7,6 +7,7 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { motion } from 'motion/react'
 import { Plus, Pencil, Trash2, Clock, Play, Pause, X } from 'lucide-react'
+import { toast } from 'sonner'
 import { Button } from '#/components/ui/button'
 import { Input } from '#/components/ui/input'
 import { Badge } from '#/components/ui/badge'
@@ -40,6 +41,7 @@ import {
 import { PageHeader } from '#/components/public/page-header'
 import { LoadingPage } from '#/components/public/loading-page'
 import { ConfirmDialog } from '#/components/public/confirm-dialog'
+import { useUserInfo } from '#/api/endpoints/api-auth/user'
 import {
   useAdminSchedules,
   useCreateScheduleMutation,
@@ -53,27 +55,8 @@ import type {
   ScheduleResponse,
   AdminScheduleListParams,
 } from '#/api/types/api-mc/announcement-schedule'
-import type { AnnouncementResponse } from '#/api/types/api-mc/announcement'
-import { toast } from 'sonner'
+import { staggerContainer, fadeUpItem } from '#/lib/motion-presets'
 import { isSuperAdmin } from '#/lib/permissions'
-import { useUserInfo } from '#/api/endpoints/api-auth/user'
-
-// ─── 动画预设 ──────────────────────────────────────────────
-
-const staggerContainer = {
-  animate: {
-    transition: { staggerChildren: 0.08, delayChildren: 0.05 },
-  },
-}
-
-const fadeUpItem = {
-  initial: { opacity: 0, y: 16 },
-  animate: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
-  },
-}
 
 // ─── 常量映射 ──────────────────────────────────────────────
 
@@ -84,6 +67,7 @@ const MODE_LABEL_MAP: Record<number, string> = {
 
 /** 调度项表单状态（本地编辑用） */
 interface ScheduleFormItem {
+  uid: string
   announcement_id: string
   delay_seconds: number
   sort_order: number
@@ -130,10 +114,6 @@ export const Route = createFileRoute('/admin/announcement-schedules/')({
 function AdminAnnouncementSchedulesPage() {
   const navigate = useNavigate()
   const { data: userInfo } = useUserInfo()
-  if (!isSuperAdmin(userInfo?.user?.role_name)) {
-    navigate({ to: '/admin' })
-    return null
-  }
 
   // ─── 分页参数 ────────────────────────────────────────
   const [page, setPage] = useState(1)
@@ -167,6 +147,12 @@ function AdminAnnouncementSchedulesPage() {
   const [formIntervalSeconds, setFormIntervalSeconds] = useState<string>('')
   const [formItems, setFormItems] = useState<ScheduleFormItem[]>([])
 
+  // ─── 权限检查 ────────────────────────────────────────
+  if (!isSuperAdmin(userInfo?.user?.role_name)) {
+    navigate({ to: '/admin' })
+    return null
+  }
+
   /** 重置表单为空白 */
   const resetForm = () => {
     setFormName('')
@@ -188,6 +174,7 @@ function AdminAnnouncementSchedulesPage() {
     setFormIntervalSeconds(schedule.interval_seconds ? String(schedule.interval_seconds) : '')
     setFormItems(
       schedule.items.map((item) => ({
+        uid: crypto.randomUUID(),
         announcement_id: item.announcement_id,
         delay_seconds: item.delay_seconds,
         sort_order: item.sort_order,
@@ -201,6 +188,7 @@ function AdminAnnouncementSchedulesPage() {
     setFormItems((prev) => [
       ...prev,
       {
+        uid: crypto.randomUUID(),
         announcement_id: '',
         delay_seconds: 0,
         sort_order: prev.length,
@@ -586,7 +574,7 @@ function AdminAnnouncementSchedulesPage() {
 
               {formItems.map((item, index) => (
                 <div
-                  key={index}
+                  key={item.uid}
                   className="flex items-start gap-2 rounded-lg border p-3 space-x-2"
                 >
                   <div className="flex-1 min-w-0 space-y-2">
@@ -598,7 +586,7 @@ function AdminAnnouncementSchedulesPage() {
                         <SelectValue placeholder="选择公告" />
                       </SelectTrigger>
                       <SelectContent>
-                        {announcements.map((a: AnnouncementResponse) => (
+                        {announcements.map((a) => (
                           <SelectItem key={a.id} value={a.id}>
                             {a.title}
                           </SelectItem>

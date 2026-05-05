@@ -15,7 +15,6 @@ import {
   EyeOff,
 } from 'lucide-react'
 import { Button } from '#/components/ui/button'
-import { Badge } from '#/components/ui/badge'
 import { Label } from '#/components/ui/label'
 import {
   Select,
@@ -48,80 +47,10 @@ import type {
   AnnouncementListItem,
   AdminAnnouncementListParams,
 } from '#/api/types/api-mc/announcement'
-import { AnnouncementType } from '#/api/types/api-mc/announcement'
+import { AnnouncementType, AnnouncementStatus } from '#/api/types/api-mc/announcement'
 import { toast } from 'sonner'
-
-// ─── 动画预设 ──────────────────────────────────────────────
-
-const staggerContainer = {
-  animate: {
-    transition: { staggerChildren: 0.08, delayChildren: 0.05 },
-  },
-}
-
-const fadeUpItem = {
-  initial: { opacity: 0, y: 16 },
-  animate: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
-  },
-}
-
-// ─── 辅助函数 ──────────────────────────────────────────────
-
-function getAnnouncementTypeBadge(type: number) {
-  const map: Record<number, { label: string; className: string }> = {
-    [AnnouncementType.InSite]: {
-      label: '站内',
-      className:
-        'bg-blue-500/10 text-blue-600 dark:text-blue-400',
-    },
-    [AnnouncementType.Global]: {
-      label: '全局',
-      className:
-        'bg-purple-500/10 text-purple-600 dark:text-purple-400',
-    },
-  }
-  const info = map[type] ?? {
-    label: '未知',
-    className: 'bg-muted text-muted-foreground',
-  }
-  return (
-    <Badge variant="secondary" className={info.className}>
-      {info.label}
-    </Badge>
-  )
-}
-
-function getAnnouncementStatusBadge(status: number) {
-  const map: Record<number, { label: string; className: string }> = {
-    1: {
-      label: '草稿',
-      className:
-        'bg-yellow-500/10 text-yellow-600 dark:text-yellow-400',
-    },
-    2: {
-      label: '已发布',
-      className:
-        'bg-green-500/10 text-green-600 dark:text-green-400',
-    },
-    3: {
-      label: '已下线',
-      className:
-        'bg-gray-500/10 text-gray-600 dark:text-gray-400',
-    },
-  }
-  const info = map[status] ?? {
-    label: '未知',
-    className: 'bg-muted text-muted-foreground',
-  }
-  return (
-    <Badge variant="secondary" className={info.className}>
-      {info.label}
-    </Badge>
-  )
-}
+import { staggerContainer, fadeUpItem } from '#/lib/motion-presets'
+import { getAnnouncementTypeBadge, getAnnouncementStatusBadge } from '#/lib/announcement-helpers'
 
 // ─── 路由注册 ──────────────────────────────────────────────
 
@@ -283,7 +212,7 @@ function AdminAnnouncementsPage() {
                 编辑
               </Button>
             </Link>
-            {item.status === 1 && (
+            {item.status === AnnouncementStatus.Draft && (
               <Button
                 variant="ghost"
                 size="sm"
@@ -294,7 +223,7 @@ function AdminAnnouncementsPage() {
                 发布
               </Button>
             )}
-            {item.status === 2 && (
+            {item.status === AnnouncementStatus.Published && (
               <Button
                 variant="ghost"
                 size="sm"
@@ -309,6 +238,7 @@ function AdminAnnouncementsPage() {
               variant="ghost"
               size="sm"
               className="h-7 px-2 text-xs text-destructive hover:text-destructive/90 hover:bg-destructive/10"
+              disabled={item.status === AnnouncementStatus.Published}
               onClick={() => setDeleteTarget(item)}
             >
               <Trash2 className="mr-1 h-3 w-3" />
@@ -380,9 +310,9 @@ function AdminAnnouncementsPage() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">全部</SelectItem>
-              <SelectItem value="1">草稿</SelectItem>
-              <SelectItem value="2">已发布</SelectItem>
-              <SelectItem value="3">已下线</SelectItem>
+              <SelectItem value={String(AnnouncementStatus.Draft)}>草稿</SelectItem>
+              <SelectItem value={String(AnnouncementStatus.Published)}>已发布</SelectItem>
+              <SelectItem value={String(AnnouncementStatus.Offline)}>已下线</SelectItem>
             </SelectContent>
           </Select>
         </div>

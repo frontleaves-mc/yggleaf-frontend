@@ -152,7 +152,7 @@ function PublicAnnouncementsPage() {
                         {item.title}
                       </h3>
                       <span className="shrink-0 text-xs text-muted-foreground">
-                        {new Date(item.published_at).toLocaleDateString('zh-CN')}
+                        {item.published_at ? new Date(item.published_at).toLocaleDateString('zh-CN') : '-'}
                       </span>
                     </div>
                     <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">

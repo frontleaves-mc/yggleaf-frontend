@@ -199,7 +199,7 @@ function DashboardPage() {
                       {item.title}
                     </h3>
                     <span className="shrink-0 text-[11px] tabular-nums text-muted-foreground/50">
-                      {new Date(item.published_at).toLocaleDateString('zh-CN')}
+                      {item.published_at ? new Date(item.published_at).toLocaleDateString('zh-CN') : ''}
                     </span>
                   </div>
                   <p className="mt-1.5 line-clamp-2 text-[13px] leading-relaxed text-muted-foreground/70">

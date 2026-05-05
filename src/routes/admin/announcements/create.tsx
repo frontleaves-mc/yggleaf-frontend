@@ -28,23 +28,7 @@ import { useState } from 'react'
 import { motion } from 'motion/react'
 import { toast } from 'sonner'
 import { AnnouncementType } from '#/api/types/api-mc/announcement'
-
-/** stagger 容器动画 - 子元素依次入场 */
-const staggerContainer = {
-  animate: {
-    transition: { staggerChildren: 0.08, delayChildren: 0.05 },
-  },
-}
-
-/** 单项淡入上移动画 */
-const fadeUpItem = {
-  initial: { opacity: 0, y: 16 },
-  animate: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
-  },
-}
+import { staggerContainer, fadeUpItem } from '#/lib/motion-presets'
 
 export const Route = createFileRoute('/admin/announcements/create')({
   component: CreateAnnouncementPage,
@@ -72,7 +56,7 @@ function CreateAnnouncementPage() {
     try {
       await createMutation.mutateAsync({
         title: formTitle.trim(),
-        content: formContent,
+        content: formContent.trim(),
         type: Number(formType),
       })
       toast.success('公告创建成功')
@@ -101,7 +85,7 @@ function CreateAnnouncementPage() {
       </motion.div>
 
       <motion.div variants={fadeUpItem}>
-        <Card className="max-w-xl">
+        <Card>
           <CardHeader>
             <CardTitle className="text-lg">创建公告</CardTitle>
             <CardDescription>填写公告信息以创建新公告</CardDescription>
