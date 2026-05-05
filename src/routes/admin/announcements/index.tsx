@@ -1,0 +1,651 @@
+/**
+ * 管理员端 - 公告管理页
+ * CRUD 操作 + 发布/下线，使用 TanStack Table + Dialog
+ */
+
+import { createFileRoute } from '@tanstack/react-router'
+import { useState } from 'react'
+import { motion } from 'motion/react'
+import {
+  Plus,
+  Pencil,
+  Trash2,
+  Megaphone,
+  SendHorizontal,
+  EyeOff,
+} from 'lucide-react'
+import { Button } from '#/components/ui/button'
+import { Input } from '#/components/ui/input'
+import { Badge } from '#/components/ui/badge'
+import { Label } from '#/components/ui/label'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '#/components/ui/select'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '#/components/ui/dialog'
+import type { ColumnDef } from '#/components/ui/tanstack-table'
+import {
+  TableProvider,
+  TableColumnHeader,
+  TSTableHeader,
+  TSTableHeaderGroup,
+  TSTableHead,
+  TSTableBody,
+  TSTableRow,
+  TSTableCell,
+} from '#/components/ui/tanstack-table'
+import { PageHeader } from '#/components/public/page-header'
+import { LoadingPage } from '#/components/public/loading-page'
+import { ConfirmDialog } from '#/components/public/confirm-dialog'
+import { MarkdownEditor } from '#/components/ui/markdown-editor'
+import {
+  useAdminAnnouncements,
+  useCreateAnnouncementMutation,
+  useUpdateAnnouncementMutation,
+  useDeleteAnnouncementMutation,
+  usePublishAnnouncementMutation,
+  useOfflineAnnouncementMutation,
+} from '#/api/endpoints/api-mc/admin-announcement'
+import type {
+  AnnouncementResponse,
+  AdminAnnouncementListParams,
+} from '#/api/types/api-mc/announcement'
+import { AnnouncementType } from '#/api/types/api-mc/announcement'
+import { toast } from 'sonner'
+
+// ─── 动画预设 ──────────────────────────────────────────────
+
+const staggerContainer = {
+  animate: {
+    transition: { staggerChildren: 0.08, delayChildren: 0.05 },
+  },
+}
+
+const fadeUpItem = {
+  initial: { opacity: 0, y: 16 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
+  },
+}
+
+// ─── 辅助函数 ──────────────────────────────────────────────
+
+function getAnnouncementTypeBadge(type: number) {
+  const map: Record<number, { label: string; className: string }> = {
+    [AnnouncementType.InSite]: {
+      label: '站内',
+      className:
+        'bg-blue-500/10 text-blue-600 dark:text-blue-400',
+    },
+    [AnnouncementType.Global]: {
+      label: '全局',
+      className:
+        'bg-purple-500/10 text-purple-600 dark:text-purple-400',
+    },
+  }
+  const info = map[type] ?? {
+    label: '未知',
+    className: 'bg-muted text-muted-foreground',
+  }
+  return (
+    <Badge variant="secondary" className={info.className}>
+      {info.label}
+    </Badge>
+  )
+}
+
+function getAnnouncementStatusBadge(status: number) {
+  const map: Record<number, { label: string; className: string }> = {
+    1: {
+      label: '草稿',
+      className:
+        'bg-yellow-500/10 text-yellow-600 dark:text-yellow-400',
+    },
+    2: {
+      label: '已发布',
+      className:
+        'bg-green-500/10 text-green-600 dark:text-green-400',
+    },
+    3: {
+      label: '已下线',
+      className:
+        'bg-gray-500/10 text-gray-600 dark:text-gray-400',
+    },
+  }
+  const info = map[status] ?? {
+    label: '未知',
+    className: 'bg-muted text-muted-foreground',
+  }
+  return (
+    <Badge variant="secondary" className={info.className}>
+      {info.label}
+    </Badge>
+  )
+}
+
+// ─── 路由注册 ──────────────────────────────────────────────
+
+export const Route = createFileRoute('/admin/announcements/')({
+  component: AdminAnnouncementsPage,
+})
+
+function AdminAnnouncementsPage() {
+  // ─── 分页参数 ────────────────────────────────────────
+  const [page, setPage] = useState(1)
+  const [pageSize] = useState(15)
+  const [filterType, setFilterType] = useState<string>('all')
+  const [filterStatus, setFilterStatus] = useState<string>('all')
+
+  const params: AdminAnnouncementListParams = {
+    page,
+    page_size: pageSize,
+    ...(filterType !== 'all' ? { type: Number(filterType) } : {}),
+    ...(filterStatus !== 'all' ? { status: Number(filterStatus) } : {}),
+  }
+
+  // ─── 数据查询 ────────────────────────────────────────
+  const { data, isLoading } = useAdminAnnouncements(params)
+  const createMutation = useCreateAnnouncementMutation()
+  const updateMutation = useUpdateAnnouncementMutation()
+  const deleteMutation = useDeleteAnnouncementMutation()
+  const publishMutation = usePublishAnnouncementMutation()
+  const offlineMutation = useOfflineAnnouncementMutation()
+
+  // ─── 弹窗状态 ────────────────────────────────────────
+  const [showCreate, setShowCreate] = useState(false)
+  const [editTarget, setEditTarget] =
+    useState<AnnouncementResponse | null>(null)
+  const [deleteTarget, setDeleteTarget] =
+    useState<AnnouncementResponse | null>(null)
+  const [publishTarget, setPublishTarget] =
+    useState<AnnouncementResponse | null>(null)
+  const [offlineTarget, setOfflineTarget] =
+    useState<AnnouncementResponse | null>(null)
+
+  // ─── 表单状态 ────────────────────────────────────────
+  const [formTitle, setFormTitle] = useState('')
+  const [formContent, setFormContent] = useState('')
+  const [formType, setFormType] = useState<string>(
+    String(AnnouncementType.InSite),
+  )
+
+  const resetForm = () => {
+    setFormTitle('')
+    setFormContent('')
+    setFormType(String(AnnouncementType.InSite))
+  }
+
+  const openCreate = () => {
+    resetForm()
+    setShowCreate(true)
+  }
+
+  const openEdit = (item: AnnouncementResponse) => {
+    setFormTitle(item.title ?? '')
+    setFormContent(item.content ?? '')
+    setFormType(String(item.type))
+    setEditTarget(item)
+  }
+
+  // ─── 操作处理 ────────────────────────────────────────
+
+  const handleCreate = async () => {
+    if (!formTitle?.trim()) return
+    try {
+      await createMutation.mutateAsync({
+        title: formTitle.trim(),
+        content: formContent ?? '',
+        type: Number(formType),
+      })
+      toast.success('公告创建成功')
+      setShowCreate(false)
+      resetForm()
+    } catch {
+      toast.error('创建失败')
+    }
+  }
+
+  const handleUpdate = async () => {
+    if (!editTarget || !formTitle?.trim()) return
+    try {
+      await updateMutation.mutateAsync({
+        id: editTarget.id,
+        data: {
+          title: formTitle.trim(),
+          content: formContent ?? '',
+          type: Number(formType),
+        },
+      })
+      toast.success('公告更新成功')
+      setEditTarget(null)
+      resetForm()
+    } catch {
+      toast.error('更新失败')
+    }
+  }
+
+  const handleDelete = async () => {
+    if (!deleteTarget) return
+    try {
+      await deleteMutation.mutateAsync(deleteTarget.id)
+      toast.success('公告已删除')
+      setDeleteTarget(null)
+    } catch {
+      toast.error('删除失败')
+    }
+  }
+
+  const handlePublish = async () => {
+    if (!publishTarget) return
+    try {
+      await publishMutation.mutateAsync(publishTarget.id)
+      toast.success('公告已发布')
+      setPublishTarget(null)
+    } catch {
+      toast.error('发布失败')
+    }
+  }
+
+  const handleOffline = async () => {
+    if (!offlineTarget) return
+    try {
+      await offlineMutation.mutateAsync(offlineTarget.id)
+      toast.success('公告已下线')
+      setOfflineTarget(null)
+    } catch {
+      toast.error('下线失败')
+    }
+  }
+
+  // ─── 加载状态 ────────────────────────────────────────
+
+  if (isLoading) return <LoadingPage />
+
+  const announcements = data?.list ?? []
+  const totalPages = Math.ceil((data?.total ?? 0) / pageSize)
+
+  // ─── 列定义 ──────────────────────────────────────────
+
+  const columns: ColumnDef<AnnouncementResponse, unknown>[] = [
+    {
+      accessorKey: 'title',
+      header: ({ column }) => (
+        <TableColumnHeader column={column} title="标题" />
+      ),
+      cell: ({ row }) => (
+        <span className="font-medium text-sm">
+          {row.getValue('title')}
+        </span>
+      ),
+    },
+    {
+      accessorKey: 'type',
+      header: ({ column }) => (
+        <TableColumnHeader column={column} title="类型" />
+      ),
+      cell: ({ row }) =>
+        getAnnouncementTypeBadge(row.original.type),
+      size: 96,
+    },
+    {
+      accessorKey: 'status',
+      header: ({ column }) => (
+        <TableColumnHeader column={column} title="状态" />
+      ),
+      cell: ({ row }) =>
+        getAnnouncementStatusBadge(row.original.status),
+      size: 100,
+    },
+    {
+      accessorKey: 'created_at',
+      header: ({ column }) => (
+        <TableColumnHeader column={column} title="创建时间" />
+      ),
+      cell: ({ row }) => (
+        <span className="text-sm text-muted-foreground">
+          {row.original.created_at
+            ? new Date(row.original.created_at).toLocaleDateString(
+                'zh-CN',
+              )
+            : '-'}
+        </span>
+      ),
+      size: 120,
+    },
+    {
+      accessorKey: 'published_at',
+      header: ({ column }) => (
+        <TableColumnHeader column={column} title="发布时间" />
+      ),
+      cell: ({ row }) => (
+        <span className="text-sm text-muted-foreground">
+          {row.original.published_at
+            ? new Date(row.original.published_at).toLocaleDateString(
+                'zh-CN',
+              )
+            : '-'}
+        </span>
+      ),
+      size: 120,
+    },
+    {
+      id: 'actions',
+      header: () => <span className="text-sm font-medium">操作</span>,
+      cell: ({ row }) => {
+        const item = row.original
+        return (
+          <div className="flex items-center gap-1">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-7 px-2 text-xs"
+              onClick={() => openEdit(item)}
+            >
+              <Pencil className="mr-1 h-3 w-3" />
+              编辑
+            </Button>
+            {item.status === 1 && (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-7 px-2 text-xs text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 hover:bg-green-500/10"
+                onClick={() => setPublishTarget(item)}
+              >
+                <SendHorizontal className="mr-1 h-3 w-3" />
+                发布
+              </Button>
+            )}
+            {item.status === 2 && (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-7 px-2 text-xs text-gray-600 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 hover:bg-gray-500/10"
+                onClick={() => setOfflineTarget(item)}
+              >
+                <EyeOff className="mr-1 h-3 w-3" />
+                下线
+              </Button>
+            )}
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-7 px-2 text-xs text-destructive hover:text-destructive/90 hover:bg-destructive/10"
+              onClick={() => setDeleteTarget(item)}
+            >
+              <Trash2 className="mr-1 h-3 w-3" />
+              删除
+            </Button>
+          </div>
+        )
+      },
+      size: 240,
+    },
+  ]
+
+  // ─── 渲染 ────────────────────────────────────────────
+
+  return (
+    <motion.div
+      className="space-y-6"
+      variants={staggerContainer}
+      initial="initial"
+      animate="animate"
+    >
+      {/* 页头 */}
+      <motion.div variants={fadeUpItem}>
+        <PageHeader
+          title="公告管理"
+          description="管理系统公告"
+        >
+          <Button onClick={openCreate} className="gap-1.5 text-sm">
+            <Plus className="h-4 w-4" />
+            创建公告
+          </Button>
+        </PageHeader>
+      </motion.div>
+
+      {/* 筛选区域 */}
+      <motion.div
+        variants={fadeUpItem}
+        className="flex flex-wrap items-center gap-4 rounded-xl border border-border/70 bg-card p-4"
+      >
+        <div className="flex items-center gap-2">
+          <Label htmlFor="filter-type" className="text-sm whitespace-nowrap">
+            类型
+          </Label>
+          <Select value={filterType} onValueChange={(v) => { setFilterType(v); setPage(1) }}>
+            <SelectTrigger id="filter-type" className="w-[120px]">
+              <SelectValue placeholder="全部类型" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">全部</SelectItem>
+              <SelectItem value={String(AnnouncementType.InSite)}>
+                站内
+              </SelectItem>
+              <SelectItem value={String(AnnouncementType.Global)}>
+                全局
+              </SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <Label htmlFor="filter-status" className="text-sm whitespace-nowrap">
+            状态
+          </Label>
+          <Select value={filterStatus} onValueChange={(v) => { setFilterStatus(v); setPage(1) }}>
+            <SelectTrigger id="filter-status" className="w-[120px]">
+              <SelectValue placeholder="全部状态" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">全部</SelectItem>
+              <SelectItem value="1">草稿</SelectItem>
+              <SelectItem value="2">已发布</SelectItem>
+              <SelectItem value="3">已下线</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </motion.div>
+
+      {/* 表格 */}
+      <motion.div
+        variants={fadeUpItem}
+        className="rounded-xl border border-border/70 overflow-hidden"
+      >
+        <TableProvider columns={columns} data={announcements}>
+          <TSTableHeader>
+            {({ headerGroup }) => (
+              <TSTableHeaderGroup headerGroup={headerGroup}>
+                {({ header }) => <TSTableHead header={header} />}
+              </TSTableHeaderGroup>
+            )}
+          </TSTableHeader>
+          <TSTableBody
+            emptyContent={
+              <>
+                <Megaphone className="mx-auto h-8 w-8 text-muted-foreground/30 mb-3" />
+                <p className="text-sm text-muted-foreground">
+                  暂无公告
+                </p>
+              </>
+            }
+          >
+            {({ row }) => (
+              <TSTableRow row={row}>
+                {({ cell }) => <TSTableCell cell={cell} />}
+              </TSTableRow>
+            )}
+          </TSTableBody>
+        </TableProvider>
+      </motion.div>
+
+      {/* 分页 */}
+      {totalPages > 1 && (
+        <motion.div
+          variants={fadeUpItem}
+          className="flex items-center justify-between"
+        >
+          <p className="text-sm text-muted-foreground">
+            共 {data?.total ?? 0} 条记录，第 {page}/{totalPages} 页
+          </p>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={page <= 1}
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+            >
+              上一页
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={page >= totalPages}
+              onClick={() =>
+                setPage((p) => Math.min(totalPages, p + 1))
+              }
+            >
+              下一页
+            </Button>
+          </div>
+        </motion.div>
+      )}
+
+      {/* 创建/编辑弹窗 */}
+      <Dialog
+        open={showCreate || !!editTarget}
+        onOpenChange={(open) => {
+          if (!open) {
+            setShowCreate(false)
+            setEditTarget(null)
+            resetForm()
+          }
+        }}
+      >
+        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>
+              {editTarget ? '编辑公告' : '创建公告'}
+            </DialogTitle>
+            <DialogDescription>
+              {editTarget
+                ? '修改公告的标题、内容或类型'
+                : '创建新的系统公告'}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-2">
+            <div className="space-y-2">
+              <Label htmlFor="announcement-title">标题 *</Label>
+              <Input
+                id="announcement-title"
+                value={formTitle}
+                onChange={(e) => setFormTitle(e.target.value)}
+                placeholder="公告标题"
+                maxLength={128}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="announcement-type">类型 *</Label>
+              <Select value={formType} onValueChange={setFormType}>
+                <SelectTrigger id="announcement-type">
+                  <SelectValue placeholder="选择类型" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value={String(AnnouncementType.InSite)}>
+                    站内公告
+                  </SelectItem>
+                  <SelectItem value={String(AnnouncementType.Global)}>
+                    全局公告
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label>内容 *</Label>
+              <MarkdownEditor
+                value={formContent}
+                onChange={setFormContent}
+                placeholder="请输入公告内容（支持 Markdown）..."
+                minRows={8}
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => {
+                setShowCreate(false)
+                setEditTarget(null)
+                resetForm()
+              }}
+            >
+              取消
+            </Button>
+            <Button
+              onClick={editTarget ? handleUpdate : handleCreate}
+              disabled={
+                createMutation.isPending ||
+                updateMutation.isPending ||
+                !formTitle?.trim() ||
+                !formContent?.trim()
+              }
+            >
+              {createMutation.isPending || updateMutation.isPending
+                ? '处理中...'
+                : editTarget
+                  ? '保存'
+                  : '创建'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* 删除确认 */}
+      <ConfirmDialog
+        open={!!deleteTarget}
+        onOpenChange={(open) => !open && setDeleteTarget(null)}
+        title="确认删除"
+        description={`确定要删除公告「${deleteTarget?.title}」吗？此操作不可恢复。`}
+        confirmLabel="删除"
+        onConfirm={handleDelete}
+        loading={deleteMutation.isPending}
+        variant="destructive"
+      />
+
+      {/* 发布确认 */}
+      <ConfirmDialog
+        open={!!publishTarget}
+        onOpenChange={(open) => !open && setPublishTarget(null)}
+        title="确认发布"
+        description={`确定要发布公告「${publishTarget?.title}」吗？发布后将对用户可见。`}
+        confirmLabel="发布"
+        onConfirm={handlePublish}
+        loading={publishMutation.isPending}
+      />
+
+      {/* 下线确认 */}
+      <ConfirmDialog
+        open={!!offlineTarget}
+        onOpenChange={(open) => !open && setOfflineTarget(null)}
+        title="确认下线"
+        description={`确定要下线公告「${offlineTarget?.title}」吗？下线后将不再对用户可见。`}
+        confirmLabel="下线"
+        onConfirm={handleOffline}
+        loading={offlineMutation.isPending}
+        variant="destructive"
+      />
+    </motion.div>
+  )
+}

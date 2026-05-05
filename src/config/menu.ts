@@ -8,19 +8,21 @@
 import type { LucideIcon } from 'lucide-react'
 import type { RoleName } from '#/api/types'
 import {
-  LayoutDashboard,
-  Users,
-  Gamepad2,
-  Shirt,
+  CalendarClock,
   Flag,
-  UserCircle,
-  Settings,
-  Store,
-  MessageSquareWarning,
-  Tags,
-  Puzzle,
-  Map,
+  Gamepad2,
   KeyRound,
+  LayoutDashboard,
+  Map,
+  Megaphone,
+  MessageSquareWarning,
+  Puzzle,
+  Settings,
+  Shirt,
+  Store,
+  Tags,
+  UserCircle,
+  Users,
 } from 'lucide-react'
 
 // ─── 类型定义 ────────────────────────────────────────────
@@ -155,6 +157,18 @@ export const adminMenuSections: MenuSection[] = [
           },
         ],
       },
+      {
+        key: 'announcements',
+        label: '公告管理',
+        icon: Megaphone,
+        to: '/admin/announcements',
+      },
+      {
+        key: 'announcement-schedules',
+        label: '调度管理',
+        icon: CalendarClock,
+        to: '/admin/announcement-schedules',
+      },
     ],
   },
 ]
@@ -244,6 +258,12 @@ export const userMenuSections: MenuSection[] = [
         to: '/user/issues',
       },
       {
+        key: 'announcements',
+        label: '公告中心',
+        icon: Megaphone,
+        to: '/user/announcements',
+      },
+      {
         key: 'profile',
         label: '个人中心',
         icon: Settings,
@@ -295,4 +315,11 @@ export const breadcrumbLabels: Record<string, string> = {
   '/admin/titles': '称号管理',
   '/admin/plugin-credentials': '插件凭证',
   '/admin/plugin-credentials/$credentialId': '凭证详情',
+
+  // ── 公告 ──
+  '/admin/announcements': '公告管理',
+  '/admin/announcement-schedules': '调度管理',
+  '/user/announcements': '公告中心',
+  '/announcements': '公告中心',
+  '/announcements/$id': '公告详情',
 }

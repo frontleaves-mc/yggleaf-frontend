@@ -63,6 +63,8 @@ export type {
   UpdateIssueNoteRequest,
   UpdateIssuePriorityRequest,
   UpdateIssueStatusRequest,
+  UpdateIssueInfoRequest,
+  UpdateIssueContentRequest,
   CreateIssueTypeRequest,
   UpdateIssueTypeRequest,
 } from './api-auth/issue'
@@ -101,3 +103,28 @@ export type {
   ServerStatusResponse,
   ServerStatusListResponse,
 } from './api-mc/server-status'
+
+// ─── 公告模块 ────────────────────────────────────────────
+
+export { AnnouncementType } from './api-mc/announcement'
+
+export type {
+  AnnouncementStatus,
+  AnnouncementResponse,
+  AnnouncementListResponse,
+  CreateAnnouncementRequest,
+  UpdateAnnouncementRequest,
+  AdminAnnouncementListParams,
+  PublicAnnouncementListParams,
+} from './api-mc/announcement'
+
+export type {
+  ScheduleMode,
+  ScheduleItemResponse,
+  ScheduleItemInput,
+  ScheduleResponse,
+  ScheduleListResponse,
+  CreateScheduleRequest,
+  UpdateScheduleRequest,
+  AdminScheduleListParams,
+} from './api-mc/announcement-schedule'
