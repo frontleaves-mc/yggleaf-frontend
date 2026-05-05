@@ -50,6 +50,8 @@ import { Route as AdminIssuesIssueIdRouteImport } from './routes/admin/issues/$i
 import { Route as AdminGameProfilesProfileIdRouteImport } from './routes/admin/game-profiles/$profileId'
 import { Route as AdminCapesCreateRouteImport } from './routes/admin/capes/create'
 import { Route as AdminCapesCapeIdRouteImport } from './routes/admin/capes/$capeId'
+import { Route as AdminAnnouncementsCreateRouteImport } from './routes/admin/announcements/create'
+import { Route as AdminAnnouncementsAnnouncementIdRouteImport } from './routes/admin/announcements/$announcementId'
 
 const UserRoute = UserRouteImport.update({
   id: '/user',
@@ -260,6 +262,18 @@ const AdminCapesCapeIdRoute = AdminCapesCapeIdRouteImport.update({
   path: '/capes/$capeId',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminAnnouncementsCreateRoute =
+  AdminAnnouncementsCreateRouteImport.update({
+    id: '/announcements/create',
+    path: '/announcements/create',
+    getParentRoute: () => AdminRoute,
+  } as any)
+const AdminAnnouncementsAnnouncementIdRoute =
+  AdminAnnouncementsAnnouncementIdRouteImport.update({
+    id: '/announcements/$announcementId',
+    path: '/announcements/$announcementId',
+    getParentRoute: () => AdminRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -276,6 +290,8 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AdminIndexRoute
   '/announcements/': typeof AnnouncementsIndexRoute
   '/user/': typeof UserIndexRoute
+  '/admin/announcements/$announcementId': typeof AdminAnnouncementsAnnouncementIdRoute
+  '/admin/announcements/create': typeof AdminAnnouncementsCreateRoute
   '/admin/capes/$capeId': typeof AdminCapesCapeIdRoute
   '/admin/capes/create': typeof AdminCapesCreateRoute
   '/admin/game-profiles/$profileId': typeof AdminGameProfilesProfileIdRoute
@@ -317,6 +333,8 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminIndexRoute
   '/announcements': typeof AnnouncementsIndexRoute
   '/user': typeof UserIndexRoute
+  '/admin/announcements/$announcementId': typeof AdminAnnouncementsAnnouncementIdRoute
+  '/admin/announcements/create': typeof AdminAnnouncementsCreateRoute
   '/admin/capes/$capeId': typeof AdminCapesCapeIdRoute
   '/admin/capes/create': typeof AdminCapesCreateRoute
   '/admin/game-profiles/$profileId': typeof AdminGameProfilesProfileIdRoute
@@ -361,6 +379,8 @@ export interface FileRoutesById {
   '/admin/': typeof AdminIndexRoute
   '/announcements/': typeof AnnouncementsIndexRoute
   '/user/': typeof UserIndexRoute
+  '/admin/announcements/$announcementId': typeof AdminAnnouncementsAnnouncementIdRoute
+  '/admin/announcements/create': typeof AdminAnnouncementsCreateRoute
   '/admin/capes/$capeId': typeof AdminCapesCapeIdRoute
   '/admin/capes/create': typeof AdminCapesCreateRoute
   '/admin/game-profiles/$profileId': typeof AdminGameProfilesProfileIdRoute
@@ -406,6 +426,8 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/announcements/'
     | '/user/'
+    | '/admin/announcements/$announcementId'
+    | '/admin/announcements/create'
     | '/admin/capes/$capeId'
     | '/admin/capes/create'
     | '/admin/game-profiles/$profileId'
@@ -447,6 +469,8 @@ export interface FileRouteTypes {
     | '/admin'
     | '/announcements'
     | '/user'
+    | '/admin/announcements/$announcementId'
+    | '/admin/announcements/create'
     | '/admin/capes/$capeId'
     | '/admin/capes/create'
     | '/admin/game-profiles/$profileId'
@@ -490,6 +514,8 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/announcements/'
     | '/user/'
+    | '/admin/announcements/$announcementId'
+    | '/admin/announcements/create'
     | '/admin/capes/$capeId'
     | '/admin/capes/create'
     | '/admin/game-profiles/$profileId'
@@ -819,12 +845,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCapesCapeIdRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/announcements/create': {
+      id: '/admin/announcements/create'
+      path: '/announcements/create'
+      fullPath: '/admin/announcements/create'
+      preLoaderRoute: typeof AdminAnnouncementsCreateRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/announcements/$announcementId': {
+      id: '/admin/announcements/$announcementId'
+      path: '/announcements/$announcementId'
+      fullPath: '/admin/announcements/$announcementId'
+      preLoaderRoute: typeof AdminAnnouncementsAnnouncementIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
 interface AdminRouteChildren {
   AdminDashboardRoute: typeof AdminDashboardRoute
   AdminIndexRoute: typeof AdminIndexRoute
+  AdminAnnouncementsAnnouncementIdRoute: typeof AdminAnnouncementsAnnouncementIdRoute
+  AdminAnnouncementsCreateRoute: typeof AdminAnnouncementsCreateRoute
   AdminCapesCapeIdRoute: typeof AdminCapesCapeIdRoute
   AdminCapesCreateRoute: typeof AdminCapesCreateRoute
   AdminGameProfilesProfileIdRoute: typeof AdminGameProfilesProfileIdRoute
@@ -848,6 +890,8 @@ interface AdminRouteChildren {
 const AdminRouteChildren: AdminRouteChildren = {
   AdminDashboardRoute: AdminDashboardRoute,
   AdminIndexRoute: AdminIndexRoute,
+  AdminAnnouncementsAnnouncementIdRoute: AdminAnnouncementsAnnouncementIdRoute,
+  AdminAnnouncementsCreateRoute: AdminAnnouncementsCreateRoute,
   AdminCapesCapeIdRoute: AdminCapesCapeIdRoute,
   AdminCapesCreateRoute: AdminCapesCreateRoute,
   AdminGameProfilesProfileIdRoute: AdminGameProfilesProfileIdRoute,

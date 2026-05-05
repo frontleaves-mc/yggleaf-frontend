@@ -1,9 +1,9 @@
 /**
  * 管理员端 - 公告管理页
- * CRUD 操作 + 发布/下线，使用 TanStack Table + Dialog
+ * CRUD 操作 + 发布/下线，使用 TanStack Table
  */
 
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { useState } from 'react'
 import { motion } from 'motion/react'
 import {
@@ -15,7 +15,6 @@ import {
   EyeOff,
 } from 'lucide-react'
 import { Button } from '#/components/ui/button'
-import { Input } from '#/components/ui/input'
 import { Badge } from '#/components/ui/badge'
 import { Label } from '#/components/ui/label'
 import {
@@ -25,14 +24,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '#/components/ui/select'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '#/components/ui/dialog'
 import type { ColumnDef } from '#/components/ui/tanstack-table'
 import {
   TableProvider,
@@ -47,11 +38,8 @@ import {
 import { PageHeader } from '#/components/public/page-header'
 import { LoadingPage } from '#/components/public/loading-page'
 import { ConfirmDialog } from '#/components/public/confirm-dialog'
-import { MarkdownEditor } from '#/components/ui/markdown-editor'
 import {
   useAdminAnnouncements,
-  useCreateAnnouncementMutation,
-  useUpdateAnnouncementMutation,
   useDeleteAnnouncementMutation,
   usePublishAnnouncementMutation,
   useOfflineAnnouncementMutation,
@@ -157,84 +145,19 @@ function AdminAnnouncementsPage() {
 
   // ─── 数据查询 ────────────────────────────────────────
   const { data, isLoading } = useAdminAnnouncements(params)
-  const createMutation = useCreateAnnouncementMutation()
-  const updateMutation = useUpdateAnnouncementMutation()
   const deleteMutation = useDeleteAnnouncementMutation()
   const publishMutation = usePublishAnnouncementMutation()
   const offlineMutation = useOfflineAnnouncementMutation()
 
   // ─── 弹窗状态 ────────────────────────────────────────
-  const [showCreate, setShowCreate] = useState(false)
-  const [editTarget, setEditTarget] =
-    useState<AnnouncementResponse | null>(null)
   const [deleteTarget, setDeleteTarget] =
-    useState<AnnouncementResponse | null>(null)
+    useState<AnnouncementListItem | null>(null)
   const [publishTarget, setPublishTarget] =
-    useState<AnnouncementResponse | null>(null)
+    useState<AnnouncementListItem | null>(null)
   const [offlineTarget, setOfflineTarget] =
-    useState<AnnouncementResponse | null>(null)
-
-  // ─── 表单状态 ────────────────────────────────────────
-  const [formTitle, setFormTitle] = useState('')
-  const [formContent, setFormContent] = useState('')
-  const [formType, setFormType] = useState<string>(
-    String(AnnouncementType.InSite),
-  )
-
-  const resetForm = () => {
-    setFormTitle('')
-    setFormContent('')
-    setFormType(String(AnnouncementType.InSite))
-  }
-
-  const openCreate = () => {
-    resetForm()
-    setShowCreate(true)
-  }
-
-  const openEdit = (item: AnnouncementListItem) => {
-    setFormTitle(item.title ?? '')
-    setFormContent(item.desc ?? '')
-    setFormType(String(item.type))
-    setEditTarget(item)
-  }
+    useState<AnnouncementListItem | null>(null)
 
   // ─── 操作处理 ────────────────────────────────────────
-
-  const handleCreate = async () => {
-    if (!formTitle?.trim()) return
-    try {
-      await createMutation.mutateAsync({
-        title: formTitle.trim(),
-        content: formContent ?? '',
-        type: Number(formType),
-      })
-      toast.success('公告创建成功')
-      setShowCreate(false)
-      resetForm()
-    } catch {
-      toast.error('创建失败')
-    }
-  }
-
-  const handleUpdate = async () => {
-    if (!editTarget || !formTitle?.trim()) return
-    try {
-      await updateMutation.mutateAsync({
-        id: editTarget.id,
-        data: {
-          title: formTitle.trim(),
-          content: formContent ?? '',
-          type: Number(formType),
-        },
-      })
-      toast.success('公告更新成功')
-      setEditTarget(null)
-      resetForm()
-    } catch {
-      toast.error('更新失败')
-    }
-  }
 
   const handleDelete = async () => {
     if (!deleteTarget) return
@@ -278,7 +201,7 @@ function AdminAnnouncementsPage() {
 
   // ─── 列定义 ──────────────────────────────────────────
 
-  const columns: ColumnDef<AnnouncementResponse, unknown>[] = [
+  const columns: ColumnDef<AnnouncementListItem, unknown>[] = [
     {
       accessorKey: 'title',
       header: ({ column }) => (
@@ -347,15 +270,19 @@ function AdminAnnouncementsPage() {
         const item = row.original
         return (
           <div className="flex items-center gap-1">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-7 px-2 text-xs"
-              onClick={() => openEdit(item)}
+            <Link
+              to="/admin/announcements/$announcementId"
+              params={{ announcementId: item.id }}
             >
-              <Pencil className="mr-1 h-3 w-3" />
-              编辑
-            </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-7 px-2 text-xs"
+              >
+                <Pencil className="mr-1 h-3 w-3" />
+                编辑
+              </Button>
+            </Link>
             {item.status === 1 && (
               <Button
                 variant="ghost"
@@ -409,10 +336,12 @@ function AdminAnnouncementsPage() {
           title="公告管理"
           description="管理系统公告"
         >
-          <Button onClick={openCreate} className="gap-1.5 text-sm">
-            <Plus className="h-4 w-4" />
-            创建公告
-          </Button>
+          <Link to="/admin/announcements/create">
+            <Button className="gap-1.5 text-sm">
+              <Plus className="h-4 w-4" />
+              创建公告
+            </Button>
+          </Link>
         </PageHeader>
       </motion.div>
 
@@ -522,95 +451,6 @@ function AdminAnnouncementsPage() {
           </div>
         </motion.div>
       )}
-
-      {/* 创建/编辑弹窗 */}
-      <Dialog
-        open={showCreate || !!editTarget}
-        onOpenChange={(open) => {
-          if (!open) {
-            setShowCreate(false)
-            setEditTarget(null)
-            resetForm()
-          }
-        }}
-      >
-        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>
-              {editTarget ? '编辑公告' : '创建公告'}
-            </DialogTitle>
-            <DialogDescription>
-              {editTarget
-                ? '修改公告的标题、内容或类型'
-                : '创建新的系统公告'}
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4 py-2">
-            <div className="space-y-2">
-              <Label htmlFor="announcement-title">标题 *</Label>
-              <Input
-                id="announcement-title"
-                value={formTitle}
-                onChange={(e) => setFormTitle(e.target.value)}
-                placeholder="公告标题"
-                maxLength={128}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="announcement-type">类型 *</Label>
-              <Select value={formType} onValueChange={setFormType}>
-                <SelectTrigger id="announcement-type">
-                  <SelectValue placeholder="选择类型" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value={String(AnnouncementType.InSite)}>
-                    站内公告
-                  </SelectItem>
-                  <SelectItem value={String(AnnouncementType.Global)}>
-                    全局公告
-                  </SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <Label>内容 *</Label>
-              <MarkdownEditor
-                value={formContent}
-                onChange={setFormContent}
-                placeholder="请输入公告内容（支持 Markdown）..."
-                minRows={8}
-              />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => {
-                setShowCreate(false)
-                setEditTarget(null)
-                resetForm()
-              }}
-            >
-              取消
-            </Button>
-            <Button
-              onClick={editTarget ? handleUpdate : handleCreate}
-              disabled={
-                createMutation.isPending ||
-                updateMutation.isPending ||
-                !formTitle?.trim() ||
-                !formContent?.trim()
-              }
-            >
-              {createMutation.isPending || updateMutation.isPending
-                ? '处理中...'
-                : editTarget
-                  ? '保存'
-                  : '创建'}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
 
       {/* 删除确认 */}
       <ConfirmDialog
