@@ -14,6 +14,8 @@ import type {
   UpdateIssueNoteRequest,
   UpdateIssuePriorityRequest,
   UpdateIssueStatusRequest,
+  UpdateIssueInfoRequest,
+  UpdateIssueContentRequest,
 } from '#/api/types'
 
 // ─── 参数接口 ─────────────────────────────────────────────
@@ -74,6 +76,22 @@ export async function updateIssueStatus(
   return authApiClient.put(`/admin/issue/${id}/status`, data)
 }
 
+/** 修改标题/分类 */
+export async function updateIssueInfo(
+  id: string,
+  data: UpdateIssueInfoRequest,
+): Promise<void> {
+  return authApiClient.put(`/admin/issue/${id}/info`, data)
+}
+
+/** 修改描述 */
+export async function updateIssueContent(
+  id: string,
+  data: UpdateIssueContentRequest,
+): Promise<void> {
+  return authApiClient.put(`/admin/issue/${id}/content`, data)
+}
+
 // ─── TanStack Query Hooks ──────────────────────────────────
 
 /** 管理员问题列表 Query */
@@ -116,6 +134,32 @@ export function useUpdateIssueStatusMutation(issueId: string) {
   return useMutation({
     mutationFn: (data: UpdateIssueStatusRequest) =>
       updateIssueStatus(issueId, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['issue-detail', issueId] })
+      queryClient.invalidateQueries({ queryKey: ADMIN_ISSUE_LIST_QUERY_KEY })
+    },
+  })
+}
+
+/** 修改标题/分类 Mutation */
+export function useUpdateIssueInfoMutation(issueId: string) {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (data: UpdateIssueInfoRequest) =>
+      updateIssueInfo(issueId, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['issue-detail', issueId] })
+      queryClient.invalidateQueries({ queryKey: ADMIN_ISSUE_LIST_QUERY_KEY })
+    },
+  })
+}
+
+/** 修改描述 Mutation */
+export function useUpdateIssueContentMutation(issueId: string) {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (data: UpdateIssueContentRequest) =>
+      updateIssueContent(issueId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['issue-detail', issueId] })
       queryClient.invalidateQueries({ queryKey: ADMIN_ISSUE_LIST_QUERY_KEY })

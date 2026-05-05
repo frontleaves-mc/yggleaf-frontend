@@ -133,6 +133,17 @@ export interface UpdateIssueStatusRequest {
   status: IssueStatus
 }
 
+/** 更新问题标题/分类请求（管理员） */
+export interface UpdateIssueInfoRequest {
+  title?: string
+  issue_type_id?: string
+}
+
+/** 更新问题描述请求（管理员） */
+export interface UpdateIssueContentRequest {
+  content: string
+}
+
 // ─── 请求类型（问题类型管理） ──────────────────────────────
 
 /** 创建问题类型请求 */

@@ -5,9 +5,10 @@
 
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useState, useMemo } from 'react'
-import { MessageSquareWarning, Eye, Plus } from 'lucide-react'
+import { MessageSquareWarning, Eye, Plus, Send, Loader2 } from 'lucide-react'
 import { Button } from '#/components/ui/button'
 import { Input } from '#/components/ui/input'
+import { Separator } from '#/components/ui/separator'
 import { MarkdownEditor } from '#/components/ui/markdown-editor'
 import { Tabs, TabsList, TabsTrigger } from '#/components/ui/tabs'
 import {
@@ -48,6 +49,7 @@ import { useIssueTypes } from '#/api/endpoints/api-auth/issue-type'
 import { formatTime } from '#/components/issue/issue-detail-content'
 import type { IssueStatus, IssueListItem } from '#/api/types'
 import { motion } from 'motion/react'
+import { cn } from '#/lib/utils'
 
 // ─── 动画常量 ──────────────────────────────────────────────
 
@@ -257,72 +259,90 @@ function UserIssuesPage() {
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[780px] gap-0 p-0 overflow-hidden">
-              <DialogHeader className="px-6 pt-6 pb-3">
-                <DialogTitle className="text-lg font-bold tracking-tight">
+              <DialogHeader className="px-6 pt-5 pb-3">
+                <DialogTitle className="text-base font-bold tracking-tight">
                   提交问题反馈
                 </DialogTitle>
-                <DialogDescription className="text-[13px] mt-0.5">
+                <DialogDescription className="text-[13px] mt-0.5 text-muted-foreground/80">
                   描述你遇到的问题，我们会尽快处理
                 </DialogDescription>
               </DialogHeader>
 
-              <div className="flex flex-col gap-4 px-6 pb-4">
-                <div className="grid grid-cols-[1fr_140px_130px] gap-3">
-                  <div>
+              <div className="px-6 pb-2">
+                <div className="overflow-hidden">
+                  {/* ── Meta Bar: 标题 + 分类 + 优先级 ── */}
+                  <div className="flex items-center gap-0 px-3 py-2">
                     <Input
                       placeholder="简要概括问题"
-                      className="h-9 text-sm"
+                      className={cn(
+                        'h-7 flex-1 min-w-0 border-0 shadow-none bg-transparent text-sm',
+                        'focus-visible:ring-0 placeholder:text-muted-foreground/40',
+                      )}
                       value={formTitle}
                       onChange={(e) => setFormTitle(e.target.value)}
                     />
+                    <Separator orientation="vertical" className="mx-2 h-4 shrink-0" />
+                    <Select value={formTypeId} onValueChange={setFormTypeId}>
+                      <SelectTrigger
+                        className={cn(
+                          'h-7 w-[110px] border-0 shadow-none bg-transparent text-sm',
+                          'focus-visible:ring-0',
+                        )}
+                      >
+                        <SelectValue placeholder="选择分类" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {issueTypes?.map((type) => (
+                          <SelectItem key={type.id} value={String(type.id)}>
+                            {type.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <Separator orientation="vertical" className="mx-2 h-4 shrink-0" />
+                    <Select
+                      value={formPriority}
+                      onValueChange={setFormPriority}
+                    >
+                      <SelectTrigger
+                        className={cn(
+                          'h-7 w-[100px] border-0 shadow-none bg-transparent text-sm',
+                          'focus-visible:ring-0',
+                        )}
+                      >
+                        <SelectValue placeholder="优先级" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="low">低</SelectItem>
+                        <SelectItem value="medium">中</SelectItem>
+                        <SelectItem value="high">高</SelectItem>
+                        <SelectItem value="urgent">紧急</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
-                  <Select value={formTypeId} onValueChange={setFormTypeId}>
-                    <SelectTrigger className="h-9 text-sm">
-                      <SelectValue placeholder="选择分类" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {issueTypes?.map((type) => (
-                        <SelectItem key={type.id} value={String(type.id)}>
-                          {type.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <Select
-                    value={formPriority}
-                    onValueChange={setFormPriority}
-                  >
-                    <SelectTrigger className="h-9 text-sm">
-                      <SelectValue placeholder="优先级" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="low">低</SelectItem>
-                      <SelectItem value="medium">中</SelectItem>
-                      <SelectItem value="high">高</SelectItem>
-                      <SelectItem value="urgent">紧急</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
 
-                <MarkdownEditor
-                  value={formContent}
-                  onChange={setFormContent}
-                  placeholder="请详细说明问题的现象、复现步骤、期望行为等信息，越详细有助于更快定位问题"
-                  minRows={8}
-                  maxLength={5000}
-                  className="border-0 shadow-none rounded-none"
-                />
+                  {/* ── Markdown 编辑区 ── */}
+                  <MarkdownEditor
+                    value={formContent}
+                    onChange={setFormContent}
+                    placeholder="请详细说明问题的现象、复现步骤、期望行为等信息，越详细有助于更快定位问题"
+                    minRows={8}
+                    maxLength={10000}
+                    className="border-0 shadow-none rounded-none bg-transparent"
+                  />
+                </div>
               </div>
 
-              <DialogFooter className="px-6 pb-5 pt-3 border-t border-border/50 bg-muted/10">
+              <DialogFooter className="px-6 pb-5 pt-1">
                 <Button
                   variant="outline"
+                  size="sm"
                   onClick={() => setDialogOpen(false)}
-                  className="px-5"
                 >
                   取消
                 </Button>
                 <Button
+                  size="sm"
                   onClick={handleCreate}
                   disabled={
                     !formTitle.trim() ||
@@ -330,9 +350,19 @@ function UserIssuesPage() {
                     !formTypeId ||
                     createMutation.isPending
                   }
-                  className="min-w-[100px] px-5"
+                  className="gap-1.5"
                 >
-                  {createMutation.isPending ? '提交中...' : '提交反馈'}
+                  {createMutation.isPending ? (
+                    <>
+                      <Loader2 className="size-3.5 animate-spin" />
+                      提交中...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="size-3.5" />
+                      提交反馈
+                    </>
+                  )}
                 </Button>
               </DialogFooter>
             </DialogContent>
