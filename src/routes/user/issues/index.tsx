@@ -275,7 +275,7 @@ function UserIssuesPage() {
                     <Input
                       placeholder="简要概括问题"
                       className={cn(
-                        'h-7 flex-1 min-w-0 border-0 shadow-none bg-transparent text-sm',
+                        'h-8 flex-1 min-w-0 border-0 shadow-none bg-transparent text-sm',
                         'focus-visible:ring-0 placeholder:text-muted-foreground/40',
                       )}
                       value={formTitle}
@@ -288,7 +288,7 @@ function UserIssuesPage() {
                     <Select value={formTypeId} onValueChange={setFormTypeId}>
                       <SelectTrigger
                         className={cn(
-                          'h-7 w-[110px] border-0 shadow-none bg-transparent text-sm',
+                          'h-8 w-[110px] border-0 shadow-none bg-transparent text-sm',
                           'focus-visible:ring-0',
                         )}
                       >
@@ -312,7 +312,7 @@ function UserIssuesPage() {
                     >
                       <SelectTrigger
                         className={cn(
-                          'h-7 w-[100px] border-0 shadow-none bg-transparent text-sm',
+                          'h-8 w-[100px] border-0 shadow-none bg-transparent text-sm',
                           'focus-visible:ring-0',
                         )}
                       >
@@ -334,7 +334,7 @@ function UserIssuesPage() {
                     placeholder="请详细说明问题的现象、复现步骤、期望行为等信息，越详细有助于更快定位问题"
                     minRows={8}
                     maxLength={10000}
-                    className="border-0 shadow-none rounded-none bg-transparent"
+                    className="border-0 shadow-none rounded-lg bg-transparent"
                   />
                 </div>
               </div>

@@ -110,7 +110,7 @@ function MarkdownEditor({
     <div
       data-slot="markdown-editor"
       className={cn(
-        'group/markdown-editor rounded-xl border border-border/60 bg-card shadow-sm transition-all duration-200 ease-out',
+        'group/markdown-editor rounded-xl border border-border/60 bg-card shadow-sm overflow-hidden transition-all duration-200 ease-out',
         'has-[[data-slot=markdown-textarea]:focus-visible]:border-primary/30',
         'has-[[data-slot=markdown-textarea]:focus-visible]:shadow-md',
         'has-[[data-slot=markdown-textarea]:focus-visible]:ring-[3px]',
@@ -310,12 +310,12 @@ function MarkdownEditor({
             maxLength={maxLength}
             className={cn(
               'px-4 py-3 text-sm leading-relaxed resize-none',
-              'bg-transparent border-0 focus-visible:ring-0 focus-visible:outline-none w-full min-h-[120px]',
+              'bg-transparent border-0 focus-visible:ring-0 focus-visible:outline-none w-full min-h-[120px] max-h-[320px]',
             )}
           />
         </TabsContent>
 
-        <TabsContent value="preview" className="mt-0 px-4 py-3 min-h-[120px]">
+        <TabsContent value="preview" className="mt-0 px-4 py-3 min-h-[120px] max-h-[320px] overflow-y-auto">
           {value.trim().length > 0 ? (
             <MarkdownRenderer content={value} />
           ) : (
