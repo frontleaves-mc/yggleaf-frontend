@@ -32,11 +32,12 @@ export async function refreshServerStatus(
 
 // ─── TanStack Query Hooks ──────────────────────────────────
 
-/** 服务器状态 Query */
+/** 服务器状态 Query（10s 自动轮询） */
 export function useServerStatus() {
   return useQuery({
     queryKey: SERVER_STATUS_QUERY_KEY,
     queryFn: getServerStatus,
+    refetchInterval: 10_000,
   })
 }
 

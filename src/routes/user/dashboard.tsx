@@ -16,6 +16,7 @@ import {
   Mail,
   Megaphone,
   Shirt,
+  Users,
 } from 'lucide-react'
 import { motion } from 'motion/react'
 import { useUserInfo } from '#/api/endpoints/api-auth/user'
@@ -162,6 +163,45 @@ function DashboardPage() {
           server={server}
           serverLoading={serverLoading}
         />
+
+        <section className="flex flex-col gap-4">
+          <div className="flex items-center gap-2">
+            <div className="flex size-7 items-center justify-center rounded-lg bg-primary/[0.08]">
+              <Users className="size-3.5 text-primary" />
+            </div>
+            <h2 className="text-sm font-semibold text-foreground">在线玩家</h2>
+          </div>
+
+          <div className="flex flex-col gap-3">
+            {serverLoading ? (
+              ['a', 'b'].map((k) => (
+                <div
+                  key={k}
+                  className="animate-pulse rounded-xl border border-border/60 bg-card/90 px-4 py-3"
+                >
+                  <div className="h-4 w-1/3 rounded bg-muted" />
+                </div>
+              ))
+            ) : server?.online && server.players.length > 0 ? (
+              <div className="rounded-xl border border-border/60 bg-card/90 px-4 py-3 backdrop-blur-[10px]">
+                <div className="flex flex-wrap items-center gap-2">
+                  {server.players.map((player) => (
+                    <span
+                      key={player.player_uuid}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-border/50 bg-background/60 px-2.5 py-0.5 text-[13px] font-medium text-foreground/80"
+                    >
+                      {player.player_name}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className="rounded-xl border border-dashed border-border/60 py-8 text-center text-sm text-muted-foreground/60">
+                当前无玩家在线
+              </div>
+            )}
+          </div>
+        </section>
 
         <section className="flex flex-col gap-4">
           <div className="flex items-center gap-2">

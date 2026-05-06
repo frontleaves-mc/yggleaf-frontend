@@ -85,7 +85,7 @@ export function ServerStatusBar({
       )}
 
       <span className="text-[11px] tabular-nums text-muted-foreground/35">
-        last heartbeat {formatRelativeTime(server.last_heartbeat)}
+        最后心跳 {formatRelativeTime(server.last_heartbeat)}
       </span>
     </div>
   )

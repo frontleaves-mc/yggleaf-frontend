@@ -218,7 +218,7 @@ export const userMenuSections: MenuSection[] = [
       },
       {
         key: 'map',
-        label: '地图',
+        label: '游戏地图',
         icon: Map,
         to: '/user/map',
       },
@@ -291,7 +291,7 @@ export const breadcrumbLabels: Record<string, string> = {
   '/user/capes': '披风库',
   '/user/game-info': '游戏信息',
   '/user/issues': '问题反馈',
-  '/user/map': '地图',
+  '/user/map': '游戏地图',
   '/user/issues/$issueId': '问题详情',
   '/user/profile': '个人中心',
   '/user/my': '我的资源库',
