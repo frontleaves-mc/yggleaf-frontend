@@ -193,7 +193,6 @@ function AdminIssuesPage() {
     >
       <motion.div variants={fadeUpItem}>
         <PageHeader
-          title="问题管理"
           description="查看和处理所有用户提交的问题反馈"
         />
       </motion.div>

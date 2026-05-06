@@ -263,7 +263,6 @@ function AdminAnnouncementsPage() {
       {/* 页头 */}
       <motion.div variants={fadeUpItem}>
         <PageHeader
-          title="公告管理"
           description="管理系统公告"
         >
           <Link to="/admin/announcements/create">

@@ -275,7 +275,6 @@ function PluginCredentialsPage() {
     >
       <motion.div variants={fadeUpItem}>
         <PageHeader
-          title="插件凭证"
           description="管理 API 插件凭证，查看、创建或删除凭证密钥"
         >
           <Button

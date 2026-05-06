@@ -422,7 +422,6 @@ function AdminAnnouncementSchedulesPage() {
     >
       <motion.div variants={fadeUpItem}>
         <PageHeader
-          title="调度管理"
           description="管理公告推送调度"
         >
           <Button onClick={openCreate} className="gap-1.5 text-sm">

@@ -130,7 +130,6 @@ function GameProfileListPage() {
     >
       <motion.div variants={fadeUpItem}>
         <PageHeader
-          title="游戏档案管理"
           description="管理所有玩家的 Minecraft 游戏档案"
         >
           <Badge variant="secondary" className="text-xs">

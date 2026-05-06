@@ -431,7 +431,6 @@ function TitlesAdminPage() {
     >
       <motion.div variants={fadeUpItem}>
         <PageHeader
-          title="称号管理"
           description="管理 Minecraft 服务器称号的创建、分配与撤销"
         >
           <Button onClick={openCreate} className="gap-1.5 text-sm">

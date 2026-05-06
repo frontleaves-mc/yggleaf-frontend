@@ -224,7 +224,7 @@ function AdminUserListPage() {
     >
       {/* 页面标题 */}
       <motion.div variants={fadeUpItem}>
-        <PageHeader title="用户管理" description="管理系统中的所有用户账号">
+        <PageHeader description="管理系统中的所有用户账号">
           <span className="text-xs text-muted-foreground tabular-nums">
             共 {total} 位用户
           </span>

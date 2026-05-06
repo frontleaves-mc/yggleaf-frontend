@@ -8,7 +8,7 @@
 import { cn } from '#/lib/utils'
 
 interface PageHeaderProps {
-  title: string
+  title?: string
   description?: string
   children?: React.ReactNode
   className?: string
@@ -28,9 +28,11 @@ export function PageHeader({
       )}
     >
       <div className="min-w-0">
-        <h1 className="text-[22px] font-bold tracking-tight text-foreground sm:text-[24px]">
-          {title}
-        </h1>
+        {title && (
+          <h1 className="text-[22px] font-bold tracking-tight text-foreground sm:text-[24px]">
+            {title}
+          </h1>
+        )}
         {description && (
           <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground">
             {description}

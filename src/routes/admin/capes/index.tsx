@@ -176,7 +176,6 @@ function CapeListPage() {
     >
       <motion.div variants={fadeUpItem}>
         <PageHeader
-          title="披风库管理"
           description="管理和预览所有 Minecraft 披风资源"
         >
           <Link to="/admin/capes/create">
