@@ -374,7 +374,7 @@ function EditResourceDialog({
             取消
           </Button>
           <Button
-            className="bg-gradient-to-r from-primary to-primary text-white hover:opacity-90"
+            variant="gradient"
             onClick={handleSave}
             disabled={isSaving || !name}
           >

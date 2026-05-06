@@ -125,7 +125,8 @@ export default function ProfilesPage() {
               <DialogTrigger asChild>
                 <Button
                   size="lg"
-                  className="gap-1.5 bg-linear-to-r from-primary to-primary text-white hover:opacity-90"
+                  className="gap-1.5"
+                  variant="gradient"
                   disabled={isQuotaExhausted}
                 >
                   <Plus className="size-4" />
@@ -163,7 +164,7 @@ export default function ProfilesPage() {
                     取消
                   </Button>
                   <Button
-                    className="bg-linear-to-r from-primary to-primary text-white hover:opacity-90"
+                    variant="gradient"
                     disabled={
                       !newProfileName.trim() || createMutation.isPending
                     }
@@ -233,7 +234,8 @@ export default function ProfilesPage() {
                 绑定你的 Minecraft 角色以开始使用皮肤和披风
               </p>
               <Button
-                className="mt-4 gap-1.5 bg-linear-to-r from-primary to-primary text-white hover:opacity-90"
+                className="mt-4 gap-1.5"
+                variant="gradient"
                 onClick={() => setDialogOpen(true)}
               >
                 <Plus className="size-4" />
@@ -464,7 +466,7 @@ function LibrarySelectInner({
             取消
           </Button>
           <Button
-            className="bg-linear-to-r from-primary to-primary text-white hover:opacity-90"
+            variant="gradient"
             disabled={!selectedId || mutation.isPending}
             onClick={handleConfirm}
           >

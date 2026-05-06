@@ -153,7 +153,8 @@ function CreateCapePage() {
                 <Button
                   type="submit"
                   disabled={createMutation.isPending || !name || !texture}
-                  className="bg-gradient-to-r from-primary to-primary text-white hover:opacity-90 flex-1 sm:flex-none"
+                  className="flex-1 sm:flex-none"
+                  variant="gradient"
                 >
                   {createMutation.isPending ? (
                     <>

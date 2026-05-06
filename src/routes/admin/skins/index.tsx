@@ -180,7 +180,7 @@ function SkinListPage() {
           description="管理和预览所有 Minecraft 皮肤资源"
         >
           <Link to="/admin/skins/create">
-            <Button className="gap-1.5 bg-gradient-to-r from-primary to-primary text-white hover:opacity-90 text-sm">
+            <Button variant="gradient" className="gap-1.5 text-sm">
               <Plus className="h-4 w-4" />
               新建皮肤
             </Button>

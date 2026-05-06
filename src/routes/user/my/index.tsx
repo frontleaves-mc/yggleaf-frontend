@@ -292,7 +292,8 @@ function SkinUploadCard() {
         {/* 底部全宽上传按钮 */}
         <Button
           size="lg"
-          className="w-full bg-gradient-to-r from-primary to-primary text-white hover:opacity-90"
+          className="w-full"
+          variant="gradient"
           disabled={!name || !base64Texture || createMutation.isPending}
           onClick={handleUploadSkin}
         >
@@ -415,7 +416,8 @@ function CapeUploadCard() {
         {/* 底部全宽上传按钮 */}
         <Button
           size="lg"
-          className="w-full bg-gradient-to-r from-primary to-primary text-white hover:opacity-90"
+          className="w-full"
+          variant="gradient"
           disabled={!name || !base64Texture || createMutation.isPending}
           onClick={handleUploadCape}
         >
@@ -515,7 +517,8 @@ function OfficialSyncSection() {
             )}
 
             <Button
-              className="w-full bg-gradient-to-r from-primary to-primary text-white hover:opacity-90"
+              className="w-full"
+              variant="gradient"
               onClick={handleSync}
               disabled={synced}
             >

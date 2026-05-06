@@ -76,16 +76,16 @@ export default function CapesPage() {
         <div className="flex rounded-md border border-input">
           <Button
             variant={viewMode === 'grid' ? 'secondary' : 'ghost'}
-            size="icon"
-            className="rounded-r-none size-9"
+            size="icon-lg"
+            className="rounded-r-none"
             onClick={() => setViewMode('grid')}
           >
             <Grid3X3 className="size-4" />
           </Button>
           <Button
             variant={viewMode === 'list' ? 'secondary' : 'ghost'}
-            size="icon"
-            className="rounded-l-none size-9"
+            size="icon-lg"
+            className="rounded-l-none"
             onClick={() => setViewMode('list')}
           >
             <List className="size-4" />

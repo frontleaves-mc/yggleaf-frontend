@@ -212,7 +212,8 @@ function EditSkinPage() {
                   <Button
                     type="submit"
                     disabled={updateMutation.isPending || !name}
-                    className="bg-gradient-to-r from-primary to-primary text-white hover:opacity-90 flex-1 sm:flex-none"
+                    className="flex-1 sm:flex-none"
+                    variant="gradient"
                   >
                     {updateMutation.isPending ? (
                       <>

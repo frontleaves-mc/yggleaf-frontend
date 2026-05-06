@@ -279,7 +279,8 @@ function PluginCredentialsPage() {
         >
           <Button
             onClick={openCreate}
-            className="gap-1.5 text-sm bg-gradient-to-r from-primary to-primary text-white hover:opacity-90"
+            className="gap-1.5 text-sm"
+            variant="gradient"
           >
             <Plus className="size-4" />
             创建凭证

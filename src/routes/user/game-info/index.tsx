@@ -195,16 +195,16 @@ export default function GameInfoPage() {
         <div className="flex rounded-md border border-input">
           <Button
             variant={viewMode === 'grid' ? 'secondary' : 'ghost'}
-            size="icon"
-            className="rounded-r-none size-9"
+            size="icon-lg"
+            className="rounded-r-none"
             onClick={() => setViewMode('grid')}
           >
             <Grid3X3 className="size-4" />
           </Button>
           <Button
             variant={viewMode === 'list' ? 'secondary' : 'ghost'}
-            size="icon"
-            className="rounded-l-none size-9"
+            size="icon-lg"
+            className="rounded-l-none"
             onClick={() => setViewMode('list')}
           >
             <List className="size-4" />
@@ -306,8 +306,7 @@ function ModCard({
               </code>
               <Button
                 variant="ghost"
-                size="icon"
-                className="size-7"
+                size="icon-sm"
                 onClick={handleCopyHash}
               >
                 {copied ? (
@@ -353,8 +352,8 @@ function ModCard({
             </Badge>
             <Button
               variant="ghost"
-              size="icon"
-              className="size-6 opacity-0 group-hover:opacity-100 transition-opacity"
+              size="icon-xs"
+              className="opacity-0 group-hover:opacity-100 transition-opacity"
               onClick={handleCopyHash}
             >
               {copied ? (

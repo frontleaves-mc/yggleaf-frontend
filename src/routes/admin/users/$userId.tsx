@@ -532,8 +532,8 @@ function AdminUserDetailPage() {
                     <div className="flex items-center gap-2">
                       <Button
                         variant="outline"
-                        size="icon"
-                        className="h-9 w-9 shrink-0"
+                        size="icon-lg"
+                        className="shrink-0"
                         onClick={() =>
                           setDeltaInput((v) => String(Number(v || 0) - 1))
                         }
@@ -549,8 +549,8 @@ function AdminUserDetailPage() {
                       />
                       <Button
                         variant="outline"
-                        size="icon"
-                        className="h-9 w-9 shrink-0"
+                        size="icon-lg"
+                        className="shrink-0"
                         onClick={() =>
                           setDeltaInput((v) => String(Number(v || 0) + 1))
                         }
