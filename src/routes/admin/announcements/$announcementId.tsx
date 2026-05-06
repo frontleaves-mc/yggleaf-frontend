@@ -25,7 +25,10 @@ import { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
 import { toast } from 'sonner'
 import { staggerContainer, fadeUpItem } from '#/lib/motion-presets'
-import { getAnnouncementTypeBadge, getAnnouncementStatusBadge } from '#/lib/announcement-helpers'
+import {
+  getAnnouncementTypeBadge,
+  getAnnouncementStatusBadge,
+} from '#/lib/announcement-helpers'
 import { ConfirmDialog } from '#/components/public/confirm-dialog'
 import { AnnouncementType } from '#/api/types/api-mc/announcement'
 import { useSetPageTitle } from '#/components/layout/page-title-context'
@@ -35,16 +38,18 @@ export const Route = createFileRoute('/admin/announcements/$announcementId')({
 })
 
 function EditAnnouncementPage() {
-  const { announcementId } = useParams({ strict: false }) as { announcementId: string }
+  const { announcementId } = useParams({ strict: false })
   const navigate = useNavigate()
   const { data: announcement, isLoading } =
-    useAdminAnnouncementDetail(announcementId!)
+    useAdminAnnouncementDetail(announcementId)
   const setTitle = useSetPageTitle()
 
   const updateMutation = useUpdateAnnouncementMutation()
   const [formTitle, setFormTitle] = useState('')
   const [formContent, setFormContent] = useState('')
-  const [formType, setFormType] = useState<string>(String(AnnouncementType.InSite))
+  const [formType, setFormType] = useState<string>(
+    String(AnnouncementType.InSite),
+  )
 
   useEffect(() => {
     if (announcement) {
@@ -75,7 +80,7 @@ function EditAnnouncementPage() {
     e.preventDefault()
     try {
       await updateMutation.mutateAsync({
-        id: announcementId!,
+        id: announcementId,
         data: {
           title: formTitle.trim(),
           content: formContent.trim(),
@@ -98,142 +103,143 @@ function EditAnnouncementPage() {
 
   if (!announcement)
     return (
-      <div className="text-center py-12 text-muted-foreground">
-        公告不存在
-      </div>
+      <div className="text-center py-12 text-muted-foreground">公告不存在</div>
     )
 
   return (
     <>
-    <motion.div
-      className="space-y-6"
-      variants={staggerContainer}
-      initial="initial"
-      animate="animate"
-    >
-      {/* 页头：导航 + 标题 + 元信息 + 操作按钮 */}
-      <motion.div variants={fadeUpItem}>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Link
-              to="/admin/announcements"
-              className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              返回列表
-            </Link>
-            <span className="text-muted-foreground/40">/</span>
-            <h1 className="text-lg font-semibold">编辑公告</h1>
-          </div>
+      <motion.div
+        className="space-y-6"
+        variants={staggerContainer}
+        initial="initial"
+        animate="animate"
+      >
+        {/* 页头：导航 + 标题 + 元信息 + 操作按钮 */}
+        <motion.div variants={fadeUpItem}>
+          <Link
+            to="/admin/announcements"
+            className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            返回列表
+          </Link>
 
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              type="button"
-              disabled={updateMutation.isPending}
-              onClick={() => navigate({ to: '/admin/announcements' })}
-            >
-              <X className="mr-1.5 h-3.5 w-3.5" />
-              取消
-            </Button>
-            <Button
-              size="sm"
-              type="submit"
-              form="edit-announcement-form"
-              disabled={
-                updateMutation.isPending ||
-                !formTitle?.trim() ||
-                !formContent?.trim()
-              }
-            >
-              {updateMutation.isPending ? (
-                <>
-                  <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
-                  保存中...
-                </>
-              ) : (
-                <>
-                  <Save className="mr-1.5 h-3.5 w-3.5" />
-                  保存修改
-                </>
+          {/* 元信息行 + 操作按钮 */}
+          <div className="mt-3 flex items-center justify-between">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-muted-foreground">
+              <span className="font-mono">ID: {announcement.id}</span>
+              {getAnnouncementStatusBadge(announcement.status)}
+              {getAnnouncementTypeBadge(announcement.type)}
+              <span>
+                创建于{' '}
+                {new Date(announcement.created_at).toLocaleString('zh-CN')}
+              </span>
+              {announcement.published_at && (
+                <span>
+                  发布于{' '}
+                  {new Date(announcement.published_at).toLocaleString('zh-CN')}
+                </span>
               )}
-            </Button>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                type="button"
+                disabled={updateMutation.isPending}
+                onClick={() => navigate({ to: '/admin/announcements' })}
+              >
+                <X className="mr-1.5 h-3.5 w-3.5" />
+                取消
+              </Button>
+              <Button
+                size="sm"
+                type="submit"
+                form="edit-announcement-form"
+                disabled={
+                  updateMutation.isPending ||
+                  !formTitle?.trim() ||
+                  !formContent?.trim()
+                }
+              >
+                {updateMutation.isPending ? (
+                  <>
+                    <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+                    保存中...
+                  </>
+                ) : (
+                  <>
+                    <Save className="mr-1.5 h-3.5 w-3.5" />
+                    保存修改
+                  </>
+                )}
+              </Button>
+            </div>
           </div>
-        </div>
+        </motion.div>
 
-        {/* 元信息行 */}
-        <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-muted-foreground">
-          <span className="font-mono">ID: {announcement.id}</span>
-          {getAnnouncementStatusBadge(announcement.status)}
-          {getAnnouncementTypeBadge(announcement.type)}
-          <span>创建于 {new Date(announcement.created_at).toLocaleString('zh-CN')}</span>
-          {announcement.published_at && (
-            <span>发布于 {new Date(announcement.published_at).toLocaleString('zh-CN')}</span>
-          )}
-        </div>
-      </motion.div>
+        {/* 表单 */}
+        <motion.div variants={fadeUpItem}>
+          <form
+            id="edit-announcement-form"
+            onSubmit={handleUpdate}
+            className="space-y-5"
+          >
+            {/* 标题 + 类型同行 */}
+            <div className="flex items-end gap-3">
+              <div className="flex-1">
+                <Label className='mb-2'>公告标题 *</Label>
+                <Input
+                  value={formTitle}
+                  onChange={(e) => setFormTitle(e.target.value)}
+                  required
+                  disabled={updateMutation.isPending}
+                />
+              </div>
+              <div className="w-36">
+                <Label className='mb-2'>公告类型</Label>
+                <Select
+                  value={formType}
+                  onValueChange={setFormType}
+                  disabled={updateMutation.isPending}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="1">站内公告</SelectItem>
+                    <SelectItem value="2">全局公告</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
 
-      {/* 表单 */}
-      <motion.div variants={fadeUpItem}>
-        <form
-          id="edit-announcement-form"
-          onSubmit={handleUpdate}
-          className="space-y-5"
-        >
-          {/* 标题 + 类型同行 */}
-          <div className="flex items-end gap-3">
-            <div className="flex-1 space-y-2">
-              <Label>公告标题 *</Label>
-              <Input
-                value={formTitle}
-                onChange={(e) => setFormTitle(e.target.value)}
-                required
+            {/* 内容编辑器 */}
+            <div className="space-y-2">
+              <Label>公告内容 *</Label>
+              <MarkdownSplitEditor
+                value={formContent}
+                onChange={setFormContent}
+                placeholder="请输入公告内容..."
                 disabled={updateMutation.isPending}
               />
             </div>
-            <div className="w-36 space-y-2">
-              <Label>公告类型</Label>
-              <Select
-                value={formType}
-                onValueChange={setFormType}
-                disabled={updateMutation.isPending}
-              >
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="1">站内公告</SelectItem>
-                  <SelectItem value="2">全局公告</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          {/* 内容编辑器 */}
-          <div className="space-y-2">
-            <Label>公告内容 *</Label>
-            <MarkdownSplitEditor
-              value={formContent}
-              onChange={setFormContent}
-              placeholder="请输入公告内容..."
-              disabled={updateMutation.isPending}
-            />
-          </div>
-        </form>
+          </form>
+        </motion.div>
       </motion.div>
-    </motion.div>
 
-    <ConfirmDialog
-      open={status === 'blocked'}
-      onOpenChange={(open) => { if (!open) reset() }}
-      title="未保存的更改"
-      description="你有未保存的更改，确定要离开吗？离开后更改将丢失。"
-      confirmLabel="离开"
-      cancelLabel="继续编辑"
-      variant="destructive"
-      onConfirm={proceed}
-    />
+      <ConfirmDialog
+        open={status === 'blocked'}
+        onOpenChange={(open) => {
+          if (!open) reset()
+        }}
+        title="未保存的更改"
+        description="你有未保存的更改，确定要离开吗？离开后更改将丢失。"
+        confirmLabel="离开"
+        cancelLabel="继续编辑"
+        variant="destructive"
+        onConfirm={proceed}
+      />
     </>
   )
 }
@@ -241,7 +247,7 @@ function EditAnnouncementPage() {
 function LoadingSkeleton() {
   return (
     <div className="space-y-4">
-      <div className="h-8 w-48 rounded bg-muted animate-pulse" />
+      <div className="h-4 w-20 rounded bg-muted animate-pulse" />
       <div className="flex gap-3">
         <div className="flex-1 space-y-2">
           <div className="h-4 w-20 rounded bg-muted animate-pulse" />
