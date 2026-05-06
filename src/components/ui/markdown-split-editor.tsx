@@ -132,7 +132,7 @@ function MarkdownSplitEditor({
     <div
       data-slot="markdown-editor"
       className={cn(
-        'group/markdown-editor rounded-xl border border-border/60 bg-card shadow-sm transition-all duration-200 ease-out h-[500px]',
+        'group/markdown-editor flex flex-col rounded-xl border border-border/60 bg-card shadow-sm transition-all duration-200 ease-out h-[500px]',
         'has-[[data-slot=markdown-textarea]:focus-visible]:border-primary/30',
         'has-[[data-slot=markdown-textarea]:focus-visible]:shadow-md',
         'has-[[data-slot=markdown-textarea]:focus-visible]:ring-[3px]',
@@ -295,6 +295,7 @@ function MarkdownSplitEditor({
         </ToggleGroup>
       </div>
 
+      <div className="flex-1 overflow-hidden">
       <Allotment defaultSizes={[50, 50]}>
         <Allotment.Pane minSize={20}>
           <textarea
@@ -328,6 +329,7 @@ function MarkdownSplitEditor({
           </div>
         </Allotment.Pane>
       </Allotment>
+      </div>
     </div>
   )
 }
