@@ -24,8 +24,9 @@ import {
   SelectValue,
 } from '#/components/ui/select'
 import { Loader2, ArrowLeft, Save } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
+import { useSetPageTitle } from '#/components/layout/page-title-context'
 
 /** stagger 容器动画 - 子元素依次入场 */
 const staggerContainer = {
@@ -51,11 +52,17 @@ export const Route = createFileRoute('/admin/skins/create')({
 function CreateSkinPage() {
   const createMutation = useCreateSkinMutation()
   const navigate = useNavigate()
+  const setTitle = useSetPageTitle()
 
   const [name, setName] = useState('')
   const [model, setModel] = useState<string>('1')
   const [texture, setTexture] = useState('')
   const [isPublic, setIsPublic] = useState(true)
+
+  useEffect(() => {
+    setTitle('创建皮肤')
+    return () => setTitle(null)
+  }, [setTitle])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

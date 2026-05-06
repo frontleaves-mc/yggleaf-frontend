@@ -28,8 +28,9 @@ import { Switch } from '#/components/ui/switch'
 import { Badge } from '#/components/ui/badge'
 import { ConfirmDialog } from '#/components/public/confirm-dialog'
 import { Loader2, ArrowLeft, Save, Trash2 } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
+import { useSetPageTitle } from '#/components/layout/page-title-context'
 
 /** stagger 容器动画 - 子元素依次入场 */
 const staggerContainer = {
@@ -56,6 +57,7 @@ function EditCapePage() {
   const { capeId } = useParams({ strict: false })
   const navigate = useNavigate()
   const { data: cape, isLoading } = useCapeDetail(capeId)
+  const setTitle = useSetPageTitle()
 
   const updateMutation = useUpdateCapeMutation(Number(capeId))
   const deleteMutation = useDeleteCapeMutation()
@@ -63,6 +65,11 @@ function EditCapePage() {
 
   const [name, setName] = useState('')
   const [isPublic, setIsPublic] = useState(true)
+
+  useEffect(() => {
+    if (cape) setTitle(cape.name)
+    return () => setTitle(null)
+  }, [cape, setTitle])
 
   // 当数据加载完成后初始化表单
   if (cape && !name) {

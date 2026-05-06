@@ -28,6 +28,7 @@ import { staggerContainer, fadeUpItem } from '#/lib/motion-presets'
 import { getAnnouncementTypeBadge, getAnnouncementStatusBadge } from '#/lib/announcement-helpers'
 import { ConfirmDialog } from '#/components/public/confirm-dialog'
 import { AnnouncementType } from '#/api/types/api-mc/announcement'
+import { useSetPageTitle } from '#/components/layout/page-title-context'
 
 export const Route = createFileRoute('/admin/announcements/$announcementId')({
   component: EditAnnouncementPage,
@@ -38,6 +39,7 @@ function EditAnnouncementPage() {
   const navigate = useNavigate()
   const { data: announcement, isLoading } =
     useAdminAnnouncementDetail(announcementId!)
+  const setTitle = useSetPageTitle()
 
   const updateMutation = useUpdateAnnouncementMutation()
   const [formTitle, setFormTitle] = useState('')
@@ -51,6 +53,11 @@ function EditAnnouncementPage() {
       setFormType(String(announcement.type))
     }
   }, [announcement])
+
+  useEffect(() => {
+    if (announcement) setTitle(announcement.title)
+    return () => setTitle(null)
+  }, [announcement, setTitle])
 
   const isDirty = announcement
     ? formTitle !== announcement.title ||

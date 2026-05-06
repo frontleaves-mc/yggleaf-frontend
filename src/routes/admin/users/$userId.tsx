@@ -9,7 +9,7 @@ import {
   useParams,
   useNavigate,
 } from '@tanstack/react-router'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
 import {
   ArrowLeft,
@@ -43,6 +43,7 @@ import {
 import { useUserInfo } from '#/api/endpoints/api-auth/user'
 import { toast } from 'sonner'
 import { isSuperAdmin } from '#/lib/permissions'
+import { useSetPageTitle } from '#/components/layout/page-title-context'
 
 // ─── 动画常量 ─────────────────────────────────────────────
 
@@ -137,6 +138,7 @@ function AdminUserDetailPage() {
   const { data: userInfo } = useUserInfo()
   const { data: detail, isLoading } = useAdminUserDetail(userId)
   const quotaMutation = useAdjustGameProfileQuotaMutation(userId)
+  const setTitle = useSetPageTitle()
 
   const superMode = isSuperAdmin(userInfo?.user?.role_name)
   if (!superMode) {
@@ -146,6 +148,11 @@ function AdminUserDetailPage() {
 
   const [deltaInput, setDeltaInput] = useState('')
   const [remark, setRemark] = useState('')
+
+  useEffect(() => {
+    if (detail) setTitle(detail.user.username)
+    return () => setTitle(null)
+  }, [detail, setTitle])
 
   if (isLoading) return <LoadingPage />
   if (!detail)

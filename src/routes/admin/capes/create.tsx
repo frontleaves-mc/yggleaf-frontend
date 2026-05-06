@@ -17,8 +17,9 @@ import { Input } from '#/components/ui/input'
 import { Label } from '#/components/ui/label'
 import { Switch } from '#/components/ui/switch'
 import { Loader2, ArrowLeft, Save } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
+import { useSetPageTitle } from '#/components/layout/page-title-context'
 
 /** stagger 容器动画 - 子元素依次入场 */
 const staggerContainer = {
@@ -44,10 +45,16 @@ export const Route = createFileRoute('/admin/capes/create')({
 function CreateCapePage() {
   const createMutation = useCreateCapeMutation()
   const navigate = useNavigate()
+  const setTitle = useSetPageTitle()
 
   const [name, setName] = useState('')
   const [texture, setTexture] = useState('')
   const [isPublic, setIsPublic] = useState(true)
+
+  useEffect(() => {
+    setTitle('创建披风')
+    return () => setTitle(null)
+  }, [setTitle])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

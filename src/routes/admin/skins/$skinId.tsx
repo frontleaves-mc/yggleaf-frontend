@@ -35,8 +35,9 @@ import {
 import { Badge } from '#/components/ui/badge'
 import { ConfirmDialog } from '#/components/public/confirm-dialog'
 import { Loader2, ArrowLeft, Save, Trash2 } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
+import { useSetPageTitle } from '#/components/layout/page-title-context'
 
 /** stagger 容器动画 - 子元素依次入场 */
 const staggerContainer = {
@@ -63,6 +64,7 @@ function EditSkinPage() {
   const { skinId } = useParams({ strict: false })
   const navigate = useNavigate()
   const { data: skin, isLoading } = useSkinDetail(skinId)
+  const setTitle = useSetPageTitle()
 
   const updateMutation = useUpdateSkinMutation(Number(skinId))
   const deleteMutation = useDeleteSkinMutation()
@@ -71,6 +73,11 @@ function EditSkinPage() {
   const [name, setName] = useState('')
   const [model, setModel] = useState<string>('1')
   const [isPublic, setIsPublic] = useState(true)
+
+  useEffect(() => {
+    if (skin) setTitle(skin.name)
+    return () => setTitle(null)
+  }, [skin, setTitle])
 
   // 当数据加载完成后初始化表单
   if (skin && !name) {

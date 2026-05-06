@@ -12,12 +12,13 @@ import {
 } from '#/components/ui/select'
 import { MarkdownSplitEditor } from '#/components/ui/markdown-split-editor'
 import { Loader2, ArrowLeft, Save, X } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
 import { toast } from 'sonner'
 import { AnnouncementType } from '#/api/types/api-mc/announcement'
 import { staggerContainer, fadeUpItem } from '#/lib/motion-presets'
 import { ConfirmDialog } from '#/components/public/confirm-dialog'
+import { useSetPageTitle } from '#/components/layout/page-title-context'
 
 export const Route = createFileRoute('/admin/announcements/create')({
   component: CreateAnnouncementPage,
@@ -26,6 +27,7 @@ export const Route = createFileRoute('/admin/announcements/create')({
 function CreateAnnouncementPage() {
   const createMutation = useCreateAnnouncementMutation()
   const navigate = useNavigate()
+  const setTitle = useSetPageTitle()
 
   const [formTitle, setFormTitle] = useState('')
   const [formContent, setFormContent] = useState('')
@@ -43,6 +45,11 @@ function CreateAnnouncementPage() {
     withResolver: true,
     enableBeforeUnload: true,
   })
+
+  useEffect(() => {
+    setTitle('创建公告')
+    return () => setTitle(null)
+  }, [setTitle])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

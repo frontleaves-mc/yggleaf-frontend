@@ -9,7 +9,7 @@ import {
   useParams,
   useNavigate,
 } from '@tanstack/react-router'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
 import {
   ArrowLeft,
@@ -42,6 +42,7 @@ import {
 import { useUserInfo } from '#/api/endpoints/api-auth/user'
 import { toast } from 'sonner'
 import { isSuperAdmin } from '#/lib/permissions'
+import { useSetPageTitle } from '#/components/layout/page-title-context'
 
 // ─── 动画预设 ──────────────────────────────────────────────
 
@@ -85,6 +86,7 @@ function CredentialDetailPage() {
   } = usePluginCredentialDetail(credentialId!)
   const updateMutation = useUpdatePluginCredentialMutation()
   const resetKeyMutation = useResetPluginCredentialKeyMutation()
+  const setTitle = useSetPageTitle()
 
   // ─── 状态 ────────────────────────────────────────────
   const [isEditingDesc, setIsEditingDesc] = useState(false)
@@ -93,6 +95,11 @@ function CredentialDetailPage() {
   const [isKeyRevealDialogOpen, setIsKeyRevealDialogOpen] = useState(false)
   const [revealedKey, setRevealedKey] = useState('')
   const [revealedCredentialName, setRevealedCredentialName] = useState('')
+
+  useEffect(() => {
+    if (credential) setTitle(credential.name)
+    return () => setTitle(null)
+  }, [credential, setTitle])
 
   // ─── 404 容错 ────────────────────────────────────────
   if (error) {
