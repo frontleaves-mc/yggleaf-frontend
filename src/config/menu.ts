@@ -266,12 +266,6 @@ export const userMenuSections: MenuSection[] = [
         to: '/user/issues',
       },
       {
-        key: 'announcements',
-        label: '公告中心',
-        icon: Megaphone,
-        to: '/user/announcements',
-      },
-      {
         key: 'profile',
         label: '个人中心',
         icon: Settings,
@@ -327,7 +321,6 @@ export const breadcrumbLabels: Record<string, string> = {
   // ── 公告 ──
   '/admin/announcements': '公告管理',
   '/admin/announcement-schedules': '调度管理',
-  '/user/announcements': '公告中心',
   '/announcements': '公告中心',
   '/announcements/$id': '公告详情',
 }
