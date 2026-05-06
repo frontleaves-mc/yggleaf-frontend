@@ -177,6 +177,7 @@ function CreateSkinPage() {
                 <Link to="/admin/skins">
                   <Button
                     variant="outline"
+                    size="sm"
                     type="button"
                     disabled={createMutation.isPending}
                   >
@@ -185,6 +186,7 @@ function CreateSkinPage() {
                 </Link>
                 <Button
                   type="submit"
+                  size="sm"
                   disabled={createMutation.isPending || !name || !texture}
                   className="flex-1 sm:flex-none"
                   variant="gradient"

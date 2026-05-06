@@ -179,7 +179,7 @@ function CapeListPage() {
           description="管理和预览所有 Minecraft 披风资源"
         >
           <Link to="/admin/capes/create">
-            <Button variant="gradient" className="gap-1.5 text-sm">
+            <Button variant="gradient" className="gap-1.5">
               <Plus className="h-4 w-4" />
               新建披风
             </Button>

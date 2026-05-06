@@ -424,7 +424,7 @@ function AdminAnnouncementSchedulesPage() {
         <PageHeader
           description="管理公告推送调度"
         >
-          <Button onClick={openCreate} className="gap-1.5 text-sm">
+          <Button onClick={openCreate} className="gap-1.5">
             <Plus className="h-4 w-4" />
             创建调度
           </Button>

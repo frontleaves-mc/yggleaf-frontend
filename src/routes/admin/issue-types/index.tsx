@@ -273,7 +273,7 @@ function IssueTypesPage() {
     >
       <motion.div variants={fadeUpItem}>
         <PageHeader description="管理问题反馈的分类类型">
-          <Button onClick={openCreate} className="gap-1.5 text-sm">
+          <Button onClick={openCreate} className="gap-1.5">
             <Plus className="h-4 w-4" />
             新建类型
           </Button>

@@ -266,7 +266,7 @@ function AdminAnnouncementsPage() {
           description="管理系统公告"
         >
           <Link to="/admin/announcements/create">
-            <Button className="gap-1.5 text-sm">
+            <Button className="gap-1.5">
               <Plus className="h-4 w-4" />
               创建公告
             </Button>

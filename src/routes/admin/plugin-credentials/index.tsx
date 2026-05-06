@@ -279,7 +279,7 @@ function PluginCredentialsPage() {
         >
           <Button
             onClick={openCreate}
-            className="gap-1.5 text-sm"
+            className="gap-1.5"
             variant="gradient"
           >
             <Plus className="size-4" />

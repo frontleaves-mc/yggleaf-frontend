@@ -174,6 +174,7 @@ function EditCapePage() {
                   <Link to="/admin/capes">
                     <Button
                       variant="outline"
+                      size="sm"
                       type="button"
                       disabled={updateMutation.isPending}
                     >
@@ -182,6 +183,7 @@ function EditCapePage() {
                   </Link>
                   <Button
                     type="submit"
+                    size="sm"
                     disabled={updateMutation.isPending || !name}
                     className="flex-1 sm:flex-none"
                     variant="gradient"
@@ -226,6 +228,7 @@ function EditCapePage() {
               <div className="pt-4 border-t border-border">
                 <Button
                   variant="destructive"
+                  size="sm"
                   className="w-full gap-1.5 text-sm"
                   onClick={() => setShowDeleteConfirm(true)}
                 >

@@ -144,6 +144,7 @@ function CreateCapePage() {
                 <Link to="/admin/capes">
                   <Button
                     variant="outline"
+                    size="sm"
                     type="button"
                     disabled={createMutation.isPending}
                   >
@@ -152,6 +153,7 @@ function CreateCapePage() {
                 </Link>
                 <Button
                   type="submit"
+                  size="sm"
                   disabled={createMutation.isPending || !name || !texture}
                   className="flex-1 sm:flex-none"
                   variant="gradient"
