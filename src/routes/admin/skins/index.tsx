@@ -176,9 +176,7 @@ function SkinListPage() {
       animate="animate"
     >
       <motion.div variants={fadeUpItem}>
-        <PageHeader
-          description="管理和预览所有 Minecraft 皮肤资源"
-        >
+        <PageHeader description="管理和预览所有 Minecraft 皮肤资源">
           <Link to="/admin/skins/create">
             <Button variant="gradient" className="gap-1.5">
               <Plus className="h-4 w-4" />

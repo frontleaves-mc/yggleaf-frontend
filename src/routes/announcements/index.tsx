@@ -2,9 +2,7 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { LogIn } from 'lucide-react'
 import { useState } from 'react'
 import { motion } from 'motion/react'
-import {
-  usePublicAnnouncements,
-} from '#/api/endpoints/api-mc/public-announcement'
+import { usePublicAnnouncements } from '#/api/endpoints/api-mc/public-announcement'
 import { Button } from '#/components/ui/button'
 import { Badge } from '#/components/ui/badge'
 import { checkIsAuthenticated } from '#/hooks/use-auth-guard'
@@ -28,12 +26,16 @@ const TYPE_TABS = [
   { label: '全局', value: 2 },
 ] as const
 
-function typeBadgeVariant(
-  type: number,
-): { label: string; className: string } {
+function typeBadgeVariant(type: number): { label: string; className: string } {
   return type === 1
-    ? { label: '站内', className: 'bg-blue-500/10 text-blue-600 dark:text-blue-400' }
-    : { label: '全局', className: 'bg-purple-500/10 text-purple-600 dark:text-purple-400' }
+    ? {
+        label: '站内',
+        className: 'bg-blue-500/10 text-blue-600 dark:text-blue-400',
+      }
+    : {
+        label: '全局',
+        className: 'bg-purple-500/10 text-purple-600 dark:text-purple-400',
+      }
 }
 
 export const Route = createFileRoute('/announcements/')({
@@ -61,7 +63,10 @@ function PublicAnnouncementsPage() {
     setPage(1)
   }
 
-  const truncateContent = (content: string | undefined | null, len = 100): string => {
+  const truncateContent = (
+    content: string | undefined | null,
+    len = 100,
+  ): string => {
     if (!content) return ''
     if (content.length <= len) return content
     return content.slice(0, len) + '...'
@@ -152,7 +157,11 @@ function PublicAnnouncementsPage() {
                         {item.title}
                       </h3>
                       <span className="shrink-0 text-xs text-muted-foreground">
-                        {item.published_at ? new Date(item.published_at).toLocaleDateString('zh-CN') : '-'}
+                        {item.published_at
+                          ? new Date(item.published_at).toLocaleDateString(
+                              'zh-CN',
+                            )
+                          : '-'}
                       </span>
                     </div>
                     <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">

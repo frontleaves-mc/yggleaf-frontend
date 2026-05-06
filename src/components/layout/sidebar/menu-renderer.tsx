@@ -10,7 +10,7 @@
  */
 
 import { Link, useLocation } from '@tanstack/react-router'
-import type { LucideIcon, LucideIcon as LucideIconType  } from 'lucide-react'
+import type { LucideIcon, LucideIcon as LucideIconType } from 'lucide-react'
 import { ChevronRight } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { useUserInfoSync } from '#/api/endpoints/api-auth/user'

@@ -129,9 +129,7 @@ function GameProfileListPage() {
       animate="animate"
     >
       <motion.div variants={fadeUpItem}>
-        <PageHeader
-          description="管理所有玩家的 Minecraft 游戏档案"
-        >
+        <PageHeader description="管理所有玩家的 Minecraft 游戏档案">
           <Badge variant="secondary" className="text-xs">
             接口开发中
           </Badge>

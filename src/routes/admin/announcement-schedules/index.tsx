@@ -135,7 +135,9 @@ function AdminAnnouncementSchedulesPage() {
   // ─── 弹窗状态 ────────────────────────────────────────
   const [showCreate, setShowCreate] = useState(false)
   const [editTarget, setEditTarget] = useState<ScheduleResponse | null>(null)
-  const [deleteTarget, setDeleteTarget] = useState<ScheduleResponse | null>(null)
+  const [deleteTarget, setDeleteTarget] = useState<ScheduleResponse | null>(
+    null,
+  )
   const [toggleTarget, setToggleTarget] = useState<{
     schedule: ScheduleResponse
     action: 'activate' | 'deactivate'
@@ -171,7 +173,9 @@ function AdminAnnouncementSchedulesPage() {
   const openEdit = (schedule: ScheduleResponse) => {
     setFormName(schedule.name)
     setFormMode(String(schedule.mode))
-    setFormIntervalSeconds(schedule.interval_seconds ? String(schedule.interval_seconds) : '')
+    setFormIntervalSeconds(
+      schedule.interval_seconds ? String(schedule.interval_seconds) : '',
+    )
     setFormItems(
       schedule.items.map((item) => ({
         uid: crypto.randomUUID(),
@@ -208,9 +212,7 @@ function AdminAnnouncementSchedulesPage() {
     value: string | number,
   ) => {
     setFormItems((prev) =>
-      prev.map((item, i) =>
-        i === index ? { ...item, [field]: value } : item,
-      ),
+      prev.map((item, i) => (i === index ? { ...item, [field]: value } : item)),
     )
   }
 
@@ -222,14 +224,17 @@ function AdminAnnouncementSchedulesPage() {
       await createMutation.mutateAsync({
         name: formName.trim(),
         mode: Number(formMode),
-        items: formItems.filter((it) => it.announcement_id).map((it) => ({
-          announcement_id: it.announcement_id,
-          delay_seconds: it.delay_seconds || undefined,
-          sort_order: it.sort_order || undefined,
-        })),
-        interval_seconds: formMode === '2' && formIntervalSeconds
-          ? Number(formIntervalSeconds)
-          : undefined,
+        items: formItems
+          .filter((it) => it.announcement_id)
+          .map((it) => ({
+            announcement_id: it.announcement_id,
+            delay_seconds: it.delay_seconds || undefined,
+            sort_order: it.sort_order || undefined,
+          })),
+        interval_seconds:
+          formMode === '2' && formIntervalSeconds
+            ? Number(formIntervalSeconds)
+            : undefined,
       })
       toast.success('调度创建成功')
       setShowCreate(false)
@@ -247,14 +252,17 @@ function AdminAnnouncementSchedulesPage() {
         data: {
           name: formName.trim(),
           mode: Number(formMode),
-          items: formItems.filter((it) => it.announcement_id).map((it) => ({
-            announcement_id: it.announcement_id,
-            delay_seconds: it.delay_seconds || undefined,
-            sort_order: it.sort_order || undefined,
-          })),
-          interval_seconds: formMode === '2' && formIntervalSeconds
-            ? Number(formIntervalSeconds)
-            : undefined,
+          items: formItems
+            .filter((it) => it.announcement_id)
+            .map((it) => ({
+              announcement_id: it.announcement_id,
+              delay_seconds: it.delay_seconds || undefined,
+              sort_order: it.sort_order || undefined,
+            })),
+          interval_seconds:
+            formMode === '2' && formIntervalSeconds
+              ? Number(formIntervalSeconds)
+              : undefined,
         },
       })
       toast.success('调度更新成功')
@@ -421,9 +429,7 @@ function AdminAnnouncementSchedulesPage() {
       animate="animate"
     >
       <motion.div variants={fadeUpItem}>
-        <PageHeader
-          description="管理公告推送调度"
-        >
+        <PageHeader description="管理公告推送调度">
           <Button onClick={openCreate} className="gap-1.5">
             <Plus className="h-4 w-4" />
             创建调度
@@ -579,7 +585,9 @@ function AdminAnnouncementSchedulesPage() {
                   <div className="flex-1 min-w-0 space-y-2">
                     <Select
                       value={item.announcement_id}
-                      onValueChange={(val) => updateItem(index, 'announcement_id', val)}
+                      onValueChange={(val) =>
+                        updateItem(index, 'announcement_id', val)
+                      }
                     >
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="选择公告" />
@@ -599,7 +607,11 @@ function AdminAnnouncementSchedulesPage() {
                         placeholder="延迟秒数"
                         value={item.delay_seconds}
                         onChange={(e) =>
-                          updateItem(index, 'delay_seconds', Number(e.target.value))
+                          updateItem(
+                            index,
+                            'delay_seconds',
+                            Number(e.target.value),
+                          )
                         }
                         className="flex-1"
                       />
@@ -609,7 +621,11 @@ function AdminAnnouncementSchedulesPage() {
                         placeholder="排序序号"
                         value={item.sort_order}
                         onChange={(e) =>
-                          updateItem(index, 'sort_order', Number(e.target.value))
+                          updateItem(
+                            index,
+                            'sort_order',
+                            Number(e.target.value),
+                          )
                         }
                         className="w-24"
                       />
@@ -692,7 +708,9 @@ function AdminAnnouncementSchedulesPage() {
             ? activateMutation.isPending
             : deactivateMutation.isPending
         }
-        variant={toggleTarget?.action === 'deactivate' ? 'destructive' : 'default'}
+        variant={
+          toggleTarget?.action === 'deactivate' ? 'destructive' : 'default'
+        }
       />
     </motion.div>
   )

@@ -21,11 +21,8 @@ import {
   useRefreshServerStatusMutation,
   useServerStatus,
 } from '#/api/endpoints/api-mc/server-status'
-import {
-  DashboardCard
-  
-} from '#/components/dashboard/dashboard-card'
-import type {DashboardCardConfig} from '#/components/dashboard/dashboard-card';
+import { DashboardCard } from '#/components/dashboard/dashboard-card'
+import type { DashboardCardConfig } from '#/components/dashboard/dashboard-card'
 import { DashboardWelcome } from '#/components/dashboard/dashboard-welcome'
 import { SectionLabel } from '#/components/dashboard/section-label'
 import { LoadingPage } from '#/components/public/loading-page'

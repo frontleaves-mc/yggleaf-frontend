@@ -8,7 +8,22 @@ import {
 } from '#/components/ui/input-group'
 import { useReplyIssueMutation } from '#/api/endpoints/api-auth/issue'
 import { MarkdownRenderer } from '#/components/ui/markdown-renderer'
-import { Loader2, Send, Bold, Italic, Code, Eye, Pencil, Quote, List, ListOrdered, Heading1, Heading2, Heading3, Link as LinkIcon } from 'lucide-react'
+import {
+  Loader2,
+  Send,
+  Bold,
+  Italic,
+  Code,
+  Eye,
+  Pencil,
+  Quote,
+  List,
+  ListOrdered,
+  Heading1,
+  Heading2,
+  Heading3,
+  Link as LinkIcon,
+} from 'lucide-react'
 import { toast } from 'sonner'
 import { cn } from '#/lib/utils'
 
@@ -52,7 +67,9 @@ function insertAtCursor(
   onInsert(next)
 
   requestAnimationFrame(() => {
-    const pos = linePrefix ? start + before.length : start + before.length + selected.length
+    const pos = linePrefix
+      ? start + before.length
+      : start + before.length + selected.length
     textarea.selectionStart = pos
     textarea.selectionEnd = pos
     textarea.focus()
@@ -121,7 +138,11 @@ export function IssueReplyForm({
           <InputGroupTextarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            placeholder={disabled ? '问题已关闭，无法回复' : '输入回复内容...（支持 Markdown）'}
+            placeholder={
+              disabled
+                ? '问题已关闭，无法回复'
+                : '输入回复内容...（支持 Markdown）'
+            }
             disabled={isDisabled}
             maxLength={MAX_LENGTH}
             data-slot="reply-textarea"
@@ -266,7 +287,11 @@ export function IssueReplyForm({
                 : 'text-muted-foreground hover:text-foreground hover:bg-muted/60',
             )}
           >
-            {preview ? <Pencil className="size-3" /> : <Eye className="size-3" />}
+            {preview ? (
+              <Pencil className="size-3" />
+            ) : (
+              <Eye className="size-3" />
+            )}
             {preview ? '编辑' : '预览'}
           </button>
 

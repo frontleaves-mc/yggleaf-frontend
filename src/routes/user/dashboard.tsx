@@ -19,9 +19,7 @@ import {
 } from 'lucide-react'
 import { motion } from 'motion/react'
 import { useUserInfo } from '#/api/endpoints/api-auth/user'
-import {
-  usePublicAnnouncements,
-} from '#/api/endpoints/api-mc/public-announcement'
+import { usePublicAnnouncements } from '#/api/endpoints/api-mc/public-announcement'
 import { useServerStatus } from '#/api/endpoints/api-mc/server-status'
 import { DashboardWelcome } from '#/components/dashboard/dashboard-welcome'
 import { fadeUpItem, staggerContainer } from '#/lib/motion-presets'
@@ -138,10 +136,11 @@ function DashboardPage() {
   const navigate = useNavigate()
   const { data: userInfo } = useUserInfo()
   const { data: serverStatusData, isLoading: serverLoading } = useServerStatus()
-  const { data: announcementsData, isLoading: announcementsLoading } = usePublicAnnouncements({
-    page: 1,
-    page_size: DASHBOARD_ANNOUNCEMENT_LIMIT,
-  })
+  const { data: announcementsData, isLoading: announcementsLoading } =
+    usePublicAnnouncements({
+      page: 1,
+      page_size: DASHBOARD_ANNOUNCEMENT_LIMIT,
+    })
   const server = serverStatusData?.[0]
   const user = userInfo?.user
   const announcements = announcementsData?.list ?? []
@@ -199,7 +198,11 @@ function DashboardPage() {
                       {item.title}
                     </h3>
                     <span className="shrink-0 text-[11px] tabular-nums text-muted-foreground/50">
-                      {item.published_at ? new Date(item.published_at).toLocaleDateString('zh-CN') : ''}
+                      {item.published_at
+                        ? new Date(item.published_at).toLocaleDateString(
+                            'zh-CN',
+                          )
+                        : ''}
                     </span>
                   </div>
                   <p className="mt-1.5 line-clamp-2 text-[13px] leading-relaxed text-muted-foreground/70">

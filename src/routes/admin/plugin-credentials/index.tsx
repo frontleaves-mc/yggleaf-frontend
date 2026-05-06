@@ -274,14 +274,8 @@ function PluginCredentialsPage() {
       animate="animate"
     >
       <motion.div variants={fadeUpItem}>
-        <PageHeader
-          description="管理 API 插件凭证，查看、创建或删除凭证密钥"
-        >
-          <Button
-            onClick={openCreate}
-            className="gap-1.5"
-            variant="gradient"
-          >
+        <PageHeader description="管理 API 插件凭证，查看、创建或删除凭证密钥">
+          <Button onClick={openCreate} className="gap-1.5" variant="gradient">
             <Plus className="size-4" />
             创建凭证
           </Button>

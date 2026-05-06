@@ -47,10 +47,16 @@ import type {
   AnnouncementListItem,
   AdminAnnouncementListParams,
 } from '#/api/types/api-mc/announcement'
-import { AnnouncementType, AnnouncementStatus } from '#/api/types/api-mc/announcement'
+import {
+  AnnouncementType,
+  AnnouncementStatus,
+} from '#/api/types/api-mc/announcement'
 import { toast } from 'sonner'
 import { staggerContainer, fadeUpItem } from '#/lib/motion-presets'
-import { getAnnouncementTypeBadge, getAnnouncementStatusBadge } from '#/lib/announcement-helpers'
+import {
+  getAnnouncementTypeBadge,
+  getAnnouncementStatusBadge,
+} from '#/lib/announcement-helpers'
 
 // ─── 路由注册 ──────────────────────────────────────────────
 
@@ -79,8 +85,9 @@ function AdminAnnouncementsPage() {
   const offlineMutation = useOfflineAnnouncementMutation()
 
   // ─── 弹窗状态 ────────────────────────────────────────
-  const [deleteTarget, setDeleteTarget] =
-    useState<AnnouncementListItem | null>(null)
+  const [deleteTarget, setDeleteTarget] = useState<AnnouncementListItem | null>(
+    null,
+  )
   const [publishTarget, setPublishTarget] =
     useState<AnnouncementListItem | null>(null)
   const [offlineTarget, setOfflineTarget] =
@@ -137,9 +144,7 @@ function AdminAnnouncementsPage() {
         <TableColumnHeader column={column} title="标题" />
       ),
       cell: ({ row }) => (
-        <span className="font-medium text-sm">
-          {row.getValue('title')}
-        </span>
+        <span className="font-medium text-sm">{row.getValue('title')}</span>
       ),
     },
     {
@@ -147,8 +152,7 @@ function AdminAnnouncementsPage() {
       header: ({ column }) => (
         <TableColumnHeader column={column} title="类型" />
       ),
-      cell: ({ row }) =>
-        getAnnouncementTypeBadge(row.original.type),
+      cell: ({ row }) => getAnnouncementTypeBadge(row.original.type),
       size: 96,
     },
     {
@@ -156,8 +160,7 @@ function AdminAnnouncementsPage() {
       header: ({ column }) => (
         <TableColumnHeader column={column} title="状态" />
       ),
-      cell: ({ row }) =>
-        getAnnouncementStatusBadge(row.original.status),
+      cell: ({ row }) => getAnnouncementStatusBadge(row.original.status),
       size: 100,
     },
     {
@@ -168,9 +171,7 @@ function AdminAnnouncementsPage() {
       cell: ({ row }) => (
         <span className="text-sm text-muted-foreground">
           {row.original.created_at
-            ? new Date(row.original.created_at).toLocaleDateString(
-                'zh-CN',
-              )
+            ? new Date(row.original.created_at).toLocaleDateString('zh-CN')
             : '-'}
         </span>
       ),
@@ -184,9 +185,7 @@ function AdminAnnouncementsPage() {
       cell: ({ row }) => (
         <span className="text-sm text-muted-foreground">
           {row.original.published_at
-            ? new Date(row.original.published_at).toLocaleDateString(
-                'zh-CN',
-              )
+            ? new Date(row.original.published_at).toLocaleDateString('zh-CN')
             : '-'}
         </span>
       ),
@@ -203,11 +202,7 @@ function AdminAnnouncementsPage() {
               to="/admin/announcements/$announcementId"
               params={{ announcementId: item.id }}
             >
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-7 px-2 text-xs"
-              >
+              <Button variant="ghost" size="sm" className="h-7 px-2 text-xs">
                 <Pencil className="mr-1 h-3 w-3" />
                 编辑
               </Button>
@@ -262,9 +257,7 @@ function AdminAnnouncementsPage() {
     >
       {/* 页头 */}
       <motion.div variants={fadeUpItem}>
-        <PageHeader
-          description="管理系统公告"
-        >
+        <PageHeader description="管理系统公告">
           <Link to="/admin/announcements/create">
             <Button className="gap-1.5">
               <Plus className="h-4 w-4" />
@@ -283,7 +276,13 @@ function AdminAnnouncementsPage() {
           <Label htmlFor="filter-type" className="text-sm whitespace-nowrap">
             类型
           </Label>
-          <Select value={filterType} onValueChange={(v) => { setFilterType(v); setPage(1) }}>
+          <Select
+            value={filterType}
+            onValueChange={(v) => {
+              setFilterType(v)
+              setPage(1)
+            }}
+          >
             <SelectTrigger id="filter-type" className="w-[120px]">
               <SelectValue placeholder="全部类型" />
             </SelectTrigger>
@@ -303,15 +302,27 @@ function AdminAnnouncementsPage() {
           <Label htmlFor="filter-status" className="text-sm whitespace-nowrap">
             状态
           </Label>
-          <Select value={filterStatus} onValueChange={(v) => { setFilterStatus(v); setPage(1) }}>
+          <Select
+            value={filterStatus}
+            onValueChange={(v) => {
+              setFilterStatus(v)
+              setPage(1)
+            }}
+          >
             <SelectTrigger id="filter-status" className="w-[120px]">
               <SelectValue placeholder="全部状态" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">全部</SelectItem>
-              <SelectItem value={String(AnnouncementStatus.Draft)}>草稿</SelectItem>
-              <SelectItem value={String(AnnouncementStatus.Published)}>已发布</SelectItem>
-              <SelectItem value={String(AnnouncementStatus.Offline)}>已下线</SelectItem>
+              <SelectItem value={String(AnnouncementStatus.Draft)}>
+                草稿
+              </SelectItem>
+              <SelectItem value={String(AnnouncementStatus.Published)}>
+                已发布
+              </SelectItem>
+              <SelectItem value={String(AnnouncementStatus.Offline)}>
+                已下线
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -334,9 +345,7 @@ function AdminAnnouncementsPage() {
             emptyContent={
               <>
                 <Megaphone className="mx-auto h-8 w-8 text-muted-foreground/30 mb-3" />
-                <p className="text-sm text-muted-foreground">
-                  暂无公告
-                </p>
+                <p className="text-sm text-muted-foreground">暂无公告</p>
               </>
             }
           >
@@ -371,9 +380,7 @@ function AdminAnnouncementsPage() {
               variant="outline"
               size="sm"
               disabled={page >= totalPages}
-              onClick={() =>
-                setPage((p) => Math.min(totalPages, p + 1))
-              }
+              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
             >
               下一页
             </Button>

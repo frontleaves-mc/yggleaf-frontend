@@ -296,39 +296,39 @@ function MarkdownSplitEditor({
       </div>
 
       <div className="flex-1 overflow-hidden">
-      <Allotment defaultSizes={[50, 50]}>
-        <Allotment.Pane minSize={20}>
-          <textarea
-            ref={textareaRef}
-            data-slot="markdown-textarea"
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            placeholder={placeholder}
-            disabled={disabled}
-            onScroll={handleEditorScroll}
-            className={cn(
-              'h-full px-4 py-3 text-sm leading-relaxed resize-none overflow-y-auto',
-              'bg-transparent border-0 focus-visible:ring-0 focus-visible:outline-none w-full',
-            )}
-          />
-        </Allotment.Pane>
+        <Allotment defaultSizes={[50, 50]}>
+          <Allotment.Pane minSize={20}>
+            <textarea
+              ref={textareaRef}
+              data-slot="markdown-textarea"
+              value={value}
+              onChange={(e) => onChange(e.target.value)}
+              placeholder={placeholder}
+              disabled={disabled}
+              onScroll={handleEditorScroll}
+              className={cn(
+                'h-full px-4 py-3 text-sm leading-relaxed resize-none overflow-y-auto',
+                'bg-transparent border-0 focus-visible:ring-0 focus-visible:outline-none w-full',
+              )}
+            />
+          </Allotment.Pane>
 
-        <Allotment.Pane minSize={20}>
-          <div
-            ref={previewRef}
-            onScroll={handlePreviewScroll}
-            className="h-full overflow-y-auto px-4 py-3"
-          >
-            {value.trim().length > 0 ? (
-              <MarkdownRenderer content={value} />
-            ) : (
-              <div className="flex items-center justify-center h-full min-h-[80px] text-sm text-muted-foreground">
-                暂无内容预览
-              </div>
-            )}
-          </div>
-        </Allotment.Pane>
-      </Allotment>
+          <Allotment.Pane minSize={20}>
+            <div
+              ref={previewRef}
+              onScroll={handlePreviewScroll}
+              className="h-full overflow-y-auto px-4 py-3"
+            >
+              {value.trim().length > 0 ? (
+                <MarkdownRenderer content={value} />
+              ) : (
+                <div className="flex items-center justify-center h-full min-h-[80px] text-sm text-muted-foreground">
+                  暂无内容预览
+                </div>
+              )}
+            </div>
+          </Allotment.Pane>
+        </Allotment>
       </div>
     </div>
   )

@@ -192,9 +192,7 @@ function AdminIssuesPage() {
       animate="animate"
     >
       <motion.div variants={fadeUpItem}>
-        <PageHeader
-          description="查看和处理所有用户提交的问题反馈"
-        />
+        <PageHeader description="查看和处理所有用户提交的问题反馈" />
       </motion.div>
 
       {/* 筛选栏 */}

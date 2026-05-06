@@ -281,7 +281,10 @@ function UserIssuesPage() {
                       value={formTitle}
                       onChange={(e) => setFormTitle(e.target.value)}
                     />
-                    <Separator orientation="vertical" className="mx-2 h-4 shrink-0" />
+                    <Separator
+                      orientation="vertical"
+                      className="mx-2 h-4 shrink-0"
+                    />
                     <Select value={formTypeId} onValueChange={setFormTypeId}>
                       <SelectTrigger
                         className={cn(
@@ -299,7 +302,10 @@ function UserIssuesPage() {
                         ))}
                       </SelectContent>
                     </Select>
-                    <Separator orientation="vertical" className="mx-2 h-4 shrink-0" />
+                    <Separator
+                      orientation="vertical"
+                      className="mx-2 h-4 shrink-0"
+                    />
                     <Select
                       value={formPriority}
                       onValueChange={setFormPriority}

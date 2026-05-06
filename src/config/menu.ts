@@ -177,7 +177,6 @@ export const adminMenuSections: MenuSection[] = [
           },
         ],
       },
-
     ],
   },
 ]

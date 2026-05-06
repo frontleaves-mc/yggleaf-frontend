@@ -1,9 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { ArrowLeft } from 'lucide-react'
 import { motion } from 'motion/react'
-import {
-  usePublicAnnouncementDetail,
-} from '#/api/endpoints/api-mc/public-announcement'
+import { usePublicAnnouncementDetail } from '#/api/endpoints/api-mc/public-announcement'
 import { Badge } from '#/components/ui/badge'
 import { MarkdownRenderer } from '#/components/ui/markdown-renderer'
 
@@ -16,12 +14,16 @@ const fadeUpItem = {
   },
 }
 
-function typeBadgeVariant(
-  type: number,
-): { label: string; className: string } {
+function typeBadgeVariant(type: number): { label: string; className: string } {
   return type === 1
-    ? { label: '站内', className: 'bg-blue-500/10 text-blue-600 dark:text-blue-400' }
-    : { label: '全局', className: 'bg-purple-500/10 text-purple-600 dark:text-purple-400' }
+    ? {
+        label: '站内',
+        className: 'bg-blue-500/10 text-blue-600 dark:text-blue-400',
+      }
+    : {
+        label: '全局',
+        className: 'bg-purple-500/10 text-purple-600 dark:text-purple-400',
+      }
 }
 
 export const Route = createFileRoute('/announcements/$id')({
@@ -39,7 +41,9 @@ function PublicAnnouncementDetailPage() {
           initial="initial"
           animate="animate"
           variants={{
-            animate: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
+            animate: {
+              transition: { staggerChildren: 0.08, delayChildren: 0.05 },
+            },
           }}
         >
           <motion.div variants={fadeUpItem}>
@@ -74,10 +78,18 @@ function PublicAnnouncementDetailPage() {
                   {data.title}
                 </h1>
                 <div className="mt-3 flex items-center gap-3 text-sm text-muted-foreground">
-                  <Badge variant="secondary" className={typeBadgeVariant(data.type).className}>
+                  <Badge
+                    variant="secondary"
+                    className={typeBadgeVariant(data.type).className}
+                  >
                     {typeBadgeVariant(data.type).label}
                   </Badge>
-                  <span>发布于 {data.published_at ? new Date(data.published_at).toLocaleDateString('zh-CN') : '未知时间'}</span>
+                  <span>
+                    发布于{' '}
+                    {data.published_at
+                      ? new Date(data.published_at).toLocaleDateString('zh-CN')
+                      : '未知时间'}
+                  </span>
                 </div>
               </div>
 

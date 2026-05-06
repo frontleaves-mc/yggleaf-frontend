@@ -304,11 +304,7 @@ function ModCard({
               <code className="text-[11px] text-muted-foreground font-mono hidden sm:inline">
                 {truncateHash(mod.hash)}
               </code>
-              <Button
-                variant="ghost"
-                size="icon-sm"
-                onClick={handleCopyHash}
-              >
+              <Button variant="ghost" size="icon-sm" onClick={handleCopyHash}>
                 {copied ? (
                   <Check className="size-3.5 text-chart-2" />
                 ) : (

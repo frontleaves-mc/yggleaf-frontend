@@ -4,7 +4,10 @@
  */
 
 import { Badge } from '#/components/ui/badge'
-import { AnnouncementType, AnnouncementStatus } from '#/api/types/api-mc/announcement'
+import {
+  AnnouncementType,
+  AnnouncementStatus,
+} from '#/api/types/api-mc/announcement'
 
 /** 公告类型 Badge */
 export function getAnnouncementTypeBadge(type: number) {

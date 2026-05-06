@@ -40,7 +40,9 @@ export async function getAdminSchedules(
   if (params?.page_size) sp.set('page_size', String(params.page_size))
   const qs = sp.toString()
   return mcApiClient.get<ScheduleListResponse>(
-    qs ? `/admin/announcements/schedules?${qs}` : '/admin/announcements/schedules',
+    qs
+      ? `/admin/announcements/schedules?${qs}`
+      : '/admin/announcements/schedules',
   )
 }
 
