@@ -129,6 +129,26 @@ export const adminMenuSections: MenuSection[] = [
           },
         ],
       },
+      {
+        key: 'announcement-system',
+        label: '公告系统',
+        icon: Megaphone,
+        children: [
+          {
+            key: 'announcements',
+            label: '公告管理',
+            icon: Megaphone,
+            to: '/admin/announcements',
+          },
+          {
+            key: 'announcement-schedules',
+            label: '调度管理',
+            icon: CalendarClock,
+            to: '/admin/announcement-schedules',
+            roles: ['SUPER_ADMIN'],
+          },
+        ],
+      },
     ],
   },
   {
@@ -157,18 +177,7 @@ export const adminMenuSections: MenuSection[] = [
           },
         ],
       },
-      {
-        key: 'announcements',
-        label: '公告管理',
-        icon: Megaphone,
-        to: '/admin/announcements',
-      },
-      {
-        key: 'announcement-schedules',
-        label: '调度管理',
-        icon: CalendarClock,
-        to: '/admin/announcement-schedules',
-      },
+
     ],
   },
 ]
