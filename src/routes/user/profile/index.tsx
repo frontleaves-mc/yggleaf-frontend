@@ -148,7 +148,10 @@ function ProfilePage() {
         </div>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {[...Array(6)].map((_, i) => (
-            <div key={i} className="h-[68px] rounded-xl border border-border/60 bg-card/80 p-3.5" />
+            <div
+              key={i}
+              className="h-[68px] rounded-xl border border-border/60 bg-card/80 p-3.5"
+            />
           ))}
         </div>
       </div>
@@ -220,14 +223,21 @@ function ProfilePage() {
 
       <motion.div variants={fadeUpItem}>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          <InfoItem icon={UserIcon} label="用户名" value={user?.username ?? '--'} />
+          <InfoItem
+            icon={UserIcon}
+            label="用户名"
+            value={user?.username ?? '--'}
+          />
           <InfoItem icon={Mail} label="邮箱" value={user?.email ?? '--'} />
           <InfoItem icon={Phone} label="手机号" value={user?.phone || '--'} />
           <InfoItem
             icon={Shield}
             label="角色"
             value={
-              <Badge variant="secondary" className="bg-primary/10 text-primary font-medium">
+              <Badge
+                variant="secondary"
+                className="bg-primary/10 text-primary font-medium"
+              >
                 {roleDisplayNames[user?.role_name ?? ''] ??
                   user?.role?.display_name ??
                   '--'}
@@ -235,13 +245,7 @@ function ProfilePage() {
             }
           />
           <InfoItem
-            icon={
-              accountReady === 'ready' ? (
-                ShieldCheck
-              ) : (
-                AlertCircle
-              )
-            }
+            icon={accountReady === 'ready' ? ShieldCheck : AlertCircle}
             label="账户状态"
             value={
               accountReady === 'ready' ? (
@@ -397,14 +401,17 @@ function ProfilePage() {
               </div>
 
               <p className="text-[13px] leading-relaxed text-muted-foreground/80">
-                网站登录不直接存储或管理用户密码，所有认证均由 SSO 统一平台处理。
+                网站登录不直接存储或管理用户密码，所有认证均由 SSO
+                统一平台处理。
               </p>
 
               <Button
                 variant="outline"
                 size="sm"
                 className="gap-1.5 text-[13px]"
-                onClick={() => window.open('https://auth.frontleaves.com', '_blank')}
+                onClick={() =>
+                  window.open('https://auth.frontleaves.com', '_blank')
+                }
               >
                 <ExternalLink className="size-3.5" />
                 前往 SSO 平台管理

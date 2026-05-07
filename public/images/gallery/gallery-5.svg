@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <defs>
+    <pattern id="grid5" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <!-- Sky -->
+  <rect width="400" height="180" fill="#87CEEB"/>
+  <!-- Clouds -->
+  <rect x="60" y="30" width="50" height="16" fill="#fff" opacity="0.8" rx="4"/>
+  <rect x="240" y="20" width="60" height="16" fill="#fff" opacity="0.7" rx="4"/>
+  <!-- Ground -->
+  <rect y="180" width="400" height="120" fill="#5B7C28"/>
+  <rect x="0" y="180" width="20" height="20" fill="#527023"/>
+  <rect x="20" y="180" width="20" height="20" fill="#64882E"/>
+  <rect x="40" y="180" width="20" height="20" fill="#527023"/>
+  <rect x="60" y="180" width="20" height="20" fill="#64882E"/>
+  <rect x="80" y="180" width="20" height="20" fill="#527023"/>
+  <rect x="100" y="180" width="20" height="20" fill="#64882E"/>
+  <rect x="120" y="180" width="20" height="20" fill="#527023"/>
+  <rect x="140" y="180" width="20" height="20" fill="#64882E"/>
+  <rect x="160" y="180" width="20" height="20" fill="#527023"/>
+  <rect x="180" y="180" width="20" height="20" fill="#64882E"/>
+  <rect x="200" y="180" width="20" height="20" fill="#527023"/>
+  <rect x="220" y="180" width="20" height="20" fill="#64882E"/>
+  <rect x="240" y="180" width="20" height="20" fill="#527023"/>
+  <rect x="260" y="180" width="20" height="20" fill="#64882E"/>
+  <rect x="280" y="180" width="20" height="20" fill="#527023"/>
+  <rect x="300" y="180" width="20" height="20" fill="#64882E"/>
+  <rect x="320" y="180" width="20" height="20" fill="#527023"/>
+  <rect x="340" y="180" width="20" height="20" fill="#64882E"/>
+  <rect x="360" y="180" width="20" height="20" fill="#527023"/>
+  <rect x="380" y="180" width="20" height="20" fill="#64882E"/>
+  <!-- Path -->
+  <rect x="170" y="200" width="60" height="100" fill="#8B6914" rx="2"/>
+  <rect x="175" y="200" width="50" height="100" fill="#9B7520" rx="2"/>
+  <!-- House 1 (left) -->
+  <rect x="30" y="120" width="80" height="60" fill="#B8860B"/>
+  <rect x="30" y="120" width="80" height="20" fill="#A0760A"/>
+  <!-- Roof -->
+  <polygon points="20,120 70,80 120,120" fill="#8B4513"/>
+  <polygon points="30,120 70,90 110,120" fill="#A0522D"/>
+  <!-- Door -->
+  <rect x="60" y="145" width="20" height="35" fill="#5C3317"/>
+  <!-- Window -->
+  <rect x="38" y="132" width="16" height="16" fill="#87CEEB" stroke="#5C3317" stroke-width="2"/>
+  <rect x="86" y="132" width="16" height="16" fill="#87CEEB" stroke="#5C3317" stroke-width="2"/>
+  <!-- House 2 (right) -->
+  <rect x="270" y="130" width="70" height="50" fill="#B8860B"/>
+  <rect x="270" y="130" width="70" height="20" fill="#A0760A"/>
+  <!-- Roof -->
+  <polygon points="260,130 305,95 350,130" fill="#8B4513"/>
+  <polygon points="270,130 305,105 340,130" fill="#A0522D"/>
+  <!-- Door -->
+  <rect x="295" y="150" width="18" height="30" fill="#5C3317"/>
+  <!-- Window -->
+  <rect x="278" y="140" width="14" height="14" fill="#87CEEB" stroke="#5C3317" stroke-width="2"/>
+  <rect x="322" y="140" width="14" height="14" fill="#87CEEB" stroke="#5C3317" stroke-width="2"/>
+  <!-- Well -->
+  <rect x="185" y="170" width="30" height="20" fill="#888" stroke="#666" stroke-width="2"/>
+  <rect x="190" y="160" width="20" height="10" fill="#999"/>
+  <rect x="198" y="155" width="4" height="10" fill="#666"/>
+  <!-- Grid overlay -->
+  <rect width="400" height="300" fill="url(#grid5)"/>
+  <!-- Label -->
+  <rect y="268" width="400" height="32" fill="rgba(0,0,0,0.5)" rx="0"/>
+  <text x="200" y="290" font-family="monospace" font-size="14" fill="#fff" text-anchor="middle">Village Life</text>
+</svg>

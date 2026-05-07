@@ -1,17 +1,25 @@
-/**
- * PublicNavbar — 公共网站顶部导航栏
- * 固定定位，滚动感知透明度变化，桌面/移动端响应式布局
- */
-
+import { Link, useRouterState } from '@tanstack/react-router'
+import {
+  LayoutDashboard,
+  LogIn,
+  LogOut,
+  Menu,
+  Monitor,
+  Moon,
+  Settings,
+  Sun,
+  UserIcon,
+  UserPlus,
+} from 'lucide-react'
+import { motion, useMotionValueEvent, useScroll } from 'motion/react'
 import * as React from 'react'
-import { Link, useLocation } from '@tanstack/react-router'
-import { useScroll, useMotionValueEvent, motion  } from 'motion/react'
-import { Menu, Sun, Moon, Monitor, LogIn } from 'lucide-react'
+import { Avatar, AvatarFallback, AvatarImage } from '#/components/ui/avatar'
 import { Button } from '#/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '#/components/ui/dropdown-menu'
 import {
@@ -21,6 +29,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '#/components/ui/sheet'
+import { useAuth } from '#/hooks/use-auth'
 import { checkIsAuthenticated } from '#/hooks/use-auth-guard'
 import { useThemeMode } from '#/hooks/use-theme'
 import { navVariants, navVariantsDark } from '#/lib/motion-presets'
@@ -36,6 +45,9 @@ const NAV_LINKS: NavLink[] = [
   { label: '公告', to: '/announcements' },
   { label: '社区规则', to: '/rules' },
 ]
+
+const CRAFTATAR_URL = (uuid: string) =>
+  `https://crafatar.com/avatars/${uuid}?size=64`
 
 function ThemeToggle() {
   const { mode, changeMode } = useThemeMode()
@@ -75,6 +87,84 @@ function ThemeToggle() {
   )
 }
 
+function UserMenu() {
+  const { user, logout } = useAuth()
+
+  const gameProfile = user?.game_profiles?.[0]
+  const avatarUrl = gameProfile?.uuid
+    ? CRAFTATAR_URL(gameProfile.uuid)
+    : undefined
+  const displayUsername = gameProfile?.username || user?.username || '玩家'
+
+  const handleLogout = async () => {
+    try {
+      await logout()
+      window.location.href = '/'
+    } catch {
+      // 登出失败时保持当前页面，不中断用户操作
+    }
+  }
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button
+          type="button"
+          className="flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm font-medium transition-colors hover:bg-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          <Avatar size="sm">
+            {avatarUrl && <AvatarImage src={avatarUrl} alt={displayUsername} />}
+            <AvatarFallback>
+              <UserIcon className="size-3.5" />
+            </AvatarFallback>
+          </Avatar>
+          <span className="hidden text-foreground sm:block">
+            {displayUsername}
+          </span>
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-44">
+        <DropdownMenuItem asChild>
+          <Link to="/user/dashboard">
+            <LayoutDashboard className="size-4" />
+            进入控制台
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link to="/user/profile">
+            <Settings className="size-4" />
+            个人设置
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={handleLogout}>
+          <LogOut className="size-4" />
+          退出登录
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+
+function GuestButtons() {
+  return (
+    <div className="flex items-center gap-2">
+      <Link to="/auth/login">
+        <Button variant="ghost" size="sm" className="gap-1.5">
+          <LogIn className="h-3.5 w-3.5" />
+          登录
+        </Button>
+      </Link>
+      <Link to="/auth/login">
+        <Button size="sm" className="gap-1.5">
+          <UserPlus className="h-3.5 w-3.5" />
+          注册
+        </Button>
+      </Link>
+    </div>
+  )
+}
+
 interface MobileNavLinkProps {
   link: NavLink
   isActive: boolean
@@ -97,9 +187,8 @@ function MobileNavLink({ link, isActive, onClick }: MobileNavLinkProps) {
   )
 }
 
-export function PublicNavbar() {
-  const location = useLocation()
-  const pathname = location.pathname
+export function LandingNavbar() {
+  const pathname = useRouterState({ select: (s) => s.location.pathname })
   const { scrollY } = useScroll()
   const [scrolled, setScrolled] = React.useState(false)
   const [mobileOpen, setMobileOpen] = React.useState(false)
@@ -128,8 +217,8 @@ export function PublicNavbar() {
       animate={scrolled ? 'solid' : 'transparent'}
       transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] as const }}
     >
-      <div className="mx-auto flex h-full max-w-(--page-max) items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-        <Link to="/" className="flex items-center gap-2.5 shrink-0">
+      <nav className="mx-auto flex h-full max-w-(--page-max) items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+        <Link to="/" className="flex shrink-0 items-center gap-2.5">
           <img
             src="/favicon.png"
             alt="锋楪游戏"
@@ -154,7 +243,7 @@ export function PublicNavbar() {
               {link.label}
               {isActive(link.to) && (
                 <motion.span
-                  layoutId="navbar-active-indicator"
+                  layoutId="landing-nav-active"
                   className="absolute bottom-0 left-3 right-3 h-0.5 rounded-full bg-primary"
                   transition={{
                     type: 'spring',
@@ -169,19 +258,12 @@ export function PublicNavbar() {
 
         <div className="hidden items-center gap-2 md:flex">
           <ThemeToggle />
-          {!isAuthenticated && (
-            <Link to="/login">
-              <Button variant="outline" size="sm" className="gap-1.5">
-                <LogIn className="h-3.5 w-3.5" />
-                登录
-              </Button>
-            </Link>
-          )}
+          {isAuthenticated ? <UserMenu /> : <GuestButtons />}
         </div>
 
         <div className="flex items-center gap-2 md:hidden">
           {!isAuthenticated && (
-            <Link to="/login">
+            <Link to="/auth/login">
               <Button variant="outline" size="sm" className="gap-1.5 text-xs">
                 <LogIn className="h-3.5 w-3.5" />
                 登录
@@ -210,17 +292,58 @@ export function PublicNavbar() {
                   />
                 ))}
                 <div className="my-3 border-t border-border/60" />
+
                 <div className="flex items-center justify-between px-3 py-2">
                   <span className="text-sm text-muted-foreground">
                     主题切换
                   </span>
                   <ThemeToggle />
                 </div>
+
+                <div className="px-3 py-2">
+                  {isAuthenticated ? (
+                    <div className="flex items-center gap-3">
+                      <UserMenu />
+                      <Link
+                        to="/user/dashboard"
+                        onClick={() => setMobileOpen(false)}
+                        className="text-sm text-muted-foreground hover:text-foreground"
+                      >
+                        进入控制台
+                      </Link>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col gap-2">
+                      <Link
+                        to="/auth/login"
+                        onClick={() => setMobileOpen(false)}
+                      >
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="w-full gap-1.5"
+                        >
+                          <LogIn className="h-3.5 w-3.5" />
+                          登录
+                        </Button>
+                      </Link>
+                      <Link
+                        to="/auth/login"
+                        onClick={() => setMobileOpen(false)}
+                      >
+                        <Button size="sm" className="w-full gap-1.5">
+                          <UserPlus className="h-3.5 w-3.5" />
+                          注册
+                        </Button>
+                      </Link>
+                    </div>
+                  )}
+                </div>
               </nav>
             </SheetContent>
           </Sheet>
         </div>
-      </div>
+      </nav>
     </motion.header>
   )
 }

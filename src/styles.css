@@ -60,6 +60,16 @@
   --sidebar-primary-foreground: oklch(0.984 0.019 200.873);
 }
 
+/* Landing 官网主题覆盖 — Minecraft 平衡系配色 */
+[data-mode='landing'] {
+  --primary: oklch(0.53 0.12 130);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.55 0.19 260);
+  --ring: oklch(0.53 0.12 130);
+  --accent: oklch(0.275 0.011 216.9);
+  --accent-foreground: oklch(0.987 0.002 197.1);
+}
+
 .dark {
   --background: oklch(0.148 0.004 228.8);
   --foreground: oklch(0.987 0.002 197.1);
@@ -92,6 +102,21 @@
   --sidebar-accent-foreground: oklch(0.987 0.002 197.1);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.56 0.021 213.5);
+}
+
+.dark [data-mode='landing'] {
+  --primary: oklch(0.58 0.13 130);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.55 0.19 260);
+  --ring: oklch(0.58 0.13 130);
+  --background: oklch(0.14 0.01 250);
+  --card: oklch(0.18 0.01 250);
+  --foreground: oklch(0.987 0.002 197.1);
+  --card-foreground: oklch(0.987 0.002 197.1);
+  --muted: oklch(0.22 0.011 250);
+  --muted-foreground: oklch(0.65 0.014 214.4);
+  --border: oklch(1 0 0 / 8%);
+  --input: oklch(1 0 0 / 12%);
 }
 
 @theme inline {
@@ -135,6 +160,12 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+  --color-mc-grass: #53a331;
+  --color-mc-diamond: #1e6ee9;
+  --color-mc-nether: #ff481b;
+  --color-mc-gold: #ffc42c;
+  --color-mc-dark: #1a1d24;
+  --color-mc-brand: #5b7c28;
 }
 
 @layer base {
@@ -231,6 +262,72 @@
   }
   .dark .ring-glow {
     box-shadow: 0 0 0 2px oklch(0.45 0.085 224.283 / 20%);
+  }
+
+  /* Minecraft gradient text */
+  .mc-gradient-text {
+    background: linear-gradient(
+      to right in oklch,
+      oklch(0.53 0.12 130),
+      oklch(0.55 0.19 260)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .dark .mc-gradient-text {
+    background: linear-gradient(
+      to right in oklch,
+      oklch(0.63 0.14 130),
+      oklch(0.65 0.2 260)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Minecraft glow effect */
+  .mc-glow {
+    box-shadow:
+      0 0 20px oklch(0.53 0.12 130 / 20%),
+      0 0 60px oklch(0.55 0.19 260 / 10%);
+  }
+  .dark .mc-glow {
+    box-shadow:
+      0 0 20px oklch(0.53 0.12 130 / 25%),
+      0 0 60px oklch(0.55 0.19 260 / 15%);
+  }
+
+  /* Minecraft block grid pattern */
+  .mc-grid-pattern {
+    background-image:
+      linear-gradient(oklch(0.5 0.01 250 / 8%) 1px, transparent 1px),
+      linear-gradient(90deg, oklch(0.5 0.01 250 / 8%) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+  .dark .mc-grid-pattern {
+    background-image:
+      linear-gradient(oklch(0.5 0.01 250 / 12%) 1px, transparent 1px),
+      linear-gradient(90deg, oklch(0.5 0.01 250 / 12%) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  /* Landing section base */
+  .landing-section {
+    padding: 5rem 1rem;
+    max-width: 80rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  }
+
+  /* Landing gradient background */
+  .landing-gradient {
+    background: linear-gradient(
+      135deg in oklch,
+      oklch(0.53 0.12 130),
+      oklch(0.55 0.19 260)
+    );
   }
 }
 

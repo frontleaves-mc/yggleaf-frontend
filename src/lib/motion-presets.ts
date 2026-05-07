@@ -165,3 +165,87 @@ export const navVariantsDark = {
     backdropFilter: 'blur(12px)',
   },
 }
+
+// ─── Landing 官网动画 ────────────────────────────────────────
+
+/** Landing Hero 入场动画 — title slide up, subtitle fade, CTA scale */
+export const landingHeroVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] as const },
+  },
+}
+
+/** Landing 错落进入容器 */
+export const landingStaggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1, delayChildren: 0.2 },
+  },
+}
+
+/** Landing 单个错落项 — opacity + translateY */
+export const landingStaggerItem = {
+  hidden: { opacity: 0, y: 24 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const },
+  },
+}
+
+/** Landing 慢速视差 */
+export const landingParallaxSlow = {
+  scroll: {
+    y: [0, -30],
+    transition: { duration: 0, ease: 'linear' as const },
+  },
+}
+
+/** Landing 快速视差 */
+export const landingParallaxFast = {
+  scroll: {
+    y: [0, -60],
+    transition: { duration: 0, ease: 'linear' as const },
+  },
+}
+
+/** Landing 卡片悬停 — y: -8, scale: 1.02, shadow */
+export const landingCardHover = {
+  rest: {
+    y: 0,
+    scale: 1,
+    boxShadow: '0 1px 3px 0 oklch(from var(--foreground) l c h / 0.04)',
+  },
+  hover: {
+    y: -8,
+    scale: 1.02,
+    boxShadow:
+      '0 8px 30px -4px oklch(0.53 0.12 130 / 15%), 0 4px 6px -1px oklch(0.53 0.12 130 / 10%)',
+  },
+}
+
+/** Landing 光晕脉动 */
+export const landingGlowPulse = {
+  animate: {
+    boxShadow: [
+      '0 0 20px oklch(0.53 0.12 130 / 15%)',
+      '0 0 40px oklch(0.53 0.12 130 / 25%)',
+      '0 0 20px oklch(0.53 0.12 130 / 15%)',
+    ],
+    transition: { duration: 3, repeat: Infinity, ease: 'easeInOut' as const },
+  },
+}
+
+/** Landing 通用淡入上移 */
+export const landingFadeInUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const },
+  },
+}

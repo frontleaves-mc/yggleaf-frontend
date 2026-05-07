@@ -188,7 +188,7 @@ function EditAnnouncementPage() {
             {/* 标题 + 类型同行 */}
             <div className="flex items-end gap-3">
               <div className="flex-1">
-                <Label className='mb-2'>公告标题 *</Label>
+                <Label className="mb-2">公告标题 *</Label>
                 <Input
                   value={formTitle}
                   onChange={(e) => setFormTitle(e.target.value)}
@@ -197,7 +197,7 @@ function EditAnnouncementPage() {
                 />
               </div>
               <div className="w-36">
-                <Label className='mb-2'>公告类型</Label>
+                <Label className="mb-2">公告类型</Label>
                 <Select
                   value={formType}
                   onValueChange={setFormType}

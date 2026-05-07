@@ -315,7 +315,10 @@ function MarkdownEditor({
           />
         </TabsContent>
 
-        <TabsContent value="preview" className="mt-0 px-4 py-3 min-h-[120px] max-h-[320px] overflow-y-auto">
+        <TabsContent
+          value="preview"
+          className="mt-0 px-4 py-3 min-h-[120px] max-h-[320px] overflow-y-auto"
+        >
           {value.trim().length > 0 ? (
             <MarkdownRenderer content={value} />
           ) : (

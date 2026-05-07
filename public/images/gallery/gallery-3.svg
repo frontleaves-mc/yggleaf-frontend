@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <defs>
+    <pattern id="grid3" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(0,0,0,0.1)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <!-- Nether sky -->
+  <rect width="400" height="300" fill="#1A0A05"/>
+  <!-- Lava floor -->
+  <rect y="230" width="400" height="70" fill="#FF481B"/>
+  <rect x="0" y="230" width="40" height="35" fill="#E03E15" rx="2"/>
+  <rect x="40" y="230" width="40" height="35" fill="#FF5522" rx="2"/>
+  <rect x="80" y="230" width="40" height="35" fill="#E03E15" rx="2"/>
+  <rect x="120" y="230" width="40" height="35" fill="#FF5522" rx="2"/>
+  <rect x="160" y="230" width="40" height="35" fill="#E03E15" rx="2"/>
+  <rect x="200" y="230" width="40" height="35" fill="#FF5522" rx="2"/>
+  <rect x="240" y="230" width="40" height="35" fill="#E03E15" rx="2"/>
+  <rect x="280" y="230" width="40" height="35" fill="#FF5522" rx="2"/>
+  <rect x="320" y="230" width="40" height="35" fill="#E03E15" rx="2"/>
+  <rect x="360" y="230" width="40" height="35" fill="#FF5522" rx="2"/>
+  <!-- Netherrack ceiling -->
+  <rect y="0" width="400" height="50" fill="#5C1A0A"/>
+  <!-- Fortress bridge - left pillar -->
+  <rect x="40" y="80" width="30" height="150" fill="#6B3A2A"/>
+  <rect x="40" y="80" width="30" height="30" fill="#7A4430"/>
+  <!-- Fortress bridge - right pillar -->
+  <rect x="330" y="80" width="30" height="150" fill="#6B3A2A"/>
+  <rect x="330" y="80" width="30" height="30" fill="#7A4430"/>
+  <!-- Bridge walkway -->
+  <rect x="40" y="80" width="320" height="20" fill="#7A4430"/>
+  <rect x="60" y="80" width="20" height="20" fill="#6B3A2A"/>
+  <rect x="100" y="80" width="20" height="20" fill="#6B3A2A"/>
+  <rect x="140" y="80" width="20" height="20" fill="#6B3A2A"/>
+  <rect x="180" y="80" width="20" height="20" fill="#6B3A2A"/>
+  <rect x="220" y="80" width="20" height="20" fill="#6B3A2A"/>
+  <rect x="260" y="80" width="20" height="20" fill="#6B3A2A"/>
+  <rect x="300" y="80" width="20" height="20" fill="#6B3A2A"/>
+  <!-- Bridge railing -->
+  <rect x="40" y="60" width="320" height="20" fill="#7A4430"/>
+  <rect x="60" y="60" width="10" height="20" fill="#5C1A0A"/>
+  <rect x="100" y="60" width="10" height="20" fill="#5C1A0A"/>
+  <rect x="140" y="60" width="10" height="20" fill="#5C1A0A"/>
+  <rect x="180" y="60" width="10" height="20" fill="#5C1A0A"/>
+  <rect x="220" y="60" width="10" height="20" fill="#5C1A0A"/>
+  <rect x="260" y="60" width="10" height="20" fill="#5C1A0A"/>
+  <rect x="300" y="60" width="10" height="20" fill="#5C1A0A"/>
+  <!-- Blaze glow -->
+  <rect x="185" y="120" width="30" height="30" fill="#FF481B" opacity="0.6" rx="2"/>
+  <rect x="190" y="125" width="20" height="20" fill="#FFC42C" opacity="0.8" rx="2"/>
+  <!-- Lava glow particles -->
+  <rect x="100" y="225" width="4" height="4" fill="#FFC42C" opacity="0.5"/>
+  <rect x="200" y="228" width="4" height="4" fill="#FFC42C" opacity="0.5"/>
+  <rect x="300" y="224" width="4" height="4" fill="#FFC42C" opacity="0.5"/>
+  <!-- Grid overlay -->
+  <rect width="400" height="300" fill="url(#grid3)"/>
+  <!-- Label -->
+  <rect y="268" width="400" height="32" fill="rgba(0,0,0,0.5)" rx="0"/>
+  <text x="200" y="290" font-family="monospace" font-size="14" fill="#fff" text-anchor="middle">Nether Fortress</text>
+</svg>

@@ -5,11 +5,7 @@
 
 import { Link } from '@tanstack/react-router'
 import { motion } from 'motion/react'
-import {
-  Sun,
-  Moon,
-  Monitor,
-} from 'lucide-react'
+import { Sun, Moon, Monitor } from 'lucide-react'
 import { Button } from '#/components/ui/button'
 import {
   DropdownMenu,
@@ -82,7 +78,10 @@ export function PublicFooter() {
         viewport={{ once: true, margin: '-80px' }}
       >
         <div className="grid grid-cols-2 gap-8 lg:grid-cols-4">
-          <motion.div variants={scrollRevealItem} className="col-span-2 lg:col-span-1">
+          <motion.div
+            variants={scrollRevealItem}
+            className="col-span-2 lg:col-span-1"
+          >
             <Link to="/" className="flex items-center gap-2.5">
               <img
                 src="/favicon.png"
