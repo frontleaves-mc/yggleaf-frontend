@@ -165,6 +165,66 @@
     background: oklch(0.218 0.008 223.9 / 60%);
   }
 
+  /* gradient text effect */
+  .gradient-text {
+    background: linear-gradient(
+      to right in oklch,
+      oklch(0.52 0.105 223.128),
+      oklch(0.55 0.15 270),
+      oklch(0.52 0.105 223.128)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .dark .gradient-text {
+    background: linear-gradient(
+      to right in oklch,
+      oklch(0.65 0.15 223),
+      oklch(0.7 0.18 270),
+      oklch(0.65 0.15 223)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* dot grid pattern */
+  .dot-grid {
+    background-image: radial-gradient(
+      oklch(0.7 0.01 214 / 15%) 1px,
+      transparent 1px
+    );
+    background-size: 24px 24px;
+  }
+  .dark .dot-grid {
+    background-image: radial-gradient(
+      oklch(0.5 0.01 214 / 10%) 1px,
+      transparent 1px
+    );
+    background-size: 24px 24px;
+  }
+
+  /* section divider glow line */
+  .section-glow {
+    position: relative;
+  }
+  .section-glow::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(
+      90deg in oklch,
+      transparent,
+      oklch(0.52 0.105 223.128 / 40%),
+      transparent
+    );
+  }
+
   /* focus glow ring */
   .ring-glow {
     box-shadow: 0 0 0 2px oklch(0.52 0.105 223.128 / 15%);

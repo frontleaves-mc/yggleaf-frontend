@@ -89,3 +89,79 @@ export const fadeUpItem = {
     transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
   },
 }
+
+// ─── 官网滚动动画 ──────────────────────────────────────────
+
+/** 滚动揭示容器 — 子元素逐个入场 */
+export const scrollRevealContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1, delayChildren: 0.1 },
+  },
+}
+
+/** 滚动揭示子项 */
+export const scrollRevealItem = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const },
+  },
+}
+
+/** Hero 标题动画 */
+export const heroTextVariants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] as const },
+  },
+}
+
+/** 浮动装饰动画 */
+export const floatVariants = {
+  animate: {
+    y: [-8, 8, -8],
+    transition: { duration: 6, repeat: Infinity, ease: 'easeInOut' as const },
+  },
+}
+
+/** 浮动装饰动画（慢速） */
+export const floatSlowVariants = {
+  animate: {
+    y: [-12, 12, -12],
+    x: [-4, 4, -4],
+    transition: {
+      duration: 10,
+      repeat: Infinity,
+      ease: 'easeInOut' as const,
+    },
+  },
+}
+
+/** 导航栏透明→实体 动画变体 (light) */
+export const navVariants = {
+  transparent: {
+    backgroundColor: 'oklch(1 0 0 / 0)',
+    backdropFilter: 'blur(0px)',
+  },
+  solid: {
+    backgroundColor: 'oklch(1 0 0 / 80%)',
+    backdropFilter: 'blur(12px)',
+  },
+}
+
+/** 导航栏透明→实体 动画变体 (dark) */
+export const navVariantsDark = {
+  transparent: {
+    backgroundColor: 'oklch(1 0 0 / 0)',
+    backdropFilter: 'blur(0px)',
+  },
+  solid: {
+    backgroundColor: 'oklch(0.148 0.004 228.8 / 80%)',
+    backdropFilter: 'blur(12px)',
+  },
+}
