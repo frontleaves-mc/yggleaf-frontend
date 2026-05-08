@@ -17,6 +17,7 @@ import {
   Megaphone,
   MessageSquareWarning,
   Puzzle,
+  Server,
   Settings,
   Shirt,
   Store,
@@ -177,6 +178,13 @@ export const adminMenuSections: MenuSection[] = [
           },
         ],
       },
+      {
+        key: 'servers',
+        label: '服务器管理',
+        icon: Server,
+        to: '/admin/servers',
+        roles: ['SUPER_ADMIN'],
+      },
     ],
   },
 ]
@@ -317,6 +325,7 @@ export const breadcrumbLabels: Record<string, string> = {
   '/admin/titles': '称号管理',
   '/admin/plugin-credentials': '插件凭证',
   '/admin/plugin-credentials/$credentialId': '凭证详情',
+  '/admin/servers': '服务器管理',
 
   // ── 公告 ──
   '/admin/announcements': '公告管理',

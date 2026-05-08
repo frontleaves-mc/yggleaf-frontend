@@ -6,7 +6,7 @@ import { fadeUpItem } from '#/lib/motion-presets'
 interface DashboardWelcomeProps {
   username: string | undefined
   fallbackName: string
-  server: ServerStatusResponse | undefined
+  servers: ServerStatusResponse[]
   serverLoading: boolean
   showTps?: boolean
   actions?: React.ReactNode
@@ -16,7 +16,7 @@ interface DashboardWelcomeProps {
 export function DashboardWelcome({
   username,
   fallbackName,
-  server,
+  servers,
   serverLoading,
   showTps = false,
   actions,
@@ -33,11 +33,27 @@ export function DashboardWelcome({
         </h1>
         {actions}
       </div>
-      <ServerStatusBar
-        server={server}
-        isLoading={serverLoading}
-        showTps={showTps}
-      />
+      <div className="flex flex-col gap-1.5">
+        {servers.length > 0 ? (
+          servers.map((server) => (
+            <ServerStatusBar
+              key={server.server_name}
+              server={server}
+              serverName={
+                servers.length > 1 ? server.server_name : undefined
+              }
+              isLoading={serverLoading}
+              showTps={showTps}
+            />
+          ))
+        ) : (
+          <ServerStatusBar
+            server={undefined}
+            isLoading={serverLoading}
+            showTps={showTps}
+          />
+        )}
+      </div>
       {inlineStats}
     </motion.section>
   )

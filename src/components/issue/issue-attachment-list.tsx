@@ -288,7 +288,7 @@ export function IssueAttachmentList({
 
       {/* 非图片文件网格 */}
       {files.length > 0 && (
-        <div className={`grid gap-2 ${getGridClass(files.length)}`}>
+        <div className={`grid gap-2 ${GRID_CLASS}`}>
           {files.map((att) => (
             <div key={att.id} className="relative">
               <FileCard

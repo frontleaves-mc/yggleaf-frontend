@@ -104,6 +104,21 @@ export type {
   ServerStatusListResponse,
 } from './api-mc/server-status'
 
+export type {
+  ServerResponse,
+  ServerListResponse,
+  CreateServerRequest,
+  UpdateServerRequest,
+  SetServerEnabledRequest,
+  SetServerPublicRequest,
+  ServerListParams,
+} from './api-mc/server-management'
+
+export type {
+  OnlineGameProfileResponse,
+  PlayerOnlineResponse,
+} from './api-mc/player-online'
+
 // ─── 公告模块 ────────────────────────────────────────────
 
 export { AnnouncementType } from './api-mc/announcement'

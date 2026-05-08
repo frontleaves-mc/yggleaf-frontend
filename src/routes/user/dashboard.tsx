@@ -142,7 +142,7 @@ function DashboardPage() {
       page: 1,
       page_size: DASHBOARD_ANNOUNCEMENT_LIMIT,
     })
-  const server = serverStatusData?.[0]
+  const servers = serverStatusData ?? []
   const user = userInfo?.user
   const announcements = announcementsData?.list ?? []
 
@@ -160,7 +160,7 @@ function DashboardPage() {
         <DashboardWelcome
           username={user?.username}
           fallbackName="冒险者"
-          server={server}
+          servers={servers}
           serverLoading={serverLoading}
         />
 
@@ -182,19 +182,30 @@ function DashboardPage() {
                   <div className="h-4 w-1/3 rounded bg-muted" />
                 </div>
               ))
-            ) : server?.online && server.players.length > 0 ? (
-              <div className="rounded-xl border border-border/60 bg-card/90 px-4 py-3 backdrop-blur-[10px]">
-                <div className="flex flex-wrap items-center gap-2">
-                  {server.players.map((player) => (
-                    <span
-                      key={player.player_uuid}
-                      className="inline-flex items-center gap-1.5 rounded-full border border-border/50 bg-background/60 px-2.5 py-0.5 text-[13px] font-medium text-foreground/80"
-                    >
-                      {player.player_name}
-                    </span>
-                  ))}
-                </div>
-              </div>
+            ) : servers.length > 0 && servers.some((s) => s.online && s.players.length > 0) ? (
+              servers
+                .filter((s) => s.online && s.players.length > 0)
+                .map((server) => (
+                  <div key={server.server_name}>
+                    {servers.length > 1 && (
+                      <p className="mb-1.5 text-[11px] font-medium uppercase tracking-wider text-muted-foreground/50">
+                        {server.server_name}
+                      </p>
+                    )}
+                    <div className="rounded-xl border border-border/60 bg-card/90 px-4 py-3 backdrop-blur-[10px]">
+                      <div className="flex flex-wrap items-center gap-2">
+                        {server.players.map((player) => (
+                          <span
+                            key={player.player_uuid}
+                            className="inline-flex items-center gap-1.5 rounded-full border border-border/50 bg-background/60 px-2.5 py-0.5 text-[13px] font-medium text-foreground/80"
+                          >
+                            {player.player_name}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))
             ) : (
               <div className="rounded-xl border border-dashed border-border/60 py-8 text-center text-sm text-muted-foreground/60">
                 当前无玩家在线

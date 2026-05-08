@@ -17,6 +17,7 @@ import {
   Pencil,
   Check,
   X,
+  Circle,
 } from 'lucide-react'
 import {
   Card,
@@ -60,6 +61,8 @@ import {
 } from '#/api/endpoints/api-auth/game-profile'
 import { useSkinsList } from '#/api/endpoints/api-auth/skin-library'
 import { useCapesList } from '#/api/endpoints/api-auth/cape-library'
+import { useOnlineGameProfiles } from '#/api/endpoints/api-mc/player-online'
+import type { OnlineGameProfileResponse } from '#/api/types/api-mc/player-online'
 import type { GameProfile, LibrarySimpleItem } from '#/api/types'
 import { SkinPreview } from '#/components/user/skin-preview'
 
@@ -94,6 +97,7 @@ export default function ProfilesPage() {
     error,
   } = useGameProfiles({ enabled: isAuthenticated })
   const { data: quota } = useGameProfileQuota({ enabled: isAuthenticated })
+  const { data: onlineProfiles = [] } = useOnlineGameProfiles()
   const createMutation = useCreateGameProfileMutation()
   const [dialogOpen, setDialogOpen] = useState(false)
   const [newProfileName, setNewProfileName] = useState('')
@@ -222,7 +226,7 @@ export default function ProfilesPage() {
         ) : profiles.length > 0 ? (
           <div className="grid grid-cols-2 gap-4">
             {profiles.map((profile) => (
-              <ProfileCard key={profile.id} profile={profile} />
+              <ProfileCard key={profile.id} profile={profile} onlineProfiles={onlineProfiles} />
             ))}
           </div>
         ) : (
@@ -251,10 +255,12 @@ export default function ProfilesPage() {
 
 // ─── 档案卡片组件 ─────────────────────────────────────────
 
-function ProfileCard({ profile }: { profile: GameProfile }) {
+function ProfileCard({ profile, onlineProfiles }: { profile: GameProfile; onlineProfiles: OnlineGameProfileResponse[] }) {
   const [detailOpen, setDetailOpen] = useState(false)
   const [skinDialogOpen, setSkinDialogOpen] = useState(false)
   const [capeDialogOpen, setCapeDialogOpen] = useState(false)
+
+  const onlineInfo = onlineProfiles.find((op) => op.uuid === profile.uuid)
 
   return (
     <>
@@ -286,6 +292,18 @@ function ProfileCard({ profile }: { profile: GameProfile }) {
                 <p className="text-xs text-muted-foreground font-mono">
                   UUID: {profile.uuid}
                 </p>
+                {onlineInfo ? (
+                  <div className="flex items-center gap-1.5">
+                    <Circle className="size-2 fill-green-500 text-green-500" />
+                    <span className="text-xs text-green-600 font-medium">
+                      在线
+                    </span>
+                    <span className="text-xs text-muted-foreground">
+                      · {onlineInfo.server_name}
+                      {onlineInfo.world_name && ` · ${onlineInfo.world_name}`}
+                    </span>
+                  </div>
+                ) : null}
                 <span className="text-xs text-muted-foreground">
                   更新于:{' '}
                   {new Date(profile.updated_at).toLocaleDateString('zh-CN')}

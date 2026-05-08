@@ -19,18 +19,23 @@ function formatRelativeTime(timestamp: number): string {
 
 type ServerStatusBarProps = {
   server: ServerStatusResponse | undefined
+  serverName?: string
   isLoading: boolean
   showTps?: boolean
 }
 
 export function ServerStatusBar({
   server,
+  serverName,
   isLoading,
   showTps = false,
 }: ServerStatusBarProps) {
   if (isLoading) {
     return (
       <div className="flex items-center gap-6">
+        {serverName && (
+          <div className="h-4 w-20 animate-pulse rounded bg-muted-foreground/10" />
+        )}
         <div className="h-4 w-16 animate-pulse rounded bg-muted-foreground/10" />
         <div className="h-4 w-12 animate-pulse rounded bg-muted-foreground/10" />
         {showTps && (
@@ -43,13 +48,16 @@ export function ServerStatusBar({
   if (!server) {
     return (
       <span className="text-[13px] tracking-wide text-muted-foreground/40">
-        暂无服务器数据
+        {serverName ? `${serverName} · ` : ''}暂无数据
       </span>
     )
   }
 
   return (
     <div className="flex flex-wrap items-baseline gap-x-6 gap-y-1">
+      {serverName && (
+        <StatusItem label="SERVER" value={serverName} />
+      )}
       <StatusItem
         label="STATUS"
         value={server.online ? 'ONLINE' : 'OFFLINE'}
