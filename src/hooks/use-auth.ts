@@ -13,7 +13,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { authStore } from '#/stores/auth-store'
 import { logout as apiLogout } from '#/api/endpoints/api-auth/auth'
 import { USER_INFO_QUERY_KEY } from '#/api/endpoints/api-auth/user'
-import type { User } from '#/api/types'
+import type { UserCurrentResponse } from '#/api/types'
 
 /** 返回认证状态和操作方法 */
 export function useAuth() {
@@ -25,8 +25,10 @@ export function useAuth() {
     await apiLogout()
   }, [])
 
-  // 从 TanStack Query 缓存同步读取用户信息
-  const user = queryClient.getQueryData<User>(USER_INFO_QUERY_KEY) ?? null
+  // 从 TanStack Query 缓存同步读取用户实体
+  const userInfo =
+    queryClient.getQueryData<UserCurrentResponse>(USER_INFO_QUERY_KEY) ?? null
+  const user = userInfo?.user ?? null
 
   return {
     user,

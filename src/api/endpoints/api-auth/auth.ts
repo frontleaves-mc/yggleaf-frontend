@@ -9,9 +9,14 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import type { QueryClient } from '@tanstack/react-query'
 import { authApiClient } from '../../client'
-import { clearAuth, setAuthState } from '#/stores/auth-store'
+import { authStore, clearAuth, setAuthState } from '#/stores/auth-store'
 import { getUserInfo, USER_INFO_QUERY_KEY } from './user'
-import { SSO_LOGIN_BASE_URL } from '#/config/constants'
+import {
+  ACCESS_TOKEN_KEY,
+  REFRESH_TOKEN_KEY,
+  SSO_LOGIN_BASE_URL,
+} from '#/config/constants'
+import { AT_MAX_AGE, RT_MAX_AGE, setCookie } from '#/lib/cookie'
 import type { OAuthTokenData } from '#/api/types'
 
 // ─── OAuth2 SSO 端点函数 ─────────────────────────────────
@@ -42,11 +47,6 @@ export async function handleOAuthCallback(
   )
 
   // 2. 临时写入 Token（后续获取用户信息需要 Authorization header）
-  const { authStore } = await import('#/stores/auth-store')
-  const { setCookie, AT_MAX_AGE, RT_MAX_AGE } = await import('#/lib/cookie')
-  const { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } =
-    await import('#/config/constants')
-
   setCookie(ACCESS_TOKEN_KEY, tokenData.access_token, AT_MAX_AGE)
   setCookie(REFRESH_TOKEN_KEY, tokenData.refresh_token, RT_MAX_AGE)
   authStore.setState(() => ({

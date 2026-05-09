@@ -22,6 +22,7 @@ import {
   REFRESH_TOKEN_KEY,
 } from '#/config/constants'
 import { getCookie } from '#/lib/cookie'
+import { buildLoginPath, stashAuthRedirect } from '#/lib/auth-redirect'
 
 // ─── 类型定义 ──────────────────────────────────────────────
 
@@ -62,7 +63,7 @@ export function setQueryClientRef(qc: QueryClient): void {
  * 匹配规则：值位置（紧跟冒号/方括号后的）中 ≥15 位的纯数字
  * 例：{"id": 1893949384938493849} → {"id": "1893949384938493849"}
  */
-const UNSAFE_NUMBER_RE = /(?<=[:\[,])\s*(\d{15,})\s*(?=[,\]}\s])/g
+const UNSAFE_NUMBER_RE = /(?<=[:,[])\s*(\d{15,})\s*(?=[,\]}\s])/g
 
 function safeParseJson(data: string): unknown {
   const patched = data.replace(UNSAFE_NUMBER_RE, '"$1"')
@@ -126,7 +127,7 @@ export async function refreshAccessToken(): Promise<OAuthTokenData> {
     {},
     {
       headers: {
-        Authorization: `Bearer ${currentToken}`,
+        ...(currentToken ? { Authorization: `Bearer ${currentToken}` } : {}),
         'X-Refresh-Token': refreshTokenValue,
       } as Record<string, string>,
       skipAuth: true,
@@ -134,7 +135,7 @@ export async function refreshAccessToken(): Promise<OAuthTokenData> {
   )
 
   const data: ApiResponse<OAuthTokenData> = response.data
-  if (data.code !== 200 && data.code !== undefined) {
+  if (data.code !== 200) {
     throw new ApiError(response.status, data)
   }
 
@@ -149,7 +150,7 @@ function applyResponseInterceptor(inst: AxiosInstance): void {
     (response) => {
       const data: ApiResponse = response.data
 
-      if (data.code !== 200 && data.code !== undefined) {
+      if (data.code !== 200) {
         throw new ApiError(response.status, data)
       }
 
@@ -200,7 +201,9 @@ function applyResponseInterceptor(inst: AxiosInstance): void {
           clearAuth()
           _queryClient?.removeQueries({ queryKey: ['user', 'info'] })
           if (typeof window !== 'undefined') {
-            window.location.href = '/login'
+            const currentPath = `${window.location.pathname}${window.location.search}${window.location.hash}`
+            stashAuthRedirect(currentPath)
+            window.location.href = buildLoginPath(currentPath)
           }
           return new Promise(() => {}) // 永久 pending，阻止错误传播
         }

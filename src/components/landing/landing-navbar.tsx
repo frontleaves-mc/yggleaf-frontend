@@ -90,11 +90,13 @@ function ThemeToggle() {
 function UserMenu() {
   const { user, logout } = useAuth()
 
-  const gameProfile = user?.game_profiles?.[0]
+  const gameProfile = Array.isArray(user?.game_profiles)
+    ? user.game_profiles.at(0)
+    : undefined
   const avatarUrl = gameProfile?.uuid
     ? CRAFTATAR_URL(gameProfile.uuid)
     : undefined
-  const displayUsername = gameProfile?.username || user?.username || '玩家'
+  const displayUsername = gameProfile?.name || user?.username || '玩家'
 
   const handleLogout = async () => {
     try {
@@ -149,13 +151,13 @@ function UserMenu() {
 function GuestButtons() {
   return (
     <div className="flex items-center gap-2">
-      <Link to="/auth/login">
+      <Link to="/login" search={{ callback: '/user/dashboard' } as any}>
         <Button variant="ghost" size="sm" className="gap-1.5">
           <LogIn className="h-3.5 w-3.5" />
           登录
         </Button>
       </Link>
-      <Link to="/auth/login">
+      <Link to="/login" search={{ callback: '/user/dashboard' } as any}>
         <Button size="sm" className="gap-1.5">
           <UserPlus className="h-3.5 w-3.5" />
           注册
@@ -263,7 +265,7 @@ export function LandingNavbar() {
 
         <div className="flex items-center gap-2 md:hidden">
           {!isAuthenticated && (
-            <Link to="/auth/login">
+            <Link to="/login" search={{ callback: '/user/dashboard' } as any}>
               <Button variant="outline" size="sm" className="gap-1.5 text-xs">
                 <LogIn className="h-3.5 w-3.5" />
                 登录
@@ -315,7 +317,8 @@ export function LandingNavbar() {
                   ) : (
                     <div className="flex flex-col gap-2">
                       <Link
-                        to="/auth/login"
+                        to="/login"
+                        search={{ callback: '/user/dashboard' } as any}
                         onClick={() => setMobileOpen(false)}
                       >
                         <Button
@@ -328,7 +331,8 @@ export function LandingNavbar() {
                         </Button>
                       </Link>
                       <Link
-                        to="/auth/login"
+                        to="/login"
+                        search={{ callback: '/user/dashboard' } as any}
                         onClick={() => setMobileOpen(false)}
                       >
                         <Button size="sm" className="w-full gap-1.5">

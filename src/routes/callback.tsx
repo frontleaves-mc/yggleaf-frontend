@@ -14,6 +14,11 @@ import { handleOAuthCallback } from '#/api/endpoints/api-auth/auth'
 import { USER_INFO_QUERY_KEY } from '#/api/endpoints/api-auth/user'
 import type { UserCurrentResponse } from '#/api/types'
 import { checkIsAuthenticated } from '#/hooks/use-auth-guard'
+import {
+  consumeAuthRedirect,
+  getAuthRedirectFromSearch,
+  stashAuthRedirect,
+} from '#/lib/auth-redirect'
 import { Loader2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
@@ -31,6 +36,7 @@ export const Route = createFileRoute('/callback')({
 function CallbackPage() {
   const [status, setStatus] = useState<'loading' | 'error'>('loading')
   const [errorMsg, setErrorMsg] = useState('')
+  const [retryRedirect, setRetryRedirect] = useState('/user/dashboard')
   const navigate = useNavigate()
   const queryClient = useQueryClient()
 
@@ -38,7 +44,8 @@ function CallbackPage() {
     const params = new URLSearchParams(window.location.search)
     const code = params.get('code')
     const state = params.get('state')
-    const redirectTo = params.get('redirect') || '/user/dashboard'
+    const redirectTo = consumeAuthRedirect(getAuthRedirectFromSearch(params))
+    setRetryRedirect(redirectTo)
 
     if (!code || !state) {
       setErrorMsg('缺少授权参数，请重新登录')
@@ -56,7 +63,7 @@ function CallbackPage() {
 
         const userInfo =
           queryClient.getQueryData<UserCurrentResponse>(USER_INFO_QUERY_KEY)
-        if (userInfo && userInfo.extend?.account_ready !== 'ready') {
+        if (userInfo && userInfo.extend.account_ready !== 'ready') {
           navigate({ to: '/setup/password' as any })
           return
         }
@@ -94,6 +101,7 @@ function CallbackPage() {
           <p className="text-sm text-muted-foreground">{errorMsg}</p>
           <Link
             to="/login"
+            search={{ callback: stashAuthRedirect(retryRedirect) } as any}
             className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-primary to-primary px-5 py-2.5 text-sm font-semibold text-white no-underline hover:opacity-90"
           >
             返回登录
