@@ -77,10 +77,10 @@ function LandingCard({
     <div
       data-slot="landing-card"
       className={cn(
-        'relative overflow-hidden rounded-xl',
-        'bg-card/60 backdrop-blur-md border border-border/50',
+        'relative overflow-hidden rounded-lg',
+        'border border-border bg-card',
         'transition-all duration-300',
-        'hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1',
+        'hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/5',
         'group/card',
         className,
       )}

@@ -1,149 +1,171 @@
-/**
- * 登录页 — OAuth2 SSO 入口
- * 左右分屏布局
- * 左侧: 深色品牌展示区 — FrontLeaves 介绍（从 Markdown 渲染）
- * 右侧: 登录操作区（仅 SSO 按钮）
- * 移动端: 仅显示右侧
- */
-
 import { createFileRoute, redirect } from '@tanstack/react-router'
-import { ExternalLink } from 'lucide-react'
+import { ArrowLeft, ExternalLink, ShieldCheck, Sparkles } from 'lucide-react'
 import { motion } from 'motion/react'
 import { getOAuthLoginUrl } from '#/api/endpoints/api-auth/auth'
 import { Button } from '#/components/ui/button'
 import { RiseTransition } from '#/components/ui/page-transition'
 import brandMd from '#/content/login-brand.md?raw'
-import { checkIsAuthenticated } from '#/hooks/use-auth-guard'
+import { ensureAuthenticated } from '#/hooks/use-auth-guard'
+import { normalizeAuthRedirect, stashAuthRedirect } from '#/lib/auth-redirect'
 import { SimpleMarkdown } from '#/lib/markdown'
 import { hoverLiftTransition } from '#/lib/motion-presets'
 
 export const Route = createFileRoute('/login')({
-  beforeLoad: () => {
-    if (checkIsAuthenticated()) {
-      throw redirect({ to: '/user/dashboard' as any })
+  validateSearch: (search: Record<string, unknown>) => ({
+    callback: typeof search.callback === 'string' ? search.callback : undefined,
+    redirect: typeof search.redirect === 'string' ? search.redirect : undefined,
+  }),
+  beforeLoad: async ({ search }) => {
+    const redirectTo = normalizeAuthRedirect(search.callback || search.redirect)
+
+    if (await ensureAuthenticated()) {
+      throw redirect({ to: redirectTo as any })
     }
   },
   component: LoginPage,
 })
 
 function LoginPage() {
+  const search = Route.useSearch()
+  const redirectTo = normalizeAuthRedirect(search.callback || search.redirect)
+
   const handleSSOLogin = () => {
+    stashAuthRedirect(redirectTo)
     window.location.href = getOAuthLoginUrl()
   }
 
   return (
-    <div className="flex min-h-screen">
-      {/* ─── 左侧: 品牌沉浸区 ─── */}
-      <div className="relative hidden w-[55%] overflow-hidden lg:flex lg:flex-col bg-gradient-to-br from-[oklch(0.15_0.05_220)] via-[oklch(0.12_0.045_215)] to-[oklch(0.08_0.04_230)]">
-        {/* 装饰光晕 */}
-        <div className="pointer-events-none absolute -left-32 -top-32 h-[500px] w-[500px] rounded-full bg-[oklch(0.45_0.12_200)] opacity-[0.08] blur-[120px]" />
-        <div className="pointer-events-none absolute -right-20 bottom-[10%] h-[350px] w-[350px] rounded-full bg-[oklch(0.55_0.10_75)] opacity-[0.04] blur-[100px]" />
+    <div className="grid min-h-svh bg-background lg:grid-cols-[minmax(0,1.05fr)_minmax(420px,0.95fr)]">
+      <section className="relative hidden overflow-hidden bg-[oklch(0.16_0.018_238)] text-white lg:flex">
+        <div className="absolute inset-0 bg-noise opacity-70" />
+        <div className="absolute inset-0 bg-[linear-gradient(135deg,oklch(0.18_0.035_146),oklch(0.16_0.018_238)_48%,oklch(0.19_0.045_33))]" />
+        <div className="absolute inset-0 opacity-20 mc-grid-pattern" />
 
-        {/* 网格纹理 */}
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage:
-              'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
-            backgroundSize: '60px 60px',
-          }}
-        />
-
-        {/* 内容 */}
-        <RiseTransition className="relative z-10 flex flex-1 flex-col justify-center gap-8 px-14 py-12">
-          {/* Logo */}
-          <div className="flex items-center gap-3.5">
+        <RiseTransition className="relative z-10 flex min-h-svh w-full flex-col justify-between px-14 py-12 xl:px-20">
+          <div className="flex items-center gap-3">
             <img
               src="/favicon.png"
               alt="Yggleaf"
-              className="h-14 w-14 rounded-2xl object-cover shadow-lg"
+              className="size-12 rounded-xl object-cover shadow-lg"
             />
-            <div className="flex flex-col gap-0.5">
-              <span className="text-2xl font-bold tracking-tight text-white">
+            <div>
+              <div className="text-lg font-semibold tracking-tight">
                 Yggleaf
-              </span>
-              <span className="text-sm text-white/40">by FrontLeaves</span>
+              </div>
+              <div className="text-xs text-white/55">FrontLeaves SSO</div>
             </div>
           </div>
 
-          {/* 品牌介绍 — 从 Markdown 渲染 */}
-          <SimpleMarkdown className="max-w-lg space-y-4 text-white/70 [&_h1]:mb-1 [&_h1]:text-[1.75rem] [&_h1]:font-bold [&_h1]:text-white [&_h1]:tracking-tight [&_strong]:text-white/90 [&_strong]:font-semibold [&_hr]:my-5 [&_hr]:border-0 [&_hr]:h-px [&_hr]:bg-white/10 [&_ul]:space-y-2 [&_ul]:mt-2 [&_li]:flex [&_li]:items-start [&_li]:gap-2.5 [&_li_span]:mt-0 [&_blockquote]:mt-3 [&_blockquote]:border-l-2 [&_blockquote]:border-white/20 [&_blockquote]:pl-3.5 [&_blockquote]:text-white/50 [&_blockquote]:italic">
-            {brandMd}
-          </SimpleMarkdown>
+          <div className="max-w-xl">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-medium text-white/70">
+              <ShieldCheck className="size-3.5" />
+              OAuth2 统一认证入口
+            </div>
+            <SimpleMarkdown className="flex flex-col gap-4 text-white/70 [&_blockquote]:border-l [&_blockquote]:border-white/20 [&_blockquote]:pl-4 [&_blockquote]:text-white/50 [&_h1]:text-4xl [&_h1]:font-bold [&_h1]:tracking-tight [&_h1]:text-white [&_hr]:my-2 [&_hr]:border-white/10 [&_li]:leading-7 [&_strong]:font-semibold [&_strong]:text-white/90 [&_ul]:flex [&_ul]:flex-col [&_ul]:gap-2">
+              {brandMd}
+            </SimpleMarkdown>
+          </div>
+
+          <div className="grid grid-cols-3 gap-3 text-sm text-white/70">
+            {['资源同步', '角色权限', '账号安全'].map((item) => (
+              <div
+                key={item}
+                className="rounded-lg border border-white/10 bg-white/5 px-4 py-3"
+              >
+                {item}
+              </div>
+            ))}
+          </div>
         </RiseTransition>
+      </section>
 
-        {/* 底部版权 */}
-        <div className="relative z-10 px-14 pb-8 text-xs text-white/20">
-          &copy; {new Date().getFullYear()} FrontLeaves &middot; Yggleaf
-        </div>
-      </div>
+      <section className="flex items-center justify-center px-5 py-10 sm:px-8">
+        <RiseTransition className="w-full max-w-[430px]">
+          <div className="mb-10">
+            <Button variant="ghost" size="sm" asChild className="-ml-2">
+              <a href="/">
+                <ArrowLeft data-icon="inline-start" />
+                返回首页
+              </a>
+            </Button>
+          </div>
 
-      {/* ─── 右侧: 登录操作区 ─── */}
-      <div className="flex flex-1 items-center justify-center bg-background p-6">
-        <RiseTransition className="flex w-full max-w-[400px] flex-col items-center gap-8">
-          {/* 移动端 Logo */}
-          <div className="flex flex-col items-center gap-3 lg:hidden">
+          <div className="mb-8 flex items-center gap-3 lg:hidden">
             <img
               src="/favicon.png"
               alt="Yggleaf"
-              className="h-12 w-12 rounded-xl object-cover shadow-lg shadow-primary/15"
+              className="size-11 rounded-xl object-cover shadow-lg shadow-primary/15"
             />
-            <div className="flex flex-col items-center gap-0.5">
-              <span className="text-lg font-bold text-foreground">Yggleaf</span>
-              <span className="text-xs text-muted-foreground">
+            <div>
+              <div className="text-base font-semibold tracking-tight">
+                Yggleaf
+              </div>
+              <div className="text-xs text-muted-foreground">
                 by FrontLeaves
-              </span>
+              </div>
             </div>
           </div>
 
-          {/* 标题区域 */}
-          <div className="flex flex-col items-center gap-3 text-center">
-            {/* 桌面端 Logo */}
-            <div className="hidden items-center gap-3 lg:flex">
-              <img
-                src="/favicon.png"
-                alt="Yggleaf"
-                className="h-10 w-10 rounded-xl object-cover shadow-lg shadow-primary/15"
-              />
+          <div className="rounded-lg border border-border bg-card p-6 shadow-sm sm:p-8">
+            <div className="mb-7 flex flex-col gap-3">
+              <div className="hidden items-center gap-3 lg:flex">
+                <img
+                  src="/favicon.png"
+                  alt="Yggleaf"
+                  className="size-10 rounded-xl object-cover shadow-lg shadow-primary/15"
+                />
+                <div className="text-sm font-medium text-muted-foreground">
+                  统一登录
+                </div>
+              </div>
+              <div className="inline-flex w-fit items-center gap-2 rounded-md border border-border bg-muted/40 px-2.5 py-1 text-xs text-muted-foreground">
+                <Sparkles className="size-3.5" />
+                登录后返回 {redirectTo}
+              </div>
+              <div>
+                <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+                  继续进入锋楪
+                </h1>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                  使用 FrontLeaves SSO
+                  完成身份验证，继续管理皮肤、披风、档案与工单。
+                </p>
+              </div>
             </div>
-            <h2 className="text-[1.75rem] font-bold tracking-tight text-foreground">
-              欢迎回来
-            </h2>
-            <p className="max-w-[280px] text-sm leading-relaxed text-muted-foreground">
-              通过统一认证平台登录，继续管理你的 Minecraft 资源与账号。
-            </p>
-          </div>
 
-          {/* SSO 登录按钮 */}
-          <motion.div
-            className="w-full"
-            initial="rest"
-            whileHover="hover"
-            transition={hoverLiftTransition}
-            variants={{
-              rest: { y: 0 },
-              hover: { y: -2 },
-            }}
-          >
-            <Button
-              type="button"
-              onClick={handleSSOLogin}
-              className="group relative h-12 w-full overflow-hidden rounded-xl bg-gradient-to-r from-primary to-primary/90 text-[15px] font-semibold text-white shadow-lg shadow-primary/20 transition-shadow hover:shadow-xl hover:shadow-primary/30"
+            <motion.div
+              className="w-full"
+              initial="rest"
+              whileHover="hover"
+              transition={hoverLiftTransition}
+              variants={{
+                rest: { y: 0 },
+                hover: { y: -2 },
+              }}
             >
-              <span className="relative z-10 flex items-center justify-center gap-2">
-                <ExternalLink className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              <Button
+                type="button"
+                onClick={handleSSOLogin}
+                size="lg"
+                className="h-11 w-full rounded-lg text-[15px] font-semibold"
+              >
+                <ExternalLink data-icon="inline-start" />
                 SSO 安全登录
-              </span>
-              <div className="absolute inset-0 bg-white/0 transition-colors group-hover:bg-white/10" />
-            </Button>
-          </motion.div>
+              </Button>
+            </motion.div>
 
-          {/* 底部提示 */}
-          <p className="text-center text-xs leading-relaxed text-muted-foreground/60">
-            还没有账号？请先在 SSO 平台完成注册与授权。
-          </p>
+            <div className="mt-5 rounded-md bg-muted/50 px-3 py-2.5 text-xs leading-5 text-muted-foreground">
+              若账号尚未完成初始化，登录后会自动进入账号设置流程。
+            </div>
+          </div>
+
+          <div className="mt-6 flex items-center justify-center gap-2 text-xs text-muted-foreground">
+            <span>&copy; {new Date().getFullYear()} FrontLeaves</span>
+            <span aria-hidden="true">/</span>
+            <span>Yggleaf</span>
+          </div>
         </RiseTransition>
-      </div>
+      </section>
     </div>
   )
 }

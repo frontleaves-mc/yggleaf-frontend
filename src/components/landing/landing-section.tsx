@@ -25,7 +25,7 @@ function LandingSection({
   subtitle,
 }: LandingSectionProps) {
   return (
-    <section id={id} className={cn('landing-section section-glow', className)}>
+    <section id={id} className={cn('landing-section', className)}>
       <motion.div
         initial="hidden"
         whileInView="visible"
@@ -33,12 +33,12 @@ function LandingSection({
         variants={landingFadeInUp}
       >
         {title && (
-          <div className="mb-12 text-center">
-            <h2 className="font-heading text-3xl font-bold tracking-tight md:text-4xl">
-              <span className="mc-gradient-text">{title}</span>
+          <div className="mx-auto mb-10 max-w-3xl text-center">
+            <h2 className="font-heading text-3xl font-semibold tracking-tight md:text-4xl">
+              {title}
             </h2>
             {subtitle && (
-              <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+              <p className="mx-auto mt-3 max-w-2xl text-base leading-7 text-muted-foreground">
                 {subtitle}
               </p>
             )}

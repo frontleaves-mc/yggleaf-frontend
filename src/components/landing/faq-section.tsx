@@ -8,7 +8,7 @@ import { cn } from '#/lib/utils'
 const faqs = [
   {
     q: '如何加入服务器？',
-    a: '服务器地址为 play.yggleaf.com，支持 Minecraft Java Edition 1.21.1 版本。加入我们的 QQ 群 805030578 获取详细教程和白名单申请。',
+    a: '服务器地址为 mc.frontleaves.com，支持 Minecraft Java Edition 1.21.1。加入 QQ 群 805030578 后按群公告完成白名单申请。',
   },
   {
     q: '需要安装模组吗？',
@@ -16,7 +16,7 @@ const faqs = [
   },
   {
     q: '如何上传自定义皮肤？',
-    a: '注册并登录锋楪官网后，在用户面板中找到"皮肤管理"功能，支持上传 64x64 或 64x32 的 PNG 格式皮肤文件。',
+    a: '注册并登录锋楪官网后，在玩家中心进入皮肤管理，上传符合尺寸要求的 PNG 文件后即可预览和启用。',
   },
   {
     q: '服务器有哪些规则？',
@@ -36,14 +36,14 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
   const [open, setOpen] = useState(false)
 
   return (
-    <div className="border-b border-border/50 py-4 first:pt-0 last:border-b-0">
+    <div className="border-b border-border py-4 first:pt-0 last:border-b-0">
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="flex items-center justify-between w-full text-left gap-4 group"
+        className="group flex w-full items-center justify-between gap-4 text-left"
         aria-expanded={open}
       >
-        <span className="font-medium group-hover:text-primary transition-colors duration-200">
+        <span className="font-medium transition-colors duration-200 group-hover:text-primary">
           {question}
         </span>
         <ChevronDown
@@ -62,7 +62,7 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
             transition={{ duration: 0.2, ease: 'easeInOut' }}
             className="overflow-hidden"
           >
-            <p className="pt-3 text-sm text-muted-foreground leading-relaxed">
+            <p className="pt-3 text-sm leading-6 text-muted-foreground">
               {answer}
             </p>
           </motion.div>
@@ -74,8 +74,12 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
 
 function FaqSection() {
   return (
-    <LandingSection id="faq" title="常见问题" subtitle="快速找到你需要的答案">
-      <div className="max-w-3xl mx-auto rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 p-6 md:p-8">
+    <LandingSection
+      id="faq"
+      title="常见问题"
+      subtitle="加入前最容易卡住的几个点。"
+    >
+      <div className="mx-auto max-w-3xl rounded-lg border border-border bg-card p-5 shadow-sm md:p-7">
         {faqs.map((faq) => (
           <FaqItem key={faq.q} question={faq.q} answer={faq.a} />
         ))}

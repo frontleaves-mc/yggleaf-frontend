@@ -1,6 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import { motion } from 'motion/react'
-import { MessageCircle, ExternalLink } from 'lucide-react'
+import { MessageCircle, ExternalLink, LogIn } from 'lucide-react'
+import { Button } from '#/components/ui/button'
 import { scrollRevealContainer, scrollRevealItem } from '#/lib/motion-presets'
 
 const NAV_LINKS = [
@@ -11,9 +12,9 @@ const NAV_LINKS = [
 ] as const
 
 const RESOURCE_LINKS = [
-  { label: '帮助中心', href: '#' },
-  { label: '使用条款', href: '#' },
-  { label: '隐私政策', href: '#' },
+  { label: '玩家中心', to: '/user/dashboard' },
+  { label: '皮肤管理', to: '/user/skins' },
+  { label: '工单中心', to: '/user/issues' },
 ] as const
 
 const QQ_GROUP = '805030578'
@@ -32,29 +33,9 @@ function FooterLink({ children, ...props }: React.ComponentProps<typeof Link>) {
   )
 }
 
-function FooterStaticLink({
-  href,
-  children,
-}: {
-  href: string
-  children: React.ReactNode
-}) {
-  return (
-    <li>
-      <a
-        href={href}
-        className="group inline-flex items-center gap-1 text-sm text-muted-foreground transition-all duration-200 hover:text-primary hover:translate-x-0.5"
-      >
-        {children}
-        <ExternalLink className="size-3 opacity-0 transition-opacity duration-200 group-hover:opacity-50" />
-      </a>
-    </li>
-  )
-}
-
 export function LandingFooter() {
   return (
-    <footer className="border-t border-primary/20 bg-background">
+    <footer className="border-t border-border bg-background">
       <div className="landing-section !py-12">
         <motion.div
           className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4"
@@ -83,7 +64,7 @@ export function LandingFooter() {
             <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-foreground/80">
               快速导航
             </h3>
-            <ul className="space-y-2.5">
+            <ul className="flex flex-col gap-2.5">
               {NAV_LINKS.map((link) => (
                 <FooterLink key={link.to} to={link.to}>
                   {link.label}
@@ -96,11 +77,11 @@ export function LandingFooter() {
             <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-foreground/80">
               资源
             </h3>
-            <ul className="space-y-2.5">
+            <ul className="flex flex-col gap-2.5">
               {RESOURCE_LINKS.map((link) => (
-                <FooterStaticLink key={link.label} href={link.href}>
+                <FooterLink key={link.label} to={link.to}>
                   {link.label}
-                </FooterStaticLink>
+                </FooterLink>
               ))}
             </ul>
           </motion.div>
@@ -109,7 +90,7 @@ export function LandingFooter() {
             <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-foreground/80">
               社区
             </h3>
-            <ul className="space-y-2.5">
+            <ul className="flex flex-col gap-3">
               <li>
                 <span className="inline-flex items-center gap-2 text-sm text-muted-foreground">
                   <MessageCircle className="size-4 text-primary/70" />
@@ -119,11 +100,22 @@ export function LandingFooter() {
                   </code>
                 </span>
               </li>
+              <li>
+                <Button size="sm" asChild>
+                  <Link
+                    to="/login"
+                    search={{ callback: '/user/dashboard' } as any}
+                  >
+                    <LogIn data-icon="inline-start" />
+                    进入玩家中心
+                  </Link>
+                </Button>
+              </li>
             </ul>
           </motion.div>
         </motion.div>
 
-        <div className="border-t border-border pt-6 pb-4 text-center text-sm text-muted-foreground/70">
+        <div className="mt-10 border-t border-border pt-6 text-center text-sm text-muted-foreground/70">
           © 2024-2026 锋楪游戏（深圳）有限公司
         </div>
       </div>

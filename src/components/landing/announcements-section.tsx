@@ -1,44 +1,47 @@
 import { Link } from '@tanstack/react-router'
-import { ArrowRight, CalendarDays } from 'lucide-react'
+import { ArrowRight, CalendarDays, Megaphone } from 'lucide-react'
 import { usePublicAnnouncements } from '#/api/endpoints/api-mc/public-announcement'
+import type { AnnouncementListItem } from '#/api/types/api-mc/announcement'
 import {
   StaggerContainer,
   StaggerItem,
 } from '#/components/landing/landing-animate'
 import { LandingCard } from '#/components/landing/landing-primitives'
 import { LandingSection } from '#/components/landing/landing-section'
+import { Button } from '#/components/ui/button'
 import { Skeleton } from '#/components/ui/skeleton'
 import { getAnnouncementTypeBadge } from '#/lib/announcement-helpers'
 
 function AnnouncementCard({
   announcement,
 }: {
-  announcement: {
-    id: string
-    title: string
-    desc?: string
-    type: number
-    created_at: string
-  }
+  announcement: AnnouncementListItem
 }) {
   return (
-    <Link to="/announcements/$id" params={{ id: String(announcement.id) }}>
-      <LandingCard className="p-6 h-full group/card">
-        <div className="flex items-center gap-2 mb-3 flex-wrap">
+    <Link
+      to="/announcements/$id"
+      params={{ id: String(announcement.id) }}
+      className="block h-full"
+    >
+      <LandingCard className="group/card flex h-full flex-col p-5">
+        <div className="mb-4 flex flex-wrap items-center gap-2">
           {getAnnouncementTypeBadge(announcement.type)}
-          <span className="text-xs text-muted-foreground inline-flex items-center gap-1">
-            <CalendarDays className="h-3 w-3" />
+          <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
+            <CalendarDays className="size-3" />
             {new Date(announcement.created_at).toLocaleDateString('zh-CN')}
           </span>
         </div>
 
-        <h3 className="font-heading font-semibold mb-2 group-hover/card:text-primary transition-colors line-clamp-1">
+        <h3 className="line-clamp-2 font-heading text-base font-semibold tracking-tight transition-colors group-hover/card:text-primary">
           {announcement.title}
         </h3>
 
-        <p className="text-sm text-muted-foreground line-clamp-2">
-          {announcement.desc ?? announcement.content?.slice(0, 100) ?? ''}
+        <p className="mt-2 line-clamp-3 text-sm leading-6 text-muted-foreground">
+          {announcement.desc || announcement.content?.slice(0, 100) || ''}
         </p>
+        <div className="mt-auto pt-5 text-xs font-medium text-primary">
+          阅读公告
+        </div>
       </LandingCard>
     </Link>
   )
@@ -46,23 +49,23 @@ function AnnouncementCard({
 
 function AnnouncementsSkeleton() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <LandingCard key="skel-0" className="p-6">
-        <Skeleton className="h-5 w-16 mb-4" />
-        <Skeleton className="h-6 w-3/4 mb-2" />
-        <Skeleton className="h-4 w-full mb-1" />
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+      <LandingCard key="skel-0" className="p-5">
+        <Skeleton className="mb-4 h-5 w-16" />
+        <Skeleton className="mb-2 h-6 w-3/4" />
+        <Skeleton className="mb-1 h-4 w-full" />
         <Skeleton className="h-4 w-2/3" />
       </LandingCard>
-      <LandingCard key="skel-1" className="p-6">
-        <Skeleton className="h-5 w-16 mb-4" />
-        <Skeleton className="h-6 w-3/4 mb-2" />
-        <Skeleton className="h-4 w-full mb-1" />
+      <LandingCard key="skel-1" className="p-5">
+        <Skeleton className="mb-4 h-5 w-16" />
+        <Skeleton className="mb-2 h-6 w-3/4" />
+        <Skeleton className="mb-1 h-4 w-full" />
         <Skeleton className="h-4 w-2/3" />
       </LandingCard>
-      <LandingCard key="skel-2" className="p-6">
-        <Skeleton className="h-5 w-16 mb-4" />
-        <Skeleton className="h-6 w-3/4 mb-2" />
-        <Skeleton className="h-4 w-full mb-1" />
+      <LandingCard key="skel-2" className="p-5">
+        <Skeleton className="mb-4 h-5 w-16" />
+        <Skeleton className="mb-2 h-6 w-3/4" />
+        <Skeleton className="mb-1 h-4 w-full" />
         <Skeleton className="h-4 w-2/3" />
       </LandingCard>
     </div>
@@ -71,8 +74,9 @@ function AnnouncementsSkeleton() {
 
 function AnnouncementsEmpty() {
   return (
-    <div className="text-center py-12 text-muted-foreground">
-      <p>暂无公告</p>
+    <div className="rounded-lg border border-dashed border-border bg-muted/30 py-12 text-center text-muted-foreground">
+      <Megaphone className="mx-auto mb-3 size-5 text-primary" />
+      <p className="text-sm">暂无公告</p>
     </div>
   )
 }
@@ -84,17 +88,16 @@ function AnnouncementsSection() {
   return (
     <LandingSection
       id="announcements"
-      title="最新公告"
-      subtitle="了解服务器最新动态"
+      title="最新动态"
+      subtitle="维护、活动和规则更新都从这里开始。"
     >
-      <div className="flex justify-end mb-6">
-        <Link
-          to="/announcements"
-          className="text-sm text-muted-foreground hover:text-primary transition-colors inline-flex items-center gap-1"
-        >
-          查看全部
-          <ArrowRight className="h-3 w-3" />
-        </Link>
+      <div className="mb-6 flex justify-end">
+        <Button variant="outline" size="sm" asChild>
+          <Link to="/announcements">
+            查看全部
+            <ArrowRight data-icon="inline-end" />
+          </Link>
+        </Button>
       </div>
 
       {isLoading ? (
@@ -102,8 +105,8 @@ function AnnouncementsSection() {
       ) : announcements.length === 0 ? (
         <AnnouncementsEmpty />
       ) : (
-        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {announcements.map((a) => (
+        <StaggerContainer className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          {announcements.slice(0, 3).map((a) => (
             <StaggerItem key={a.id}>
               <AnnouncementCard announcement={a} />
             </StaggerItem>

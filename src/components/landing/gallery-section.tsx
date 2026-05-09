@@ -53,22 +53,27 @@ function GallerySection() {
     <LandingSection
       id="gallery"
       title="服务器掠影"
-      subtitle="探索锋楪的精彩世界"
+      subtitle="用更接近实况的视角展示生存、探索和社区据点。"
     >
-      <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {galleryImages.map((img) => (
-          <StaggerItem key={img.src}>
-            <div className="group relative overflow-hidden rounded-xl border border-border/50 aspect-[4/3]">
+      <StaggerContainer className="grid grid-cols-1 gap-4 md:grid-cols-6">
+        {galleryImages.map((img, index) => (
+          <StaggerItem
+            key={img.src}
+            className={
+              index === 0 || index === 3 ? 'md:col-span-3' : 'md:col-span-2'
+            }
+          >
+            <div className="group relative aspect-[4/3] overflow-hidden rounded-lg border border-border bg-card">
               <img
                 src={img.src}
                 alt={img.title}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                <h3 className="font-heading font-semibold text-white">
+              <div className="absolute inset-x-0 bottom-0 flex flex-col justify-end bg-gradient-to-t from-black/80 to-transparent p-4 pt-14 text-white">
+                <h3 className="font-heading text-sm font-semibold">
                   {img.title}
                 </h3>
-                <p className="text-sm text-white/80">{img.desc}</p>
+                <p className="mt-1 text-xs text-white/75">{img.desc}</p>
               </div>
             </div>
           </StaggerItem>
