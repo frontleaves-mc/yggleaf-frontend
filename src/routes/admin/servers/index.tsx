@@ -110,6 +110,8 @@ function ServerManagementPage() {
   const [editAddress, setEditAddress] = useState('')
   const [editDescription, setEditDescription] = useState('')
   const [editSortOrder, setEditSortOrder] = useState('')
+  const [editEnabled, setEditEnabled] = useState(false)
+  const [editPublic, setEditPublic] = useState(false)
 
   const resetCreateForm = () => {
     setFormName('')
@@ -129,6 +131,8 @@ function ServerManagementPage() {
     setEditAddress(server.address)
     setEditDescription(server.description)
     setEditSortOrder(String(server.sort_order))
+    setEditEnabled(server.is_enabled)
+    setEditPublic(server.is_public)
     setEditTarget(server)
   }
 
@@ -155,6 +159,18 @@ function ServerManagementPage() {
   const handleEdit = async () => {
     if (!editTarget || !editDisplayName.trim()) return
     try {
+      if (editTarget.is_enabled !== editEnabled) {
+        await setEnabledMutation.mutateAsync({
+          id: editTarget.id,
+          data: { is_enabled: editEnabled },
+        })
+      }
+      if (editTarget.is_public !== editPublic) {
+        await setPublicMutation.mutateAsync({
+          id: editTarget.id,
+          data: { is_public: editPublic },
+        })
+      }
       await updateMutation.mutateAsync({
         id: editTarget.id,
         data: {
@@ -267,18 +283,12 @@ function ServerManagementPage() {
       cell: ({ row }) => {
         const server = row.original
         return (
-          <div className="flex items-center gap-2">
-            <Switch
-              checked={server.is_enabled}
-              onCheckedChange={() => handleToggleEnabled(server)}
-            />
-            <Badge
-              variant={server.is_enabled ? 'default' : 'secondary'}
-              className="text-xs"
-            >
-              {server.is_enabled ? '启用' : '禁用'}
-            </Badge>
-          </div>
+          <Badge
+            variant={server.is_enabled ? 'default' : 'secondary'}
+            className="text-xs"
+          >
+            {server.is_enabled ? '启用' : '禁用'}
+          </Badge>
         )
       },
     },
@@ -290,18 +300,12 @@ function ServerManagementPage() {
       cell: ({ row }) => {
         const server = row.original
         return (
-          <div className="flex items-center gap-2">
-            <Switch
-              checked={server.is_public}
-              onCheckedChange={() => handleTogglePublic(server)}
-            />
-            <Badge
-              variant={server.is_public ? 'default' : 'secondary'}
-              className="text-xs"
-            >
-              {server.is_public ? '公开' : '私有'}
-            </Badge>
-          </div>
+          <Badge
+            variant={server.is_public ? 'default' : 'secondary'}
+            className="text-xs"
+          >
+            {server.is_public ? '公开' : '私有'}
+          </Badge>
         )
       },
     },
@@ -573,6 +577,30 @@ function ServerManagementPage() {
                 value={editSortOrder}
                 onChange={(e) => setEditSortOrder(e.target.value)}
                 placeholder="0"
+              />
+            </div>
+            <div className="flex items-center justify-between rounded-lg border border-border/60 px-4 py-3">
+              <div className="space-y-0.5">
+                <Label className="text-sm">启用状态</Label>
+                <p className="text-xs text-muted-foreground">
+                  关闭后该服务器将停止响应查询
+                </p>
+              </div>
+              <Switch
+                checked={editEnabled}
+                onCheckedChange={setEditEnabled}
+              />
+            </div>
+            <div className="flex items-center justify-between rounded-lg border border-border/60 px-4 py-3">
+              <div className="space-y-0.5">
+                <Label className="text-sm">公开可见</Label>
+                <p className="text-xs text-muted-foreground">
+                  公开后所有用户可见该服务器
+                </p>
+              </div>
+              <Switch
+                checked={editPublic}
+                onCheckedChange={setEditPublic}
               />
             </div>
           </div>
