@@ -10,6 +10,7 @@ import { authApiClient } from '../../client'
 import type {
   AdminUserListResponse,
   AdminUserDetailResponse,
+  AdminGameProfileListResponse,
   AdjustGameProfileQuotaRequest,
   GameProfileQuota,
   RoleName,
@@ -30,6 +31,11 @@ export interface AdminUserListParams {
 
 export const ADMIN_USER_LIST_QUERY_KEY = ['admin', 'users'] as const
 export const ADMIN_USER_DETAIL_QUERY_KEY = ['admin', 'user', 'detail'] as const
+export const ADMIN_USER_GAME_PROFILES_QUERY_KEY = [
+  'admin',
+  'user',
+  'game-profiles',
+] as const
 
 // ─── 端点函数 ──────────────────────────────────────────────
 
@@ -55,6 +61,15 @@ export async function getAdminUserDetail(
   userId: string,
 ): Promise<AdminUserDetailResponse> {
   return authApiClient.get<AdminUserDetailResponse>(`/admin/users/${userId}`)
+}
+
+/** 管理员获取用户游戏档案列表 */
+export async function getAdminUserGameProfiles(
+  userId: string,
+): Promise<AdminGameProfileListResponse> {
+  return authApiClient.get<AdminGameProfileListResponse>(
+    `/admin/users/${userId}/game-profiles`,
+  )
 }
 
 /** 管理员调整用户游戏档案配额 */
@@ -83,6 +98,15 @@ export function useAdminUserDetail(userId: string) {
   return useQuery({
     queryKey: [...ADMIN_USER_DETAIL_QUERY_KEY, userId],
     queryFn: () => getAdminUserDetail(userId),
+    enabled: !!userId,
+  })
+}
+
+/** 管理员用户游戏档案列表 Query */
+export function useAdminUserGameProfiles(userId: string) {
+  return useQuery({
+    queryKey: [...ADMIN_USER_GAME_PROFILES_QUERY_KEY, userId],
+    queryFn: () => getAdminUserGameProfiles(userId),
     enabled: !!userId,
   })
 }

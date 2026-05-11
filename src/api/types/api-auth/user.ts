@@ -363,3 +363,71 @@ export interface AdjustGameProfileQuotaRequest {
   delta: number
   remark?: string
 }
+
+// ─── 管理员 - 游戏档案类型 ──────────────────
+
+/** 管理员 - 游戏档案皮肤信息 */
+export interface AdminGameProfileSkin {
+  /** 皮肤 ID */
+  id: number
+  /** 皮肤名称 */
+  name: string
+  /** 皮肤模型（1 = STEVE, 2 = ALEX） */
+  model: 1 | 2
+  /** 皮肤纹理 URL */
+  texture_url: string
+  /** 皮肤纹理哈希 */
+  texture_hash: string
+  /** 是否公开 */
+  is_public: boolean
+  /** 所属用户 ID */
+  user_id: number
+  /** 更新时间 */
+  updated_at: string
+}
+
+/** 管理员 - 游戏档案披风信息 */
+export interface AdminGameProfileCape {
+  /** 披风 ID */
+  id: number
+  /** 披风名称 */
+  name: string
+  /** 披风纹理 URL */
+  texture_url: string
+  /** 披风纹理哈希 */
+  texture_hash: string
+  /** 是否公开 */
+  is_public: boolean
+  /** 所属用户 ID */
+  user_id: number
+  /** 更新时间 */
+  updated_at: string
+}
+
+/** 管理员 - 游戏档案条目 */
+export interface AdminGameProfileItem {
+  /** 档案 ID */
+  id: number
+  /** 档案名称 */
+  name: string
+  /** 离线 UUID */
+  uuid: string
+  /** 所属用户 ID */
+  user_id: number
+  /** 关联皮肤库 ID */
+  skin_library_id: number
+  /** 关联披风库 ID */
+  cape_library_id: number
+  /** 关联皮肤信息 */
+  skin: AdminGameProfileSkin | null
+  /** 关联披风信息 */
+  cape: AdminGameProfileCape | null
+  /** 更新时间 */
+  updated_at: string
+}
+
+/** 管理员 - 游戏档案列表响应 */
+export interface AdminGameProfileListResponse extends BaseResponse {
+  /** 游戏档案列表 */
+  data: AdminGameProfileItem[]
+}

@@ -39,6 +39,10 @@ export type {
   AdminCapeItem,
   AdminUserDetailResponse,
   AdjustGameProfileQuotaRequest,
+  AdminGameProfileSkin,
+  AdminGameProfileCape,
+  AdminGameProfileItem,
+  AdminGameProfileListResponse,
 } from './api-auth/user'
 
 export type { ApiResponse, PaginatedResponse } from './response'
