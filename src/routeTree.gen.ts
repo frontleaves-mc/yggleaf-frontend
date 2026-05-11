@@ -55,7 +55,7 @@ import { Route as AdminCapesCreateRouteImport } from './routes/admin/capes/creat
 import { Route as AdminCapesCapeIdRouteImport } from './routes/admin/capes/$capeId'
 import { Route as AdminAnnouncementsCreateRouteImport } from './routes/admin/announcements/create'
 import { Route as AdminAnnouncementsAnnouncementIdRouteImport } from './routes/admin/announcements/$announcementId'
-import { Route as AdminUsersUserIdGameProfilesRouteImport } from './routes/admin/users/$userId.game-profiles'
+import { Route as AdminUsersUserIdGameProfilesRouteImport } from './routes/admin/users/$userId_.game-profiles'
 
 const UserRoute = UserRouteImport.update({
   id: '/user',
@@ -295,9 +295,9 @@ const AdminAnnouncementsAnnouncementIdRoute =
   } as any)
 const AdminUsersUserIdGameProfilesRoute =
   AdminUsersUserIdGameProfilesRouteImport.update({
-    id: '/game-profiles',
-    path: '/game-profiles',
-    getParentRoute: () => AdminUsersUserIdRoute,
+    id: '/users/$userId_/game-profiles',
+    path: '/users/$userId/game-profiles',
+    getParentRoute: () => AdminRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -326,7 +326,7 @@ export interface FileRoutesByFullPath {
   '/admin/plugin-credentials/$credentialId': typeof AdminPluginCredentialsCredentialIdRoute
   '/admin/skins/$skinId': typeof AdminSkinsSkinIdRoute
   '/admin/skins/create': typeof AdminSkinsCreateRoute
-  '/admin/users/$userId': typeof AdminUsersUserIdRouteWithChildren
+  '/admin/users/$userId': typeof AdminUsersUserIdRoute
   '/user/issues/$issueId': typeof UserIssuesIssueIdRoute
   '/admin/announcement-schedules/': typeof AdminAnnouncementSchedulesIndexRoute
   '/admin/announcements/': typeof AdminAnnouncementsIndexRoute
@@ -373,7 +373,7 @@ export interface FileRoutesByTo {
   '/admin/plugin-credentials/$credentialId': typeof AdminPluginCredentialsCredentialIdRoute
   '/admin/skins/$skinId': typeof AdminSkinsSkinIdRoute
   '/admin/skins/create': typeof AdminSkinsCreateRoute
-  '/admin/users/$userId': typeof AdminUsersUserIdRouteWithChildren
+  '/admin/users/$userId': typeof AdminUsersUserIdRoute
   '/user/issues/$issueId': typeof UserIssuesIssueIdRoute
   '/admin/announcement-schedules': typeof AdminAnnouncementSchedulesIndexRoute
   '/admin/announcements': typeof AdminAnnouncementsIndexRoute
@@ -423,7 +423,7 @@ export interface FileRoutesById {
   '/admin/plugin-credentials/$credentialId': typeof AdminPluginCredentialsCredentialIdRoute
   '/admin/skins/$skinId': typeof AdminSkinsSkinIdRoute
   '/admin/skins/create': typeof AdminSkinsCreateRoute
-  '/admin/users/$userId': typeof AdminUsersUserIdRouteWithChildren
+  '/admin/users/$userId': typeof AdminUsersUserIdRoute
   '/user/issues/$issueId': typeof UserIssuesIssueIdRoute
   '/admin/announcement-schedules/': typeof AdminAnnouncementSchedulesIndexRoute
   '/admin/announcements/': typeof AdminAnnouncementsIndexRoute
@@ -444,7 +444,7 @@ export interface FileRoutesById {
   '/user/profile/': typeof UserProfileIndexRoute
   '/user/profiles/': typeof UserProfilesIndexRoute
   '/user/skins/': typeof UserSkinsIndexRoute
-  '/admin/users/$userId/game-profiles': typeof AdminUsersUserIdGameProfilesRoute
+  '/admin/users/$userId_/game-profiles': typeof AdminUsersUserIdGameProfilesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -591,7 +591,7 @@ export interface FileRouteTypes {
     | '/user/profile/'
     | '/user/profiles/'
     | '/user/skins/'
-    | '/admin/users/$userId/game-profiles'
+    | '/admin/users/$userId_/game-profiles'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -931,26 +931,15 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAnnouncementsAnnouncementIdRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/admin/users/$userId/game-profiles': {
-      id: '/admin/users/$userId/game-profiles'
-      path: '/game-profiles'
+    '/admin/users/$userId_/game-profiles': {
+      id: '/admin/users/$userId_/game-profiles'
+      path: '/users/$userId/game-profiles'
       fullPath: '/admin/users/$userId/game-profiles'
       preLoaderRoute: typeof AdminUsersUserIdGameProfilesRouteImport
-      parentRoute: typeof AdminUsersUserIdRoute
+      parentRoute: typeof AdminRoute
     }
   }
 }
-
-interface AdminUsersUserIdRouteChildren {
-  AdminUsersUserIdGameProfilesRoute: typeof AdminUsersUserIdGameProfilesRoute
-}
-
-const AdminUsersUserIdRouteChildren: AdminUsersUserIdRouteChildren = {
-  AdminUsersUserIdGameProfilesRoute: AdminUsersUserIdGameProfilesRoute,
-}
-
-const AdminUsersUserIdRouteWithChildren =
-  AdminUsersUserIdRoute._addFileChildren(AdminUsersUserIdRouteChildren)
 
 interface AdminRouteChildren {
   AdminDashboardRoute: typeof AdminDashboardRoute
@@ -964,7 +953,7 @@ interface AdminRouteChildren {
   AdminPluginCredentialsCredentialIdRoute: typeof AdminPluginCredentialsCredentialIdRoute
   AdminSkinsSkinIdRoute: typeof AdminSkinsSkinIdRoute
   AdminSkinsCreateRoute: typeof AdminSkinsCreateRoute
-  AdminUsersUserIdRoute: typeof AdminUsersUserIdRouteWithChildren
+  AdminUsersUserIdRoute: typeof AdminUsersUserIdRoute
   AdminAnnouncementSchedulesIndexRoute: typeof AdminAnnouncementSchedulesIndexRoute
   AdminAnnouncementsIndexRoute: typeof AdminAnnouncementsIndexRoute
   AdminCapesIndexRoute: typeof AdminCapesIndexRoute
@@ -976,6 +965,7 @@ interface AdminRouteChildren {
   AdminSkinsIndexRoute: typeof AdminSkinsIndexRoute
   AdminTitlesIndexRoute: typeof AdminTitlesIndexRoute
   AdminUsersIndexRoute: typeof AdminUsersIndexRoute
+  AdminUsersUserIdGameProfilesRoute: typeof AdminUsersUserIdGameProfilesRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
@@ -991,7 +981,7 @@ const AdminRouteChildren: AdminRouteChildren = {
     AdminPluginCredentialsCredentialIdRoute,
   AdminSkinsSkinIdRoute: AdminSkinsSkinIdRoute,
   AdminSkinsCreateRoute: AdminSkinsCreateRoute,
-  AdminUsersUserIdRoute: AdminUsersUserIdRouteWithChildren,
+  AdminUsersUserIdRoute: AdminUsersUserIdRoute,
   AdminAnnouncementSchedulesIndexRoute: AdminAnnouncementSchedulesIndexRoute,
   AdminAnnouncementsIndexRoute: AdminAnnouncementsIndexRoute,
   AdminCapesIndexRoute: AdminCapesIndexRoute,
@@ -1003,6 +993,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminSkinsIndexRoute: AdminSkinsIndexRoute,
   AdminTitlesIndexRoute: AdminTitlesIndexRoute,
   AdminUsersIndexRoute: AdminUsersIndexRoute,
+  AdminUsersUserIdGameProfilesRoute: AdminUsersUserIdGameProfilesRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)

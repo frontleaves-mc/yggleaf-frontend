@@ -51,7 +51,7 @@ import type { AdminGameProfileItem } from '#/api/types'
 
 // ─── Route 定义 ────────────────────────────────────────────
 
-export const Route = createFileRoute('/admin/users/$userId/game-profiles')({
+export const Route = createFileRoute('/admin/users/$userId_/game-profiles')({
   component: AdminUserGameProfilesPage,
 })
 
