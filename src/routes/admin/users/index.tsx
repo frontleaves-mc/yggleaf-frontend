@@ -214,15 +214,12 @@ function AdminUserListPage() {
               账户详情
             </Button>
           </Link>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="h-7 px-2 text-xs"
-            disabled
-          >
-            <Gamepad2 className="mr-1 h-3 w-3" />
-            游戏账户
-          </Button>
+          <Link to={`/admin/users/${row.original.id}/game-profiles` as any}>
+            <Button variant="ghost" size="sm" className="h-7 px-2 text-xs">
+              <Gamepad2 className="mr-1 h-3 w-3" />
+              游戏账户
+            </Button>
+          </Link>
         </div>
       ),
       size: 180,

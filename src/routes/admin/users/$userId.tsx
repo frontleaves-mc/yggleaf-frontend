@@ -1,6 +1,6 @@
 /**
  * 管理员端 - 用户详情页
- * 展示用户完整信息 + 资源库数据 + 游戏档案配额调整
+ * 展示用户完整信息 + 资源库数据
  */
 
 import {
@@ -9,7 +9,7 @@ import {
   useParams,
   useNavigate,
 } from '@tanstack/react-router'
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { motion } from 'motion/react'
 import {
   ArrowLeft,
@@ -20,28 +20,16 @@ import {
   Ban,
   CheckCircle,
   Calendar,
-  Gamepad2,
   Shirt,
   Flag,
-  Plus,
-  Minus,
-  Loader2,
-  Save,
   User,
   Image as ImageIcon,
 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
-import { Button } from '#/components/ui/button'
-import { Input } from '#/components/ui/input'
 import { Badge } from '#/components/ui/badge'
-import { Textarea } from '#/components/ui/textarea'
 import { LoadingPage } from '#/components/public/loading-page'
-import {
-  useAdminUserDetail,
-  useAdjustGameProfileQuotaMutation,
-} from '#/api/endpoints/api-auth/admin-user'
+import { useAdminUserDetail } from '#/api/endpoints/api-auth/admin-user'
 import { useUserInfo } from '#/api/endpoints/api-auth/user'
-import { toast } from 'sonner'
 import { isSuperAdmin } from '#/lib/permissions'
 import { useSetPageTitle } from '#/components/layout/page-title-context'
 import {
@@ -65,7 +53,6 @@ function AdminUserDetailPage() {
   const { userId } = useParams({ strict: false })
   const { data: userInfo } = useUserInfo()
   const { data: detail, isLoading } = useAdminUserDetail(userId)
-  const quotaMutation = useAdjustGameProfileQuotaMutation(userId)
   const setTitle = useSetPageTitle()
 
   const superMode = isSuperAdmin(userInfo?.user?.role_name)
@@ -73,9 +60,6 @@ function AdminUserDetailPage() {
     navigate({ to: '/admin' })
     return null
   }
-
-  const [deltaInput, setDeltaInput] = useState('')
-  const [remark, setRemark] = useState('')
 
   useEffect(() => {
     if (detail) setTitle(detail.user.username)
@@ -88,7 +72,7 @@ function AdminUserDetailPage() {
       <div className="p-8 text-center text-muted-foreground">用户不存在</div>
     )
 
-  const { user, game_profile, library_quota, skin_list, cape_list } = detail
+  const { user, library_quota, skin_list, cape_list } = detail
 
   const roleConfig = {
     SUPER_ADMIN: {
@@ -101,27 +85,6 @@ function AdminUserDetailPage() {
   }
 
   const rc = roleConfig[user.role_name] ?? roleConfig.PLAYER
-
-  const handleAdjustQuota = async () => {
-    const delta = Number(deltaInput)
-    if (!delta || isNaN(delta)) {
-      toast.error('请输入有效的数值')
-      return
-    }
-    try {
-      await quotaMutation.mutateAsync({
-        delta,
-        remark: remark || undefined,
-      })
-      toast.success(
-        `配额已${delta > 0 ? '增加' : '减少'} ${Math.abs(delta)} 个`,
-      )
-      setDeltaInput('')
-      setRemark('')
-    } catch {
-      toast.error('调整配额失败')
-    }
-  }
 
   return (
     <motion.div
@@ -166,71 +129,10 @@ function AdminUserDetailPage() {
         </div>
       </motion.header>
 
-      {/* ── 主内容区：左 2/3 + 右 1/3 ── */}
+      {/* ── 主内容区：左 + 右 ── */}
       <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_320px] xl:grid-cols-[minmax(0,1fr)_360px]">
         {/* ═══ 左侧：详细信息 ═══ */}
         <motion.div variants={fadeUpItem} className="space-y-4 min-w-0">
-          {/* 基本信息 */}
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium">基本信息</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid gap-3 sm:grid-cols-2">
-                <InfoRow
-                  icon={User}
-                  label="用户 ID"
-                  value={<code className="text-xs">{user.id}</code>}
-                />
-                <InfoRow icon={User} label="用户名" value={user.username} />
-                <InfoRow icon={Mail} label="邮箱" value={user.email || '-'} />
-                <InfoRow
-                  icon={Phone}
-                  label="手机号"
-                  value={user.phone || '-'}
-                />
-                <InfoRow
-                  icon={rc.Icon}
-                  label="角色"
-                  value={
-                    <Badge variant="secondary" className="text-xs">
-                      {rc.label}
-                    </Badge>
-                  }
-                />
-                <InfoRow
-                  icon={user.has_ban ? Ban : CheckCircle}
-                  label="封禁状态"
-                  value={
-                    <Badge
-                      variant={user.has_ban ? 'destructive' : 'secondary'}
-                      className="text-xs"
-                    >
-                      {user.has_ban ? '已封禁' : '正常'}
-                    </Badge>
-                  }
-                />
-                <InfoRow
-                  icon={Calendar}
-                  label="注册时间"
-                  value={formatTime(user.created_at)}
-                />
-                <InfoRow
-                  icon={Calendar}
-                  label="更新时间"
-                  value={formatTime(user.updated_at)}
-                />
-                {user.jailed_at && (
-                  <InfoRow
-                    icon={Ban}
-                    label="监禁时间"
-                    value={formatTime(user.jailed_at)}
-                  />
-                )}
-              </div>
-            </CardContent>
-          </Card>
-
           {superMode && (
             <>
               {/* 资源库配额 */}
@@ -405,131 +307,71 @@ function AdminUserDetailPage() {
           )}
         </motion.div>
 
-        {/* ═══ 右侧：游戏档案配额 + 调整操作 ═══ */}
+        {/* ═══ 右侧：基本信息 ═══ */}
         <motion.aside
           variants={fadeUpItem}
           className="lg:sticky lg:top-6 lg:self-start space-y-4"
         >
-          {/* 游戏档案配额概览 */}
+          {/* 基本信息 */}
           <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium flex items-center gap-1.5">
-                <Gamepad2 className="h-3.5 w-3.5" />
-                游戏档案配额
-              </CardTitle>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-medium">基本信息</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="text-center space-y-2 py-2">
-                <p className="text-3xl font-bold tabular-nums tracking-tight">
-                  {game_profile.used}
-                  <span className="text-base text-muted-foreground font-normal">
-                    /{game_profile.total}
-                  </span>
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  剩余{' '}
-                  <span className="font-medium tabular-nums text-foreground">
-                    {Math.max(0, game_profile.total - game_profile.used)}
-                  </span>{' '}
-                  个档案位
-                </p>
+            <CardContent>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <InfoRow
+                  icon={User}
+                  label="用户 ID"
+                  value={<code className="text-xs">{user.id}</code>}
+                />
+                <InfoRow icon={User} label="用户名" value={user.username} />
+                <InfoRow icon={Mail} label="邮箱" value={user.email || '-'} />
+                <InfoRow
+                  icon={Phone}
+                  label="手机号"
+                  value={user.phone || '-'}
+                />
+                <InfoRow
+                  icon={rc.Icon}
+                  label="角色"
+                  value={
+                    <Badge variant="secondary" className="text-xs">
+                      {rc.label}
+                    </Badge>
+                  }
+                />
+                <InfoRow
+                  icon={user.has_ban ? Ban : CheckCircle}
+                  label="封禁状态"
+                  value={
+                    <Badge
+                      variant={user.has_ban ? 'destructive' : 'secondary'}
+                      className="text-xs"
+                    >
+                      {user.has_ban ? '已封禁' : '正常'}
+                    </Badge>
+                  }
+                />
+                <InfoRow
+                  icon={Calendar}
+                  label="注册时间"
+                  value={formatTime(user.created_at)}
+                />
+                <InfoRow
+                  icon={Calendar}
+                  label="更新时间"
+                  value={formatTime(user.updated_at)}
+                />
+                {user.jailed_at && (
+                  <InfoRow
+                    icon={Ban}
+                    label="监禁时间"
+                    value={formatTime(user.jailed_at)}
+                  />
+                )}
               </div>
-              <QuotaBar
-                label="已使用"
-                used={game_profile.used}
-                total={game_profile.total}
-              />
             </CardContent>
           </Card>
-
-          {superMode && (
-            <>
-              {/* 配额调整操作 */}
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-sm font-medium flex items-center gap-1.5">
-                    <Plus className="h-3.5 w-3.5" />
-                    调整配额
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <div className="space-y-1.5">
-                    <label className="text-xs text-muted-foreground">
-                      变化量（正数增加，负数减少）
-                    </label>
-                    <div className="flex items-center gap-2">
-                      <Button
-                        variant="outline"
-                        size="icon-lg"
-                        className="shrink-0"
-                        onClick={() =>
-                          setDeltaInput((v) => String(Number(v || 0) - 1))
-                        }
-                      >
-                        <Minus className="h-3.5 w-3.5" />
-                      </Button>
-                      <Input
-                        type="number"
-                        className="text-center font-mono text-sm"
-                        value={deltaInput}
-                        onChange={(e) => setDeltaInput(e.target.value)}
-                        placeholder="0"
-                      />
-                      <Button
-                        variant="outline"
-                        size="icon-lg"
-                        className="shrink-0"
-                        onClick={() =>
-                          setDeltaInput((v) => String(Number(v || 0) + 1))
-                        }
-                      >
-                        <Plus className="h-3.5 w-3.5" />
-                      </Button>
-                    </div>
-                  </div>
-                  <div className="space-y-1.5">
-                    <label className="text-xs text-muted-foreground">
-                      备注（可选）
-                    </label>
-                    <Textarea
-                      rows={2}
-                      maxLength={255}
-                      className="resize-none text-sm"
-                      value={remark}
-                      onChange={(e) => setRemark(e.target.value)}
-                      placeholder="调整原因..."
-                    />
-                    <div className="text-right text-[11px] text-muted-foreground tabular-nums">
-                      {remark.length}/255
-                    </div>
-                  </div>
-                  <Button
-                    className="w-full"
-                    size="sm"
-                    onClick={handleAdjustQuota}
-                    disabled={
-                      quotaMutation.isPending ||
-                      !deltaInput ||
-                      isNaN(Number(deltaInput)) ||
-                      Number(deltaInput) === 0
-                    }
-                  >
-                    {quotaMutation.isPending ? (
-                      <>
-                        <Loader2 className="h-4 w-4 mr-1.5 animate-spin" />
-                        处理中...
-                      </>
-                    ) : (
-                      <>
-                        <Save className="h-4 w-4 mr-1.5" />
-                        确认调整
-                      </>
-                    )}
-                  </Button>
-                </CardContent>
-              </Card>
-            </>
-          )}
         </motion.aside>
       </div>
     </motion.div>
