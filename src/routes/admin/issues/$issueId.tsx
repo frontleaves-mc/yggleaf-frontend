@@ -120,8 +120,12 @@ function AdminIssueDetailPage() {
   }
 
   const handleSaveContent = async (content: string) => {
-    await contentMutation.mutateAsync({ content })
-    toast.success('描述已更新')
+    try {
+      await contentMutation.mutateAsync({ content })
+      toast.success('描述已更新')
+    } catch {
+      toast.error('更新描述失败')
+    }
   }
 
   if (isLoading) return <LoadingPage />
