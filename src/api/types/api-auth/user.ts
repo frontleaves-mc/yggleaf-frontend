@@ -288,6 +288,7 @@ export interface AdminUserItem {
   has_ban: boolean
   role_name: RoleName
   created_at: string
+  updated_at: string
 }
 
 /** 管理员 - 用户列表响应 */

@@ -10,9 +10,11 @@ import {
   Search,
   ChevronLeft,
   ChevronRight,
-  Eye,
+  FileText,
+  Gamepad2,
   Shield,
   ShieldAlert,
+  User,
 } from 'lucide-react'
 import { PageHeader } from '#/components/public/page-header'
 import type { ColumnDef } from '#/components/ui/tanstack-table'
@@ -121,10 +123,10 @@ function AdminUserListPage() {
       header: ({ column }) => <TableColumnHeader column={column} title="ID" />,
       cell: ({ row }) => (
         <span className="tabular-nums text-muted-foreground font-mono text-xs">
-          #{row.original.id.slice(0, 8)}...
+          {row.original.id}
         </span>
       ),
-      size: 112,
+      size: 200,
     },
     {
       id: 'username',
@@ -165,6 +167,9 @@ function AdminUserListPage() {
             {row.original.role_name === 'ADMIN' && (
               <Shield className="mr-1 h-3 w-3" />
             )}
+            {row.original.role_name === 'PLAYER' && (
+              <User className="mr-1 h-3 w-3" />
+            )}
             {r.label}
           </Badge>
         )
@@ -187,13 +192,13 @@ function AdminUserListPage() {
       size: 80,
     },
     {
-      accessorKey: 'created_at',
+      accessorKey: 'updated_at',
       header: ({ column }) => (
-        <TableColumnHeader column={column} title="注册时间" />
+        <TableColumnHeader column={column} title="更新时间" />
       ),
       cell: ({ row }) => (
         <span className="text-[13px] text-muted-foreground whitespace-nowrap">
-          {formatTime(row.original.created_at)}
+          {formatTime(row.original.updated_at)}
         </span>
       ),
       size: 144,
@@ -202,14 +207,25 @@ function AdminUserListPage() {
       id: 'actions',
       header: () => <span className="text-sm font-medium">操作</span>,
       cell: ({ row }) => (
-        <Link to={`/admin/users/${row.original.id}` as any}>
-          <Button variant="ghost" size="sm" className="h-7 px-2 text-xs">
-            <Eye className="mr-1 h-3 w-3" />
-            详情
+        <div className="flex items-center gap-1">
+          <Link to={`/admin/users/${row.original.id}` as any}>
+            <Button variant="ghost" size="sm" className="h-7 px-2 text-xs">
+              <FileText className="mr-1 h-3 w-3" />
+              账户详情
+            </Button>
+          </Link>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-7 px-2 text-xs"
+            disabled
+          >
+            <Gamepad2 className="mr-1 h-3 w-3" />
+            游戏账户
           </Button>
-        </Link>
+        </div>
       ),
-      size: 80,
+      size: 180,
     },
   ]
 
