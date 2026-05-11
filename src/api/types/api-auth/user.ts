@@ -426,8 +426,7 @@ export interface AdminGameProfileItem {
   updated_at: string
 }
 
-/** 管理员 - 游戏档案列表响应 */
-export interface AdminGameProfileListResponse extends BaseResponse {
-  /** 游戏档案列表 */
-  data: AdminGameProfileItem[]
+/** 管理员 - 游戏档案列表响应（authApiClient 已解包外层 data） */
+export interface AdminGameProfileListResponse {
+  items: AdminGameProfileItem[]
 }

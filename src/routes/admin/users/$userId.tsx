@@ -13,13 +13,9 @@ import { useEffect } from 'react'
 import { motion } from 'motion/react'
 import {
   ArrowLeft,
-  Mail,
-  Phone,
   Shield,
   ShieldAlert,
   Ban,
-  CheckCircle,
-  Calendar,
   Shirt,
   Flag,
   User,
@@ -36,7 +32,6 @@ import {
   staggerContainer,
   fadeUpItem,
   formatTime,
-  InfoRow,
   QuotaBar,
 } from './components'
 
@@ -310,68 +305,44 @@ function AdminUserDetailPage() {
         {/* ═══ 右侧：基本信息 ═══ */}
         <motion.aside
           variants={fadeUpItem}
-          className="lg:sticky lg:top-6 lg:self-start space-y-4"
+          className="lg:sticky lg:top-6 lg:self-start"
         >
-          {/* 基本信息 */}
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium">基本信息</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid gap-3 sm:grid-cols-2">
-                <InfoRow
-                  icon={User}
-                  label="用户 ID"
-                  value={<code className="text-xs">{user.id}</code>}
-                />
-                <InfoRow icon={User} label="用户名" value={user.username} />
-                <InfoRow icon={Mail} label="邮箱" value={user.email || '-'} />
-                <InfoRow
-                  icon={Phone}
-                  label="手机号"
-                  value={user.phone || '-'}
-                />
-                <InfoRow
-                  icon={rc.Icon}
-                  label="角色"
-                  value={
-                    <Badge variant="secondary" className="text-xs">
-                      {rc.label}
-                    </Badge>
-                  }
-                />
-                <InfoRow
-                  icon={user.has_ban ? Ban : CheckCircle}
-                  label="封禁状态"
-                  value={
-                    <Badge
-                      variant={user.has_ban ? 'destructive' : 'secondary'}
-                      className="text-xs"
-                    >
-                      {user.has_ban ? '已封禁' : '正常'}
-                    </Badge>
-                  }
-                />
-                <InfoRow
-                  icon={Calendar}
-                  label="注册时间"
-                  value={formatTime(user.created_at)}
-                />
-                <InfoRow
-                  icon={Calendar}
-                  label="更新时间"
-                  value={formatTime(user.updated_at)}
-                />
-                {user.jailed_at && (
-                  <InfoRow
-                    icon={Ban}
-                    label="监禁时间"
-                    value={formatTime(user.jailed_at)}
-                  />
-                )}
+          <div className="space-y-3 rounded-lg bg-card px-5 py-5 shadow-xs shadow-foreground/5 ring-1 ring-foreground/8">
+            <div className="flex justify-center">
+              <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-full bg-muted text-2xl font-semibold text-muted-foreground">
+                {user.username.charAt(0).toUpperCase()}
               </div>
-            </CardContent>
-          </Card>
+            </div>
+            <div className="space-y-1.5 text-sm">
+              <div className="flex items-center justify-between">
+                <span className="text-muted-foreground">用户名</span>
+                <span className="truncate font-medium">{user.username}</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-muted-foreground">邮箱</span>
+                <span className="truncate">{user.email || '-'}</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-muted-foreground">角色</span>
+                <Badge
+                  variant="secondary"
+                  className={`text-[10px] px-1.5 py-0 ${
+                    rc.color === 'destructive'
+                      ? 'bg-destructive/10 text-destructive'
+                      : rc.color === 'primary'
+                        ? 'bg-primary/10 text-primary'
+                        : ''
+                  }`}
+                >
+                  {rc.label}
+                </Badge>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-muted-foreground">更新时间</span>
+                <span className="text-xs">{formatTime(user.updated_at)}</span>
+              </div>
+            </div>
+          </div>
         </motion.aside>
       </div>
     </motion.div>

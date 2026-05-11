@@ -148,7 +148,7 @@ function AdminUserGameProfilesPage() {
     )
 
   const { user, game_profile } = detail
-  const profiles = profilesData?.data ?? []
+  const profiles = profilesData?.items ?? []
   const rc = roleConfig[user.role_name] ?? roleConfig.PLAYER
 
   const handleAdjustQuota = async () => {
@@ -219,31 +219,25 @@ function AdminUserGameProfilesPage() {
       {/* ── 主内容区：左 2/3 + 右 1/3 ── */}
       <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_320px] xl:grid-cols-[minmax(0,1fr)_360px]">
         {/* ═══ 左侧：游戏档案列表 ═══ */}
-        <motion.div variants={fadeUpItem} className="space-y-4 min-w-0">
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium flex items-center gap-1.5">
-                <Gamepad2 className="h-3.5 w-3.5" />
-                游戏档案列表
-                <span className="ml-auto text-xs font-normal text-muted-foreground tabular-nums">
-                  {profiles.length} 个
-                </span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              {profiles.length === 0 ? (
-                <p className="py-6 text-center text-sm text-muted-foreground">
-                  暂无游戏档案
-                </p>
-              ) : (
-                <div className="grid gap-3 sm:grid-cols-2">
-                  {profiles.map((profile) => (
-                    <ProfileCard key={profile.id} profile={profile} />
-                  ))}
-                </div>
-              )}
-            </CardContent>
-          </Card>
+        <motion.div variants={fadeUpItem} className="space-y-3 min-w-0">
+          <div className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground">
+            <Gamepad2 className="h-3.5 w-3.5" />
+            游戏档案列表
+            <span className="ml-auto text-xs font-normal tabular-nums">
+              {profiles.length} 个
+            </span>
+          </div>
+          {profiles.length === 0 ? (
+            <p className="py-6 text-center text-sm text-muted-foreground">
+              暂无游戏档案
+            </p>
+          ) : (
+            <div className="grid gap-3 sm:grid-cols-2">
+              {profiles.map((profile) => (
+                <ProfileCard key={profile.id} profile={profile} />
+              ))}
+            </div>
+          )}
         </motion.div>
 
         {/* ═══ 右侧：游戏档案配额 + 调整操作 ═══ */}
