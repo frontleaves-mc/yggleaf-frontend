@@ -17,7 +17,7 @@ import {
 } from '#/components/ui/select'
 import { MarkdownSplitEditor } from '#/components/ui/markdown-split-editor'
 import { Loader2, ArrowLeft, Save, X } from 'lucide-react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion } from 'motion/react'
 import { toast } from 'sonner'
 import { AnnouncementType } from '#/api/types/api-mc/announcement'
@@ -39,11 +39,13 @@ function CreateAnnouncementPage() {
   const [formType, setFormType] = useState<string>(
     String(AnnouncementType.InSite),
   )
+  const isSubmittingRef = useRef(false)
 
   const isDirty =
-    formTitle !== '' ||
-    formContent !== '' ||
-    formType !== String(AnnouncementType.InSite)
+    (formTitle !== '' ||
+      formContent !== '' ||
+      formType !== String(AnnouncementType.InSite)) &&
+    !isSubmittingRef.current
 
   const { proceed, reset, status } = useBlocker({
     shouldBlockFn: () => isDirty,
@@ -58,6 +60,7 @@ function CreateAnnouncementPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    isSubmittingRef.current = true
     try {
       await createMutation.mutateAsync({
         title: formTitle.trim(),
@@ -67,6 +70,7 @@ function CreateAnnouncementPage() {
       toast.success('公告创建成功')
       navigate({ to: '/admin/announcements' })
     } catch {
+      isSubmittingRef.current = false
       toast.error('创建失败')
     }
   }

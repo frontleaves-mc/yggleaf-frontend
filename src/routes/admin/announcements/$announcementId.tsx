@@ -21,7 +21,7 @@ import {
 } from '#/components/ui/select'
 import { MarkdownSplitEditor } from '#/components/ui/markdown-split-editor'
 import { Loader2, ArrowLeft, Save, X } from 'lucide-react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion } from 'motion/react'
 import { toast } from 'sonner'
 import { staggerContainer, fadeUpItem } from '#/lib/motion-presets'
@@ -64,10 +64,13 @@ function EditAnnouncementPage() {
     return () => setTitle(null)
   }, [announcement, setTitle])
 
+  const isSubmittingRef = useRef(false)
+
   const isDirty = announcement
-    ? formTitle !== announcement.title ||
-      formContent !== announcement.content ||
-      formType !== String(announcement.type)
+    ? (formTitle !== announcement.title ||
+        formContent !== announcement.content ||
+        formType !== String(announcement.type)) &&
+      !isSubmittingRef.current
     : false
 
   const { proceed, reset, status } = useBlocker({
@@ -78,6 +81,7 @@ function EditAnnouncementPage() {
 
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault()
+    isSubmittingRef.current = true
     try {
       await updateMutation.mutateAsync({
         id: announcementId,
@@ -90,6 +94,7 @@ function EditAnnouncementPage() {
       toast.success('公告更新成功')
       navigate({ to: '/admin/announcements' })
     } catch {
+      isSubmittingRef.current = false
       toast.error('更新失败')
     }
   }
