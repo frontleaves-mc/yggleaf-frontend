@@ -44,6 +44,7 @@ import { Route as AdminGameProfilesIndexRouteImport } from './routes/admin/game-
 import { Route as AdminCapesIndexRouteImport } from './routes/admin/capes/index'
 import { Route as AdminAnnouncementsIndexRouteImport } from './routes/admin/announcements/index'
 import { Route as AdminAnnouncementSchedulesIndexRouteImport } from './routes/admin/announcement-schedules/index'
+import { Route as AdminAchievementsIndexRouteImport } from './routes/admin/achievements/index'
 import { Route as UserIssuesIssueIdRouteImport } from './routes/user/issues/$issueId'
 import { Route as AdminUsersUserIdRouteImport } from './routes/admin/users/$userId'
 import { Route as AdminSkinsCreateRouteImport } from './routes/admin/skins/create'
@@ -55,6 +56,8 @@ import { Route as AdminCapesCreateRouteImport } from './routes/admin/capes/creat
 import { Route as AdminCapesCapeIdRouteImport } from './routes/admin/capes/$capeId'
 import { Route as AdminAnnouncementsCreateRouteImport } from './routes/admin/announcements/create'
 import { Route as AdminAnnouncementsAnnouncementIdRouteImport } from './routes/admin/announcements/$announcementId'
+import { Route as AdminAchievementsCreateRouteImport } from './routes/admin/achievements/create'
+import { Route as AdminAchievementsAchievementIdRouteImport } from './routes/admin/achievements/$achievementId'
 import { Route as AdminUsersUserIdGameProfilesRouteImport } from './routes/admin/users/$userId_.game-profiles'
 
 const UserRoute = UserRouteImport.update({
@@ -234,6 +237,11 @@ const AdminAnnouncementSchedulesIndexRoute =
     path: '/announcement-schedules/',
     getParentRoute: () => AdminRoute,
   } as any)
+const AdminAchievementsIndexRoute = AdminAchievementsIndexRouteImport.update({
+  id: '/achievements/',
+  path: '/achievements/',
+  getParentRoute: () => AdminRoute,
+} as any)
 const UserIssuesIssueIdRoute = UserIssuesIssueIdRouteImport.update({
   id: '/issues/$issueId',
   path: '/issues/$issueId',
@@ -293,6 +301,17 @@ const AdminAnnouncementsAnnouncementIdRoute =
     path: '/announcements/$announcementId',
     getParentRoute: () => AdminRoute,
   } as any)
+const AdminAchievementsCreateRoute = AdminAchievementsCreateRouteImport.update({
+  id: '/achievements/create',
+  path: '/achievements/create',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAchievementsAchievementIdRoute =
+  AdminAchievementsAchievementIdRouteImport.update({
+    id: '/achievements/$achievementId',
+    path: '/achievements/$achievementId',
+    getParentRoute: () => AdminRoute,
+  } as any)
 const AdminUsersUserIdGameProfilesRoute =
   AdminUsersUserIdGameProfilesRouteImport.update({
     id: '/users/$userId_/game-profiles',
@@ -317,6 +336,8 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AdminIndexRoute
   '/announcements/': typeof AnnouncementsIndexRoute
   '/user/': typeof UserIndexRoute
+  '/admin/achievements/$achievementId': typeof AdminAchievementsAchievementIdRoute
+  '/admin/achievements/create': typeof AdminAchievementsCreateRoute
   '/admin/announcements/$announcementId': typeof AdminAnnouncementsAnnouncementIdRoute
   '/admin/announcements/create': typeof AdminAnnouncementsCreateRoute
   '/admin/capes/$capeId': typeof AdminCapesCapeIdRoute
@@ -328,6 +349,7 @@ export interface FileRoutesByFullPath {
   '/admin/skins/create': typeof AdminSkinsCreateRoute
   '/admin/users/$userId': typeof AdminUsersUserIdRoute
   '/user/issues/$issueId': typeof UserIssuesIssueIdRoute
+  '/admin/achievements/': typeof AdminAchievementsIndexRoute
   '/admin/announcement-schedules/': typeof AdminAnnouncementSchedulesIndexRoute
   '/admin/announcements/': typeof AdminAnnouncementsIndexRoute
   '/admin/capes/': typeof AdminCapesIndexRoute
@@ -364,6 +386,8 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminIndexRoute
   '/announcements': typeof AnnouncementsIndexRoute
   '/user': typeof UserIndexRoute
+  '/admin/achievements/$achievementId': typeof AdminAchievementsAchievementIdRoute
+  '/admin/achievements/create': typeof AdminAchievementsCreateRoute
   '/admin/announcements/$announcementId': typeof AdminAnnouncementsAnnouncementIdRoute
   '/admin/announcements/create': typeof AdminAnnouncementsCreateRoute
   '/admin/capes/$capeId': typeof AdminCapesCapeIdRoute
@@ -375,6 +399,7 @@ export interface FileRoutesByTo {
   '/admin/skins/create': typeof AdminSkinsCreateRoute
   '/admin/users/$userId': typeof AdminUsersUserIdRoute
   '/user/issues/$issueId': typeof UserIssuesIssueIdRoute
+  '/admin/achievements': typeof AdminAchievementsIndexRoute
   '/admin/announcement-schedules': typeof AdminAnnouncementSchedulesIndexRoute
   '/admin/announcements': typeof AdminAnnouncementsIndexRoute
   '/admin/capes': typeof AdminCapesIndexRoute
@@ -414,6 +439,8 @@ export interface FileRoutesById {
   '/admin/': typeof AdminIndexRoute
   '/announcements/': typeof AnnouncementsIndexRoute
   '/user/': typeof UserIndexRoute
+  '/admin/achievements/$achievementId': typeof AdminAchievementsAchievementIdRoute
+  '/admin/achievements/create': typeof AdminAchievementsCreateRoute
   '/admin/announcements/$announcementId': typeof AdminAnnouncementsAnnouncementIdRoute
   '/admin/announcements/create': typeof AdminAnnouncementsCreateRoute
   '/admin/capes/$capeId': typeof AdminCapesCapeIdRoute
@@ -425,6 +452,7 @@ export interface FileRoutesById {
   '/admin/skins/create': typeof AdminSkinsCreateRoute
   '/admin/users/$userId': typeof AdminUsersUserIdRoute
   '/user/issues/$issueId': typeof UserIssuesIssueIdRoute
+  '/admin/achievements/': typeof AdminAchievementsIndexRoute
   '/admin/announcement-schedules/': typeof AdminAnnouncementSchedulesIndexRoute
   '/admin/announcements/': typeof AdminAnnouncementsIndexRoute
   '/admin/capes/': typeof AdminCapesIndexRoute
@@ -465,6 +493,8 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/announcements/'
     | '/user/'
+    | '/admin/achievements/$achievementId'
+    | '/admin/achievements/create'
     | '/admin/announcements/$announcementId'
     | '/admin/announcements/create'
     | '/admin/capes/$capeId'
@@ -476,6 +506,7 @@ export interface FileRouteTypes {
     | '/admin/skins/create'
     | '/admin/users/$userId'
     | '/user/issues/$issueId'
+    | '/admin/achievements/'
     | '/admin/announcement-schedules/'
     | '/admin/announcements/'
     | '/admin/capes/'
@@ -512,6 +543,8 @@ export interface FileRouteTypes {
     | '/admin'
     | '/announcements'
     | '/user'
+    | '/admin/achievements/$achievementId'
+    | '/admin/achievements/create'
     | '/admin/announcements/$announcementId'
     | '/admin/announcements/create'
     | '/admin/capes/$capeId'
@@ -523,6 +556,7 @@ export interface FileRouteTypes {
     | '/admin/skins/create'
     | '/admin/users/$userId'
     | '/user/issues/$issueId'
+    | '/admin/achievements'
     | '/admin/announcement-schedules'
     | '/admin/announcements'
     | '/admin/capes'
@@ -561,6 +595,8 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/announcements/'
     | '/user/'
+    | '/admin/achievements/$achievementId'
+    | '/admin/achievements/create'
     | '/admin/announcements/$announcementId'
     | '/admin/announcements/create'
     | '/admin/capes/$capeId'
@@ -572,6 +608,7 @@ export interface FileRouteTypes {
     | '/admin/skins/create'
     | '/admin/users/$userId'
     | '/user/issues/$issueId'
+    | '/admin/achievements/'
     | '/admin/announcement-schedules/'
     | '/admin/announcements/'
     | '/admin/capes/'
@@ -854,6 +891,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAnnouncementSchedulesIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/achievements/': {
+      id: '/admin/achievements/'
+      path: '/achievements'
+      fullPath: '/admin/achievements/'
+      preLoaderRoute: typeof AdminAchievementsIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/user/issues/$issueId': {
       id: '/user/issues/$issueId'
       path: '/issues/$issueId'
@@ -931,6 +975,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAnnouncementsAnnouncementIdRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/achievements/create': {
+      id: '/admin/achievements/create'
+      path: '/achievements/create'
+      fullPath: '/admin/achievements/create'
+      preLoaderRoute: typeof AdminAchievementsCreateRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/achievements/$achievementId': {
+      id: '/admin/achievements/$achievementId'
+      path: '/achievements/$achievementId'
+      fullPath: '/admin/achievements/$achievementId'
+      preLoaderRoute: typeof AdminAchievementsAchievementIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/users/$userId_/game-profiles': {
       id: '/admin/users/$userId_/game-profiles'
       path: '/users/$userId/game-profiles'
@@ -944,6 +1002,8 @@ declare module '@tanstack/react-router' {
 interface AdminRouteChildren {
   AdminDashboardRoute: typeof AdminDashboardRoute
   AdminIndexRoute: typeof AdminIndexRoute
+  AdminAchievementsAchievementIdRoute: typeof AdminAchievementsAchievementIdRoute
+  AdminAchievementsCreateRoute: typeof AdminAchievementsCreateRoute
   AdminAnnouncementsAnnouncementIdRoute: typeof AdminAnnouncementsAnnouncementIdRoute
   AdminAnnouncementsCreateRoute: typeof AdminAnnouncementsCreateRoute
   AdminCapesCapeIdRoute: typeof AdminCapesCapeIdRoute
@@ -954,6 +1014,7 @@ interface AdminRouteChildren {
   AdminSkinsSkinIdRoute: typeof AdminSkinsSkinIdRoute
   AdminSkinsCreateRoute: typeof AdminSkinsCreateRoute
   AdminUsersUserIdRoute: typeof AdminUsersUserIdRoute
+  AdminAchievementsIndexRoute: typeof AdminAchievementsIndexRoute
   AdminAnnouncementSchedulesIndexRoute: typeof AdminAnnouncementSchedulesIndexRoute
   AdminAnnouncementsIndexRoute: typeof AdminAnnouncementsIndexRoute
   AdminCapesIndexRoute: typeof AdminCapesIndexRoute
@@ -971,6 +1032,8 @@ interface AdminRouteChildren {
 const AdminRouteChildren: AdminRouteChildren = {
   AdminDashboardRoute: AdminDashboardRoute,
   AdminIndexRoute: AdminIndexRoute,
+  AdminAchievementsAchievementIdRoute: AdminAchievementsAchievementIdRoute,
+  AdminAchievementsCreateRoute: AdminAchievementsCreateRoute,
   AdminAnnouncementsAnnouncementIdRoute: AdminAnnouncementsAnnouncementIdRoute,
   AdminAnnouncementsCreateRoute: AdminAnnouncementsCreateRoute,
   AdminCapesCapeIdRoute: AdminCapesCapeIdRoute,
@@ -982,6 +1045,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminSkinsSkinIdRoute: AdminSkinsSkinIdRoute,
   AdminSkinsCreateRoute: AdminSkinsCreateRoute,
   AdminUsersUserIdRoute: AdminUsersUserIdRoute,
+  AdminAchievementsIndexRoute: AdminAchievementsIndexRoute,
   AdminAnnouncementSchedulesIndexRoute: AdminAnnouncementSchedulesIndexRoute,
   AdminAnnouncementsIndexRoute: AdminAnnouncementsIndexRoute,
   AdminCapesIndexRoute: AdminCapesIndexRoute,

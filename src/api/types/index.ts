@@ -94,6 +94,19 @@ export type {
   EquipTitleRequest,
 } from './api-mc/title'
 
+// ─── 成就模块 ──────────────────────────────────────────────
+
+export { AchievementType } from './api-mc/achievement'
+
+export type {
+  AchievementResponse,
+  AchievementListResponse,
+  CreateAchievementRequest,
+  UpdateAchievementRequest,
+  GrantAchievementRequest,
+  AdminAchievementListParams,
+} from './api-mc/achievement'
+
 export type {
   PluginCredentialResponse,
   PluginCredentialListResponse,
