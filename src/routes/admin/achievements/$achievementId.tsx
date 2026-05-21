@@ -16,18 +16,13 @@ import {
 } from '#/api/endpoints/api-mc/admin-achievement'
 import { useAdminTitles } from '#/api/endpoints/api-mc/admin-title'
 import { Button } from '#/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '#/components/ui/card'
+import { McCard } from '#/components/shared/mc-card'
+import { McSectionHeader } from '#/components/shared/mc-section-header'
+import { McBadge } from '#/components/shared/mc-badge'
 import { Input } from '#/components/ui/input'
 import { Textarea } from '#/components/ui/textarea'
 import { Label } from '#/components/ui/label'
 import { Switch } from '#/components/ui/switch'
-import { Badge } from '#/components/ui/badge'
 import {
   Select,
   SelectContent,
@@ -37,7 +32,7 @@ import {
 } from '#/components/ui/select'
 import { ConfirmDialog } from '#/components/public/confirm-dialog'
 import { LoadingPage } from '#/components/public/loading-page'
-import { Loader2, ArrowLeft, Save, Trash2, Award } from 'lucide-react'
+import { Loader2, ArrowLeft, Save, Trash2, Award, Trophy } from 'lucide-react'
 import { useState } from 'react'
 import { motion } from 'motion/react'
 import { toast } from 'sonner'
@@ -158,33 +153,23 @@ function AchievementDetailPage() {
       animate="animate"
     >
       <motion.div variants={fadeUpItem}>
-        <Link
-          to="/admin/achievements"
-          className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+        <McSectionHeader
+          title="编辑成就"
+          description={`修改成就 #${achievement.id.slice(0, 8)}... 的属性信息`}
+          icon={Trophy}
+          variant="gold"
+          className="mb-2"
         >
-          <ArrowLeft className="h-4 w-4" />
-          返回成就列表
-        </Link>
+          <McBadge variant="gold" className="font-mono text-xs">
+            ID: {achievement.id.slice(0, 8)}...
+          </McBadge>
+        </McSectionHeader>
       </motion.div>
 
       <motion.div variants={fadeUpItem}>
         <div className="grid gap-6 lg:grid-cols-3">
           {/* 主表单 */}
-          <Card className="max-w-xl lg:col-span-2">
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle className="text-lg">编辑成就</CardTitle>
-                  <CardDescription>
-                    修改成就 #{achievement.id.slice(0, 8)}... 的属性信息
-                  </CardDescription>
-                </div>
-                <Badge variant="secondary" className="font-mono text-xs">
-                  ID: {achievement.id.slice(0, 8)}...
-                </Badge>
-              </div>
-            </CardHeader>
-            <CardContent>
+          <McCard variant="glass" color="gold" className="max-w-xl lg:col-span-2 p-6">
               <form onSubmit={handleUpdate} className="space-y-5">
                 <div className="space-y-2">
                   <Label htmlFor="edit-name">名称 *</Label>
@@ -335,18 +320,20 @@ function AchievementDetailPage() {
                   </Button>
                 </div>
               </form>
-            </CardContent>
-          </Card>
+          </McCard>
 
           {/* 侧边操作区 */}
           <div className="space-y-6">
             <AchievementTypeGuide selectedType={selectedType} />
 
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-base">成就操作</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
+            <McCard variant="glass" color="nether" className="p-5">
+              <McSectionHeader
+                title="成就操作"
+                icon={Award}
+                variant="nether"
+                className="mb-4"
+              />
+              <div className="space-y-6">
                 <InfoRow label="条件键" value={achievement.condition_key} mono />
                 <InfoRow
                   label="类型"
@@ -399,8 +386,8 @@ function AchievementDetailPage() {
                     删除此成就
                   </Button>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </McCard>
           </div>
         </div>
       </motion.div>

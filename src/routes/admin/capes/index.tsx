@@ -1,6 +1,7 @@
 /**
- * 披风库列表页
+ * 披风库列表页（MC 风格）
  * 展示所有披风资源，支持查看、编辑、删除操作
+ * 配色：gold(黄) + nether(红) 作为 MC 点缀色
  */
 
 import { createFileRoute, Link } from '@tanstack/react-router'
@@ -8,7 +9,6 @@ import {
   useCapes,
   useDeleteCapeMutation,
 } from '#/api/endpoints/api-auth/cape-library'
-import { PageHeader } from '#/components/public/page-header'
 import type { ColumnDef } from '#/components/ui/tanstack-table'
 import {
   TableProvider,
@@ -23,11 +23,14 @@ import {
 import { LoadingPage } from '#/components/public/loading-page'
 import { ConfirmDialog } from '#/components/public/confirm-dialog'
 import { Button } from '#/components/ui/button'
-import { Badge } from '#/components/ui/badge'
 import { Plus, Pencil, Trash2, Flag } from 'lucide-react'
 import { useState } from 'react'
 import type { CapeLibrary } from '#/api/types'
 import { motion } from 'motion/react'
+import { McCard } from '#/components/shared/mc-card'
+import { McIconBox } from '#/components/shared/mc-icon-box'
+import { McSectionHeader } from '#/components/shared/mc-section-header'
+import { McBadge } from '#/components/shared/mc-badge'
 
 /** stagger 容器动画 - 子元素依次入场 */
 const staggerContainer = {
@@ -84,9 +87,9 @@ function CapeListPage() {
       ),
       cell: ({ row }) => (
         <div className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
-            <Flag className="h-4 w-4 text-primary" />
-          </div>
+          <McIconBox variant="gold" size="sm">
+            <Flag />
+          </McIconBox>
           <span className="font-medium">{row.original.name}</span>
         </div>
       ),
@@ -99,16 +102,9 @@ function CapeListPage() {
       cell: ({ row }) => {
         const isPublic = row.original.is_public
         return (
-          <Badge
-            variant={isPublic ? 'default' : 'secondary'}
-            className={
-              isPublic
-                ? 'bg-chart-2/10 text-chart-2 hover:bg-chart-2/15 border-chart-2/20'
-                : ''
-            }
-          >
+          <McBadge variant={isPublic ? 'gold' : 'default'}>
             {isPublic ? '公开' : '私有'}
-          </Badge>
+          </McBadge>
         )
       },
       size: 72,
@@ -175,45 +171,50 @@ function CapeListPage() {
       animate="animate"
     >
       <motion.div variants={fadeUpItem}>
-        <PageHeader description="管理和预览所有 Minecraft 披风资源">
+        <div className="flex items-center justify-between gap-4">
+          <McSectionHeader
+            subtitle="Cape Library"
+            title="披风库管理"
+            icon={Flag}
+            variant="gold"
+            description="管理和预览所有 Minecraft 披风资源"
+          />
           <Link to="/admin/capes/create">
-            <Button variant="gradient" className="gap-1.5">
+            <Button variant="gradient" className="gap-1.5 shrink-0">
               <Plus className="h-4 w-4" />
               新建披风
             </Button>
           </Link>
-        </PageHeader>
+        </div>
       </motion.div>
 
-      <motion.div
-        variants={fadeUpItem}
-        className="rounded-xl border border-border/70 overflow-hidden"
-      >
-        <TableProvider columns={columns} data={capes ?? []}>
-          <TSTableHeader>
-            {({ headerGroup }) => (
-              <TSTableHeaderGroup headerGroup={headerGroup}>
-                {({ header }) => <TSTableHead header={header} />}
-              </TSTableHeaderGroup>
-            )}
-          </TSTableHeader>
-          <TSTableBody
-            emptyContent={
-              <p className="text-sm text-muted-foreground">
-                暂无披风数据，点击右上角新建
-              </p>
-            }
-          >
-            {({ row }) => (
-              <TSTableRow row={row}>
-                {({ cell }) => <TSTableCell cell={cell} />}
-              </TSTableRow>
-            )}
-          </TSTableBody>
-        </TableProvider>
+      <motion.div variants={fadeUpItem}>
+        <McCard variant="glass" color="gold" className="overflow-hidden">
+          <TableProvider columns={columns} data={capes ?? []}>
+            <TSTableHeader>
+              {({ headerGroup }) => (
+                <TSTableHeaderGroup headerGroup={headerGroup}>
+                  {({ header }) => <TSTableHead header={header} />}
+                </TSTableHeaderGroup>
+              )}
+            </TSTableHeader>
+            <TSTableBody
+              emptyContent={
+                <p className="text-sm text-muted-foreground">
+                  暂无披风数据，点击右上角新建
+                </p>
+              }
+            >
+              {({ row }) => (
+                <TSTableRow row={row}>
+                  {({ cell }) => <TSTableCell cell={cell} />}
+                </TSTableRow>
+              )}
+            </TSTableBody>
+          </TableProvider>
+        </McCard>
       </motion.div>
 
-      {/* 删除确认弹窗 */}
       <ConfirmDialog
         open={!!deleteTarget}
         onOpenChange={(open) => !open && setDeleteTarget(null)}

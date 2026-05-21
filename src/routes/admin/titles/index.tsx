@@ -9,7 +9,7 @@ import { motion } from 'motion/react'
 import { Plus, Pencil, Trash2, Tags, UserPlus, UserMinus } from 'lucide-react'
 import { Button } from '#/components/ui/button'
 import { Input } from '#/components/ui/input'
-import { Badge } from '#/components/ui/badge'
+import { McBadge } from '#/components/shared/mc-badge'
 import { Label } from '#/components/ui/label'
 import { ColorPicker } from '#/components/ui/color-picker'
 import {
@@ -41,6 +41,8 @@ import {
 import { PageHeader } from '#/components/public/page-header'
 import { LoadingPage } from '#/components/public/loading-page'
 import { ConfirmDialog } from '#/components/public/confirm-dialog'
+import { McCard } from '#/components/shared/mc-card'
+import { McSectionHeader } from '#/components/shared/mc-section-header'
 import {
   useAdminTitles,
   useCreateTitleMutation,
@@ -75,28 +77,28 @@ const fadeUpItem = {
 // ─── 辅助函数 ──────────────────────────────────────────────
 
 function getTitleTypeBadge(type: TitleType) {
-  const map: Record<number, { label: string; className: string }> = {
+  const map: Record<number, { label: string; variant: 'diamond' | 'nether' | 'gold' | 'default' }> = {
     [TitleType.General]: {
       label: '通用',
-      className: 'bg-blue-500/10 text-blue-600 dark:text-blue-400',
+      variant: 'diamond',
     },
     [TitleType.Group]: {
       label: '权限组',
-      className: 'bg-purple-500/10 text-purple-600 dark:text-purple-400',
+      variant: 'nether',
     },
     [TitleType.Exclusive]: {
       label: '专属',
-      className: 'bg-amber-500/10 text-amber-600 dark:text-amber-400',
+      variant: 'gold',
     },
   }
   const info = map[type] ?? {
     label: '未知',
-    className: 'bg-muted text-muted-foreground',
+    variant: 'default' as const,
   }
   return (
-    <Badge variant="secondary" className={info.className}>
+    <McBadge variant={info.variant}>
       {info.label}
-    </Badge>
+    </McBadge>
   )
 }
 
@@ -361,17 +363,13 @@ function TitlesAdminPage() {
       cell: ({ row }) => {
         const active = row.original.is_active
         return (
-          <Badge
-            variant="secondary"
-            className={`cursor-pointer ${
-              active
-                ? 'bg-green-500/10 text-green-600 hover:bg-green-500/20 dark:text-green-400'
-                : 'bg-muted text-muted-foreground hover:bg-muted/80'
-            }`}
+          <McBadge
+            variant={active ? 'nether' : 'default'}
+            className="cursor-pointer"
             onClick={() => handleToggleActive(row.original)}
           >
             {active ? '启用' : '禁用'}
-          </Badge>
+          </McBadge>
         )
       },
       size: 80,
@@ -430,18 +428,23 @@ function TitlesAdminPage() {
       animate="animate"
     >
       <motion.div variants={fadeUpItem}>
-        <PageHeader description="管理 Minecraft 服务器称号的创建、分配与撤销">
+        <McSectionHeader
+          title="称号管理"
+          description="管理 Minecraft 服务器称号的创建、分配与撤销"
+          icon={Tags}
+          variant="nether"
+        >
           <Button onClick={openCreate} className="gap-1.5">
             <Plus className="h-4 w-4" />
             新建称号
           </Button>
-        </PageHeader>
+        </McSectionHeader>
       </motion.div>
 
       <motion.div
         variants={fadeUpItem}
-        className="rounded-xl border border-border/70 overflow-hidden"
       >
+        <McCard variant="glass" className="overflow-hidden">
         <TableProvider columns={columns} data={titles}>
           <TSTableHeader>
             {({ headerGroup }) => (
@@ -467,6 +470,7 @@ function TitlesAdminPage() {
             )}
           </TSTableBody>
         </TableProvider>
+        </McCard>
       </motion.div>
 
       {/* 分页 */}

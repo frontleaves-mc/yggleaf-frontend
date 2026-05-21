@@ -1,5 +1,5 @@
 /**
- * 管理员端 - 问题详情页
+ * 管理员端 - 问题详情页 (MC 风格)
  * 复用用户端详情组件 + 管理员操作面板
  */
 
@@ -56,6 +56,9 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '#/components/ui/tooltip'
+import { McCard } from '#/components/shared/mc-card'
+import { McIconBox } from '#/components/shared/mc-icon-box'
+import { McBadge } from '#/components/shared/mc-badge'
 
 export const Route = createFileRoute('/admin/issues/$issueId')({
   component: AdminIssueDetailPage,
@@ -149,26 +152,28 @@ function AdminIssueDetailPage() {
         >
           <Link
             to="/admin/issues"
-            className="group inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-border/60 bg-background/80 text-muted-foreground shadow-sm transition-colors hover:border-primary/25 hover:text-primary"
+            className="group inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-border/60 bg-background/80 text-muted-foreground shadow-sm transition-colors hover:border-mc-nether/30 hover:text-mc-nether"
           >
             <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
           </Link>
           <div className="flex items-center gap-2 flex-wrap min-w-0">
-            <span className="inline-flex items-center gap-1 rounded-full border border-border/50 bg-muted/50 px-2.5 py-0.5 font-medium text-xs text-muted-foreground">
-              <FileQuestion className="h-3 w-3" />
+            <McBadge variant="nether">
+              <McIconBox variant="nether" size="sm" className="mr-0.5">
+                <FileQuestion className="h-3 w-3" />
+              </McIconBox>
               Issue #{issueDetail.issue.id}
-            </span>
+            </McBadge>
             <IssueStatusBadge status={issueDetail.issue.status} />
             <IssuePriorityBadge priority={issueDetail.issue.priority} />
-            <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
+            <McBadge variant="default">
               {issueDetail.issue_type.name}
-            </span>
+            </McBadge>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-5 w-5 rounded-full hover:bg-primary/10 hover:text-primary transition-colors"
+                  className="h-5 w-5 rounded-full hover:bg-mc-nether/10 hover:text-mc-nether transition-colors"
                   onClick={() => setEditDialogOpen(true)}
                 >
                   <Pencil className="h-2.5 w-2.5" />
@@ -180,10 +185,10 @@ function AdminIssueDetailPage() {
             </Tooltip>
           </div>
           <div className="ml-auto flex items-center gap-3 text-xs text-muted-foreground shrink-0">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-border/50 bg-muted/50 px-2.5 py-0.5 font-medium">
+            <McBadge variant="gold">
               <User className="h-3 w-3" />
               {issueDetail.issue.username}
-            </span>
+            </McBadge>
             <span className="inline-flex items-center gap-1">
               <Clock className="h-3 w-3" />
               更新于 {formatTime(issueDetail.issue.updated_at)}
@@ -224,7 +229,9 @@ function AdminIssueDetailPage() {
             variants={fadeUpItem}
             className="lg:sticky lg:top-6 lg:self-start"
           >
-            <AdminIssueActions issue={issueDetail.issue} />
+            <McCard variant="glass" color="gold" className="p-4">
+              <AdminIssueActions issue={issueDetail.issue} />
+            </McCard>
           </motion.aside>
         </div>
       </motion.div>

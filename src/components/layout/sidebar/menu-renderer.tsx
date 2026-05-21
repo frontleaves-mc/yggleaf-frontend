@@ -231,9 +231,9 @@ function FlatMenuItem({
 }) {
   const Icon = item.icon
   const activeBg =
-    'bg-gradient-to-r from-sidebar-primary/12 to-sidebar-primary/6 shadow-[inset_0_0_0_1px_oklch(from_var(--sidebar-primary)_l_c_h_/_0.10)]'
+    'bg-gradient-to-r from-[oklch(from_var(--mc-grass)_l_c_h/_0.14)] to-[oklch(from_var(--mc-diamond)_l_c_h/_0.07)] shadow-[inset_0_0_0_1px_oklch(from_var(--mc-diamond)_l_c_h_/_0.12)]'
   const activeIcon =
-    'text-sidebar-primary drop-shadow-[0_0_6px_oklch(from_var(--sidebar-primary)_l_c_h_/_0.30)]'
+    'text-mc-grass drop-shadow-[0_0_6px_oklch(from_var(--mc-grass)_l_c_h_/_0.35)]'
 
   return (
     <SidebarMenuItem>
@@ -282,8 +282,8 @@ function CollapsibleMenuItem({
   const isActivePath = (to?: string): boolean => matchPath(pathname, to)
   const hasActiveInChildren = checkActiveChildren(pathname, item.children)
   const parentActiveBg =
-    'bg-gradient-to-r from-sidebar-primary/8 to-transparent'
-  const parentActiveIcon = 'text-sidebar-primary'
+    'bg-gradient-to-r from-[oklch(from_var(--mc-grass)_l_c_h/_0.09)] to-transparent'
+  const parentActiveIcon = 'text-mc-grass'
 
   return (
     <Collapsible
@@ -326,7 +326,7 @@ function CollapsibleMenuItem({
                   className={cn(
                     'rounded-md transition-colors duration-150',
                     isActivePath(child.to) && [
-                      'bg-sidebar-accent text-sidebar-accent-foreground font-medium',
+                      'bg-[oklch(from_var(--mc-grass)_l_c_h/_0.12)] text-sidebar-accent-foreground font-medium shadow-[inset_0_0_0_1px_oklch(from_var(--mc-diamond)_l_c_h/_0.10)]',
                     ],
                   )}
                 >
@@ -334,7 +334,7 @@ function CollapsibleMenuItem({
                     <child.icon
                       className={cn(
                         'size-4 transition-all duration-200',
-                        isActivePath(child.to) && 'text-sidebar-primary',
+                        isActivePath(child.to) && 'text-mc-grass',
                       )}
                     />
                     <span>{child.label}</span>

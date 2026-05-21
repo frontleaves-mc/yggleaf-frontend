@@ -1,32 +1,19 @@
 /**
- * IssuePriorityBadge - 问题优先级徽章
- * 映射 IssuePriority -> 中文标签 + 颜色
+ * IssuePriorityBadge - 问题优先级徽章 (MC 风格)
+ * 映射 IssuePriority -> 中文标签 + MC 配色
  */
 
-import { Badge } from '#/components/ui/badge'
+import { McBadge } from '#/components/shared'
 import type { IssuePriority } from '#/api/types'
 
 const priorityConfig: Record<
   IssuePriority,
-  { label: string; className: string }
+  { label: string; variant: 'grass' | 'diamond' | 'nether' | 'gold' | 'default' }
 > = {
-  low: {
-    label: '低',
-    className: 'bg-muted text-muted-foreground hover:bg-muted/80',
-  },
-  medium: {
-    label: '中',
-    className: 'bg-primary/10 text-primary hover:bg-primary/20',
-  },
-  high: {
-    label: '高',
-    className:
-      'bg-yellow-500/10 text-yellow-600 hover:bg-yellow-500/20 dark:text-yellow-400',
-  },
-  urgent: {
-    label: '紧急',
-    className: 'bg-destructive/10 text-destructive hover:bg-destructive/20',
-  },
+  low: { label: '低', variant: 'default' },
+  medium: { label: '中', variant: 'diamond' },
+  high: { label: '高', variant: 'gold' },
+  urgent: { label: '紧急', variant: 'nether' },
 }
 
 interface IssuePriorityBadgeProps {
@@ -40,11 +27,8 @@ export function IssuePriorityBadge({
 }: IssuePriorityBadgeProps) {
   const config = priorityConfig[priority]
   return (
-    <Badge
-      variant="secondary"
-      className={`${config.className} ${className ?? ''}`}
-    >
+    <McBadge variant={config.variant} className={className}>
       {config.label}
-    </Badge>
+    </McBadge>
   )
 }

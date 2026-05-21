@@ -249,3 +249,61 @@ export const landingFadeInUp = {
     transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const },
   },
 }
+
+// ─── MC 风格动画预设 (user / admin) ──────────────────────────
+
+/** MC 卡片悬浮 — 微弱上浮 + 阴影增强 + MC 配色微弱发光 */
+export const mcCardHover = {
+  rest: {
+    y: 0,
+    boxShadow:
+      '0 1px 3px 0 oklch(from var(--foreground) l c h / 0.04), 0 1px 2px -1px oklch(from var(--foreground) l c h / 0.04)',
+  },
+  hover: {
+    y: -2,
+    boxShadow:
+      '0 4px 6px -1px oklch(from var(--foreground) l c h / 0.06), 0 12px 24px -4px oklch(0.53 0.12 130 / 8%), 0 4px 6px -1px oklch(from var(--foreground) l c h / 0.04)',
+  },
+}
+
+/** MC 网格交错容器 — 子元素逐个淡入 */
+export const mcStaggerGrid = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.06, delayChildren: 0.05 },
+  },
+}
+
+/** MC 网格交错子项 — 从下方滑入 */
+export const mcStaggerGridItem = {
+  hidden: { opacity: 0, y: 16 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] as const },
+  },
+}
+
+/** MC 淡入上滑 — 增强版 fadeUpItem，适用于页面区块切换 */
+export const mcFadeSlideUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const },
+  },
+}
+
+/** MC 脉冲发光 — 适用于服务器状态指示器，柔和 opacity + shadow 脉冲 */
+export const mcPulseGlow = {
+  animate: {
+    boxShadow: [
+      '0 0 8px oklch(0.53 0.12 130 / 10%)',
+      '0 0 20px oklch(0.53 0.12 130 / 20%)',
+      '0 0 8px oklch(0.53 0.12 130 / 10%)',
+    ],
+    opacity: [0.7, 1, 0.7],
+    transition: { duration: 2.5, repeat: Infinity, ease: 'easeInOut' as const },
+  },
+}

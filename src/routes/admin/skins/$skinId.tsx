@@ -1,5 +1,5 @@
 /**
- * 编辑皮肤页
+ * 编辑皮肤页（MC 风格）
  * 编辑已有皮肤的属性信息
  */
 
@@ -15,13 +15,6 @@ import {
   useDeleteSkinMutation,
 } from '#/api/endpoints/api-auth/skin-library'
 import { Button } from '#/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '#/components/ui/card'
 import { Input } from '#/components/ui/input'
 import { Label } from '#/components/ui/label'
 import { Switch } from '#/components/ui/switch'
@@ -32,12 +25,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '#/components/ui/select'
-import { Badge } from '#/components/ui/badge'
 import { ConfirmDialog } from '#/components/public/confirm-dialog'
-import { Loader2, ArrowLeft, Save, Trash2 } from 'lucide-react'
+import { Loader2, ArrowLeft, Save, Trash2, Shirt } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
 import { useSetPageTitle } from '#/components/layout/page-title-context'
+import { McCard } from '#/components/shared/mc-card'
+import { McSectionHeader } from '#/components/shared/mc-section-header'
+import { McBadge } from '#/components/shared/mc-badge'
 
 /** stagger 容器动画 - 子元素依次入场 */
 const staggerContainer = {
@@ -79,7 +74,6 @@ function EditSkinPage() {
     return () => setTitle(null)
   }, [skin, setTitle])
 
-  // 当数据加载完成后初始化表单
   if (skin && !name) {
     setName(skin.name)
     setModel(String(skin.model))
@@ -127,7 +121,6 @@ function EditSkinPage() {
       initial="initial"
       animate="animate"
     >
-      {/* 返回导航 */}
       <motion.div variants={fadeUpItem}>
         <Link
           to="/admin/skins"
@@ -140,22 +133,22 @@ function EditSkinPage() {
 
       <motion.div variants={fadeUpItem}>
         <div className="grid gap-6 lg:grid-cols-3">
-          {/* 主表单 */}
-          <Card className="max-w-xl lg:col-span-2">
-            <CardHeader>
+          <McCard variant="solid" color="nether" className="max-w-xl lg:col-span-2">
+            <div className="p-6 pb-4">
               <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle className="text-lg">编辑皮肤</CardTitle>
-                  <CardDescription>
-                    修改皮肤 #{skin.id} 的属性信息
-                  </CardDescription>
-                </div>
-                <Badge variant="secondary" className="font-mono text-xs">
-                  ID: {skin.id}
-                </Badge>
+                <McSectionHeader
+                  subtitle={`ID: ${skin.id}`}
+                  title="编辑皮肤"
+                  icon={Shirt}
+                  variant="nether"
+                  description={`修改皮肤 #${skin.id} 的属性信息`}
+                />
+                <McBadge variant="gold" className="font-mono shrink-0">
+                  #{skin.id}
+                </McBadge>
               </div>
-            </CardHeader>
-            <CardContent>
+            </div>
+            <div className="px-6 pb-6">
               <form onSubmit={handleUpdate} className="space-y-5">
                 <div className="space-y-2">
                   <Label htmlFor="edit-skin-name">皮肤名称 *</Label>
@@ -231,15 +224,18 @@ function EditSkinPage() {
                   </Button>
                 </div>
               </form>
-            </CardContent>
-          </Card>
+            </div>
+          </McCard>
 
-          {/* 侧边信息 */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-base">皮肤详情</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
+          <McCard variant="glass" color="gold">
+            <div className="p-6">
+              <McSectionHeader
+                subtitle="Details"
+                title="皮肤详情"
+                variant="gold"
+              />
+            </div>
+            <div className="px-6 pb-6 space-y-4">
               <InfoRow label="ID" value={String(skin.id)} />
               <InfoRow
                 label="纹理哈希"
@@ -266,8 +262,8 @@ function EditSkinPage() {
                   删除此皮肤
                 </Button>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </McCard>
         </div>
       </motion.div>
 

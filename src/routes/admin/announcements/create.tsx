@@ -24,6 +24,8 @@ import { AnnouncementType } from '#/api/types/api-mc/announcement'
 import { staggerContainer, fadeUpItem } from '#/lib/motion-presets'
 import { ConfirmDialog } from '#/components/public/confirm-dialog'
 import { useSetPageTitle } from '#/components/layout/page-title-context'
+import { McCard } from '#/components/shared/mc-card'
+import { McSectionHeader } from '#/components/shared/mc-section-header'
 
 export const Route = createFileRoute('/admin/announcements/create')({
   component: CreateAnnouncementPage,
@@ -88,7 +90,7 @@ function CreateAnnouncementPage() {
           <div className="flex items-center justify-between">
             <Link
               to="/admin/announcements"
-              className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-mc-gold transition-colors"
             >
               <ArrowLeft className="h-4 w-4" />
               返回列表
@@ -133,6 +135,7 @@ function CreateAnnouncementPage() {
 
         {/* 表单 */}
         <motion.div variants={fadeUpItem}>
+          <McCard variant="glass" className="p-5">
           <form
             id="create-announcement-form"
             onSubmit={handleSubmit}
@@ -180,6 +183,7 @@ function CreateAnnouncementPage() {
               />
             </div>
           </form>
+          </McCard>
         </motion.div>
       </motion.div>
 

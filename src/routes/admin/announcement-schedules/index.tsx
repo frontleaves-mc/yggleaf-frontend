@@ -1,5 +1,5 @@
 /**
- * 管理员端 - 调度管理页
+ * 管理员端 - 调度管理页 (MC 风格)
  * CRUD 操作 + 激活/停用，使用 TanStack Table + Dialog + 动态调度项列表
  */
 
@@ -10,7 +10,6 @@ import { Plus, Pencil, Trash2, Clock, Play, Pause, X } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '#/components/ui/button'
 import { Input } from '#/components/ui/input'
-import { Badge } from '#/components/ui/badge'
 import { Label } from '#/components/ui/label'
 import {
   Select,
@@ -38,7 +37,6 @@ import {
   TSTableRow,
   TSTableCell,
 } from '#/components/ui/tanstack-table'
-import { PageHeader } from '#/components/public/page-header'
 import { LoadingPage } from '#/components/public/loading-page'
 import { ConfirmDialog } from '#/components/public/confirm-dialog'
 import { useUserInfo } from '#/api/endpoints/api-auth/user'
@@ -57,6 +55,9 @@ import type {
 } from '#/api/types/api-mc/announcement-schedule'
 import { staggerContainer, fadeUpItem } from '#/lib/motion-presets'
 import { isSuperAdmin } from '#/lib/permissions'
+import { McCard } from '#/components/shared/mc-card'
+import { McSectionHeader } from '#/components/shared/mc-section-header'
+import { McBadge } from '#/components/shared/mc-badge'
 
 // ─── 常量映射 ──────────────────────────────────────────────
 
@@ -77,31 +78,18 @@ interface ScheduleFormItem {
 
 function getModeBadge(mode: number) {
   const label = MODE_LABEL_MAP[mode] ?? '未知'
-  const className =
-    mode === 1
-      ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400'
-      : mode === 2
-        ? 'bg-purple-500/10 text-purple-600 dark:text-purple-400'
-        : 'bg-muted text-muted-foreground'
   return (
-    <Badge variant="secondary" className={className}>
+    <McBadge variant={mode === 1 ? 'diamond' : mode === 2 ? 'nether' : 'default'}>
       {label}
-    </Badge>
+    </McBadge>
   )
 }
 
 function getActiveBadge(isActive: boolean) {
   return (
-    <Badge
-      variant="secondary"
-      className={
-        isActive
-          ? 'bg-green-500/10 text-green-600 dark:text-green-400'
-          : 'bg-muted text-muted-foreground'
-      }
-    >
+    <McBadge variant={isActive ? 'grass' : 'default'}>
       {isActive ? '启用' : '停用'}
-    </Badge>
+    </McBadge>
   )
 }
 
@@ -381,7 +369,7 @@ function AdminAnnouncementSchedulesPage() {
               className={`h-7 px-2 text-xs ${
                 schedule.is_active
                   ? ''
-                  : 'bg-green-500/10 text-green-600 hover:bg-green-500/20 hover:text-green-700 dark:text-green-400'
+                  : 'bg-mc-grass/10 text-mc-grass hover:bg-mc-grass/20 hover:text-mc-grass'
               }`}
               onClick={() =>
                 setToggleTarget({
@@ -429,18 +417,23 @@ function AdminAnnouncementSchedulesPage() {
       animate="animate"
     >
       <motion.div variants={fadeUpItem}>
-        <PageHeader description="管理公告推送调度">
+        <div className="flex items-center justify-between">
+          <McSectionHeader
+            title="调度管理"
+            subtitle="Schedules"
+            description="管理公告推送调度"
+            icon={Clock}
+            variant="gold"
+          />
           <Button onClick={openCreate} className="gap-1.5">
             <Plus className="h-4 w-4" />
             创建调度
           </Button>
-        </PageHeader>
+        </div>
       </motion.div>
 
-      <motion.div
-        variants={fadeUpItem}
-        className="rounded-xl border border-border/70 overflow-hidden"
-      >
+      <motion.div variants={fadeUpItem}>
+        <McCard variant="solid" color="gold" className="p-0 overflow-hidden [&>div]:rounded-none [&>div]:border-0 [&>div]:shadow-none">
         <TableProvider columns={columns} data={schedules}>
           <TSTableHeader>
             {({ headerGroup }) => (
@@ -466,6 +459,7 @@ function AdminAnnouncementSchedulesPage() {
             )}
           </TSTableBody>
         </TableProvider>
+        </McCard>
       </motion.div>
 
       {/* 分页 */}

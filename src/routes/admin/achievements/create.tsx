@@ -7,13 +7,8 @@ import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useCreateAchievementMutation } from '#/api/endpoints/api-mc/admin-achievement'
 import { useAdminTitles } from '#/api/endpoints/api-mc/admin-title'
 import { Button } from '#/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '#/components/ui/card'
+import { McCard } from '#/components/shared/mc-card'
+import { McSectionHeader } from '#/components/shared/mc-section-header'
 import { Input } from '#/components/ui/input'
 import { Textarea } from '#/components/ui/textarea'
 import { Label } from '#/components/ui/label'
@@ -25,6 +20,7 @@ import {
   SelectValue,
 } from '#/components/ui/select'
 import { Loader2, ArrowLeft, Save } from 'lucide-react'
+import { Trophy } from 'lucide-react'
 import { useState } from 'react'
 import { motion } from 'motion/react'
 import { toast } from 'sonner'
@@ -87,23 +83,18 @@ function CreateAchievementPage() {
       animate="animate"
     >
       <motion.div variants={fadeUpItem}>
-        <Link
-          to="/admin/achievements"
-          className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          返回成就列表
-        </Link>
+        <McSectionHeader
+          title="创建成就"
+          description="定义新的游戏成就，包括触发条件与奖励"
+          icon={Trophy}
+          variant="gold"
+          className="mb-2"
+        />
       </motion.div>
 
       <motion.div variants={fadeUpItem}>
         <div className="grid gap-6 lg:grid-cols-3">
-          <Card className="max-w-xl lg:col-span-2">
-            <CardHeader>
-              <CardTitle className="text-lg">新建成就</CardTitle>
-              <CardDescription>定义新的游戏成就，包括触发条件与奖励</CardDescription>
-            </CardHeader>
-            <CardContent>
+          <McCard variant="glass" color="gold" className="max-w-xl lg:col-span-2 p-6">
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="space-y-2">
                 <Label htmlFor="achievement-name">名称 *</Label>
@@ -247,8 +238,7 @@ function CreateAchievementPage() {
                 </Button>
               </div>
             </form>
-          </CardContent>
-        </Card>
+          </McCard>
 
         {/* 右侧类型引导 */}
         <AchievementTypeGuide selectedType={selectedType} />

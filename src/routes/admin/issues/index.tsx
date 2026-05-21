@@ -1,12 +1,12 @@
 /**
- * 管理员端 - 全量问题列表页
+ * 管理员端 - 全量问题列表页 (MC 风格)
  * 支持按状态、优先级、类型、关键词筛选，使用 TanStack Table + 排序
  */
 
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useState } from 'react'
 import { motion } from 'motion/react'
-import { Eye, Search } from 'lucide-react'
+import { Eye, Search, MessageSquareWarning } from 'lucide-react'
 import { Button } from '#/components/ui/button'
 import { Input } from '#/components/ui/input'
 import {
@@ -27,7 +27,6 @@ import {
   TSTableRow,
   TSTableCell,
 } from '#/components/ui/tanstack-table'
-import { PageHeader } from '#/components/public/page-header'
 import { LoadingPage } from '#/components/public/loading-page'
 import { IssueStatusBadge } from '#/components/issue/issue-status-badge'
 import { IssuePriorityBadge } from '#/components/issue/issue-priority-badge'
@@ -35,6 +34,9 @@ import { useAdminIssues } from '#/api/endpoints/api-auth/admin-issue'
 import { useIssueTypes } from '#/api/endpoints/api-auth/issue-type'
 import type { IssueListItem, IssueStatus, IssuePriority } from '#/api/types'
 import { formatTime } from '#/components/issue/issue-detail-content'
+import { McCard } from '#/components/shared/mc-card'
+import { McSectionHeader } from '#/components/shared/mc-section-header'
+import { McBadge } from '#/components/shared/mc-badge'
 
 const staggerContainer = {
   animate: {
@@ -107,9 +109,9 @@ function AdminIssuesPage() {
       cell: ({ row }) => {
         const item = row.original
         return (
-          <span className="text-xs bg-muted px-2 py-0.5 rounded-full">
+          <McBadge variant="default">
             {item.issue_type_name}
-          </span>
+          </McBadge>
         )
       },
       size: 96,
@@ -192,14 +194,18 @@ function AdminIssuesPage() {
       animate="animate"
     >
       <motion.div variants={fadeUpItem}>
-        <PageHeader description="查看和处理所有用户提交的问题反馈" />
+        <McSectionHeader
+          title="问题管理"
+          subtitle="Issues"
+          description="查看和处理所有用户提交的问题反馈"
+          icon={MessageSquareWarning}
+          variant="nether"
+        />
       </motion.div>
 
       {/* 筛选栏 */}
-      <motion.div
-        variants={fadeUpItem}
-        className="flex flex-wrap items-center gap-3"
-      >
+      <motion.div variants={fadeUpItem}>
+        <McCard variant="glass" className="flex flex-wrap items-center gap-3 p-4">
         <div className="relative flex-1 max-w-xs">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
@@ -254,12 +260,11 @@ function AdminIssuesPage() {
             </SelectContent>
           </Select>
         )}
+        </McCard>
       </motion.div>
 
-      <motion.div
-        variants={fadeUpItem}
-        className="rounded-xl border border-border/70 overflow-hidden"
-      >
+      <motion.div variants={fadeUpItem}>
+        <McCard variant="solid" color="nether" className="p-0 overflow-hidden [&>div]:rounded-none [&>div]:border-0 [&>div]:shadow-none">
         <TableProvider columns={columns} data={issues}>
           <TSTableHeader>
             {({ headerGroup }) => (
@@ -280,6 +285,7 @@ function AdminIssuesPage() {
             )}
           </TSTableBody>
         </TableProvider>
+        </McCard>
       </motion.div>
     </motion.div>
   )

@@ -29,7 +29,6 @@ import { TitleType } from '#/api/types'
 import { GameProfileSelector } from '#/components/public/game-profile-selector'
 import { LoadingPage } from '#/components/public/loading-page'
 import { UserPageLayout } from '#/components/public/user-page-layout'
-import { Badge } from '#/components/ui/badge'
 import { Button } from '#/components/ui/button'
 import {
   Tooltip,
@@ -38,11 +37,12 @@ import {
 } from '#/components/ui/tooltip'
 import { useGameProfileStore } from '#/hooks/use-game-profile-store'
 import {
-  cardHoverVariants,
   fadeUpItem,
-  hoverLiftTransition,
   staggerContainer,
 } from '#/lib/motion-presets'
+import { McCard } from '#/components/shared/mc-card'
+import { McIconBox } from '#/components/shared/mc-icon-box'
+import { McBadge } from '#/components/shared/mc-badge'
 
 export const Route = createFileRoute('/user/my-titles/')({
   component: MyTitlesPage,
@@ -127,10 +127,12 @@ export default function MyTitlesPage() {
       {/* 内容区域 — 依状态分支渲染 */}
       {!uuid ? (
         <motion.div variants={fadeUpItem}>
-          <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border py-12 text-center">
-            <Gamepad2 className="mb-3 size-10 text-muted-foreground" />
+          <McCard variant="glass" color="default" className="border-dashed py-12 text-center">
+            <McIconBox variant="diamond" size="lg" className="mx-auto mb-3 text-muted-foreground [&>svg]:text-muted-foreground">
+              <Gamepad2 />
+            </McIconBox>
             <p className="text-sm text-muted-foreground">请先选择游戏档案</p>
-          </div>
+          </McCard>
         </motion.div>
       ) : isLoading ? (
         <LoadingPage />
@@ -141,59 +143,23 @@ export default function MyTitlesPage() {
             {(() => {
               const eqColor = getTitleColor(equippedTitle ?? {})
               return (
-                <div
-                  className={`relative overflow-hidden rounded-xl border p-5 transition-colors ${
-                    !equippedTitle
-                      ? 'border-dashed border-border bg-muted/30'
-                      : !eqColor
-                        ? 'border-primary/30 bg-gradient-to-r from-primary/[0.04] via-primary/[0.02] to-transparent'
-                        : ''
-                  }`}
-                  style={
-                    eqColor
-                      ? {
-                          borderColor: eqColor,
-                          background: `linear-gradient(to right, ${eqColor}0D, transparent)`,
-                          boxShadow: `0 0 20px ${eqColor}33`,
-                        }
-                      : undefined
-                  }
+                <McCard
+                  variant="glass"
+                  color={equippedTitle ? 'gold' : 'default'}
+                  className={`transition-colors ${!equippedTitle ? 'border-dashed' : ''}`}
                 >
-                  {/* 装备状态下的装饰光晕 */}
-                  {equippedTitle && !eqColor && (
-                    <>
-                      <div className="pointer-events-none absolute -top-6 -right-6 size-24 rounded-full bg-primary/10 blur-2xl" />
-                      <div className="pointer-events-none absolute -bottom-4 -left-4 size-16 rounded-full bg-primary/8 blur-xl" />
-                    </>
-                  )}
-
-                  <div className="relative flex items-center justify-between gap-4">
+                  <div className="flex items-center justify-between gap-4 p-5">
                     <div className="flex items-center gap-3.5">
                       {/* 图标区域 */}
-                      <div
-                        className={`flex size-11 shrink-0 items-center justify-center rounded-lg ${
-                          equippedTitle ? 'ring-1' : 'bg-muted'
-                        } ${eqColor ? '' : equippedTitle ? 'bg-primary/10 ring-primary/20' : ''}`}
-                        style={
-                          eqColor
-                            ? {
-                                backgroundColor: `${eqColor}1A`,
-                                ...(equippedTitle && {
-                                  boxShadow: `inset 0 0 0 1px ${eqColor}33`,
-                                }),
-                              }
-                            : undefined
-                        }
-                      >
-                        {equippedTitle ? (
-                          <Crown
-                            className={`size-5 ${!eqColor ? 'text-primary' : ''}`}
-                            style={eqColor ? { color: eqColor } : undefined}
-                          />
-                        ) : (
-                          <Award className="size-5 text-muted-foreground/60" />
-                        )}
-                      </div>
+                      {equippedTitle ? (
+                        <McIconBox variant="gold" size="md" style={eqColor ? { backgroundColor: `${eqColor}1A` } : undefined}>
+                          <Crown style={eqColor ? { color: eqColor } : undefined} />
+                        </McIconBox>
+                      ) : (
+                        <McIconBox variant="default" size="md">
+                          <Award />
+                        </McIconBox>
+                      )}
 
                       {/* 文字信息 */}
                       <div className="min-w-0">
@@ -203,11 +169,8 @@ export default function MyTitlesPage() {
                         {equippedTitle ? (
                           <>
                             <p
-                              className="mt-0.5 truncate font-semibold"
+                              className="mt-0.5 truncate font-semibold text-foreground"
                               style={eqColor ? { color: eqColor } : undefined}
-                              {...(!eqColor && {
-                                className: 'text-foreground',
-                              })}
                             >
                               {equippedTitle.name}
                             </p>
@@ -244,7 +207,7 @@ export default function MyTitlesPage() {
                       </Button>
                     )}
                   </div>
-                </div>
+                </McCard>
               )
             })()}
           </motion.div>
@@ -276,10 +239,12 @@ export default function MyTitlesPage() {
             </motion.div>
           ) : (
             <motion.div variants={fadeUpItem}>
-              <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border py-12 text-center">
-                <Award className="mb-3 size-10 text-muted-foreground" />
+              <McCard variant="glass" color="default" className="border-dashed py-12 text-center">
+                <McIconBox variant="diamond" size="lg" className="mx-auto mb-3 text-muted-foreground [&>svg]:text-muted-foreground">
+                  <Award />
+                </McIconBox>
                 <p className="text-sm text-muted-foreground">暂无称号</p>
-              </div>
+              </McCard>
             </motion.div>
           )}
         </>
@@ -315,50 +280,40 @@ function TitleCard({
         ? Shield
         : Award
 
+  const mcColor = title.type === TitleType.Exclusive ? 'gold' : title.type === TitleType.Group ? 'diamond' : 'grass'
+  const badgeVariant = title.type === TitleType.Exclusive ? 'gold' as const : title.type === TitleType.Group ? 'diamond' as const : 'grass' as const
+
   return (
     <Tooltip>
       <TooltipTrigger asChild>
         <motion.div variants={fadeUpItem}>
-          <motion.div
-            variants={cardHoverVariants}
-            transition={hoverLiftTransition}
-            initial="rest"
-            whileHover={isEquipped ? undefined : 'hover'}
+          <McCard
+            variant="glass"
+            color={isEquipped && !titleColor ? 'gold' : 'default'}
+            className={`group overflow-hidden cursor-pointer transition-shadow ${
+              isEquipped && !titleColor ? '' : ''
+            }`}
             onClick={isEquipped || isPending ? undefined : onEquip}
-            className={`group relative overflow-hidden rounded-lg border bg-card transition-shadow ${
-              isEquipped && !titleColor
-                ? `border-primary/40 shadow-md ${style.glowColor} ring-1 ring-primary/10`
-                : !isEquipped
-                  ? 'cursor-pointer border-border shadow-sm hover:shadow-md'
-                  : ''
-            } ${!titleColor ? style.bgGradient : ''}`}
             style={
               titleColor
                 ? {
                     borderColor: `${titleColor}66`,
                     boxShadow: isEquipped
-                      ? `0 0 12px ${titleColor}22, inset 0 0 0 1px ${titleColor}22`
+                      ? `0 0 12px ${titleColor}22`
                       : undefined,
-                    background: `linear-gradient(to bottom right, ${titleColor}08, transparent, ${titleColor}08)`,
                   }
                 : undefined
             }
           >
             {/* 左侧类型强调条 */}
-            <div
-              className={`pointer-events-none absolute left-0 top-0 h-full w-1 ${
-                titleColor
-                  ? ''
-                  : `bg-gradient-to-b ${style.accentFrom} ${style.accentTo}`
-              }`}
-              style={
-                titleColor
-                  ? {
-                      background: `linear-gradient(to bottom, ${titleColor}, ${titleColor}88)`,
-                    }
-                  : undefined
-              }
-            />
+            {titleColor ? (
+              <div
+                className="pointer-events-none absolute left-0 top-0 h-full w-1"
+                style={{
+                  background: `linear-gradient(to bottom, ${titleColor}, ${titleColor}88)`,
+                }}
+              />
+            ) : null}
 
             {/* 已装备状态 — 角标皇冠 */}
             {isEquipped && (
@@ -371,26 +326,21 @@ function TitleCard({
             <div className="flex flex-col gap-2 p-3.5 pt-3">
               {/* 头部：图标 + 名称 */}
               <div className="flex items-center gap-2.5">
-                <div
-                  className={`flex size-9 shrink-0 items-center justify-center rounded-md transition-transform duration-200 group-hover:scale-110 ${
-                    !titleColor ? style.iconBg : ''
-                  }`}
-                  style={
-                    titleColor
-                      ? { backgroundColor: `${titleColor}1A` }
-                      : undefined
-                  }
-                >
-                  <TypeIcon
-                    className={`size-4 ${!titleColor ? style.iconColor : ''}`}
-                    style={titleColor ? { color: titleColor } : undefined}
-                  />
-                </div>
+                {titleColor ? (
+                  <div
+                    className="flex size-9 shrink-0 items-center justify-center rounded-md transition-transform duration-200 group-hover:scale-110"
+                    style={{ backgroundColor: `${titleColor}1A` }}
+                  >
+                    <TypeIcon className="size-4" style={{ color: titleColor }} />
+                  </div>
+                ) : (
+                  <McIconBox variant={mcColor} size="md">
+                    <TypeIcon />
+                  </McIconBox>
+                )}
                 <div className="min-w-0 flex-1">
                   <h3
-                    className={`truncate text-sm font-semibold leading-tight ${
-                      !titleColor ? 'text-foreground' : ''
-                    }`}
+                    className="truncate text-sm font-semibold leading-tight text-foreground"
                     style={titleColor ? { color: titleColor } : undefined}
                   >
                     {title.name}
@@ -400,7 +350,7 @@ function TitleCard({
 
               {/* 底部：类型标签 + 状态 */}
               <div className="flex items-center gap-2">
-                <Badge variant={style.badgeVariant} className="text-[10px]">
+                <McBadge variant={badgeVariant}>
                   {title.type === TitleType.Exclusive && (
                     <Sparkles
                       data-icon="inline-start"
@@ -408,16 +358,14 @@ function TitleCard({
                     />
                   )}
                   {style.label}
-                </Badge>
+                </McBadge>
 
                 {isEquipped && (
-                  <span className="text-[10px] font-medium text-primary">
-                    使用中
-                  </span>
+                  <McBadge variant="grass">使用中</McBadge>
                 )}
               </div>
             </div>
-          </motion.div>
+          </McCard>
         </motion.div>
       </TooltipTrigger>
       <TooltipContent side="bottom">{title.description}</TooltipContent>

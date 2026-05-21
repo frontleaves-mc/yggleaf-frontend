@@ -12,7 +12,7 @@ import { motion } from 'motion/react'
 import type { ReactNode } from 'react'
 
 import { PageHeader } from '#/components/public/page-header'
-import { fadeUpItem, staggerContainer } from '#/lib/motion-presets'
+import { mcStaggerGrid, mcStaggerGridItem } from '#/lib/motion-presets'
 import { cn } from '#/lib/utils'
 
 // ─── Props ──────────────────────────────────────────────────
@@ -42,12 +42,12 @@ export function UserPageLayout({
   return (
     <motion.div
       className={cn('space-y-6', className)}
-      variants={staggerContainer}
-      initial="initial"
-      animate="animate"
+      variants={mcStaggerGrid}
+      initial="hidden"
+      animate="visible"
     >
       {/* ── 顶部：标题 + 操作区 ─────────────────────── */}
-      <motion.div variants={fadeUpItem}>
+      <motion.div variants={mcStaggerGridItem}>
         <div className="flex items-end justify-between gap-4">
           <PageHeader
             title={title}

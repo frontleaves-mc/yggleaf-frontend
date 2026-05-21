@@ -1,6 +1,7 @@
 /**
- * 皮肤库列表页
+ * 皮肤库列表页（MC 风格）
  * 展示所有皮肤资源，支持查看、编辑、删除操作
+ * 配色：nether(红) + gold(黄) 作为 MC 点缀色
  */
 
 import { createFileRoute, Link } from '@tanstack/react-router'
@@ -14,8 +15,6 @@ import {
 import type { SkinLibrary } from '#/api/types'
 import { ConfirmDialog } from '#/components/public/confirm-dialog'
 import { LoadingPage } from '#/components/public/loading-page'
-import { PageHeader } from '#/components/public/page-header'
-import { Badge } from '#/components/ui/badge'
 import { Button } from '#/components/ui/button'
 import type { ColumnDef } from '#/components/ui/tanstack-table'
 import {
@@ -28,6 +27,10 @@ import {
   TSTableHeaderGroup,
   TSTableRow,
 } from '#/components/ui/tanstack-table'
+import { McCard } from '#/components/shared/mc-card'
+import { McIconBox } from '#/components/shared/mc-icon-box'
+import { McSectionHeader } from '#/components/shared/mc-section-header'
+import { McBadge } from '#/components/shared/mc-badge'
 
 /** stagger 容器动画 - 子元素依次入场 */
 const staggerContainer = {
@@ -84,9 +87,9 @@ function SkinListPage() {
       ),
       cell: ({ row }) => (
         <div className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
-            <Shirt className="h-4 w-4 text-primary" />
-          </div>
+          <McIconBox variant="nether" size="sm">
+            <Shirt />
+          </McIconBox>
           <span className="font-medium">{row.getValue('name')}</span>
         </div>
       ),
@@ -97,9 +100,9 @@ function SkinListPage() {
         <TableColumnHeader column={column} title="模型" />
       ),
       cell: ({ row }) => (
-        <Badge variant="secondary" className="font-mono text-xs">
+        <McBadge variant="diamond" className="font-mono">
           {row.original.model === 1 ? 'Classic' : 'Slim'}
-        </Badge>
+        </McBadge>
       ),
       size: 80,
     },
@@ -111,16 +114,9 @@ function SkinListPage() {
       cell: ({ row }) => {
         const isPublic = row.original.is_public
         return (
-          <Badge
-            variant={isPublic ? 'default' : 'secondary'}
-            className={
-              isPublic
-                ? 'bg-chart-2/10 text-chart-2 hover:bg-chart-2/15 border-chart-2/20'
-                : ''
-            }
-          >
+          <McBadge variant={isPublic ? 'grass' : 'default'}>
             {isPublic ? '公开' : '私有'}
-          </Badge>
+          </McBadge>
         )
       },
       size: 72,
@@ -176,45 +172,50 @@ function SkinListPage() {
       animate="animate"
     >
       <motion.div variants={fadeUpItem}>
-        <PageHeader description="管理和预览所有 Minecraft 皮肤资源">
+        <div className="flex items-center justify-between gap-4">
+          <McSectionHeader
+            subtitle="Skin Library"
+            title="皮肤库管理"
+            icon={Shirt}
+            variant="nether"
+            description="管理和预览所有 Minecraft 皮肤资源"
+          />
           <Link to="/admin/skins/create">
-            <Button variant="gradient" className="gap-1.5">
+            <Button variant="gradient" className="gap-1.5 shrink-0">
               <Plus className="h-4 w-4" />
               新建皮肤
             </Button>
           </Link>
-        </PageHeader>
+        </div>
       </motion.div>
 
-      <motion.div
-        variants={fadeUpItem}
-        className="rounded-xl border border-border/70 overflow-hidden"
-      >
-        <TableProvider columns={columns} data={skins ?? []}>
-          <TSTableHeader>
-            {({ headerGroup }) => (
-              <TSTableHeaderGroup headerGroup={headerGroup}>
-                {({ header }) => <TSTableHead header={header} />}
-              </TSTableHeaderGroup>
-            )}
-          </TSTableHeader>
-          <TSTableBody
-            emptyContent={
-              <p className="text-sm text-muted-foreground">
-                暂无皮肤数据，点击右上角新建
-              </p>
-            }
-          >
-            {({ row }) => (
-              <TSTableRow row={row}>
-                {({ cell }) => <TSTableCell cell={cell} />}
-              </TSTableRow>
-            )}
-          </TSTableBody>
-        </TableProvider>
+      <motion.div variants={fadeUpItem}>
+        <McCard variant="glass" color="nether" className="overflow-hidden">
+          <TableProvider columns={columns} data={skins ?? []}>
+            <TSTableHeader>
+              {({ headerGroup }) => (
+                <TSTableHeaderGroup headerGroup={headerGroup}>
+                  {({ header }) => <TSTableHead header={header} />}
+                </TSTableHeaderGroup>
+              )}
+            </TSTableHeader>
+            <TSTableBody
+              emptyContent={
+                <p className="text-sm text-muted-foreground">
+                  暂无皮肤数据，点击右上角新建
+                </p>
+              }
+            >
+              {({ row }) => (
+                <TSTableRow row={row}>
+                  {({ cell }) => <TSTableCell cell={cell} />}
+                </TSTableRow>
+              )}
+            </TSTableBody>
+          </TableProvider>
+        </McCard>
       </motion.div>
 
-      {/* 删除确认弹窗 */}
       <ConfirmDialog
         open={!!deleteTarget}
         onOpenChange={(open) => !open && setDeleteTarget(null)}

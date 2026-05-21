@@ -1,18 +1,11 @@
 /**
- * 新建皮肤页
+ * 新建皮肤页（MC 风格）
  * 表单创建新的皮肤资源
  */
 
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useCreateSkinMutation } from '#/api/endpoints/api-auth/skin-library'
 import { Button } from '#/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '#/components/ui/card'
 import { Input } from '#/components/ui/input'
 import { Label } from '#/components/ui/label'
 import { Switch } from '#/components/ui/switch'
@@ -23,10 +16,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '#/components/ui/select'
-import { Loader2, ArrowLeft, Save } from 'lucide-react'
+import { Loader2, ArrowLeft, Save, Shirt } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
 import { useSetPageTitle } from '#/components/layout/page-title-context'
+import { McCard } from '#/components/shared/mc-card'
+import { McSectionHeader } from '#/components/shared/mc-section-header'
 
 /** stagger 容器动画 - 子元素依次入场 */
 const staggerContainer = {
@@ -73,7 +68,6 @@ function CreateSkinPage() {
         texture: texture,
         is_public: isPublic,
       })
-      // 成功后跳转到列表页
       navigate({ to: '/admin/skins' })
     } catch {
       // 错误由 mutation 处理
@@ -87,7 +81,6 @@ function CreateSkinPage() {
       initial="initial"
       animate="animate"
     >
-      {/* 返回导航 */}
       <motion.div variants={fadeUpItem}>
         <Link
           to="/admin/skins"
@@ -99,14 +92,18 @@ function CreateSkinPage() {
       </motion.div>
 
       <motion.div variants={fadeUpItem}>
-        <Card className="max-w-xl">
-          <CardHeader>
-            <CardTitle className="text-lg">新建皮肤</CardTitle>
-            <CardDescription>填写皮肤信息以创建新的皮肤资源</CardDescription>
-          </CardHeader>
-          <CardContent>
+        <McCard variant="solid" color="nether" className="max-w-xl">
+          <div className="p-6 pb-4">
+            <McSectionHeader
+              subtitle="Create New Skin"
+              title="新建皮肤"
+              icon={Shirt}
+              variant="nether"
+              description="填写皮肤信息以创建新的皮肤资源"
+            />
+          </div>
+          <div className="px-6 pb-6">
             <form onSubmit={handleSubmit} className="space-y-5">
-              {/* 名称 */}
               <div className="space-y-2">
                 <Label htmlFor="skin-name">皮肤名称 *</Label>
                 <Input
@@ -119,7 +116,6 @@ function CreateSkinPage() {
                 />
               </div>
 
-              {/* 模型 */}
               <div className="space-y-2">
                 <Label htmlFor="skin-model">模型类型 *</Label>
                 <Select
@@ -137,7 +133,6 @@ function CreateSkinPage() {
                 </Select>
               </div>
 
-              {/* 纹理 ID */}
               <div className="space-y-2">
                 <Label htmlFor="skin-texture">纹理文件 ID *</Label>
                 <Input
@@ -154,7 +149,6 @@ function CreateSkinPage() {
                 </p>
               </div>
 
-              {/* 公开设置 */}
               <div className="flex items-center justify-between rounded-lg border border-border p-3.5">
                 <div className="space-y-0.5">
                   <Label htmlFor="skin-public" className="text-sm">
@@ -172,7 +166,6 @@ function CreateSkinPage() {
                 />
               </div>
 
-              {/* 提交按钮 */}
               <div className="flex gap-3 pt-2">
                 <Link to="/admin/skins">
                   <Button
@@ -205,8 +198,8 @@ function CreateSkinPage() {
                 </Button>
               </div>
             </form>
-          </CardContent>
-        </Card>
+          </div>
+        </McCard>
       </motion.div>
     </motion.div>
   )

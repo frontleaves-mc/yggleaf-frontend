@@ -1,5 +1,6 @@
 /**
  * 管理员端 - 服务器管理列表页
+ * MC 风格：nether + gold 配色
  * 分页表格 + 创建/编辑 Dialog + 删除 ConfirmDialog + 启用/公开切换
  */
 
@@ -10,7 +11,6 @@ import { Plus, Trash2, Server, Pencil } from 'lucide-react'
 import { Button } from '#/components/ui/button'
 import { Input } from '#/components/ui/input'
 import { Label } from '#/components/ui/label'
-import { Badge } from '#/components/ui/badge'
 import { Switch } from '#/components/ui/switch'
 import {
   Dialog,
@@ -46,6 +46,9 @@ import { useUserInfo } from '#/api/endpoints/api-auth/user'
 import type { ServerResponse } from '#/api/types/api-mc/server-management'
 import { toast } from 'sonner'
 import { isSuperAdmin } from '#/lib/permissions'
+import { McCard } from '#/components/shared/mc-card'
+import { McBadge } from '#/components/shared/mc-badge'
+import { McIconBox } from '#/components/shared/mc-icon-box'
 
 // ─── 动画预设 ──────────────────────────────────────────────
 
@@ -78,11 +81,11 @@ function ServerManagementPage() {
     return null
   }
 
-  // ─── 分页参数 ────────────────────────────────────────
+  // 分页参数
   const [page, setPage] = useState(1)
   const [pageSize] = useState(15)
 
-  // ─── 数据查询 ────────────────────────────────────────
+  // 数据查询
   const { data, isLoading } = useAdminServerList({
     page,
     page_size: pageSize,
@@ -93,19 +96,19 @@ function ServerManagementPage() {
   const setEnabledMutation = useSetServerEnabledMutation()
   const setPublicMutation = useSetServerPublicMutation()
 
-  // ─── 弹窗状态 ────────────────────────────────────────
+  // 弹窗状态
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
   const [editTarget, setEditTarget] = useState<ServerResponse | null>(null)
   const [deleteTarget, setDeleteTarget] = useState<ServerResponse | null>(null)
 
-  // ─── 创建表单状态 ────────────────────────────────────
+  // 创建表单状态
   const [formName, setFormName] = useState('')
   const [formDisplayName, setFormDisplayName] = useState('')
   const [formAddress, setFormAddress] = useState('')
   const [formDescription, setFormDescription] = useState('')
   const [formSortOrder, setFormSortOrder] = useState('')
 
-  // ─── 编辑表单状态 ────────────────────────────────────
+  // 编辑表单状态
   const [editDisplayName, setEditDisplayName] = useState('')
   const [editAddress, setEditAddress] = useState('')
   const [editDescription, setEditDescription] = useState('')
@@ -136,7 +139,7 @@ function ServerManagementPage() {
     setEditTarget(server)
   }
 
-  // ─── 操作处理 ────────────────────────────────────────
+  // 操作处理
 
   const handleCreate = async () => {
     if (!formName.trim() || !formDisplayName.trim()) return
@@ -227,14 +230,14 @@ function ServerManagementPage() {
     }
   }
 
-  // ─── 加载状态 ────────────────────────────────────────
+  // 加载状态
 
   if (isLoading) return <LoadingPage />
 
   const servers = data?.list ?? []
   const totalPages = Math.ceil((data?.total ?? 0) / pageSize)
 
-  // ─── 列定义 ──────────────────────────────────────────
+  // 列定义
 
   const columns: ColumnDef<ServerResponse, unknown>[] = [
     {
@@ -244,9 +247,9 @@ function ServerManagementPage() {
       ),
       cell: ({ row }) => (
         <div className="flex items-center gap-2.5">
-          <div className="flex size-8 items-center justify-center rounded-lg bg-primary/10">
-            <Server className="size-4 text-primary" />
-          </div>
+          <McIconBox variant="nether" size="sm">
+            <Server />
+          </McIconBox>
           <span className="font-medium text-sm">
             {row.getValue('display_name')}
           </span>
@@ -283,12 +286,9 @@ function ServerManagementPage() {
       cell: ({ row }) => {
         const server = row.original
         return (
-          <Badge
-            variant={server.is_enabled ? 'default' : 'secondary'}
-            className="text-xs"
-          >
+          <McBadge variant={server.is_enabled ? 'gold' : 'nether'}>
             {server.is_enabled ? '启用' : '禁用'}
-          </Badge>
+          </McBadge>
         )
       },
     },
@@ -300,12 +300,9 @@ function ServerManagementPage() {
       cell: ({ row }) => {
         const server = row.original
         return (
-          <Badge
-            variant={server.is_public ? 'default' : 'secondary'}
-            className="text-xs"
-          >
+          <McBadge variant={server.is_public ? 'gold' : 'default'}>
             {server.is_public ? '公开' : '私有'}
-          </Badge>
+          </McBadge>
         )
       },
     },
@@ -341,7 +338,7 @@ function ServerManagementPage() {
     },
   ]
 
-  // ─── 渲染 ────────────────────────────────────────────
+  // 渲染
 
   return (
     <motion.div
@@ -359,42 +356,41 @@ function ServerManagementPage() {
         </PageHeader>
       </motion.div>
 
-      <motion.div
-        variants={fadeUpItem}
-        className="rounded-xl border border-border/70 overflow-hidden"
-      >
-        <TableProvider columns={columns} data={servers}>
-          <TSTableHeader>
-            {({ headerGroup }) => (
-              <TSTableHeaderGroup headerGroup={headerGroup}>
-                {({ header }) => <TSTableHead header={header} />}
-              </TSTableHeaderGroup>
-            )}
-          </TSTableHeader>
-          <TSTableBody
-            emptyContent={
-              <div className="flex flex-col items-center gap-3 py-8">
-                <div className="flex size-14 items-center justify-center rounded-2xl bg-primary/5 border border-primary/10">
-                  <Server className="size-7 text-primary/40" />
+      <motion.div variants={fadeUpItem}>
+        <McCard variant="solid" color="nether" className="overflow-hidden">
+          <TableProvider columns={columns} data={servers}>
+            <TSTableHeader>
+              {({ headerGroup }) => (
+                <TSTableHeaderGroup headerGroup={headerGroup}>
+                  {({ header }) => <TSTableHead header={header} />}
+                </TSTableHeaderGroup>
+              )}
+            </TSTableHeader>
+            <TSTableBody
+              emptyContent={
+                <div className="flex flex-col items-center gap-3 py-8">
+                  <McIconBox variant="nether" size="lg" className="mx-auto">
+                    <Server />
+                  </McIconBox>
+                  <div className="text-center space-y-1">
+                    <p className="text-sm font-medium text-muted-foreground">
+                      暂无服务器
+                    </p>
+                    <p className="text-xs text-muted-foreground/70">
+                      点击右上角「创建服务器」开始
+                    </p>
+                  </div>
                 </div>
-                <div className="text-center space-y-1">
-                  <p className="text-sm font-medium text-muted-foreground">
-                    暂无服务器
-                  </p>
-                  <p className="text-xs text-muted-foreground/70">
-                    点击右上角「创建服务器」开始
-                  </p>
-                </div>
-              </div>
-            }
-          >
-            {({ row }) => (
-              <TSTableRow row={row}>
-                {({ cell }) => <TSTableCell cell={cell} />}
-              </TSTableRow>
-            )}
-          </TSTableBody>
-        </TableProvider>
+              }
+            >
+              {({ row }) => (
+                <TSTableRow row={row}>
+                  {({ cell }) => <TSTableCell cell={cell} />}
+                </TSTableRow>
+              )}
+            </TSTableBody>
+          </TableProvider>
+        </McCard>
       </motion.div>
 
       {/* 分页 */}

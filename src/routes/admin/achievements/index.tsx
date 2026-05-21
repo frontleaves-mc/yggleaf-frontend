@@ -8,7 +8,7 @@ import { useState } from 'react'
 import { motion } from 'motion/react'
 import { Plus, Trash2, Trophy, Eye } from 'lucide-react'
 import { Button } from '#/components/ui/button'
-import { Badge } from '#/components/ui/badge'
+import { McBadge } from '#/components/shared/mc-badge'
 import {
   Select,
   SelectContent,
@@ -30,6 +30,9 @@ import {
 import { PageHeader } from '#/components/public/page-header'
 import { LoadingPage } from '#/components/public/loading-page'
 import { ConfirmDialog } from '#/components/public/confirm-dialog'
+import { McCard } from '#/components/shared/mc-card'
+import { McSectionHeader } from '#/components/shared/mc-section-header'
+import { McIconBox } from '#/components/shared/mc-icon-box'
 import {
   useAdminAchievements,
   useDeleteAchievementMutation,
@@ -47,32 +50,32 @@ import { staggerContainer, fadeUpItem } from '#/lib/motion-presets'
 // ─── 辅助函数 ──────────────────────────────────────────────
 
 function getAchievementTypeBadge(type: AchievementType) {
-  const map: Record<number, { label: string; className: string }> = {
+  const map: Record<number, { label: string; variant: 'nether' | 'gold' | 'diamond' | 'default' }> = {
     [AchievementType.Stat]: {
       label: '统计类',
-      className: 'bg-blue-500/10 text-blue-600 dark:text-blue-400',
+      variant: 'diamond',
     },
     [AchievementType.Event]: {
       label: '事件类',
-      className: 'bg-purple-500/10 text-purple-600 dark:text-purple-400',
+      variant: 'diamond',
     },
     [AchievementType.Special]: {
       label: '特殊条件',
-      className: 'bg-amber-500/10 text-amber-600 dark:text-amber-400',
+      variant: 'gold',
     },
     [AchievementType.Manual]: {
       label: '管理员手动',
-      className: 'bg-rose-500/10 text-rose-600 dark:text-rose-400',
+      variant: 'nether',
     },
   }
   const info = map[type] ?? {
     label: '未知' as const,
-    className: 'bg-muted text-muted-foreground' as const,
+    variant: 'default' as const,
   }
   return (
-    <Badge variant="secondary" className={info.className}>
+    <McBadge variant={info.variant}>
       {info.label}
-    </Badge>
+    </McBadge>
   )
 }
 
@@ -191,16 +194,9 @@ function AchievementsAdminPage() {
       cell: ({ row }) => {
         const active = row.original.is_active
         return (
-          <Badge
-            variant="secondary"
-            className={
-              active
-                ? 'bg-green-500/10 text-green-600 dark:text-green-400'
-                : 'bg-muted text-muted-foreground'
-            }
-          >
+          <McBadge variant={active ? 'nether' : 'default'}>
             {active ? '启用' : '禁用'}
-          </Badge>
+          </McBadge>
         )
       },
       size: 80,
@@ -244,14 +240,19 @@ function AchievementsAdminPage() {
       animate="animate"
     >
       <motion.div variants={fadeUpItem}>
-        <PageHeader description="管理游戏成就的定义、条件与奖励">
+        <McSectionHeader
+          title="成就管理"
+          description="管理游戏成就的定义、条件与奖励"
+          icon={Trophy}
+          variant="gold"
+        >
           <Button asChild className="gap-1.5">
             <Link to="/admin/achievements/create">
               <Plus className="h-4 w-4" />
               创建成就
             </Link>
           </Button>
-        </PageHeader>
+        </McSectionHeader>
       </motion.div>
 
       {/* 类型筛选 */}
@@ -273,8 +274,8 @@ function AchievementsAdminPage() {
 
       <motion.div
         variants={fadeUpItem}
-        className="rounded-xl border border-border/70 overflow-hidden"
       >
+        <McCard variant="glass" className="overflow-hidden">
         <TableProvider columns={columns} data={achievements}>
           <TSTableHeader>
             {({ headerGroup }) => (
@@ -300,6 +301,7 @@ function AchievementsAdminPage() {
             )}
           </TSTableBody>
         </TableProvider>
+        </McCard>
       </motion.div>
 
       {/* 分页 */}

@@ -19,17 +19,13 @@ import {
   X,
   Circle,
 } from 'lucide-react'
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardAction,
-} from '#/components/ui/card'
 import { Button } from '#/components/ui/button'
 import { Input } from '#/components/ui/input'
-import { Badge } from '#/components/ui/badge'
 import { Skeleton } from '#/components/ui/skeleton'
+import { McCard } from '#/components/shared/mc-card'
+import { McIconBox } from '#/components/shared/mc-icon-box'
+import { McSectionHeader } from '#/components/shared/mc-section-header'
+import { McBadge } from '#/components/shared/mc-badge'
 import {
   Dialog,
   DialogContent,
@@ -48,7 +44,6 @@ import {
   SelectValue,
 } from '#/components/ui/select'
 import { motion } from 'motion/react'
-import { cardHoverVariants, hoverLiftTransition } from '#/lib/motion-presets'
 import { authStore } from '#/stores/auth-store'
 import {
   useGameProfiles,
@@ -120,23 +115,26 @@ export default function ProfilesPage() {
     >
       {/* 页面标题 + 操作 */}
       <motion.div variants={fadeUpItem}>
-        <div className="space-y-1.5">
-          <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-foreground font-display">
-              游戏档案
-            </h1>
-            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-              <DialogTrigger asChild>
-                <Button
-                  size="lg"
-                  className="gap-1.5"
-                  variant="gradient"
-                  disabled={isQuotaExhausted}
-                >
-                  <Plus className="size-4" />
-                  绑定档案
-                </Button>
-              </DialogTrigger>
+        <div className="flex items-start justify-between gap-4">
+          <McSectionHeader
+            title="游戏档案"
+            description="管理你的 Minecraft 角色档案"
+            icon={Gamepad2}
+            variant="grass"
+            className="flex-1"
+          />
+          <Dialog open={dialogOpen} onOpenChange={setDialogOpen} className="shrink-0">
+            <DialogTrigger asChild>
+              <Button
+                size="lg"
+                className="gap-1.5"
+                variant="gradient"
+                disabled={isQuotaExhausted}
+              >
+                <Plus className="size-4" />
+                绑定档案
+              </Button>
+            </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
                   <DialogTitle>绑定新档案</DialogTitle>
@@ -188,41 +186,29 @@ export default function ProfilesPage() {
               </DialogContent>
             </Dialog>
           </div>
-          <div className="flex items-center gap-3">
-            <p className="text-sm text-muted-foreground">
-              管理你的 Minecraft 角色档案
-            </p>
-            {quota && (
-              <Badge variant="secondary" className="text-xs">
-                配额 {quota.used} / {quota.total}
-              </Badge>
-            )}
-          </div>
-        </div>
-      </motion.div>
+        </motion.div>
 
-      {/* 档案列表 */}
-      <motion.div variants={fadeUpItem}>
+        {/* 档案列表 */}
+      <motion.div variants={fadeUpItem} className="flex flex-col gap-4">
+        {quota && (
+          <McBadge variant="grass">配额 {quota.used} / {quota.total}</McBadge>
+        )}
         {isLoading ? (
           <div className="grid grid-cols-2 gap-4">
             {Array.from({ length: 2 }).map((_, i) => (
-              <Card key={i}>
-                <CardHeader>
-                  <Skeleton className="h-5 w-32" />
-                </CardHeader>
-                <CardContent className="space-y-2">
+              <McCard key={i} variant="glass" color="default" className="p-5">
+                <Skeleton className="h-5 w-32" />
+                <div className="mt-3 space-y-2">
                   <Skeleton className="h-3 w-48" />
                   <Skeleton className="h-3 w-24" />
-                </CardContent>
-              </Card>
+                </div>
+              </McCard>
             ))}
           </div>
         ) : error ? (
-          <Card className="border-destructive/50">
-            <CardContent className="py-8 text-center">
-              <p className="text-destructive">加载档案失败: {error.message}</p>
-            </CardContent>
-          </Card>
+          <McCard variant="glass" color="nether" className="py-8 text-center">
+            <p className="text-destructive">加载档案失败: {error.message}</p>
+          </McCard>
         ) : profiles.length > 0 ? (
           <div className="grid grid-cols-2 gap-4">
             {profiles.map((profile) => (
@@ -230,23 +216,23 @@ export default function ProfilesPage() {
             ))}
           </div>
         ) : (
-          <Card className="border-dashed">
-            <CardContent className="py-12 text-center">
-              <Gamepad2 className="mx-auto size-12 text-muted-foreground/30" />
-              <h3 className="mt-4 font-medium text-foreground">暂无游戏档案</h3>
-              <p className="mt-1 text-sm text-muted-foreground">
-                绑定你的 Minecraft 角色以开始使用皮肤和披风
-              </p>
-              <Button
-                className="mt-4 gap-1.5"
-                variant="gradient"
-                onClick={() => setDialogOpen(true)}
-              >
-                <Plus className="size-4" />
-                绑定第一个档案
-              </Button>
-            </CardContent>
-          </Card>
+          <McCard variant="glass" color="default" className="border-dashed py-12 text-center">
+            <McIconBox variant="diamond" size="lg" className="mx-auto mb-4 text-muted-foreground/30 [&>svg]:text-muted-foreground/30">
+              <Gamepad2 />
+            </McIconBox>
+            <h3 className="font-medium text-foreground">暂无游戏档案</h3>
+            <p className="mt-1 text-sm text-muted-foreground">
+              绑定你的 Minecraft 角色以开始使用皮肤和披风
+            </p>
+            <Button
+              className="mt-4 gap-1.5"
+              variant="gradient"
+              onClick={() => setDialogOpen(true)}
+            >
+              <Plus className="size-4" />
+              绑定第一个档案
+            </Button>
+          </McCard>
         )}
       </motion.div>
     </motion.div>
@@ -264,75 +250,60 @@ function ProfileCard({ profile, onlineProfiles }: { profile: GameProfile; online
 
   return (
     <>
-      <motion.div
-        variants={cardHoverVariants}
-        initial="rest"
-        whileHover="hover"
-        transition={hoverLiftTransition}
-        className="rounded-lg"
-      >
-        <Card className="ring-0 border border-border/70 overflow-hidden">
-          <CardHeader>
-            <CardTitle className="text-lg">{profile.name}</CardTitle>
-            <CardAction>
+      <McCard variant="glass" color="grass" className="overflow-hidden">
+        <div className="p-5">
+          <div className="flex items-center justify-between gap-3 mb-4">
+            <h3 className="text-lg font-semibold text-foreground">{profile.name}</h3>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="gap-1.5 text-xs"
+              onClick={() => setDetailOpen(true)}
+            >
+              <ExternalLink className="size-3.5" />
+              详情
+            </Button>
+          </div>
+          <div className="flex items-start justify-between gap-4">
+            <div className="space-y-2">
+              <p className="text-xs text-muted-foreground font-mono">
+                UUID: {profile.uuid}
+              </p>
+              {onlineInfo ? (
+                <McBadge variant="grass">
+                  <Circle className="size-2 fill-current" />
+                  在线 · {onlineInfo.server_name}
+                  {onlineInfo.world_name && ` · ${onlineInfo.world_name}`}
+                </McBadge>
+              ) : null}
+              <span className="text-xs text-muted-foreground">
+                更新于:{' '}
+                {new Date(profile.updated_at).toLocaleDateString('zh-CN')}
+              </span>
+            </div>
+            <div className="flex flex-col gap-1.5 shrink-0">
               <Button
-                variant="ghost"
+                variant="outline"
                 size="sm"
                 className="gap-1.5 text-xs"
-                onClick={() => setDetailOpen(true)}
+                onClick={() => setSkinDialogOpen(true)}
               >
-                <ExternalLink className="size-3.5" />
-                详情
+                <Shirt className="size-3.5" />
+                {profile.skin_library ? '更换皮肤' : '设置皮肤'}
               </Button>
-            </CardAction>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-start justify-between gap-4">
-              <div className="space-y-2">
-                <p className="text-xs text-muted-foreground font-mono">
-                  UUID: {profile.uuid}
-                </p>
-                {onlineInfo ? (
-                  <div className="flex items-center gap-1.5">
-                    <Circle className="size-2 fill-green-500 text-green-500" />
-                    <span className="text-xs text-green-600 font-medium">
-                      在线
-                    </span>
-                    <span className="text-xs text-muted-foreground">
-                      · {onlineInfo.server_name}
-                      {onlineInfo.world_name && ` · ${onlineInfo.world_name}`}
-                    </span>
-                  </div>
-                ) : null}
-                <span className="text-xs text-muted-foreground">
-                  更新于:{' '}
-                  {new Date(profile.updated_at).toLocaleDateString('zh-CN')}
-                </span>
-              </div>
-              <div className="flex flex-col gap-1.5 shrink-0">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="gap-1.5 text-xs"
-                  onClick={() => setSkinDialogOpen(true)}
-                >
-                  <Shirt className="size-3.5" />
-                  {profile.skin_library ? '更换皮肤' : '设置皮肤'}
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="gap-1.5 text-xs"
-                  onClick={() => setCapeDialogOpen(true)}
-                >
-                  <Flag className="size-3.5" />
-                  {profile.cape_library ? '更换披风' : '设置披风'}
-                </Button>
-              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-1.5 text-xs"
+                onClick={() => setCapeDialogOpen(true)}
+              >
+                <Flag className="size-3.5" />
+                {profile.cape_library ? '更换披风' : '设置披风'}
+              </Button>
             </div>
-          </CardContent>
-        </Card>
-      </motion.div>
+          </div>
+        </div>
+      </McCard>
 
       {/* 关联 Dialog */}
       <ProfileDetailDialog

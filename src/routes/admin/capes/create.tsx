@@ -1,25 +1,20 @@
 /**
- * 新建披风页
+ * 新建披风页（MC 风格）
  * 表单创建新的披风资源
  */
 
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useCreateCapeMutation } from '#/api/endpoints/api-auth/cape-library'
 import { Button } from '#/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '#/components/ui/card'
 import { Input } from '#/components/ui/input'
 import { Label } from '#/components/ui/label'
 import { Switch } from '#/components/ui/switch'
-import { Loader2, ArrowLeft, Save } from 'lucide-react'
+import { Loader2, ArrowLeft, Save, Flag } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
 import { useSetPageTitle } from '#/components/layout/page-title-context'
+import { McCard } from '#/components/shared/mc-card'
+import { McSectionHeader } from '#/components/shared/mc-section-header'
 
 /** stagger 容器动画 - 子元素依次入场 */
 const staggerContainer = {
@@ -88,12 +83,17 @@ function CreateCapePage() {
       </motion.div>
 
       <motion.div variants={fadeUpItem}>
-        <Card className="max-w-xl">
-          <CardHeader>
-            <CardTitle className="text-lg">新建披风</CardTitle>
-            <CardDescription>填写披风信息以创建新的披风资源</CardDescription>
-          </CardHeader>
-          <CardContent>
+        <McCard variant="solid" color="gold" className="max-w-xl">
+          <div className="p-6 pb-4">
+            <McSectionHeader
+              subtitle="Create New Cape"
+              title="新建披风"
+              icon={Flag}
+              variant="gold"
+              description="填写披风信息以创建新的披风资源"
+            />
+          </div>
+          <div className="px-6 pb-6">
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="space-y-2">
                 <Label htmlFor="cape-name">披风名称 *</Label>
@@ -172,8 +172,8 @@ function CreateCapePage() {
                 </Button>
               </div>
             </form>
-          </CardContent>
-        </Card>
+          </div>
+        </McCard>
       </motion.div>
     </motion.div>
   )

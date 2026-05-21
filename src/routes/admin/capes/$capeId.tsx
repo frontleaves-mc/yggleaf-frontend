@@ -1,5 +1,5 @@
 /**
- * 编辑披风页
+ * 编辑披风页（MC 风格）
  * 编辑已有披风的属性信息
  */
 
@@ -15,22 +15,17 @@ import {
   useDeleteCapeMutation,
 } from '#/api/endpoints/api-auth/cape-library'
 import { Button } from '#/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '#/components/ui/card'
 import { Input } from '#/components/ui/input'
 import { Label } from '#/components/ui/label'
 import { Switch } from '#/components/ui/switch'
-import { Badge } from '#/components/ui/badge'
 import { ConfirmDialog } from '#/components/public/confirm-dialog'
-import { Loader2, ArrowLeft, Save, Trash2 } from 'lucide-react'
+import { Loader2, ArrowLeft, Save, Trash2, Flag } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
 import { useSetPageTitle } from '#/components/layout/page-title-context'
+import { McCard } from '#/components/shared/mc-card'
+import { McSectionHeader } from '#/components/shared/mc-section-header'
+import { McBadge } from '#/components/shared/mc-badge'
 
 /** stagger 容器动画 - 子元素依次入场 */
 const staggerContainer = {
@@ -71,7 +66,6 @@ function EditCapePage() {
     return () => setTitle(null)
   }, [cape, setTitle])
 
-  // 当数据加载完成后初始化表单
   if (cape && !name) {
     setName(cape.name)
     setIsPublic(cape.is_public)
@@ -129,21 +123,22 @@ function EditCapePage() {
 
       <motion.div variants={fadeUpItem}>
         <div className="grid gap-6 lg:grid-cols-3">
-          <Card className="max-w-xl lg:col-span-2">
-            <CardHeader>
+          <McCard variant="solid" color="gold" className="max-w-xl lg:col-span-2">
+            <div className="p-6 pb-4">
               <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle className="text-lg">编辑披风</CardTitle>
-                  <CardDescription>
-                    修改披风 #{cape.id} 的属性信息
-                  </CardDescription>
-                </div>
-                <Badge variant="secondary" className="font-mono text-xs">
-                  ID: {cape.id}
-                </Badge>
+                <McSectionHeader
+                  subtitle={`ID: ${cape.id}`}
+                  title="编辑披风"
+                  icon={Flag}
+                  variant="gold"
+                  description={`修改披风 #${cape.id} 的属性信息`}
+                />
+                <McBadge variant="nether" className="font-mono shrink-0">
+                  #{cape.id}
+                </McBadge>
               </div>
-            </CardHeader>
-            <CardContent>
+            </div>
+            <div className="px-6 pb-6">
               <form onSubmit={handleUpdate} className="space-y-5">
                 <div className="space-y-2">
                   <Label htmlFor="edit-cape-name">披风名称 *</Label>
@@ -202,14 +197,18 @@ function EditCapePage() {
                   </Button>
                 </div>
               </form>
-            </CardContent>
-          </Card>
+            </div>
+          </McCard>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-base">披风详情</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
+          <McCard variant="glass" color="nether">
+            <div className="p-6">
+              <McSectionHeader
+                subtitle="Details"
+                title="披风详情"
+                variant="nether"
+              />
+            </div>
+            <div className="px-6 pb-6 space-y-4">
               <InfoRow label="ID" value={String(cape.id)} />
               <InfoRow
                 label="纹理哈希"
@@ -236,8 +235,8 @@ function EditCapePage() {
                   删除此披风
                 </Button>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </McCard>
         </div>
       </motion.div>
 

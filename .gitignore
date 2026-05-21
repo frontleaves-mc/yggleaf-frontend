@@ -21,3 +21,4 @@ skills-lock.json
 
 # Playwright MCP
 .playwright-mcp/
+.claude/worktrees/

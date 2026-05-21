@@ -1,5 +1,6 @@
 /**
  * 管理员端 - 插件凭证管理列表页
+ * MC 风格：nether + gold 配色
  * 分页表格 + 创建 Dialog + 删除 ConfirmDialog
  */
 
@@ -10,7 +11,6 @@ import { Plus, Trash2, KeyRound, Eye, Lock } from 'lucide-react'
 import { Button } from '#/components/ui/button'
 import { Input } from '#/components/ui/input'
 import { Label } from '#/components/ui/label'
-import { Badge } from '#/components/ui/badge'
 import {
   Dialog,
   DialogContent,
@@ -43,6 +43,9 @@ import { useUserInfo } from '#/api/endpoints/api-auth/user'
 import type { PluginCredentialResponse } from '#/api/types'
 import { toast } from 'sonner'
 import { isSuperAdmin } from '#/lib/permissions'
+import { McCard } from '#/components/shared/mc-card'
+import { McBadge } from '#/components/shared/mc-badge'
+import { McIconBox } from '#/components/shared/mc-icon-box'
 
 // ─── 动画预设 ──────────────────────────────────────────────
 
@@ -75,11 +78,11 @@ function PluginCredentialsPage() {
     return null
   }
 
-  // ─── 分页参数 ────────────────────────────────────────
+  // 分页参数
   const [page, setPage] = useState(1)
   const [pageSize] = useState(15)
 
-  // ─── 数据查询 ────────────────────────────────────────
+  // 数据查询
   const { data, isLoading } = usePluginCredentialList({
     page,
     page_size: pageSize,
@@ -87,7 +90,7 @@ function PluginCredentialsPage() {
   const createMutation = useCreatePluginCredentialMutation()
   const deleteMutation = useDeletePluginCredentialMutation()
 
-  // ─── 弹窗状态 ────────────────────────────────────────
+  // 弹窗状态
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
   const [isKeyRevealDialogOpen, setIsKeyRevealDialogOpen] = useState(false)
   const [revealedKey, setRevealedKey] = useState('')
@@ -95,7 +98,7 @@ function PluginCredentialsPage() {
   const [deleteTarget, setDeleteTarget] =
     useState<PluginCredentialResponse | null>(null)
 
-  // ─── 创建表单状态 ────────────────────────────────────
+  // 创建表单状态
   const [formName, setFormName] = useState('')
   const [formDesc, setFormDesc] = useState('')
 
@@ -109,7 +112,7 @@ function PluginCredentialsPage() {
     setIsCreateDialogOpen(true)
   }
 
-  // ─── 操作处理 ────────────────────────────────────────
+  // 操作处理
 
   const handleCreate = async () => {
     if (!formName.trim() || !formDesc.trim()) return
@@ -147,14 +150,14 @@ function PluginCredentialsPage() {
     }
   }
 
-  // ─── 加载状态 ────────────────────────────────────────
+  // 加载状态
 
   if (isLoading) return <LoadingPage />
 
   const credentials = data?.list ?? []
   const totalPages = Math.ceil((data?.total ?? 0) / pageSize)
 
-  // ─── 列定义 ──────────────────────────────────────────
+  // 列定义
 
   const columns: ColumnDef<PluginCredentialResponse, unknown>[] = [
     {
@@ -164,9 +167,9 @@ function PluginCredentialsPage() {
       ),
       cell: ({ row }) => (
         <div className="flex items-center gap-2.5">
-          <div className="flex size-8 items-center justify-center rounded-lg bg-primary/10">
-            <KeyRound className="size-4 text-primary" />
-          </div>
+          <McIconBox variant="gold" size="sm">
+            <KeyRound />
+          </McIconBox>
           <span className="font-medium text-sm">{row.getValue('name')}</span>
         </div>
       ),
@@ -264,7 +267,7 @@ function PluginCredentialsPage() {
     },
   ]
 
-  // ─── 渲染 ────────────────────────────────────────────
+  // 渲染
 
   return (
     <motion.div
@@ -282,42 +285,41 @@ function PluginCredentialsPage() {
         </PageHeader>
       </motion.div>
 
-      <motion.div
-        variants={fadeUpItem}
-        className="rounded-xl border border-border/70 overflow-hidden"
-      >
-        <TableProvider columns={columns} data={credentials}>
-          <TSTableHeader>
-            {({ headerGroup }) => (
-              <TSTableHeaderGroup headerGroup={headerGroup}>
-                {({ header }) => <TSTableHead header={header} />}
-              </TSTableHeaderGroup>
-            )}
-          </TSTableHeader>
-          <TSTableBody
-            emptyContent={
-              <div className="flex flex-col items-center gap-3 py-8">
-                <div className="flex size-14 items-center justify-center rounded-2xl bg-primary/5 border border-primary/10">
-                  <KeyRound className="size-7 text-primary/40" />
+      <motion.div variants={fadeUpItem}>
+        <McCard variant="solid" color="gold" className="overflow-hidden">
+          <TableProvider columns={columns} data={credentials}>
+            <TSTableHeader>
+              {({ headerGroup }) => (
+                <TSTableHeaderGroup headerGroup={headerGroup}>
+                  {({ header }) => <TSTableHead header={header} />}
+                </TSTableHeaderGroup>
+              )}
+            </TSTableHeader>
+            <TSTableBody
+              emptyContent={
+                <div className="flex flex-col items-center gap-3 py-8">
+                  <McIconBox variant="gold" size="lg" className="mx-auto">
+                    <KeyRound />
+                  </McIconBox>
+                  <div className="text-center space-y-1">
+                    <p className="text-sm font-medium text-muted-foreground">
+                      暂无插件凭证
+                    </p>
+                    <p className="text-xs text-muted-foreground/70">
+                      点击右上角「创建凭证」开始
+                    </p>
+                  </div>
                 </div>
-                <div className="text-center space-y-1">
-                  <p className="text-sm font-medium text-muted-foreground">
-                    暂无插件凭证
-                  </p>
-                  <p className="text-xs text-muted-foreground/70">
-                    点击右上角「创建凭证」开始
-                  </p>
-                </div>
-              </div>
-            }
-          >
-            {({ row }) => (
-              <TSTableRow row={row}>
-                {({ cell }) => <TSTableCell cell={cell} />}
-              </TSTableRow>
-            )}
-          </TSTableBody>
-        </TableProvider>
+              }
+            >
+              {({ row }) => (
+                <TSTableRow row={row}>
+                  {({ cell }) => <TSTableCell cell={cell} />}
+                </TSTableRow>
+              )}
+            </TSTableBody>
+          </TableProvider>
+        </McCard>
       </motion.div>
 
       {/* 分页 */}

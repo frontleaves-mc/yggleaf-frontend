@@ -1,5 +1,5 @@
 /**
- * 用户端 - 我的资源库页面
+ * 用户端 - 我的资源库页面（MC 风格）
  *
  * 用户的个人资源管理中心，包含：
  * - 上传皮肤/披风
@@ -21,11 +21,9 @@ import {
   CheckCircle2,
   Loader2,
 } from 'lucide-react'
-import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
 import { Button } from '#/components/ui/button'
 import { Input } from '#/components/ui/input'
 import { Label } from '#/components/ui/label'
-import { Badge } from '#/components/ui/badge'
 import { Switch } from '#/components/ui/switch'
 import { Avatar, AvatarFallback } from '#/components/ui/avatar'
 import {
@@ -42,6 +40,14 @@ import { useCreateSkinMutation } from '#/api/endpoints/api-auth/skin-library'
 import { useCreateCapeMutation } from '#/api/endpoints/api-auth/cape-library'
 import { useLibraryQuota } from '#/api/endpoints/api-auth/library-quota'
 import { toast } from 'sonner'
+import {
+  mcStaggerGrid,
+  mcStaggerGridItem,
+} from '#/lib/motion-presets'
+import { PageHeader } from '#/components/public/page-header'
+import { McCard } from '#/components/shared/mc-card'
+import { McIconBox } from '#/components/shared/mc-icon-box'
+import { McBadge } from '#/components/shared/mc-badge'
 
 export const Route = createFileRoute('/user/my/')({
   component: MyPage,
@@ -49,7 +55,6 @@ export const Route = createFileRoute('/user/my/')({
 
 // ─── 工具函数 ─────────────────────────────────────────
 
-/** 将 File 对象转换为携带 MIME 的 Base64 字符串（data:image/png;base64,XXXXX） */
 function fileToBase64(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
@@ -87,45 +92,25 @@ const MOCK_PROFILES = [
   },
 ]
 
-// ─── Stagger 入场动画常量 ──────────────────────────────
-
-const staggerContainer = {
-  animate: {
-    transition: { staggerChildren: 0.08, delayChildren: 0.05 },
-  },
-}
-
-const fadeUpItem = {
-  initial: { opacity: 0, y: 16 },
-  animate: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
-  },
-}
-
 // ─── 页面组件 ───────────────────────────────────────────
 
 export default function MyPage() {
   return (
     <motion.div
       className="space-y-6"
-      variants={staggerContainer}
-      initial="initial"
-      animate="animate"
+      variants={mcStaggerGrid}
+      initial="hidden"
+      animate="visible"
     >
-      {/* 页面标题 */}
-      <motion.div variants={fadeUpItem}>
-        <h1 className="text-2xl font-bold text-foreground font-display">
-          我的资源库
-        </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          上传、同步和管理你的皮肤与披风资源
-        </p>
+      <motion.div variants={mcStaggerGridItem}>
+        <PageHeader
+          title="我的资源库"
+          description="上传、同步和管理你的皮肤与披风资源"
+          icon={FolderOpen}
+        />
       </motion.div>
 
-      {/* 标签页 */}
-      <motion.div variants={fadeUpItem}>
+      <motion.div variants={mcStaggerGridItem}>
         <Tabs defaultValue="upload">
           <TabsList variant="line">
             <TabsTrigger value="upload">
@@ -178,7 +163,6 @@ function SkinUploadCard() {
   const [base64Texture, setBase64Texture] = useState<string>('')
   const createMutation = useCreateSkinMutation()
 
-  // 释放预览 URL 内存
   useEffect(() => {
     return () => {
       if (previewUrl) URL.revokeObjectURL(previewUrl)
@@ -206,7 +190,6 @@ function SkinUploadCard() {
         is_public: isPublic,
       })
       toast.success('皮肤上传成功')
-      // 重置表单
       setName('')
       setModel('1')
       setIsPublic(false)
@@ -218,19 +201,16 @@ function SkinUploadCard() {
   }
 
   return (
-    <Card className="ring-0 border border-border/70">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-base">
-          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary/10">
-            <Shirt className="size-4 text-primary" />
-          </div>
+    <McCard variant="solid" color="grass">
+      <div className="p-5 space-y-4">
+        <div className="flex items-center gap-2.5 text-base font-semibold">
+          <McIconBox variant="grass" size="sm">
+            <Shirt />
+          </McIconBox>
           上传皮肤
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        {/* 左右布局：上传区域 + 表单 */}
+        </div>
+
         <div className="flex flex-col sm:flex-row gap-4">
-          {/* 左侧：上传区域 */}
           <div className="sm:w-48 shrink-0">
             <UploadZone
               accept=".png"
@@ -241,7 +221,6 @@ function SkinUploadCard() {
             />
           </div>
 
-          {/* 右侧：表单字段 */}
           <div className="flex-1 flex flex-col justify-between">
             <div className="space-y-3">
               <div className="space-y-2">
@@ -289,7 +268,6 @@ function SkinUploadCard() {
           </div>
         </div>
 
-        {/* 底部全宽上传按钮 */}
         <Button
           size="lg"
           className="w-full"
@@ -309,8 +287,8 @@ function SkinUploadCard() {
             </>
           )}
         </Button>
-      </CardContent>
-    </Card>
+      </div>
+    </McCard>
   )
 }
 
@@ -321,7 +299,6 @@ function CapeUploadCard() {
   const [base64Texture, setBase64Texture] = useState<string>('')
   const createMutation = useCreateCapeMutation()
 
-  // 释放预览 URL 内存
   useEffect(() => {
     return () => {
       if (previewUrl) URL.revokeObjectURL(previewUrl)
@@ -348,7 +325,6 @@ function CapeUploadCard() {
         is_public: isPublic,
       })
       toast.success('披风上传成功')
-      // 重置表单
       setName('')
       setIsPublic(false)
       setPreviewUrl(undefined)
@@ -359,19 +335,16 @@ function CapeUploadCard() {
   }
 
   return (
-    <Card className="ring-0 border border-border/70">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-base">
-          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary/10">
-            <Flag className="size-4 text-primary" />
-          </div>
+    <McCard variant="solid" color="diamond">
+      <div className="p-5 space-y-4">
+        <div className="flex items-center gap-2.5 text-base font-semibold">
+          <McIconBox variant="diamond" size="sm">
+            <Flag />
+          </McIconBox>
           上传披风
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        {/* 左右布局：上传区域 + 表单 */}
+        </div>
+
         <div className="flex flex-col sm:flex-row gap-4">
-          {/* 左侧：上传区域 */}
           <div className="sm:w-48 shrink-0">
             <UploadZone
               accept=".png"
@@ -382,7 +355,6 @@ function CapeUploadCard() {
             />
           </div>
 
-          {/* 右侧：表单字段 */}
           <div className="flex-1 flex flex-col justify-between">
             <div className="space-y-3">
               <div className="space-y-2">
@@ -413,7 +385,6 @@ function CapeUploadCard() {
           </div>
         </div>
 
-        {/* 底部全宽上传按钮 */}
         <Button
           size="lg"
           className="w-full"
@@ -433,8 +404,8 @@ function CapeUploadCard() {
             </>
           )}
         </Button>
-      </CardContent>
-    </Card>
+      </div>
+    </McCard>
   )
 }
 
@@ -449,22 +420,20 @@ function OfficialSyncSection() {
   )
 
   const handleSync = () => {
-    // TODO: 实际同步逻辑
     setSynced(true)
     setTimeout(() => setSynced(false), 3000)
   }
 
   return (
-    <Card className="ring-0 border border-border/70 max-w-lg">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-base">
-          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary/10">
-            <Gamepad2 className="size-4 text-primary" />
-          </div>
+    <McCard variant="solid" color="nether" className="max-w-lg">
+      <div className="p-5 space-y-4">
+        <div className="flex items-center gap-2.5 text-base font-semibold">
+          <McIconBox variant="nether" size="sm">
+            <Gamepad2 />
+          </McIconBox>
           同步官方皮肤
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-4">
+        </div>
+
         <div className="space-y-2">
           <Label>选择游戏档案</Label>
           <Select
@@ -488,8 +457,8 @@ function OfficialSyncSection() {
           <div className="rounded-lg border border-border p-4 space-y-3">
             <div className="flex items-center gap-3">
               <Avatar className="size-12 rounded-lg">
-                <AvatarFallback className="rounded-lg bg-primary/10">
-                  <UserCircle className="size-6 text-primary" />
+                <AvatarFallback className="rounded-lg bg-muted/50">
+                  <UserCircle className="size-6 text-muted-foreground" />
                 </AvatarFallback>
               </Avatar>
               <div className="min-w-0 flex-1">
@@ -505,14 +474,12 @@ function OfficialSyncSection() {
             {selectedProfile.hasSkin ? (
               <div className="flex items-center gap-2 text-sm">
                 <span className="text-muted-foreground">当前皮肤:</span>
-                <Badge variant="secondary">{selectedProfile.skinName}</Badge>
+                <McBadge variant="grass">{selectedProfile.skinName}</McBadge>
               </div>
             ) : (
               <div className="flex items-center gap-2 text-sm">
                 <span className="text-muted-foreground">当前皮肤:</span>
-                <Badge variant="outline" className="text-muted-foreground">
-                  未设置
-                </Badge>
+                <McBadge variant="default">未设置</McBadge>
               </div>
             )}
 
@@ -542,14 +509,16 @@ function OfficialSyncSection() {
 
         {!selectedProfile && (
           <div className="py-8 text-center">
-            <Gamepad2 className="mx-auto size-10 text-muted-foreground/30" />
-            <p className="mt-2 text-sm text-muted-foreground">
+            <div className="mx-auto mb-3 flex size-14 items-center justify-center rounded-xl bg-muted/50">
+              <Gamepad2 className="size-7 text-muted-foreground/40" />
+            </div>
+            <p className="text-sm text-muted-foreground">
               选择一个游戏档案以同步皮肤
             </p>
           </div>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </McCard>
   )
 }
 
@@ -561,7 +530,6 @@ function MyResourcesSection() {
 
   return (
     <div className="space-y-4">
-      {/* 配额信息 */}
       {!quotaLoading && quota && (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           <QuotaCard
@@ -569,44 +537,46 @@ function MyResourcesSection() {
             label="皮肤 (公开)"
             used={quota.skins_public_used}
             total={quota.skins_public_total}
+            color="grass"
           />
           <QuotaCard
             icon={<Shirt className="size-3.5" />}
             label="皮肤 (私有)"
             used={quota.skins_private_used}
             total={quota.skins_private_total}
+            color="nether"
           />
           <QuotaCard
             icon={<Flag className="size-3.5" />}
             label="披风 (公开)"
             used={quota.capes_public_used}
             total={quota.capes_public_total}
+            color="diamond"
           />
           <QuotaCard
             icon={<Flag className="size-3.5" />}
             label="披风 (私有)"
             used={quota.capes_private_used}
             total={quota.capes_private_total}
+            color="gold"
           />
         </div>
       )}
 
-      {/* 配额骨架屏 */}
       {quotaLoading && (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           {Array.from({ length: 4 }).map((_, i) => (
-            <Card key={i} className="ring-0 border border-border/70">
-              <CardContent className="p-3.5">
-                <div className="h-3 w-16 rounded bg-muted/50 animate-pulse" />
-                <div className="mt-2 h-2 w-full rounded-full bg-muted/50 animate-pulse" />
-                <div className="mt-1.5 h-3 w-10 rounded bg-muted/50 animate-pulse" />
-              </CardContent>
-            </Card>
+            <McCard key={i} variant="glass" className="animate-pulse">
+              <div className="p-3.5">
+                <div className="h-3 w-16 rounded bg-muted/50" />
+                <div className="mt-2 h-1.5 w-full rounded-full bg-muted/50" />
+                <div className="mt-1.5 h-3 w-10 rounded bg-muted/50" />
+              </div>
+            </McCard>
           ))}
         </div>
       )}
 
-      {/* 类型切换 */}
       <div className="flex items-center gap-2">
         <Button
           variant={resourceType === 'skin' ? 'secondary' : 'ghost'}
@@ -628,7 +598,6 @@ function MyResourcesSection() {
         </Button>
       </div>
 
-      {/* 资源网格 */}
       <ResourceGrid type={resourceType} />
     </div>
   )
@@ -641,18 +610,27 @@ function QuotaCard({
   label,
   used,
   total,
+  color,
 }: {
   icon: React.ReactNode
   label: string
   used: number
   total: number
+  color: 'grass' | 'diamond' | 'nether' | 'gold'
 }) {
   const pct = total > 0 ? Math.round((used / total) * 100) : 0
   const isFull = used >= total && total > 0
 
+  const barColorMap: Record<typeof color, string> = {
+    grass: 'bg-[var(--color-mc-grass)]',
+    diamond: 'bg-[var(--color-mc-diamond)]',
+    nether: 'bg-[var(--color-mc-nether)]',
+    gold: 'bg-[var(--color-mc-gold)]',
+  }
+
   return (
-    <Card className="ring-0 border border-border/70">
-      <CardContent className="p-3.5">
+    <McCard variant="glass" color={color}>
+      <div className="p-3.5">
         <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
           {icon}
           {label}
@@ -660,7 +638,7 @@ function QuotaCard({
         <div className="mt-2 h-1.5 w-full rounded-full bg-muted">
           <div
             className={`h-full rounded-full transition-all ${
-              isFull ? 'bg-destructive' : pct > 80 ? 'bg-chart-4' : 'bg-primary'
+              isFull ? 'bg-destructive' : pct > 80 ? 'bg-chart-4' : barColorMap[color]
             }`}
             style={{ width: `${Math.min(pct, 100)}%` }}
           />
@@ -670,15 +648,12 @@ function QuotaCard({
             {used} / {total}
           </span>
           {isFull && (
-            <Badge
-              variant="secondary"
-              className="text-[10px] bg-destructive/10 text-destructive"
-            >
+            <McBadge variant="nether" className="text-[10px]">
               已满
-            </Badge>
+            </McBadge>
           )}
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </McCard>
   )
 }

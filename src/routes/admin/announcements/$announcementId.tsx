@@ -32,6 +32,7 @@ import {
 import { ConfirmDialog } from '#/components/public/confirm-dialog'
 import { AnnouncementType } from '#/api/types/api-mc/announcement'
 import { useSetPageTitle } from '#/components/layout/page-title-context'
+import { McCard } from '#/components/shared/mc-card'
 
 export const Route = createFileRoute('/admin/announcements/$announcementId')({
   component: EditAnnouncementPage,
@@ -123,7 +124,7 @@ function EditAnnouncementPage() {
         <motion.div variants={fadeUpItem}>
           <Link
             to="/admin/announcements"
-            className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+            className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-mc-gold transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
             返回列表
@@ -185,6 +186,7 @@ function EditAnnouncementPage() {
 
         {/* 表单 */}
         <motion.div variants={fadeUpItem}>
+          <McCard variant="glass" className="p-5">
           <form
             id="edit-announcement-form"
             onSubmit={handleUpdate}
@@ -230,6 +232,7 @@ function EditAnnouncementPage() {
               />
             </div>
           </form>
+          </McCard>
         </motion.div>
       </motion.div>
 
@@ -253,17 +256,19 @@ function LoadingSkeleton() {
   return (
     <div className="space-y-4">
       <div className="h-4 w-20 rounded bg-muted animate-pulse" />
-      <div className="flex gap-3">
-        <div className="flex-1 space-y-2">
-          <div className="h-4 w-20 rounded bg-muted animate-pulse" />
-          <div className="h-10 w-full rounded-md border border-border bg-card animate-pulse" />
+      <McCard variant="glass" className="p-5 space-y-4">
+        <div className="flex gap-3">
+          <div className="flex-1 space-y-2">
+            <div className="h-4 w-20 rounded bg-muted animate-pulse" />
+            <div className="h-10 w-full rounded-md border border-border bg-card animate-pulse" />
+          </div>
+          <div className="w-36 space-y-2">
+            <div className="h-4 w-20 rounded bg-muted animate-pulse" />
+            <div className="h-10 w-full rounded-md border border-border bg-card animate-pulse" />
+          </div>
         </div>
-        <div className="w-36 space-y-2">
-          <div className="h-4 w-20 rounded bg-muted animate-pulse" />
-          <div className="h-10 w-full rounded-md border border-border bg-card animate-pulse" />
-        </div>
-      </div>
-      <div className="h-[500px] rounded-xl border border-border bg-card animate-pulse" />
+        <div className="h-[500px] rounded-lg border border-border bg-muted/30 animate-pulse" />
+      </McCard>
     </div>
   )
 }

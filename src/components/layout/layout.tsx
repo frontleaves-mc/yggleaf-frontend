@@ -1,15 +1,20 @@
 /**
- * Layout - 统一布局容器
+ * Layout - 统一布局容器（MC 风格融合）
  *
  * 基于 shadcn SidebarProvider 构建完整的页面框架。
  * 用户端和管理员端共用此布局，通过 `mode` prop 区分菜单和功能。
  *
+ * MC 风格增强:
+ *   - 环境光渐变背景（user: grass/diamond 蓝绿调，admin: nether/gold 红金调）
+ *   - GridPattern 网格纹理 + dot-grid 点阵叠加
+ *   - 通过 data-mode 驱动 CSS 变量实现主题色切换
+ *
  * 结构:
- *   SidebarProvider
+ *   SidebarProvider (data-mode + MC 渐变层)
  *   ├── Sidebar (shadcn Sidebar)
  *   └── SidebarInset (主内容区)
  *       ├── TopBar (顶部栏)
- *       └── main (内容)
+ *       └── main (内容 + GridPattern + dot-grid)
  */
 
 import { useEffect } from 'react'
@@ -44,6 +49,13 @@ function getInitialOpen(): boolean {
   return true
 }
 
+const mcGradientMap = {
+  user:
+    'bg-[radial-gradient(ellipse_80%_60%_at_10%_0%,var(--mc-grass-soft),transparent),radial-gradient(ellipse_60%_50%_at_90%_100%,var(--mc-diamond-soft),transparent)]',
+  admin:
+    'bg-[radial-gradient(ellipse_80%_60%_at_100%_0%,var(--mc-nether-soft),transparent),radial-gradient(ellipse_60%_50%_at_0%_100%,var(--mc-gold-soft),transparent)]',
+} as const
+
 // ─── 主组件 ──────────────────────────────────────────────
 
 export function Layout({ children, mode, items, sections }: LayoutProps) {
@@ -62,12 +74,17 @@ export function Layout({ children, mode, items, sections }: LayoutProps) {
   return (
     <SidebarProvider
       defaultOpen={getInitialOpen()}
-      className="bg-primary/[0.02]"
+      className="relative bg-primary/[0.02]"
       data-mode={mode}
     >
+      <div
+        className={`pointer-events-none absolute inset-0 transition-opacity duration-700 ${mcGradientMap[mode]}`}
+        aria-hidden="true"
+      />
+
       <Sidebar mode={mode} items={items} sections={sections} />
 
-      <SidebarInset>
+      <SidebarInset className="relative">
         <PageTitleProvider>
           <div className="relative flex min-h-svh flex-col">
             <TopBar />
@@ -76,8 +93,14 @@ export function Layout({ children, mode, items, sections }: LayoutProps) {
               <GridPattern
                 width={32}
                 height={32}
-                className="fill-muted-foreground/5 stroke-muted-foreground/5 [mask-image:radial-gradient(ellipse_at_center,white,transparent_80%)]"
+                className="fill-none stroke-[var(--grid-line-color)] [mask-image:radial-gradient(ellipse_at_center,white,transparent_72%)]"
               />
+
+              <div
+                className="dot-grid pointer-events-none absolute inset-0 opacity-[0.25]"
+                aria-hidden="true"
+              />
+
               <PageTransition className="relative mx-auto max-w-(--page-max)">
                 {children}
               </PageTransition>

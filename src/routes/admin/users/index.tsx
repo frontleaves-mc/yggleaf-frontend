@@ -1,5 +1,6 @@
 /**
  * 管理员端 - 用户管理列表页
+ * MC 风格：nether + gold 配色
  * 支持关键词搜索、角色筛选、分页
  */
 
@@ -31,7 +32,6 @@ import {
 import { LoadingPage } from '#/components/public/loading-page'
 import { Button } from '#/components/ui/button'
 import { Input } from '#/components/ui/input'
-import { Badge } from '#/components/ui/badge'
 import {
   Select,
   SelectContent,
@@ -39,6 +39,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '#/components/ui/select'
+import { McCard } from '#/components/shared/mc-card'
+import { McBadge } from '#/components/shared/mc-badge'
+import { McIconBox } from '#/components/shared/mc-icon-box'
 import { useAdminUsers } from '#/api/endpoints/api-auth/admin-user'
 import { useUserInfo } from '#/api/endpoints/api-auth/user'
 import type { AdminUserItem, RoleName } from '#/api/types'
@@ -48,10 +51,10 @@ import { isSuperAdmin } from '#/lib/permissions'
 
 const PAGE_SIZE = 20
 
-const roleLabels: Record<string, { label: string; color: string }> = {
-  SUPER_ADMIN: { label: '超管', color: 'bg-destructive/10 text-destructive' },
-  ADMIN: { label: '管理员', color: 'bg-primary/10 text-primary' },
-  PLAYER: { label: '玩家', color: 'bg-secondary text-secondary-foreground' },
+const roleConfig: Record<string, { label: string; variant: 'nether' | 'gold' | 'default'; Icon: typeof Shield }> = {
+  SUPER_ADMIN: { label: '超管', variant: 'nether', Icon: ShieldAlert },
+  ADMIN: { label: '管理员', variant: 'gold', Icon: Shield },
+  PLAYER: { label: '玩家', variant: 'default', Icon: User },
 }
 
 const roleOptions: { value: string; label: string }[] = [
@@ -135,9 +138,9 @@ function AdminUserListPage() {
       ),
       cell: ({ row }) => (
         <div className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-primary/20 to-primary/10 text-xs font-bold text-primary">
-            {row.original.username.charAt(0).toUpperCase()}
-          </div>
+          <McIconBox variant="nether" size="sm">
+            <span className="text-xs font-bold">{row.original.username.charAt(0).toUpperCase()}</span>
+          </McIconBox>
           <div className="min-w-0">
             <Link
               to={`/admin/users/${row.original.id}` as any}
@@ -158,20 +161,12 @@ function AdminUserListPage() {
         <TableColumnHeader column={column} title="角色" />
       ),
       cell: ({ row }) => {
-        const r = roleLabels[row.original.role_name] ?? roleLabels.PLAYER
+        const rc = roleConfig[row.original.role_name] ?? roleConfig.PLAYER
         return (
-          <Badge variant="secondary" className={`text-xs ${r.color}`}>
-            {row.original.role_name === 'SUPER_ADMIN' && (
-              <ShieldAlert className="mr-1 h-3 w-3" />
-            )}
-            {row.original.role_name === 'ADMIN' && (
-              <Shield className="mr-1 h-3 w-3" />
-            )}
-            {row.original.role_name === 'PLAYER' && (
-              <User className="mr-1 h-3 w-3" />
-            )}
-            {r.label}
-          </Badge>
+          <McBadge variant={rc.variant}>
+            <rc.Icon className="size-3" />
+            {rc.label}
+          </McBadge>
         )
       },
       size: 96,
@@ -182,12 +177,9 @@ function AdminUserListPage() {
         <TableColumnHeader column={column} title="状态" />
       ),
       cell: ({ row }) => (
-        <Badge
-          variant={row.original.has_ban ? 'destructive' : 'secondary'}
-          className="text-xs"
-        >
+        <McBadge variant={row.original.has_ban ? 'nether' : 'gold'}>
           {row.original.has_ban ? '已封禁' : '正常'}
-        </Badge>
+        </McBadge>
       ),
       size: 80,
     },
@@ -283,30 +275,29 @@ function AdminUserListPage() {
       </motion.div>
 
       {/* 数据表格 */}
-      <motion.div
-        variants={fadeUpItem}
-        className="rounded-xl border border-border/70 overflow-hidden"
-      >
-        <TableProvider columns={columns} data={list}>
-          <TSTableHeader>
-            {({ headerGroup }) => (
-              <TSTableHeaderGroup headerGroup={headerGroup}>
-                {({ header }) => <TSTableHead header={header} />}
-              </TSTableHeaderGroup>
-            )}
-          </TSTableHeader>
-          <TSTableBody
-            emptyContent={
-              <p className="text-sm text-muted-foreground">暂无用户数据</p>
-            }
-          >
-            {({ row }) => (
-              <TSTableRow row={row}>
-                {({ cell }) => <TSTableCell cell={cell} />}
-              </TSTableRow>
-            )}
-          </TSTableBody>
-        </TableProvider>
+      <motion.div variants={fadeUpItem}>
+        <McCard variant="solid" color="nether" className="overflow-hidden">
+          <TableProvider columns={columns} data={list}>
+            <TSTableHeader>
+              {({ headerGroup }) => (
+                <TSTableHeaderGroup headerGroup={headerGroup}>
+                  {({ header }) => <TSTableHead header={header} />}
+                </TSTableHeaderGroup>
+              )}
+            </TSTableHeader>
+            <TSTableBody
+              emptyContent={
+                <p className="text-sm text-muted-foreground">暂无用户数据</p>
+              }
+            >
+              {({ row }) => (
+                <TSTableRow row={row}>
+                  {({ cell }) => <TSTableCell cell={cell} />}
+                </TSTableRow>
+              )}
+            </TSTableBody>
+          </TableProvider>
+        </McCard>
       </motion.div>
 
       {/* 分页控制 */}

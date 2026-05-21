@@ -29,8 +29,16 @@ export function SidebarHeader({ mode }: SidebarHeaderProps) {
       <div
         className={cn(
           'pointer-events-none rounded-lg absolute inset-0',
-          'bg-[radial-gradient(ellipse_at_top_left,oklch(from_var(--sidebar-primary)_l_c_h/0.12),transparent_70%)]',
+          'bg-[radial-gradient(ellipse_at_top_left,var(--mc-grass-soft),transparent_60%)]',
         )}
+        aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute top-0 left-3 right-3 h-px"
+        style={{
+          background: 'linear-gradient(90deg in oklch, transparent, var(--mc-grass), var(--mc-diamond), transparent)',
+          opacity: 0.5,
+        }}
         aria-hidden="true"
       />
       <div
@@ -44,7 +52,8 @@ export function SidebarHeader({ mode }: SidebarHeaderProps) {
           alt="Yggleaf"
           className={cn(
             'shrink-0 rounded-lg object-cover',
-            'shadow-[0_2px_8px_-4px_oklch(from_var(--sidebar-primary)_l_c_h/0.25)]',
+            'shadow-[0_2px_8px_-4px_oklch(from_var(--mc-grass)_l_c_h/0.30)]',
+            'ring-1 ring-oklch(from_var(--mc-grass)_l_c_h/_0.15)',
             'transition-all duration-300 ease-out',
             isCollapsed ? 'mx-auto size-9' : 'size-10',
           )}
@@ -52,7 +61,9 @@ export function SidebarHeader({ mode }: SidebarHeaderProps) {
 
         {!isCollapsed && (
           <div className="min-w-0 flex-1">
-            <p className="truncate font-heading text-base font-bold tracking-tight leading-tight text-sidebar-foreground">
+            <p className={cn(
+              'truncate font-heading text-base font-bold tracking-tight leading-tight mc-gradient-text',
+            )}>
               锋楪游戏
             </p>
             <p

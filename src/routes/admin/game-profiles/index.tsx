@@ -1,14 +1,16 @@
 /**
  * 游戏档案列表页
- * 展示所有游戏档案，支持创建新档案和查看详情
+ * 展示所有游戏档案，支持创建新档案和查看详情 — MC 风格
  */
 
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { Eye, UserCircle } from 'lucide-react'
 import { motion } from 'motion/react'
 import type { GameProfile } from '#/api/types'
-import { PageHeader } from '#/components/public/page-header'
-import { Badge } from '#/components/ui/badge'
+import { McCard } from '#/components/shared/mc-card'
+import { McSectionHeader } from '#/components/shared/mc-section-header'
+import { McIconBox } from '#/components/shared/mc-icon-box'
+import { McBadge } from '#/components/shared/mc-badge'
 import { Button } from '#/components/ui/button'
 import type { ColumnDef } from '#/components/ui/tanstack-table'
 import {
@@ -66,9 +68,9 @@ function GameProfileListPage() {
         const item = row.original
         return (
           <div className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
-              <UserCircle className="h-4 w-4 text-primary" />
-            </div>
+            <McIconBox variant="nether" size="sm">
+              <UserCircle />
+            </McIconBox>
             <span className="font-medium">{item.name}</span>
           </div>
         )
@@ -129,15 +131,18 @@ function GameProfileListPage() {
       animate="animate"
     >
       <motion.div variants={fadeUpItem}>
-        <PageHeader description="管理所有玩家的 Minecraft 游戏档案">
-          <Badge variant="secondary" className="text-xs">
-            接口开发中
-          </Badge>
-        </PageHeader>
+        <McSectionHeader
+          title="游戏档案"
+          description="管理所有玩家的 Minecraft 游戏档案"
+          icon={UserCircle}
+          variant="nether"
+        >
+          <McBadge variant="nether">接口开发中</McBadge>
+        </McSectionHeader>
       </motion.div>
 
       <motion.div variants={fadeUpItem}>
-        <div className="rounded-xl border border-border/70 overflow-hidden">
+        <McCard variant="glass" className="overflow-hidden">
           <TableProvider columns={columns} data={mockProfiles}>
             <TSTableHeader>
               {({ headerGroup }) => (
@@ -160,7 +165,7 @@ function GameProfileListPage() {
               )}
             </TSTableBody>
           </TableProvider>
-        </div>
+        </McCard>
       </motion.div>
     </motion.div>
   )

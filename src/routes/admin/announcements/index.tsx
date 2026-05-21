@@ -1,5 +1,5 @@
 /**
- * 管理员端 - 公告管理页
+ * 管理员端 - 公告管理页 (MC 风格)
  * CRUD 操作 + 发布/下线，使用 TanStack Table
  */
 
@@ -34,7 +34,6 @@ import {
   TSTableRow,
   TSTableCell,
 } from '#/components/ui/tanstack-table'
-import { PageHeader } from '#/components/public/page-header'
 import { LoadingPage } from '#/components/public/loading-page'
 import { ConfirmDialog } from '#/components/public/confirm-dialog'
 import {
@@ -57,6 +56,8 @@ import {
   getAnnouncementTypeBadge,
   getAnnouncementStatusBadge,
 } from '#/lib/announcement-helpers'
+import { McCard } from '#/components/shared/mc-card'
+import { McSectionHeader } from '#/components/shared/mc-section-header'
 
 // ─── 路由注册 ──────────────────────────────────────────────
 
@@ -257,21 +258,26 @@ function AdminAnnouncementsPage() {
     >
       {/* 页头 */}
       <motion.div variants={fadeUpItem}>
-        <PageHeader description="管理系统公告">
+        <div className="flex items-center justify-between">
+          <McSectionHeader
+            title="公告管理"
+            subtitle="Announcements"
+            description="管理系统公告"
+            icon={Megaphone}
+            variant="gold"
+          />
           <Link to="/admin/announcements/create">
             <Button className="gap-1.5">
               <Plus className="h-4 w-4" />
               创建公告
             </Button>
           </Link>
-        </PageHeader>
+        </div>
       </motion.div>
 
       {/* 筛选区域 */}
-      <motion.div
-        variants={fadeUpItem}
-        className="flex flex-wrap items-center gap-4 rounded-xl border border-border/70 bg-card p-4"
-      >
+      <motion.div variants={fadeUpItem}>
+        <McCard variant="glass" className="flex flex-wrap items-center gap-4 p-4">
         <div className="flex items-center gap-2">
           <Label htmlFor="filter-type" className="text-sm whitespace-nowrap">
             类型
@@ -326,13 +332,12 @@ function AdminAnnouncementsPage() {
             </SelectContent>
           </Select>
         </div>
+        </McCard>
       </motion.div>
 
       {/* 表格 */}
-      <motion.div
-        variants={fadeUpItem}
-        className="rounded-xl border border-border/70 overflow-hidden"
-      >
+      <motion.div variants={fadeUpItem}>
+        <McCard variant="solid" color="gold" className="p-0 overflow-hidden [&>div]:rounded-none [&>div]:border-0 [&>div]:shadow-none">
         <TableProvider columns={columns} data={announcements}>
           <TSTableHeader>
             {({ headerGroup }) => (
@@ -356,6 +361,7 @@ function AdminAnnouncementsPage() {
             )}
           </TSTableBody>
         </TableProvider>
+        </McCard>
       </motion.div>
 
       {/* 分页 */}

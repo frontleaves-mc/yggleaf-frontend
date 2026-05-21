@@ -41,6 +41,18 @@
   --sidebar-accent-foreground: oklch(0.218 0.008 223.9);
   --sidebar-border: oklch(0.925 0.005 214.3);
   --sidebar-ring: oklch(0.723 0.014 214.4);
+
+  --mc-grass: oklch(0.53 0.15 130);
+  --mc-grass-soft: oklch(0.53 0.15 130 / 10%);
+  --mc-diamond: oklch(0.55 0.19 260);
+  --mc-diamond-soft: oklch(0.55 0.19 260 / 10%);
+  --mc-nether: oklch(0.6 0.22 25);
+  --mc-nether-soft: oklch(0.6 0.22 25 / 10%);
+  --mc-gold: oklch(0.75 0.16 85);
+  --mc-gold-soft: oklch(0.75 0.16 85 / 12%);
+
+  --grid-dot-color: oklch(0.7 0.01 214 / 15%);
+  --grid-line-color: oklch(0.5 0.01 250 / 8%);
 }
 
 /* Admin 模式红色主题覆盖 — data-mode 属性设置在 Layout 的 SidebarProvider 上 */
@@ -50,6 +62,20 @@
   --ring: oklch(0.55 0.15 25);
   --sidebar-primary: oklch(0.55 0.2 25);
   --sidebar-primary-foreground: oklch(0.984 0.019 200.873);
+
+  /* MC 辅助配色变量 */
+  --mc-grass: oklch(0.53 0.15 130);
+  --mc-grass-soft: oklch(0.53 0.15 130 / 10%);
+  --mc-diamond: oklch(0.55 0.19 260);
+  --mc-diamond-soft: oklch(0.55 0.19 260 / 10%);
+  --mc-nether: oklch(0.6 0.22 25);
+  --mc-nether-soft: oklch(0.6 0.22 25 / 10%);
+  --mc-gold: oklch(0.75 0.16 85);
+  --mc-gold-soft: oklch(0.75 0.16 85 / 12%);
+
+  /* 背景网格效果变量 */
+  --grid-dot-color: oklch(0.7 0.01 214 / 15%);
+  --grid-line-color: oklch(0.5 0.01 250 / 8%);
 }
 
 .dark [data-mode='admin'] {
@@ -58,6 +84,20 @@
   --ring: oklch(0.55 0.15 25);
   --sidebar-primary: oklch(0.55 0.2 25);
   --sidebar-primary-foreground: oklch(0.984 0.019 200.873);
+
+  /* MC 辅助配色变量 — 暗色适配 */
+  --mc-grass: oklch(0.63 0.15 130);
+  --mc-grass-soft: oklch(0.53 0.15 130 / 15%);
+  --mc-diamond: oklch(0.65 0.19 260);
+  --mc-diamond-soft: oklch(0.55 0.19 260 / 15%);
+  --mc-nether: oklch(0.7 0.22 25);
+  --mc-nether-soft: oklch(0.6 0.22 25 / 15%);
+  --mc-gold: oklch(0.8 0.16 85);
+  --mc-gold-soft: oklch(0.75 0.16 85 / 15%);
+
+  /* 背景网格效果变量 — 暗色适配 */
+  --grid-dot-color: oklch(0.5 0.01 214 / 10%);
+  --grid-line-color: oklch(0.5 0.01 250 / 12%);
 }
 
 /* Landing 官网主题覆盖 — Minecraft 平衡系配色 */
@@ -103,6 +143,18 @@
   --sidebar-accent-foreground: oklch(0.987 0.002 197.1);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.56 0.021 213.5);
+
+  --mc-grass: oklch(0.63 0.15 130);
+  --mc-grass-soft: oklch(0.53 0.15 130 / 15%);
+  --mc-diamond: oklch(0.65 0.19 260);
+  --mc-diamond-soft: oklch(0.55 0.19 260 / 15%);
+  --mc-nether: oklch(0.7 0.22 25);
+  --mc-nether-soft: oklch(0.6 0.22 25 / 15%);
+  --mc-gold: oklch(0.8 0.16 85);
+  --mc-gold-soft: oklch(0.75 0.16 85 / 15%);
+
+  --grid-dot-color: oklch(0.5 0.01 214 / 10%);
+  --grid-line-color: oklch(0.5 0.01 250 / 12%);
 }
 
 .dark [data-mode='landing'] {
@@ -225,14 +277,14 @@
   /* dot grid pattern */
   .dot-grid {
     background-image: radial-gradient(
-      oklch(0.7 0.01 214 / 15%) 1px,
+      var(--grid-dot-color) 1px,
       transparent 1px
     );
     background-size: 24px 24px;
   }
   .dark .dot-grid {
     background-image: radial-gradient(
-      oklch(0.5 0.01 214 / 10%) 1px,
+      var(--grid-dot-color) 1px,
       transparent 1px
     );
     background-size: 24px 24px;
@@ -300,17 +352,73 @@
       0 0 60px oklch(0.55 0.19 260 / 15%);
   }
 
+  .mc-glass {
+    background: oklch(1 0 0 / 55%);
+    backdrop-filter: blur(14px) saturate(170%);
+    border: 1px solid oklch(1 0 0 / 12%);
+    border-radius: var(--radius-lg);
+  }
+  .dark .mc-glass {
+    background: oklch(0.22 0.014 238 / 40%);
+    border: 1px solid oklch(1 0 0 / 8%);
+  }
+  [data-mode='admin'] .mc-glass {
+    background: oklch(1 0 0 / 55%);
+    border: 1px solid oklch(0.6 0.22 25 / 10%);
+  }
+  .dark [data-mode='admin'] .mc-glass {
+    background: oklch(0.22 0.014 238 / 40%);
+    border: 1px solid oklch(0.7 0.22 25 / 10%);
+  }
+
+  .mc-card {
+    background: oklch(1 0 0 / 55%);
+    backdrop-filter: blur(14px) saturate(170%);
+    border: 1px solid oklch(1 0 0 / 12%);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 1px 3px oklch(0 0 0 / 6%), 0 0 20px oklch(0.53 0.12 130 / 8%);
+    position: relative;
+    overflow: hidden;
+  }
+  .mc-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg in oklch, var(--mc-grass), var(--mc-diamond));
+    opacity: 0.7;
+  }
+  .dark .mc-card {
+    background: oklch(0.22 0.014 238 / 40%);
+    border: 1px solid oklch(1 0 0 / 8%);
+    box-shadow: 0 1px 3px oklch(0 0 0 / 20%), 0 0 20px oklch(0.53 0.12 130 / 12%);
+  }
+  .dark .mc-card::before {
+    opacity: 0.5;
+  }
+  [data-mode='admin'] .mc-card {
+    border: 1px solid oklch(0.6 0.22 25 / 10%);
+  }
+  [data-mode='admin'] .mc-card::before {
+    background: linear-gradient(90deg in oklch, var(--mc-nether), var(--mc-gold));
+  }
+  .dark [data-mode='admin'] .mc-card {
+    border: 1px solid oklch(0.7 0.22 25 / 10%);
+  }
+
   /* Minecraft block grid pattern */
   .mc-grid-pattern {
     background-image:
-      linear-gradient(oklch(0.5 0.01 250 / 8%) 1px, transparent 1px),
-      linear-gradient(90deg, oklch(0.5 0.01 250 / 8%) 1px, transparent 1px);
+      linear-gradient(var(--grid-line-color) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line-color) 1px, transparent 1px);
     background-size: 32px 32px;
   }
   .dark .mc-grid-pattern {
     background-image:
-      linear-gradient(oklch(0.5 0.01 250 / 12%) 1px, transparent 1px),
-      linear-gradient(90deg, oklch(0.5 0.01 250 / 12%) 1px, transparent 1px);
+      linear-gradient(var(--grid-line-color) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line-color) 1px, transparent 1px);
     background-size: 32px 32px;
   }
 

@@ -1,5 +1,5 @@
 /**
- * 用户端 - 问题反馈列表页
+ * 用户端 - 问题反馈列表页 (MC 风格)
  * 展示当前用户的问题列表，支持状态和类型筛选，使用 TanStack Table + 排序
  */
 
@@ -50,6 +50,9 @@ import { formatTime } from '#/components/issue/issue-detail-content'
 import type { IssueStatus, IssueListItem } from '#/api/types'
 import { motion } from 'motion/react'
 import { cn } from '#/lib/utils'
+import { McCard } from '#/components/shared/mc-card'
+import { McSectionHeader } from '#/components/shared/mc-section-header'
+import { McBadge } from '#/components/shared/mc-badge'
 
 // ─── 动画常量 ──────────────────────────────────────────────
 
@@ -153,9 +156,9 @@ function UserIssuesPage() {
       cell: ({ row }) => {
         const item = row.original
         return (
-          <span className="text-xs bg-muted px-2 py-0.5 rounded-full">
+          <McBadge variant="default">
             {typeNameMap.get(String(item.issue.issue_type_id)) ?? '未知类型'}
-          </span>
+          </McBadge>
         )
       },
       size: 96,
@@ -243,14 +246,13 @@ function UserIssuesPage() {
       {/* 页面标题 */}
       <motion.div variants={fadeUpItem}>
         <div className="flex items-end justify-between">
-          <div>
-            <h1 className="text-[22px] font-bold tracking-tight text-foreground sm:text-[24px]">
-              问题反馈
-            </h1>
-            <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground">
-              提交和追踪你的问题反馈
-            </p>
-          </div>
+          <McSectionHeader
+            title="问题反馈"
+            subtitle="Feedback"
+            description="提交和追踪你的问题反馈"
+            icon={MessageSquareWarning}
+            variant="diamond"
+          />
           <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
             <DialogTrigger asChild>
               <Button size="sm" className="gap-1.5">
@@ -412,7 +414,7 @@ function UserIssuesPage() {
       </motion.div>
 
       <motion.div variants={fadeUpItem}>
-        <div className="rounded-xl border border-border/70 overflow-hidden">
+        <McCard variant="solid" color="diamond" className="p-0 overflow-hidden [&>div]:rounded-none [&>div]:border-0 [&>div]:shadow-none">
           <TableProvider columns={columns} data={issues}>
             <TSTableHeader>
               {({ headerGroup }) => (
@@ -443,7 +445,7 @@ function UserIssuesPage() {
               )}
             </TSTableBody>
           </TableProvider>
-        </div>
+        </McCard>
       </motion.div>
     </motion.div>
   )

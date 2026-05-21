@@ -40,16 +40,16 @@ export function ViewSwitcher({ mode }: ViewSwitcherProps) {
         className={cn(
           'flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left',
           'text-xs font-semibold tracking-wide transition-all duration-200 ease-out',
-          'border shadow-[inset_0_1px_0_oklch(from_var(--sidebar-foreground)_l_c_h_/_0.04)]',
+          'mc-glass border-0 shadow-sm',
           'text-sidebar-foreground/75',
-          'bg-gradient-to-r from-sidebar-accent/60 to-sidebar-accent/30 border-sidebar-border/40 hover:from-sidebar-primary/10 hover:to-sidebar-accent/50 hover:border-sidebar-primary/25 hover:text-sidebar-foreground hover:shadow-[0_4px_12px_-4px_oklch(from_var(--sidebar-primary)_l_c_h_/_0.12)]',
+          'hover:shadow-[0_4px_16px_-4px_oklch(from_var(--mc-diamond)_l_c_h/0.14)] hover:border-oklch(from_var(--mc-diamond)_l_c_h/_0.20) hover:text-sidebar-foreground',
           'group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:py-2',
         )}
       >
         <span
           className={cn(
             'flex size-6 shrink-0 items-center justify-center rounded-lg transition-colors duration-200',
-            'bg-sidebar-primary/15 text-sidebar-primary',
+            'bg-mc-grass-soft text-mc-grass',
           )}
         >
           <Icon className="size-3.5" />

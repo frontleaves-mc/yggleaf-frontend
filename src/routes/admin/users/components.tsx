@@ -1,8 +1,13 @@
 /**
  * 管理员端 - 用户详情页共享子组件
+ * MC 风格：nether + gold 配色
  */
 
 import type { ElementType, ReactNode } from 'react'
+import { cn } from '#/lib/utils'
+import { McCard } from '#/components/shared/mc-card'
+import { McBadge } from '#/components/shared/mc-badge'
+import { McIconBox } from '#/components/shared/mc-icon-box'
 
 // ─── 动画常量 ─────────────────────────────────────────────
 
@@ -33,7 +38,7 @@ export function formatTime(iso: string): string {
   })
 }
 
-// ─── 子组件：信息展示行 ────────────────────────────────────
+// ─── 子组件：信息展示行（MC 风格） ──────────────────────────
 
 export function InfoRow({
   icon: Icon,
@@ -45,9 +50,11 @@ export function InfoRow({
   value: ReactNode
 }) {
   return (
-    <div className="flex items-center justify-between rounded-lg border border-border px-4 py-3">
-      <span className="flex items-center gap-2 text-[13px] text-muted-foreground">
-        <Icon className="h-3.5 w-3.5" />
+    <div className="flex items-center justify-between gap-3 rounded-lg bg-muted/40 px-4 py-3">
+      <span className="flex items-center gap-2.5 text-[13px] text-muted-foreground">
+        <McIconBox variant="nether" size="sm">
+          <Icon />
+        </McIconBox>
         {label}
       </span>
       <span className="text-[13px] font-medium">{value}</span>
@@ -55,7 +62,7 @@ export function InfoRow({
   )
 }
 
-// ─── 子组件：配额进度条 ────────────────────────────────────
+// ─── 子组件：配额进度条（MC 风格） ──────────────────────────
 
 export function QuotaBar({
   label,
@@ -67,6 +74,8 @@ export function QuotaBar({
   total: number
 }) {
   const pct = total > 0 ? Math.min(100, (used / total) * 100) : 0
+  // 接近满时用 nether 警告色，否则用 gold
+  const isWarning = pct >= 80
   return (
     <div className="space-y-1.5">
       <div className="flex items-center justify-between text-xs">
@@ -75,9 +84,12 @@ export function QuotaBar({
           {used} / {total}
         </span>
       </div>
-      <div className="h-2 rounded-full bg-secondary overflow-hidden">
+      <div className="h-2 w-full overflow-hidden rounded-full bg-secondary">
         <div
-          className="h-full rounded-full bg-primary transition-all"
+          className={cn(
+            'h-full rounded-full transition-all duration-500',
+            isWarning ? 'bg-mc-nether' : 'bg-mc-gold',
+          )}
           style={{ width: `${pct}%` }}
         />
       </div>

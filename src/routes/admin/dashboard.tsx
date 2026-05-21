@@ -1,6 +1,7 @@
 /**
  * Dashboard 仪表盘
- * 管理后台首页 - 系统概览 + 统计数据 + 快捷操作
+ * 管理后台首页 — MC 风格点缀的专业数据面板
+ * 配色：nether(红) + gold(黄) 作为 MC 点缀色，保持专业感
  */
 
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
@@ -12,6 +13,7 @@ import {
   Shield,
   Shirt,
   Users,
+  Activity,
 } from 'lucide-react'
 import { motion } from 'motion/react'
 import { useCapes } from '#/api/endpoints/api-auth/cape-library'
@@ -21,12 +23,13 @@ import {
   useRefreshServerStatusMutation,
   useServerStatus,
 } from '#/api/endpoints/api-mc/server-status'
-import { DashboardCard } from '#/components/dashboard/dashboard-card'
-import type { DashboardCardConfig } from '#/components/dashboard/dashboard-card'
 import { DashboardWelcome } from '#/components/dashboard/dashboard-welcome'
-import { SectionLabel } from '#/components/dashboard/section-label'
 import { LoadingPage } from '#/components/public/loading-page'
 import { fadeUpItem, staggerContainer } from '#/lib/motion-presets'
+import { McCard } from '#/components/shared/mc-card'
+import { McIconBox } from '#/components/shared/mc-icon-box'
+import { McSectionHeader } from '#/components/shared/mc-section-header'
+import { McBadge } from '#/components/shared/mc-badge'
 
 export const Route = createFileRoute('/admin/dashboard')({
   component: DashboardPage,
@@ -56,7 +59,7 @@ function DashboardPage() {
         })
       }}
       disabled={refreshMutation.isPending}
-      className="mt-1 inline-flex shrink-0 items-center gap-1.5 rounded-md border border-border/50 bg-transparent px-2.5 py-1.5 text-[12px] font-medium text-muted-foreground/60 transition-all hover:border-primary/20 hover:text-primary disabled:opacity-50 disabled:pointer-events-none"
+      className="mt-1 inline-flex shrink-0 items-center gap-1.5 rounded-md border border-border/50 bg-transparent px-2.5 py-1.5 text-[12px] font-medium text-muted-foreground/60 transition-all hover:border-mc-nether/30 hover:text-mc-nether disabled:opacity-50 disabled:pointer-events-none"
     >
       <RefreshCw
         className={`size-3 ${refreshMutation.isPending ? 'animate-spin' : ''}`}
@@ -86,26 +89,55 @@ function DashboardPage() {
     </div>
   )
 
-  const quickActionCards: DashboardCardConfig[] = [
+  const statCards = [
+    {
+      title: '皮肤库',
+      value: skinsLoading ? '...' : String(skinCount),
+      subtitle: '总资源数',
+      icon: Shirt,
+      accent: 'nether' as const,
+      locked: false,
+    },
+    {
+      title: '披风库',
+      value: capesLoading ? '...' : String(capeCount),
+      subtitle: '总资源数',
+      icon: Flag,
+      accent: 'gold' as const,
+      locked: false,
+    },
+    {
+      title: '游戏档案',
+      value: '--',
+      subtitle: '活跃档案',
+      icon: Gamepad2,
+      accent: 'nether' as const,
+      locked: true,
+    },
+    {
+      title: '用户总数',
+      value: '--',
+      subtitle: '已注册用户',
+      icon: Users,
+      accent: 'gold' as const,
+      locked: true,
+    },
+  ]
+
+  const quickActions = [
     {
       title: '皮肤库管理',
       description: '浏览、上传、编辑皮肤资源',
       icon: Palette,
       to: '/admin/skins/',
-      iconBg: 'bg-[oklch(0.55_0.14_25)]/[0.12]',
-      iconColor: 'text-[oklch(0.45_0.16_25)]',
-      accentGradient: 'from-[oklch(0.55_0.14_25)]/[0.06] to-transparent',
-      glow: 'shadow-[0_0_18px_-4px_oklch(0.55_0.14_25_/_0.25)]',
+      accent: 'nether' as const,
     },
     {
       title: '披风库管理',
       description: '浏览、上传、编辑披风资源',
       icon: Shield,
       to: '/admin/capes/',
-      iconBg: 'bg-[oklch(0.55_0.15_20)]/[0.12]',
-      iconColor: 'text-[oklch(0.45_0.17_20)]',
-      accentGradient: 'from-[oklch(0.55_0.15_20)]/[0.06] to-transparent',
-      glow: 'shadow-[0_0_18px_-4px_oklch(0.55_0.15_20_/_0.25)]',
+      accent: 'gold' as const,
     },
   ]
 
@@ -116,27 +148,31 @@ function DashboardPage() {
       initial="initial"
       animate="animate"
     >
-      <DashboardWelcome
-        username={user?.username}
-        fallbackName="管理员"
-        servers={servers}
-        serverLoading={serverLoading}
-        showTps
-        actions={refreshButton}
-        inlineStats={inlineStats}
-      />
+      <motion.div variants={fadeUpItem}>
+        <DashboardWelcome
+          username={user?.username}
+          fallbackName="管理员"
+          servers={servers}
+          serverLoading={serverLoading}
+          showTps
+          actions={refreshButton}
+          inlineStats={inlineStats}
+        />
+      </motion.div>
 
       <motion.section variants={fadeUpItem} className="flex flex-col gap-4">
-        <SectionLabel label="Online Players" title="在线玩家" />
+        <McSectionHeader
+          label="Online Players"
+          title="在线玩家"
+          icon={Activity}
+          variant="nether"
+        />
         <div className="flex flex-col gap-3">
           {serverLoading ? (
             ['a', 'b'].map((k) => (
-              <div
-                key={k}
-                className="animate-pulse rounded-xl border border-border/60 bg-card/90 px-4 py-3"
-              >
-                <div className="h-4 w-1/3 rounded bg-muted" />
-              </div>
+              <McCard key={k} variant="glass" className="p-4">
+                <div className="h-4 w-1/3 rounded bg-muted animate-pulse" />
+              </McCard>
             ))
           ) : servers.length > 0 && servers.some((s) => s.online && s.players.length > 0) ? (
             servers
@@ -148,7 +184,7 @@ function DashboardPage() {
                       {server.server_name}
                     </p>
                   )}
-                  <div className="rounded-xl border border-border/60 bg-card/90 px-4 py-3 backdrop-blur-[10px]">
+                  <McCard variant="glass" className="px-4 py-3">
                     <div className="flex flex-wrap items-center gap-2">
                       {server.players.map((player) => (
                         <span
@@ -159,103 +195,100 @@ function DashboardPage() {
                         </span>
                       ))}
                     </div>
-                  </div>
+                  </McCard>
                 </div>
               ))
           ) : (
-            <div className="rounded-xl border border-dashed border-border/60 py-8 text-center text-sm text-muted-foreground/60">
-              当前无玩家在线
-            </div>
+            <McCard variant="glass" className="border-dashed py-8 text-center">
+              <p className="text-sm text-muted-foreground/60">当前无玩家在线</p>
+            </McCard>
           )}
         </div>
       </motion.section>
 
       <motion.section variants={fadeUpItem} className="flex flex-col gap-4">
-        <SectionLabel label="Overview" title="系统概览" />
+        <McSectionHeader
+          label="Overview"
+          title="系统概览"
+          icon={Activity}
+          variant="gold"
+        />
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="border border-border/60 bg-card/90 backdrop-blur-[10px] rounded-[1.125rem] p-5 sm:p-6">
-            <div className="flex items-center justify-between gap-4">
-              <div className="space-y-1.5 min-w-0">
-                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                  皮肤库
-                </p>
-                <p
-                  className={`text-2xl font-bold tracking-tight tabular-nums ${skinsLoading ? 'opacity-50' : ''}`}
-                >
-                  {skinsLoading ? '...' : skinCount}
-                </p>
-                <p className="text-xs text-muted-foreground">总资源数</p>
+          {statCards.map((card) => (
+            <McCard
+              key={card.title}
+              variant="glass"
+              color={card.accent}
+              className={`p-5 sm:p-6 ${card.locked ? 'opacity-50' : ''}`}
+            >
+              <div className="flex items-center justify-between gap-4">
+                <div className="space-y-1.5 min-w-0">
+                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                    {card.title}
+                  </p>
+                  <p
+                    className={`text-2xl font-bold tracking-tight tabular-nums ${card.value === '...' ? 'opacity-50' : ''}`}
+                  >
+                    {card.value}
+                  </p>
+                  <p className="text-xs text-muted-foreground">{card.subtitle}</p>
+                </div>
+                <McIconBox variant={card.accent} size="md">
+                  <card.icon />
+                </McIconBox>
               </div>
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[oklch(0.55_0.12_223)]/[0.1]">
-                <Shirt className="h-5 w-5 text-[oklch(0.45_0.14_223)]" />
-              </div>
-            </div>
-          </div>
-
-          <div className="border border-border/60 bg-card/90 backdrop-blur-[10px] rounded-[1.125rem] p-5 sm:p-6">
-            <div className="flex items-center justify-between gap-4">
-              <div className="space-y-1.5 min-w-0">
-                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                  披风库
-                </p>
-                <p
-                  className={`text-2xl font-bold tracking-tight tabular-nums ${capesLoading ? 'opacity-50' : ''}`}
-                >
-                  {capesLoading ? '...' : capeCount}
-                </p>
-                <p className="text-xs text-muted-foreground">总资源数</p>
-              </div>
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[oklch(0.6_0.16_250)]/[0.1]">
-                <Flag className="h-5 w-5 text-[oklch(0.48_0.18_250)]" />
-              </div>
-            </div>
-          </div>
-
-          <div className="border border-border/60 bg-card/90 backdrop-blur-[10px] rounded-[1.125rem] p-5 sm:p-6 opacity-50">
-            <div className="flex items-center justify-between gap-4">
-              <div className="space-y-1.5 min-w-0">
-                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                  游戏档案
-                </p>
-                <p className="text-2xl font-bold tracking-tight tabular-nums">
-                  --
-                </p>
-                <p className="text-xs text-muted-foreground">活跃档案</p>
-              </div>
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[oklch(0.6_0.13_160)]/[0.1]">
-                <Gamepad2 className="h-5 w-5 text-[oklch(0.48_0.15_160)]" />
-              </div>
-            </div>
-          </div>
-
-          <div className="border border-border/60 bg-card/90 backdrop-blur-[10px] rounded-[1.125rem] p-5 sm:p-6 opacity-50">
-            <div className="flex items-center justify-between gap-4">
-              <div className="space-y-1.5 min-w-0">
-                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                  用户总数
-                </p>
-                <p className="text-2xl font-bold tracking-tight tabular-nums">
-                  --
-                </p>
-                <p className="text-xs text-muted-foreground">已注册用户</p>
-              </div>
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[oklch(0.55_0.15_30)]/[0.1]">
-                <Users className="h-5 w-5 text-[oklch(0.45_0.17_30)]" />
-              </div>
-            </div>
-          </div>
+            </McCard>
+          ))}
         </div>
       </motion.section>
 
       <motion.section variants={fadeUpItem} className="flex flex-col gap-4">
-        <SectionLabel label="Operations" title="快捷操作" />
+        <McSectionHeader
+          label="Operations"
+          title="快捷操作"
+          variant="nether"
+        />
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {quickActionCards.map((card) => (
-            <DashboardCard
-              key={card.to}
-              {...card}
-              onClick={() => navigate({ to: card.to as any })}
-            />
+          {quickActions.map((action) => (
+            <McCard
+              key={action.to}
+              variant="solid"
+              color={action.accent}
+              className="group cursor-pointer p-5 transition-all hover:shadow-md"
+              onClick={() => navigate({ to: action.to as any })}
+            >
+              <div className="flex flex-col gap-4">
+                <div className="flex items-start justify-between gap-3">
+                  <McIconBox variant={action.accent} size="md">
+                    <action.icon />
+                  </McIconBox>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="text-muted-foreground/40 transition-all group-hover:translate-x-0.5 group-hover:text-mc-nether"
+                    aria-hidden="true"
+                  >
+                    <path d="M5 12h14" />
+                    <path d="m12 5 7 7-7 7" />
+                  </svg>
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <h3 className="text-base font-semibold text-foreground transition-colors group-hover:text-foreground/90">
+                    {action.title}
+                  </h3>
+                  <p className="text-[13px] leading-relaxed text-muted-foreground/75">
+                    {action.description}
+                  </p>
+                </div>
+              </div>
+            </McCard>
           ))}
         </div>
       </motion.section>

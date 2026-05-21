@@ -1,5 +1,5 @@
 /**
- * 管理员端 - 问题类型管理页
+ * 管理员端 - 问题类型管理页 (MC 风格)
  * CRUD 操作问题分类类型，使用 TanStack Table + 排序
  */
 
@@ -9,7 +9,6 @@ import { motion } from 'motion/react'
 import { Plus, Pencil, Trash2, Tags } from 'lucide-react'
 import { Button } from '#/components/ui/button'
 import { Input } from '#/components/ui/input'
-import { Badge } from '#/components/ui/badge'
 import {
   Dialog,
   DialogContent,
@@ -29,7 +28,6 @@ import {
   TSTableRow,
   TSTableCell,
 } from '#/components/ui/tanstack-table'
-import { PageHeader } from '#/components/public/page-header'
 import { LoadingPage } from '#/components/public/loading-page'
 import { ConfirmDialog } from '#/components/public/confirm-dialog'
 import {
@@ -42,6 +40,9 @@ import { useUserInfo } from '#/api/endpoints/api-auth/user'
 import type { IssueType } from '#/api/types'
 import { toast } from 'sonner'
 import { isSuperAdmin } from '#/lib/permissions'
+import { McCard } from '#/components/shared/mc-card'
+import { McSectionHeader } from '#/components/shared/mc-section-header'
+import { McBadge } from '#/components/shared/mc-badge'
 
 const staggerContainer = {
   animate: {
@@ -217,17 +218,13 @@ function IssueTypesPage() {
         const enabled = row.getValue('is_enabled')
         const type = row.original
         return (
-          <Badge
-            variant="secondary"
-            className={`cursor-pointer ${
-              enabled
-                ? 'bg-green-500/10 text-green-600 hover:bg-green-500/20 dark:text-green-400'
-                : 'bg-muted text-muted-foreground hover:bg-muted/80'
-            }`}
+          <McBadge
+            variant={enabled ? 'grass' : 'default'}
+            className="cursor-pointer"
             onClick={() => handleToggleEnabled(type)}
           >
             {enabled ? '启用' : '禁用'}
-          </Badge>
+          </McBadge>
         )
       },
       size: 80,
@@ -272,18 +269,23 @@ function IssueTypesPage() {
       animate="animate"
     >
       <motion.div variants={fadeUpItem}>
-        <PageHeader description="管理问题反馈的分类类型">
+        <div className="flex items-center justify-between">
+          <McSectionHeader
+            title="问题类型"
+            subtitle="Issue Types"
+            description="管理问题反馈的分类类型"
+            icon={Tags}
+            variant="nether"
+          />
           <Button onClick={openCreate} className="gap-1.5">
             <Plus className="h-4 w-4" />
             新建类型
           </Button>
-        </PageHeader>
+        </div>
       </motion.div>
 
-      <motion.div
-        variants={fadeUpItem}
-        className="rounded-xl border border-border/70 overflow-hidden"
-      >
+      <motion.div variants={fadeUpItem}>
+        <McCard variant="solid" color="nether" className="p-0 overflow-hidden [&>div]:rounded-none [&>div]:border-0 [&>div]:shadow-none">
         <TableProvider columns={columns} data={types}>
           <TSTableHeader>
             {({ headerGroup }) => (
@@ -309,6 +311,7 @@ function IssueTypesPage() {
             )}
           </TSTableBody>
         </TableProvider>
+        </McCard>
       </motion.div>
 
       {/* 创建/编辑弹窗 */}
