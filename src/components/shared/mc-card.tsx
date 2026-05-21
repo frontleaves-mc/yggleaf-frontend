@@ -1,12 +1,13 @@
 import { forwardRef } from 'react'
+import type { HTMLMotionProps } from 'motion/react'
 import { motion } from 'motion/react'
 import { cn } from '#/lib/utils'
-import { cardHoverVariants, hoverLiftTransition, landingCardHover } from '#/lib/motion-presets'
+import { hoverLiftTransition, mcCardHover } from '#/lib/motion-presets'
 
 type McCardVariant = 'glass' | 'solid'
 type McCardColor = 'grass' | 'diamond' | 'nether' | 'gold' | 'default'
 
-interface McCardProps extends React.HTMLAttributes<HTMLDivElement> {
+interface McCardProps extends HTMLMotionProps<'div'> {
   variant?: McCardVariant
   color?: McCardColor
 }
@@ -19,17 +20,17 @@ const accentLineColors: Record<Exclude<McCardColor, 'default'>, string> = {
 }
 
 const glassBaseStyles = [
-  'relative overflow-hidden rounded-xl',
+  'group relative overflow-hidden rounded-xl',
   'border border-border bg-card/80 backdrop-blur-[12px]',
-  'shadow-sm',
-  'transition-all duration-300',
+  'shadow-sm cursor-pointer',
+  'transition-colors duration-300',
 ]
 
 const solidBaseStyles = [
-  'relative overflow-hidden rounded-xl',
+  'group relative overflow-hidden rounded-xl',
   'border border-border/60 bg-card',
-  'shadow-sm',
-  'transition-all duration-300',
+  'shadow-sm cursor-pointer',
+  'transition-colors duration-300',
 ]
 
 const McCard = forwardRef<HTMLDivElement, McCardProps>(
@@ -42,17 +43,23 @@ const McCard = forwardRef<HTMLDivElement, McCardProps>(
         data-slot="mc-card"
         data-variant={variant}
         data-color={color}
-        variants={landingCardHover}
+        variants={mcCardHover}
         initial="rest"
         whileHover="hover"
+        whileTap={{ y: 0.5, scale: 0.995, transition: { duration: 0.1 } }}
         transition={hoverLiftTransition}
         className={cn(...baseStyles, className)}
         {...props}
       >
         {color !== 'default' && (
-          <div className={cn('absolute inset-x-0 top-0 h-1', accentLineColors[color])} />
+          <div
+            className={cn(
+              'absolute left-0 top-5 bottom-5 w-[3px] rounded-full opacity-40 transition-opacity duration-300 group-hover:opacity-80',
+              accentLineColors[color],
+            )}
+          />
         )}
-        {children}
+        {children as React.ReactNode}
       </motion.div>
     )
   },
