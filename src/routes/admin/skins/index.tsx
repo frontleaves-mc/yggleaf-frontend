@@ -29,7 +29,7 @@ import {
 } from '#/components/ui/tanstack-table'
 import { McCard } from '#/components/shared/mc-card'
 import { McIconBox } from '#/components/shared/mc-icon-box'
-import { McSectionHeader } from '#/components/shared/mc-section-header'
+import { PageHeader } from '#/components/public/page-header'
 import { McBadge } from '#/components/shared/mc-badge'
 
 /** stagger 容器动画 - 子元素依次入场 */
@@ -173,7 +173,7 @@ function SkinListPage() {
     >
       <motion.div variants={fadeUpItem}>
         <div className="flex items-center justify-between gap-4">
-          <McSectionHeader
+          <PageHeader
             subtitle="Skin Library"
             title="皮肤库管理"
             icon={Shirt}

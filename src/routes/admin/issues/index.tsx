@@ -35,7 +35,7 @@ import { useIssueTypes } from '#/api/endpoints/api-auth/issue-type'
 import type { IssueListItem, IssueStatus, IssuePriority } from '#/api/types'
 import { formatTime } from '#/components/issue/issue-detail-content'
 import { McCard } from '#/components/shared/mc-card'
-import { McSectionHeader } from '#/components/shared/mc-section-header'
+import { PageHeader } from '#/components/public/page-header'
 import { McBadge } from '#/components/shared/mc-badge'
 
 const staggerContainer = {
@@ -194,7 +194,7 @@ function AdminIssuesPage() {
       animate="animate"
     >
       <motion.div variants={fadeUpItem}>
-        <McSectionHeader
+        <PageHeader
           title="问题管理"
           subtitle="Issues"
           description="查看和处理所有用户提交的问题反馈"

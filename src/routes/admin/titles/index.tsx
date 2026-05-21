@@ -42,7 +42,6 @@ import { PageHeader } from '#/components/public/page-header'
 import { LoadingPage } from '#/components/public/loading-page'
 import { ConfirmDialog } from '#/components/public/confirm-dialog'
 import { McCard } from '#/components/shared/mc-card'
-import { McSectionHeader } from '#/components/shared/mc-section-header'
 import {
   useAdminTitles,
   useCreateTitleMutation,
@@ -428,7 +427,7 @@ function TitlesAdminPage() {
       animate="animate"
     >
       <motion.div variants={fadeUpItem}>
-        <McSectionHeader
+        <PageHeader
           title="称号管理"
           description="管理 Minecraft 服务器称号的创建、分配与撤销"
           icon={Tags}
@@ -438,7 +437,7 @@ function TitlesAdminPage() {
             <Plus className="h-4 w-4" />
             新建称号
           </Button>
-        </McSectionHeader>
+        </PageHeader>
       </motion.div>
 
       <motion.div

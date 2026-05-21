@@ -24,7 +24,7 @@ import { Input } from '#/components/ui/input'
 import { Skeleton } from '#/components/ui/skeleton'
 import { McCard } from '#/components/shared/mc-card'
 import { McIconBox } from '#/components/shared/mc-icon-box'
-import { McSectionHeader } from '#/components/shared/mc-section-header'
+import { PageHeader } from '#/components/public/page-header'
 import { McBadge } from '#/components/shared/mc-badge'
 import {
   Dialog,
@@ -116,12 +116,12 @@ export default function ProfilesPage() {
       {/* 页面标题 + 操作 */}
       <motion.div variants={fadeUpItem}>
         <div className="flex items-start justify-between gap-4">
-          <McSectionHeader
+          <PageHeader
             title="游戏档案"
             description="管理你的 Minecraft 角色档案"
             icon={Gamepad2}
             variant="grass"
-            className="flex-1"
+            className="flex-1 mb-0"
           />
           <Dialog open={dialogOpen} onOpenChange={setDialogOpen} className="shrink-0">
             <DialogTrigger asChild>

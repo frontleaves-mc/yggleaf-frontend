@@ -8,7 +8,7 @@ import { Eye, UserCircle } from 'lucide-react'
 import { motion } from 'motion/react'
 import type { GameProfile } from '#/api/types'
 import { McCard } from '#/components/shared/mc-card'
-import { McSectionHeader } from '#/components/shared/mc-section-header'
+import { PageHeader } from '#/components/public/page-header'
 import { McIconBox } from '#/components/shared/mc-icon-box'
 import { McBadge } from '#/components/shared/mc-badge'
 import { Button } from '#/components/ui/button'
@@ -131,14 +131,14 @@ function GameProfileListPage() {
       animate="animate"
     >
       <motion.div variants={fadeUpItem}>
-        <McSectionHeader
+        <PageHeader
           title="游戏档案"
           description="管理所有玩家的 Minecraft 游戏档案"
           icon={UserCircle}
           variant="nether"
         >
           <McBadge variant="nether">接口开发中</McBadge>
-        </McSectionHeader>
+        </PageHeader>
       </motion.div>
 
       <motion.div variants={fadeUpItem}>

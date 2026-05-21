@@ -56,7 +56,7 @@ import type {
 import { staggerContainer, fadeUpItem } from '#/lib/motion-presets'
 import { isSuperAdmin } from '#/lib/permissions'
 import { McCard } from '#/components/shared/mc-card'
-import { McSectionHeader } from '#/components/shared/mc-section-header'
+import { PageHeader } from '#/components/public/page-header'
 import { McBadge } from '#/components/shared/mc-badge'
 
 // ─── 常量映射 ──────────────────────────────────────────────
@@ -418,7 +418,7 @@ function AdminAnnouncementSchedulesPage() {
     >
       <motion.div variants={fadeUpItem}>
         <div className="flex items-center justify-between">
-          <McSectionHeader
+          <PageHeader
             title="调度管理"
             subtitle="Schedules"
             description="管理公告推送调度"

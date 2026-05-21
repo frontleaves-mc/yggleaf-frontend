@@ -49,6 +49,7 @@ export default function SkinsPage() {
           title="皮肤库"
           description="浏览并选择你喜欢的角色皮肤"
           icon={Shirt}
+          variant="diamond"
         >
           <div className="flex rounded-lg border border-border bg-muted/30">
             <Button

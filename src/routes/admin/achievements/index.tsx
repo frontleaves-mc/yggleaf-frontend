@@ -31,7 +31,6 @@ import { PageHeader } from '#/components/public/page-header'
 import { LoadingPage } from '#/components/public/loading-page'
 import { ConfirmDialog } from '#/components/public/confirm-dialog'
 import { McCard } from '#/components/shared/mc-card'
-import { McSectionHeader } from '#/components/shared/mc-section-header'
 import { McIconBox } from '#/components/shared/mc-icon-box'
 import {
   useAdminAchievements,
@@ -240,7 +239,7 @@ function AchievementsAdminPage() {
       animate="animate"
     >
       <motion.div variants={fadeUpItem}>
-        <McSectionHeader
+        <PageHeader
           title="成就管理"
           description="管理游戏成就的定义、条件与奖励"
           icon={Trophy}
@@ -252,7 +251,7 @@ function AchievementsAdminPage() {
               创建成就
             </Link>
           </Button>
-        </McSectionHeader>
+        </PageHeader>
       </motion.div>
 
       {/* 类型筛选 */}

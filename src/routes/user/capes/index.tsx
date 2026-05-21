@@ -49,6 +49,7 @@ export default function CapesPage() {
           title="披风库"
           description="挑选属于你的独特披风"
           icon={Flag}
+          variant="nether"
         >
           <div className="flex rounded-lg border border-border bg-muted/30">
             <Button

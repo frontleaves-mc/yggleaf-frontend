@@ -51,7 +51,7 @@ import type { IssueStatus, IssueListItem } from '#/api/types'
 import { motion } from 'motion/react'
 import { cn } from '#/lib/utils'
 import { McCard } from '#/components/shared/mc-card'
-import { McSectionHeader } from '#/components/shared/mc-section-header'
+import { PageHeader } from '#/components/public/page-header'
 import { McBadge } from '#/components/shared/mc-badge'
 
 // ─── 动画常量 ──────────────────────────────────────────────
@@ -246,12 +246,13 @@ function UserIssuesPage() {
       {/* 页面标题 */}
       <motion.div variants={fadeUpItem}>
         <div className="flex items-end justify-between">
-          <McSectionHeader
+          <PageHeader
             title="问题反馈"
             subtitle="Feedback"
             description="提交和追踪你的问题反馈"
             icon={MessageSquareWarning}
             variant="diamond"
+            className="mb-0"
           />
           <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
             <DialogTrigger asChild>

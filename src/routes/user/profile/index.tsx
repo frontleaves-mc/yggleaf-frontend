@@ -37,7 +37,7 @@ import { useState } from 'react'
 import { cn } from '#/lib/utils'
 import { staggerContainer, fadeUpItem } from '#/lib/motion-presets'
 import { McCard } from '#/components/shared/mc-card'
-import { McSectionHeader } from '#/components/shared/mc-section-header'
+import { PageHeader } from '#/components/public/page-header'
 import { McBadge } from '#/components/shared/mc-badge'
 import { McIconBox } from '#/components/shared/mc-icon-box'
 
@@ -171,7 +171,7 @@ function ProfilePage() {
     >
       {/* 页面标题 */}
       <motion.div variants={fadeUpItem}>
-        <McSectionHeader
+        <PageHeader
           title="个人中心"
           subtitle="Account"
           description="查看你的账户信息和状态"

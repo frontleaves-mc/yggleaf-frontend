@@ -57,7 +57,7 @@ import {
   getAnnouncementStatusBadge,
 } from '#/lib/announcement-helpers'
 import { McCard } from '#/components/shared/mc-card'
-import { McSectionHeader } from '#/components/shared/mc-section-header'
+import { PageHeader } from '#/components/public/page-header'
 
 // ─── 路由注册 ──────────────────────────────────────────────
 
@@ -259,7 +259,7 @@ function AdminAnnouncementsPage() {
       {/* 页头 */}
       <motion.div variants={fadeUpItem}>
         <div className="flex items-center justify-between">
-          <McSectionHeader
+          <PageHeader
             title="公告管理"
             subtitle="Announcements"
             description="管理系统公告"

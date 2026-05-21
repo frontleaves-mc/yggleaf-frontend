@@ -25,7 +25,6 @@ import { staggerContainer, fadeUpItem } from '#/lib/motion-presets'
 import { ConfirmDialog } from '#/components/public/confirm-dialog'
 import { useSetPageTitle } from '#/components/layout/page-title-context'
 import { McCard } from '#/components/shared/mc-card'
-import { McSectionHeader } from '#/components/shared/mc-section-header'
 
 export const Route = createFileRoute('/admin/announcements/create')({
   component: CreateAnnouncementPage,

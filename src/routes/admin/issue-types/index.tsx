@@ -41,7 +41,7 @@ import type { IssueType } from '#/api/types'
 import { toast } from 'sonner'
 import { isSuperAdmin } from '#/lib/permissions'
 import { McCard } from '#/components/shared/mc-card'
-import { McSectionHeader } from '#/components/shared/mc-section-header'
+import { PageHeader } from '#/components/public/page-header'
 import { McBadge } from '#/components/shared/mc-badge'
 
 const staggerContainer = {
@@ -270,7 +270,7 @@ function IssueTypesPage() {
     >
       <motion.div variants={fadeUpItem}>
         <div className="flex items-center justify-between">
-          <McSectionHeader
+          <PageHeader
             title="问题类型"
             subtitle="Issue Types"
             description="管理问题反馈的分类类型"

@@ -122,6 +122,8 @@ export default function MyTitlesPage() {
     <UserPageLayout
       title="我的称号"
       description="管理你的游戏称号，装备独特的称号来彰显个性"
+      icon={Award}
+      variant="gold"
       actions={<GameProfileSelector />}
     >
       {/* 内容区域 — 依状态分支渲染 */}
