@@ -5,67 +5,15 @@
 
 import { Link } from '@tanstack/react-router'
 import { motion } from 'motion/react'
-import { Sun, Moon, Monitor } from 'lucide-react'
-import { Button } from '#/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '#/components/ui/dropdown-menu'
-import { useThemeMode } from '#/hooks/use-theme'
 import { scrollRevealContainer, scrollRevealItem } from '#/lib/motion-presets'
-
-const NAV_LINKS = [
-  { label: '首页', to: '/' },
-  { label: '关于', to: '/about' },
-  { label: '公告', to: '/announcements' },
-  { label: '社区规则', to: '/rules' },
-]
+import { NAV_LINKS } from '#/lib/nav-links'
+import { ThemeToggle } from '#/components/public/theme-toggle'
 
 const RESOURCE_LINKS = [
   { label: '游戏文档', href: '#' },
   { label: '服务器状态', href: '#' },
   { label: '认证平台', href: '#' },
 ]
-
-function FooterThemeToggle() {
-  const { mode, changeMode } = useThemeMode()
-
-  const icon =
-    mode === 'light' ? (
-      <Sun className="size-3.5" />
-    ) : mode === 'dark' ? (
-      <Moon className="size-3.5" />
-    ) : (
-      <Monitor className="size-3.5" />
-    )
-
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="h-8 w-8 rounded-md">
-          {icon}
-          <span className="sr-only">切换主题</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-32">
-        <DropdownMenuItem onClick={() => changeMode('light')}>
-          <Sun className="size-4" />
-          浅色
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => changeMode('dark')}>
-          <Moon className="size-4" />
-          深色
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => changeMode('auto')}>
-          <Monitor className="size-4" />
-          跟随系统
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  )
-}
 
 export function PublicFooter() {
   return (
@@ -150,7 +98,7 @@ export function PublicFooter() {
           <p className="text-xs text-muted-foreground/60">
             &copy; 2024-2026 FrontLeaves &middot; Yggleaf
           </p>
-          <FooterThemeToggle />
+          <ThemeToggle />
         </div>
       </div>
     </footer>

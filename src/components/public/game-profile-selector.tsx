@@ -87,7 +87,7 @@ export function GameProfileSelector() {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="h-9 w-[220px] justify-between gap-2 shadow-sm"
+          className="h-9 w-[220px] justify-between gap-2 shadow-sm cursor-pointer"
         >
           <span className="truncate">
             {selectedGameProfile ? selectedGameProfile.name : '选择游戏档案...'}

@@ -9,18 +9,10 @@
 
 import * as React from 'react'
 import { SidebarTrigger } from '#/components/ui/sidebar'
-import { Button } from '#/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '#/components/ui/dropdown-menu'
 import { useMatches } from '@tanstack/react-router'
-import { Sun, Moon, Monitor } from 'lucide-react'
 import { breadcrumbLabels } from '#/config/menu'
 import { usePageTitleOverride } from './page-title-context'
-import { useThemeMode } from '#/hooks/use-theme'
+import { ThemeToggle } from '#/components/public/theme-toggle'
 
 // ─── 页面标题解析 ───────────────────────────────────────
 
@@ -37,46 +29,6 @@ function useBreadcrumbs() {
       href: match.pathname,
       isCurrent: match.pathname === matches[matches.length - 1]?.pathname,
     }))
-}
-
-// ─── 主题切换 ───────────────────────────────────────────
-
-function ThemeToggle() {
-  const { mode, changeMode } = useThemeMode()
-
-  const icon =
-    mode === 'light' ? (
-      <Sun className="size-4" />
-    ) : mode === 'dark' ? (
-      <Moon className="size-4" />
-    ) : (
-      <Monitor className="size-4" />
-    )
-
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="shrink-0 rounded-lg">
-          {icon}
-          <span className="sr-only">切换主题</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-32">
-        <DropdownMenuItem onClick={() => changeMode('light')}>
-          <Sun className="size-4" />
-          浅色
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => changeMode('dark')}>
-          <Moon className="size-4" />
-          深色
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => changeMode('auto')}>
-          <Monitor className="size-4" />
-          跟随系统
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  )
 }
 
 // ─── 主组件 ──────────────────────────────────────────────

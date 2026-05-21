@@ -8,7 +8,7 @@ import { Card, CardContent } from '#/components/ui/card'
 
 export function LoadingPage() {
   return (
-    <div className="space-y-6 animate-pulse">
+    <div className="space-y-6 motion-safe:animate-pulse">
       {/* 标题骨架 */}
       <Skeleton className="h-8 w-48" />
 
