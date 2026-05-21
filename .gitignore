@@ -15,3 +15,9 @@ todos.json
 # Claude Code
 skills-lock.json
 .sisyphus/
+
+# OpenCode
+.opencode/skills/*/scripts/__pycache__/
+
+# Playwright MCP
+.playwright-mcp/
