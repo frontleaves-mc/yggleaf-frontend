@@ -27,7 +27,7 @@ import { toast } from 'sonner'
 import type { ModFileMetadata } from '#/api/types'
 import { McCard } from '#/components/shared/mc-card'
 import { McIconBox } from '#/components/shared/mc-icon-box'
-import { McSectionHeader } from '#/components/shared/mc-section-header'
+import { PageHeader } from '#/components/public/page-header'
 import { McBadge } from '#/components/shared/mc-badge'
 
 export const Route = createFileRoute('/user/game-info/')({
@@ -127,7 +127,7 @@ export default function GameInfoPage() {
     >
       {/* 页面标题 */}
       <motion.div variants={fadeUpItem}>
-        <McSectionHeader
+        <PageHeader
           title="游戏信息"
           description="查看服务器支持的所有模组"
           icon={Puzzle}
@@ -306,11 +306,6 @@ function ModCard({
   return (
     <McCard variant="glass" color="diamond" className="group overflow-hidden">
       <div className="p-4">
-        {/* 图标区 */}
-        <div className="aspect-square rounded-lg bg-gradient-to-br from-primary/5 to-primary/10 mb-3 flex items-center justify-center">
-          <Puzzle className="size-8 text-primary/50 group-hover:text-primary/70 transition-colors" />
-        </div>
-
         {/* 模组信息 */}
         <h3 className="font-medium text-sm text-foreground truncate group-hover:text-primary transition-colors">
           {modName}

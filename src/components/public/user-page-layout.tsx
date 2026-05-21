@@ -11,30 +11,25 @@
 import { motion } from 'motion/react'
 import type { ReactNode } from 'react'
 
-import { PageHeader } from '#/components/public/page-header'
+import { PageHeader, type PageHeaderVariant } from '#/components/public/page-header'
 import { mcStaggerGrid, mcStaggerGridItem } from '#/lib/motion-presets'
 import { cn } from '#/lib/utils'
 
-// ─── Props ──────────────────────────────────────────────────
-
 interface UserPageLayoutProps {
-  /** 页面标题 */
   title: string
-  /** 页面描述 */
   description?: string
-  /** 右侧操作区（如玩家选择器） */
+  icon?: React.ComponentType<{ className?: string }>
+  variant?: PageHeaderVariant
   actions?: ReactNode
-  /** 主内容区 */
   children: ReactNode
-  /** 容器额外类名 */
   className?: string
 }
-
-// ─── 组件 ──────────────────────────────────────────────────
 
 export function UserPageLayout({
   title,
   description,
+  icon,
+  variant = 'default',
   actions,
   children,
   className,
@@ -46,19 +41,19 @@ export function UserPageLayout({
       initial="hidden"
       animate="visible"
     >
-      {/* ── 顶部：标题 + 操作区 ─────────────────────── */}
       <motion.div variants={mcStaggerGridItem}>
         <div className="flex items-end justify-between gap-4">
           <PageHeader
             title={title}
             description={description}
+            icon={icon}
+            variant={variant}
             className="mb-0"
           />
           {actions && <div className="shrink-0">{actions}</div>}
         </div>
       </motion.div>
 
-      {/* ── 主内容区 ─────────────────────────────────── */}
       <div className="space-y-6">{children}</div>
     </motion.div>
   )

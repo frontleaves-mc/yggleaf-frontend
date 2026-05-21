@@ -78,7 +78,7 @@ export function Layout({ children, mode, items, sections }: LayoutProps) {
       data-mode={mode}
     >
       <div
-        className={`pointer-events-none absolute inset-0 transition-opacity duration-700 ${mcGradientMap[mode]}`}
+        className={`pointer-events-none fixed inset-0 transition-opacity duration-700 ${mcGradientMap[mode]}`}
         aria-hidden="true"
       />
 
