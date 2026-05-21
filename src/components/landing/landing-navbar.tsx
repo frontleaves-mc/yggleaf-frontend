@@ -4,10 +4,7 @@ import {
   LogIn,
   LogOut,
   Menu,
-  Monitor,
-  Moon,
   Settings,
-  Sun,
   UserIcon,
   UserPlus,
 } from 'lucide-react'
@@ -31,61 +28,12 @@ import {
 } from '#/components/ui/sheet'
 import { useAuth } from '#/hooks/use-auth'
 import { checkIsAuthenticated } from '#/hooks/use-auth-guard'
-import { useThemeMode } from '#/hooks/use-theme'
+import { ThemeToggle } from '#/components/public/theme-toggle'
+import { NAV_LINKS, type NavLink } from '#/lib/nav-links'
 import { navVariants, navVariantsDark } from '#/lib/motion-presets'
-
-interface NavLink {
-  label: string
-  to: string
-}
-
-const NAV_LINKS: NavLink[] = [
-  { label: '首页', to: '/' },
-  { label: '关于', to: '/about' },
-  { label: '公告', to: '/announcements' },
-  { label: '社区规则', to: '/rules' },
-]
 
 const CRAFTATAR_URL = (uuid: string) =>
   `https://crafatar.com/avatars/${uuid}?size=64`
-
-function ThemeToggle() {
-  const { mode, changeMode } = useThemeMode()
-
-  const icon =
-    mode === 'light' ? (
-      <Sun className="size-4" />
-    ) : mode === 'dark' ? (
-      <Moon className="size-4" />
-    ) : (
-      <Monitor className="size-4" />
-    )
-
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="shrink-0 rounded-lg">
-          {icon}
-          <span className="sr-only">切换主题</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-32">
-        <DropdownMenuItem onClick={() => changeMode('light')}>
-          <Sun className="size-4" />
-          浅色
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => changeMode('dark')}>
-          <Moon className="size-4" />
-          深色
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => changeMode('auto')}>
-          <Monitor className="size-4" />
-          跟随系统
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  )
-}
 
 function UserMenu() {
   const { user, logout } = useAuth()
@@ -112,7 +60,7 @@ function UserMenu() {
       <DropdownMenuTrigger asChild>
         <button
           type="button"
-          className="flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm font-medium transition-colors hover:bg-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 text-sm font-medium transition-colors hover:bg-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           <Avatar size="sm">
             {avatarUrl && <AvatarImage src={avatarUrl} alt={displayUsername} />}
@@ -126,20 +74,20 @@ function UserMenu() {
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-44">
-        <DropdownMenuItem asChild>
+        <DropdownMenuItem asChild className="cursor-pointer">
           <Link to="/user/dashboard">
             <LayoutDashboard className="size-4" />
             进入控制台
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem asChild>
+        <DropdownMenuItem asChild className="cursor-pointer">
           <Link to="/user/profile">
             <Settings className="size-4" />
             个人设置
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleLogout}>
+        <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
           <LogOut className="size-4" />
           退出登录
         </DropdownMenuItem>
@@ -152,13 +100,13 @@ function GuestButtons() {
   return (
     <div className="flex items-center gap-2">
       <Link to="/login" search={{ callback: '/user/dashboard' } as any}>
-        <Button variant="ghost" size="sm" className="gap-1.5">
+        <Button variant="ghost" size="sm" className="cursor-pointer gap-1.5">
           <LogIn className="h-3.5 w-3.5" />
           登录
         </Button>
       </Link>
       <Link to="/login" search={{ callback: '/user/dashboard' } as any}>
-        <Button size="sm" className="gap-1.5">
+        <Button size="sm" className="cursor-pointer gap-1.5">
           <UserPlus className="h-3.5 w-3.5" />
           注册
         </Button>
@@ -178,7 +126,7 @@ function MobileNavLink({ link, isActive, onClick }: MobileNavLinkProps) {
     <Link
       to={link.to}
       onClick={onClick}
-      className={`flex items-center rounded-lg px-3 py-2.5 text-base font-medium transition-colors ${
+      className={`flex min-h-[44px] cursor-pointer items-center rounded-lg px-3 py-3 text-base font-medium transition-colors ${
         isActive
           ? 'bg-accent text-accent-foreground'
           : 'text-muted-foreground hover:bg-accent/50 hover:text-foreground'
@@ -212,15 +160,17 @@ export function LandingNavbar() {
 
   return (
     <motion.header
-      className={`fixed top-0 z-50 h-16 w-full border-b transition-colors ${
-        scrolled ? 'border-border/40' : 'border-transparent'
+      className={`fixed top-0 z-50 h-16 w-full transition-all duration-300 ${
+        scrolled
+          ? 'nav-glass'
+          : 'border-b border-transparent bg-transparent'
       }`}
       variants={variants}
       animate={scrolled ? 'solid' : 'transparent'}
       transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] as const }}
     >
       <nav className="mx-auto flex h-full max-w-(--page-max) items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-        <Link to="/" className="flex shrink-0 items-center gap-2.5">
+        <Link to="/" className="flex cursor-pointer shrink-0 items-center gap-2.5">
           <img
             src="/favicon.png"
             alt="锋楪游戏"
@@ -236,7 +186,7 @@ export function LandingNavbar() {
             <Link
               key={link.to}
               to={link.to}
-              className={`relative px-3 py-2 text-sm font-medium transition-colors ${
+              className={`relative cursor-pointer px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md ${
                 isActive(link.to)
                   ? 'text-foreground'
                   : 'text-muted-foreground hover:text-foreground'
@@ -266,7 +216,7 @@ export function LandingNavbar() {
         <div className="flex items-center gap-2 md:hidden">
           {!isAuthenticated && (
             <Link to="/login" search={{ callback: '/user/dashboard' } as any}>
-              <Button variant="outline" size="sm" className="gap-1.5 text-xs">
+              <Button variant="outline" size="sm" className="cursor-pointer gap-1.5 text-xs">
                 <LogIn className="h-3.5 w-3.5" />
                 登录
               </Button>
@@ -275,7 +225,7 @@ export function LandingNavbar() {
 
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="rounded-lg">
+              <Button variant="ghost" size="icon" className="cursor-pointer rounded-lg" aria-label="打开导航菜单">
                 <Menu className="size-5" />
                 <span className="sr-only">打开菜单</span>
               </Button>
@@ -309,7 +259,7 @@ export function LandingNavbar() {
                       <Link
                         to="/user/dashboard"
                         onClick={() => setMobileOpen(false)}
-                        className="text-sm text-muted-foreground hover:text-foreground"
+                        className="cursor-pointer text-sm text-muted-foreground hover:text-foreground"
                       >
                         进入控制台
                       </Link>
@@ -324,7 +274,7 @@ export function LandingNavbar() {
                         <Button
                           variant="outline"
                           size="sm"
-                          className="w-full gap-1.5"
+                          className="w-full cursor-pointer gap-1.5"
                         >
                           <LogIn className="h-3.5 w-3.5" />
                           登录
@@ -335,7 +285,7 @@ export function LandingNavbar() {
                         search={{ callback: '/user/dashboard' } as any}
                         onClick={() => setMobileOpen(false)}
                       >
-                        <Button size="sm" className="w-full gap-1.5">
+                        <Button size="sm" className="w-full cursor-pointer gap-1.5">
                           <UserPlus className="h-3.5 w-3.5" />
                           注册
                         </Button>

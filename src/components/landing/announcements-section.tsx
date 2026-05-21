@@ -23,7 +23,7 @@ function AnnouncementCard({
       params={{ id: String(announcement.id) }}
       className="block h-full"
     >
-      <LandingCard className="group/card flex h-full flex-col p-5">
+      <LandingCard className="group/card flex h-full cursor-pointer flex-col p-5">
         <div className="mb-4 flex flex-wrap items-center gap-2">
           {getAnnouncementTypeBadge(announcement.type)}
           <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
@@ -39,7 +39,7 @@ function AnnouncementCard({
         <p className="mt-2 line-clamp-3 text-sm leading-6 text-muted-foreground">
           {announcement.desc || announcement.content?.slice(0, 100) || ''}
         </p>
-        <div className="mt-auto pt-5 text-xs font-medium text-primary">
+        <div className="mt-auto pt-5 text-xs font-medium text-primary" aria-hidden="true">
           阅读公告
         </div>
       </LandingCard>
@@ -90,6 +90,7 @@ function AnnouncementsSection() {
       id="announcements"
       title="最新动态"
       subtitle="维护、活动和规则更新都从这里开始。"
+      variant="default"
     >
       <div className="mb-6 flex justify-end">
         <Button variant="outline" size="sm" asChild>

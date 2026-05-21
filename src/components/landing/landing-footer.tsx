@@ -1,6 +1,6 @@
 import { Link } from '@tanstack/react-router'
 import { motion } from 'motion/react'
-import { MessageCircle, ExternalLink, LogIn } from 'lucide-react'
+import { MessageCircle, LogIn } from 'lucide-react'
 import { Button } from '#/components/ui/button'
 import { scrollRevealContainer, scrollRevealItem } from '#/lib/motion-presets'
 
@@ -23,11 +23,10 @@ function FooterLink({ children, ...props }: React.ComponentProps<typeof Link>) {
   return (
     <li>
       <Link
-        className="group inline-flex items-center gap-1 text-sm text-muted-foreground transition-all duration-200 hover:text-primary hover:translate-x-0.5"
+        className="group inline-flex items-center gap-1 text-sm text-muted-foreground transition-colors duration-200 hover:text-primary"
         {...props}
       >
         {children}
-        <ExternalLink className="size-3 opacity-0 transition-opacity duration-200 group-hover:opacity-50" />
       </Link>
     </li>
   )
@@ -35,7 +34,7 @@ function FooterLink({ children, ...props }: React.ComponentProps<typeof Link>) {
 
 export function LandingFooter() {
   return (
-    <footer className="border-t border-border bg-background">
+    <footer className="border-t border-border/40 bg-muted/20">
       <div className="landing-section !py-12">
         <motion.div
           className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4"
@@ -49,7 +48,7 @@ export function LandingFooter() {
               <img
                 src="/favicon.png"
                 alt="锋楪游戏"
-                className="size-6 rounded-lg object-cover shadow-sm"
+                className="size-8 rounded-lg object-cover shadow-sm"
               />
               <span className="font-heading text-lg font-bold tracking-tight">
                 锋楪游戏
@@ -91,7 +90,7 @@ export function LandingFooter() {
               社区
             </h3>
             <ul className="flex flex-col gap-3">
-              <li>
+              <li className="rounded-lg border border-border/50 bg-card/50 px-3 py-2">
                 <span className="inline-flex items-center gap-2 text-sm text-muted-foreground">
                   <MessageCircle className="size-4 text-primary/70" />
                   QQ 群：

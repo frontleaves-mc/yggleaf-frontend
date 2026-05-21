@@ -8,6 +8,7 @@ interface LandingSectionProps {
   children: React.ReactNode
   title?: string
   subtitle?: string
+  variant?: 'default' | 'alt'
 }
 
 /**
@@ -15,6 +16,7 @@ interface LandingSectionProps {
  *
  * - whileInView + once 确保进入视口时只播一次
  * - title 使用 Minecraft 渐变色
+ * - variant='alt' 提供交替背景色以增强视觉节奏
  * - 搭配 styles.css 中的 .landing-section / .section-glow 样式
  */
 function LandingSection({
@@ -23,9 +25,17 @@ function LandingSection({
   children,
   title,
   subtitle,
+  variant = 'default',
 }: LandingSectionProps) {
   return (
-    <section id={id} className={cn('landing-section', className)}>
+    <section
+      id={id}
+      className={cn(
+        'landing-section',
+        variant === 'alt' && 'landing-section-alt',
+        className,
+      )}
+    >
       <motion.div
         initial="hidden"
         whileInView="visible"
@@ -33,12 +43,12 @@ function LandingSection({
         variants={landingFadeInUp}
       >
         {title && (
-          <div className="mx-auto mb-10 max-w-3xl text-center">
+          <div className="mx-auto mb-12 max-w-3xl text-center">
             <h2 className="font-heading text-3xl font-semibold tracking-tight md:text-4xl">
               {title}
             </h2>
             {subtitle && (
-              <p className="mx-auto mt-3 max-w-2xl text-base leading-7 text-muted-foreground">
+              <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-muted-foreground">
                 {subtitle}
               </p>
             )}

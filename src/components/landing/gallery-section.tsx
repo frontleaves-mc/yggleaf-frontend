@@ -55,25 +55,22 @@ function GallerySection() {
       title="服务器掠影"
       subtitle="用更接近实况的视角展示生存、探索和社区据点。"
     >
-      <StaggerContainer className="grid grid-cols-1 gap-4 md:grid-cols-6">
+      <StaggerContainer className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {galleryImages.map((img, index) => (
-          <StaggerItem
-            key={img.src}
-            className={
-              index === 0 || index === 3 ? 'md:col-span-3' : 'md:col-span-2'
-            }
-          >
-            <div className="group relative aspect-[4/3] overflow-hidden rounded-lg border border-border bg-card">
+          <StaggerItem key={img.src} className={index === 0 ? 'sm:col-span-2 sm:row-span-2' : ''}>
+            <div className="group relative aspect-[4/3] overflow-hidden rounded-lg border border-border bg-card will-change-transform">
               <img
                 src={img.src}
                 alt={img.title}
-                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                loading="lazy"
+                decoding="async"
+                className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
               />
-              <div className="absolute inset-x-0 bottom-0 flex flex-col justify-end bg-gradient-to-t from-black/80 to-transparent p-4 pt-14 text-white">
-                <h3 className="font-heading text-sm font-semibold">
+              <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/70 via-black/20 to-transparent p-5 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                <h3 className="font-heading text-sm font-semibold text-white">
                   {img.title}
                 </h3>
-                <p className="mt-1 text-xs text-white/75">{img.desc}</p>
+                <p className="mt-1 text-xs text-white/70">{img.desc}</p>
               </div>
             </div>
           </StaggerItem>

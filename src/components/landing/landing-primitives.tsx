@@ -36,7 +36,7 @@ const LandingButton = forwardRef<HTMLButtonElement, LandingButtonProps>(
         ref={ref}
         data-slot="landing-button"
         className={cn(
-          'inline-flex items-center justify-center gap-2 font-medium whitespace-nowrap',
+          'inline-flex items-center justify-center gap-2 font-medium whitespace-nowrap cursor-pointer',
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
           'disabled:pointer-events-none disabled:opacity-50',
           landingButtonVariants[variant],
@@ -77,10 +77,10 @@ function LandingCard({
     <div
       data-slot="landing-card"
       className={cn(
-        'relative overflow-hidden rounded-lg',
+        'relative overflow-hidden rounded-xl',
         'border border-border bg-card',
+        'landing-glass-strong landing-glow-hover',
         'transition-all duration-300',
-        'hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/5',
         'group/card',
         className,
       )}
@@ -121,6 +121,7 @@ function LandingBadge({
       className={cn(
         'inline-flex items-center gap-1 rounded-md px-2.5 py-0.5 text-xs font-medium',
         'border transition-colors',
+        'shadow-sm',
         badgeVariants[variant],
         className,
       )}

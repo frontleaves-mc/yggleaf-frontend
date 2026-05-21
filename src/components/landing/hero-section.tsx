@@ -1,6 +1,6 @@
 import { motion } from 'motion/react'
 import type { ComponentType } from 'react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from '@tanstack/react-router'
 import {
   ArrowDown,
@@ -26,8 +26,24 @@ const heroImages = [
   '/images/gallery/gallery-5.svg',
 ]
 
+function usePrefersReducedMotion() {
+  const [prefersReduced, setPrefersReduced] = useState(false)
+
+  useEffect(() => {
+    const mql = window.matchMedia('(prefers-reduced-motion: reduce)')
+    setPrefersReduced(mql.matches)
+    const handler = (e: MediaQueryListEvent) => setPrefersReduced(e.matches)
+    mql.addEventListener('change', handler)
+    return () => mql.removeEventListener('change', handler)
+  }, [])
+
+  return prefersReduced
+}
+
 function HeroSection() {
   const [copied, setCopied] = useState<'qq' | 'server' | null>(null)
+  const prefersReduced = usePrefersReducedMotion()
+  const motionState = prefersReduced ? 'visible' : undefined
   const { data: serverStatus } = useServerStatus()
   const statusList = Array.isArray(serverStatus) ? serverStatus : []
 
@@ -51,27 +67,28 @@ function HeroSection() {
 
   return (
     <section className="relative flex min-h-[calc(100svh-4rem)] items-center overflow-hidden">
-      <div className="absolute inset-0 grid grid-cols-2 opacity-35 md:grid-cols-4">
+      <div className="absolute inset-0 grid grid-cols-2 opacity-50 md:grid-cols-4">
         {heroImages.map((src) => (
           <img
             key={src}
             src={src}
-            alt=""
+            alt="锋楪游戏 Minecraft 服务器截图"
+            loading="lazy"
             className="h-full w-full object-cover"
             aria-hidden="true"
           />
         ))}
       </div>
-      <div className="absolute inset-0 bg-background/80" />
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/40 to-background" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,var(--background)_70%)]" />
       <div className="absolute inset-0 bg-noise" />
 
       <div className="relative z-10 mx-auto flex w-full max-w-(--page-max) flex-col items-center px-4 py-16 text-center sm:px-6 lg:px-8">
         <motion.div
           variants={landingHeroVariants}
-          initial="hidden"
-          animate="visible"
-          className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-background/70 px-3 py-1 text-xs font-medium text-muted-foreground shadow-sm backdrop-blur"
+          initial={motionState ?? 'hidden'}
+          animate={motionState ?? 'visible'}
+          className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-medium text-primary shadow-sm backdrop-blur-sm"
         >
           <ShieldCheck className="size-3.5 text-primary" />
           白名单模组生存 · Java 1.21.1
@@ -79,18 +96,18 @@ function HeroSection() {
 
         <motion.h1
           variants={landingHeroVariants}
-          initial="hidden"
-          animate="visible"
-          className="max-w-4xl font-heading text-5xl font-semibold tracking-tight text-foreground sm:text-6xl lg:text-7xl"
+          initial={motionState ?? 'hidden'}
+          animate={motionState ?? 'visible'}
+          className="max-w-4xl font-heading text-5xl font-bold tracking-tight sm:text-6xl lg:text-7xl mc-gradient-text"
         >
           锋楪游戏
         </motion.h1>
 
         <motion.p
           variants={landingHeroVariants}
-          initial="hidden"
-          animate="visible"
-          className="mt-5 max-w-2xl text-base leading-8 text-muted-foreground sm:text-lg"
+          initial={motionState ?? 'hidden'}
+          animate={motionState ?? 'visible'}
+          className="mt-6 max-w-2xl text-lg leading-8 text-muted-foreground sm:text-xl sm:leading-9"
         >
           面向长期生存与社区协作的 Minecraft
           模组服务器。官网负责账号、皮肤、披风、公告与工单，让玩家不用在游戏内外反复找入口。
@@ -98,9 +115,9 @@ function HeroSection() {
 
         <motion.div
           variants={landingHeroVariants}
-          initial="hidden"
-          animate="visible"
-          className="mt-8 flex w-full max-w-xl flex-col gap-3 rounded-lg border border-border bg-background/80 p-3 text-left shadow-sm backdrop-blur sm:flex-row sm:items-center"
+          initial={motionState ?? 'hidden'}
+          animate={motionState ?? 'visible'}
+          className="mt-10 flex w-full max-w-xl flex-col gap-3 rounded-xl border border-primary/15 bg-primary/5 p-4 text-left shadow-sm backdrop-blur-sm sm:flex-row sm:items-center"
         >
           <div className="min-w-0 flex-1 px-1">
             <div className="text-xs text-muted-foreground">服务器地址</div>
@@ -125,8 +142,8 @@ function HeroSection() {
 
         <motion.div
           variants={landingHeroVariants}
-          initial="hidden"
-          animate="visible"
+          initial={motionState ?? 'hidden'}
+          animate={motionState ?? 'visible'}
           className="mt-5 flex flex-col items-center justify-center gap-3 sm:flex-row"
         >
           <Button size="lg" asChild className="h-11 w-full sm:w-auto">
@@ -153,9 +170,9 @@ function HeroSection() {
 
         <motion.div
           variants={landingHeroVariants}
-          initial="hidden"
-          animate="visible"
-          className="mt-10 grid w-full max-w-3xl grid-cols-1 gap-3 sm:grid-cols-3"
+          initial={motionState ?? 'hidden'}
+          animate={motionState ?? 'visible'}
+          className="mt-14 grid w-full max-w-3xl grid-cols-1 gap-3 sm:grid-cols-3"
         >
           <HeroMetric
             icon={Users}
@@ -177,7 +194,7 @@ function HeroSection() {
         <button
           type="button"
           onClick={scrollToFeatures}
-          className="mt-10 inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+          className="mt-12 inline-flex cursor-pointer items-center gap-2 rounded-full border border-border/50 bg-background/50 px-5 py-2 text-sm font-medium text-muted-foreground backdrop-blur-sm transition-all duration-300 hover:border-primary/30 hover:text-primary hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           查看服务器内容
           <ArrowDown className="size-4" />
@@ -197,12 +214,12 @@ function HeroMetric({
   value: string
 }) {
   return (
-    <div className="rounded-lg border border-border bg-background/72 px-4 py-3 text-left shadow-sm backdrop-blur">
-      <div className="mb-2 flex items-center gap-2 text-xs text-muted-foreground">
-        <Icon className="size-3.5 text-primary" />
+    <div className="landing-glass-strong rounded-xl px-5 py-4 text-left transition-all duration-300 hover:shadow-lg">
+      <div className="mb-2.5 flex items-center gap-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+        <Icon className="size-4 text-primary" />
         {label}
       </div>
-      <div className="text-lg font-semibold tracking-tight text-foreground">
+      <div className="text-2xl font-bold tracking-tight text-foreground">
         {value}
       </div>
     </div>

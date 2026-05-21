@@ -6,14 +6,36 @@ import {
   Sparkles,
   Users,
 } from 'lucide-react'
-import { LandingCard } from '#/components/landing/landing-primitives'
-import { LandingSection } from '#/components/landing/landing-section'
+
 import {
   StaggerContainer,
   StaggerItem,
 } from '#/components/landing/landing-animate'
+import { LandingSection } from '#/components/landing/landing-section'
+import { cn } from '#/lib/utils'
 
 // ─── Feature Data ──────────────────────────────────────
+
+const accentGradient: Record<string, string> = {
+  grass: 'from-mc-grass/15 to-mc-grass/5',
+  diamond: 'from-mc-diamond/15 to-mc-diamond/5',
+  nether: 'from-mc-nether/15 to-mc-nether/5',
+  gold: 'from-mc-gold/15 to-mc-gold/5',
+}
+
+const accentText: Record<string, string> = {
+  grass: 'text-mc-grass',
+  diamond: 'text-mc-diamond',
+  nether: 'text-mc-nether',
+  gold: 'text-mc-gold',
+}
+
+const accentBar: Record<string, string> = {
+  grass: 'bg-mc-grass',
+  diamond: 'bg-mc-diamond',
+  nether: 'bg-mc-nether',
+  gold: 'bg-mc-gold',
+}
 
 const features = [
   {
@@ -62,38 +84,91 @@ const features = [
 
 // ─── Component ─────────────────────────────────────────
 
-/**
- * 平台特色区块 — 三列特性卡片网格
- *
- * - 移动端单列，桌面端三列响应式布局
- * - 每张卡片带 MC 风格 accent 色条 + 图标
- * - StaggerContainer 实现交错入场动画
- */
 function FeaturesSection() {
   return (
     <LandingSection
       id="features"
       title="不只是入口页"
       subtitle="把玩家常用操作和管理流程放在真正能用的位置。"
+      variant="default"
     >
       <StaggerContainer className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {features.map((f) => (
+        {features.map((f, index) => (
           <StaggerItem key={f.title}>
-            <LandingCard accent={f.accent} className="flex h-full flex-col p-5">
-              <div className="mb-4 flex size-10 items-center justify-center rounded-lg bg-muted text-primary">
-                <f.icon className="size-5" />
-              </div>
-              <h3 className="font-heading text-base font-semibold tracking-tight">
-                {f.title}
-              </h3>
-              <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                {f.description}
-              </p>
-            </LandingCard>
+            <FeatureCard
+              icon={f.icon}
+              title={f.title}
+              description={f.description}
+              accent={f.accent}
+              index={index + 1}
+            />
           </StaggerItem>
         ))}
       </StaggerContainer>
     </LandingSection>
+  )
+}
+
+// ─── FeatureCard ────────────────────────────────────────
+
+function FeatureCard({
+  icon: Icon,
+  title,
+  description,
+  accent,
+  index,
+}: {
+  icon: React.ComponentType<{ className?: string }>
+  title: string
+  description: string
+  accent: string
+  index: number
+}) {
+  return (
+    <div
+      className={cn(
+        'group relative flex h-full gap-5 rounded-2xl border border-border/50 p-6',
+        'bg-card/60 backdrop-blur-sm',
+        'transition-all duration-300',
+        'hover:border-primary/20 hover:bg-card/80 hover:shadow-lg hover:shadow-primary/5',
+      )}
+    >
+      <div
+        className={cn(
+          'absolute left-0 top-6 bottom-6 w-[3px] rounded-full opacity-40 transition-opacity duration-300 group-hover:opacity-80',
+          accentBar[accent],
+        )}
+      />
+
+      <div
+        className={cn(
+          'flex size-12 shrink-0 items-center justify-center rounded-xl',
+          'bg-gradient-to-br',
+          accentGradient[accent],
+        )}
+      >
+        <span
+          className={cn(
+            'text-lg font-bold tabular-nums',
+            accentText[accent],
+          )}
+        >
+          {String(index).padStart(2, '0')}
+        </span>
+      </div>
+
+      <div className="min-w-0 flex-1">
+        <div className="mb-2 flex items-center gap-2.5">
+          <Icon className={cn('size-4.5', accentText[accent])} />
+          <h3 className="font-heading text-[15px] font-semibold tracking-tight text-foreground">
+            {title}
+          </h3>
+        </div>
+        <p className="text-sm leading-relaxed text-muted-foreground">
+          {description}
+        </p>
+      </div>
+    </div>
   )
 }
 

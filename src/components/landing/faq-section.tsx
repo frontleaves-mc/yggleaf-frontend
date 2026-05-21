@@ -34,19 +34,24 @@ const faqs = [
 
 function FaqItem({ question, answer }: { question: string; answer: string }) {
   const [open, setOpen] = useState(false)
+  const prefersReducedMotion =
+    typeof window !== 'undefined'
+      ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      : false
 
   return (
     <div className="border-b border-border py-4 first:pt-0 last:border-b-0">
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="group flex w-full items-center justify-between gap-4 text-left"
+        className="group flex w-full cursor-pointer items-center justify-between gap-4 rounded-lg px-4 py-3 -mx-4 text-left transition-colors hover:bg-muted/50"
         aria-expanded={open}
       >
         <span className="font-medium transition-colors duration-200 group-hover:text-primary">
           {question}
         </span>
         <ChevronDown
+          aria-hidden="true"
           className={cn(
             'h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200',
             open && 'rotate-180',
@@ -59,7 +64,7 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.2, ease: 'easeInOut' }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.2, ease: 'easeInOut' }}
             className="overflow-hidden"
           >
             <p className="pt-3 text-sm leading-6 text-muted-foreground">
@@ -79,7 +84,7 @@ function FaqSection() {
       title="常见问题"
       subtitle="加入前最容易卡住的几个点。"
     >
-      <div className="mx-auto max-w-3xl rounded-lg border border-border bg-card p-5 shadow-sm md:p-7">
+      <div className="mx-auto max-w-3xl rounded-xl border border-border/50 bg-card/80 p-6 shadow-sm backdrop-blur-sm md:p-8">
         {faqs.map((faq) => (
           <FaqItem key={faq.q} question={faq.q} answer={faq.a} />
         ))}
