@@ -28,7 +28,6 @@ import { McIconBox } from '#/components/shared/mc-icon-box'
 import { McSectionHeader } from '#/components/shared/mc-section-header'
 import { McBadge } from '#/components/shared/mc-badge'
 import {
-  fadeUpItem,
   mcStaggerGrid,
   mcStaggerGridItem,
 } from '#/lib/motion-presets'

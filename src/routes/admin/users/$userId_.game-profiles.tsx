@@ -25,7 +25,6 @@ import {
   Save,
   Shirt,
   Flag,
-  Image as ImageIcon,
 } from 'lucide-react'
 import { McCard } from '#/components/shared/mc-card'
 import { McBadge } from '#/components/shared/mc-badge'
@@ -44,12 +43,9 @@ import { useUserInfo } from '#/api/endpoints/api-auth/user'
 import { toast } from 'sonner'
 import { isSuperAdmin } from '#/lib/permissions'
 import { useSetPageTitle } from '#/components/layout/page-title-context'
-import {
-  staggerContainer,
-  fadeUpItem,
-  formatTime,
-  QuotaBar,
-} from './components'
+import { staggerContainer, fadeUpItem } from '#/lib/motion-presets'
+import { formatTime } from '#/lib/format'
+import { QuotaBar } from '#/components/shared/quota-bar'
 import type { AdminGameProfileItem } from '#/api/types'
 
 // ─── Route 定义 ────────────────────────────────────────────
@@ -120,10 +116,10 @@ function AdminUserGameProfilesPage() {
   const navigate = useNavigate()
   const { userId } = useParams({ strict: false })
   const { data: userInfo } = useUserInfo()
-  const { data: detail, isLoading: detailLoading } = useAdminUserDetail(userId)
+  const { data: detail, isLoading: detailLoading } = useAdminUserDetail(userId!)
   const { data: profilesData, isLoading: profilesLoading } =
-    useAdminUserGameProfiles(userId)
-  const quotaMutation = useAdjustGameProfileQuotaMutation(userId)
+    useAdminUserGameProfiles(userId!)
+  const quotaMutation = useAdjustGameProfileQuotaMutation(userId!)
   const setTitle = useSetPageTitle()
 
   const [deltaInput, setDeltaInput] = useState('')
@@ -182,7 +178,7 @@ function AdminUserGameProfilesPage() {
       <motion.header variants={fadeUpItem} className="flex items-center gap-4">
         <Link
           to="/admin/users/$userId"
-          params={{ userId }}
+          params={{ userId: userId! }}
           className="group inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-border/60 bg-background/80 text-muted-foreground shadow-sm transition-colors hover:border-mc-nether/30 hover:text-mc-nether"
         >
           <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />

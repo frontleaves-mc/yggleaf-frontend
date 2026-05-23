@@ -46,6 +46,8 @@ import { useAdminUsers } from '#/api/endpoints/api-auth/admin-user'
 import { useUserInfo } from '#/api/endpoints/api-auth/user'
 import type { AdminUserItem, RoleName } from '#/api/types'
 import { isSuperAdmin } from '#/lib/permissions'
+import { staggerContainer, fadeUpItem } from '#/lib/motion-presets'
+import { formatTime } from '#/lib/format'
 
 // ─── 常量 ──────────────────────────────────────────────────
 
@@ -63,31 +65,6 @@ const roleOptions: { value: string; label: string }[] = [
   { value: 'ADMIN', label: '管理员' },
   { value: 'PLAYER', label: '玩家' },
 ]
-
-const staggerContainer = {
-  animate: {
-    transition: { staggerChildren: 0.08, delayChildren: 0.05 },
-  },
-}
-
-const fadeUpItem = {
-  initial: { opacity: 0, y: 16 },
-  animate: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
-  },
-}
-
-function formatTime(iso: string): string {
-  return new Date(iso).toLocaleString('zh-CN', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-  })
-}
 
 // ─── Route 定义 ────────────────────────────────────────────
 

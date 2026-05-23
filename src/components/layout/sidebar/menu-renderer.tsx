@@ -223,7 +223,7 @@ function SidebarSectionedMenu({
 function FlatMenuItem({
   item,
   active,
-  mode,
+  mode: _mode,
 }: {
   item: MenuConfig
   active: boolean
@@ -269,7 +269,7 @@ function FlatMenuItem({
 function CollapsibleMenuItem({
   item,
   defaultOpen,
-  mode,
+  mode: _mode,
 }: {
   item: MenuConfig
   defaultOpen: boolean

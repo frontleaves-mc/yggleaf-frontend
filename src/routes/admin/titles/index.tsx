@@ -6,6 +6,7 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { motion } from 'motion/react'
+import { staggerContainer, fadeUpItem } from '#/lib/motion-presets'
 import { Plus, Pencil, Trash2, Tags, UserPlus, UserMinus } from 'lucide-react'
 import { Button } from '#/components/ui/button'
 import { Input } from '#/components/ui/input'
@@ -55,23 +56,6 @@ import { TitleType } from '#/api/types'
 import type { TitleResponse, AdminTitleListParams } from '#/api/types'
 import { toast } from 'sonner'
 import { isSuperAdmin } from '#/lib/permissions'
-
-// ─── 动画预设 ──────────────────────────────────────────────
-
-const staggerContainer = {
-  animate: {
-    transition: { staggerChildren: 0.08, delayChildren: 0.05 },
-  },
-}
-
-const fadeUpItem = {
-  initial: { opacity: 0, y: 16 },
-  animate: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
-  },
-}
 
 // ─── 辅助函数 ──────────────────────────────────────────────
 

@@ -33,23 +33,7 @@ import { useSetPageTitle } from '#/components/layout/page-title-context'
 import { McCard } from '#/components/shared/mc-card'
 import { McSectionHeader } from '#/components/shared/mc-section-header'
 import { McBadge } from '#/components/shared/mc-badge'
-
-/** stagger 容器动画 - 子元素依次入场 */
-const staggerContainer = {
-  animate: {
-    transition: { staggerChildren: 0.08, delayChildren: 0.05 },
-  },
-}
-
-/** 单项淡入上移动画 */
-const fadeUpItem = {
-  initial: { opacity: 0, y: 16 },
-  animate: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
-  },
-}
+import { staggerContainer, fadeUpItem } from '#/lib/motion-presets'
 
 export const Route = createFileRoute('/admin/skins/$skinId')({
   component: EditSkinPage,
@@ -58,7 +42,7 @@ export const Route = createFileRoute('/admin/skins/$skinId')({
 function EditSkinPage() {
   const { skinId } = useParams({ strict: false })
   const navigate = useNavigate()
-  const { data: skin, isLoading } = useSkinDetail(skinId)
+  const { data: skin, isLoading } = useSkinDetail(skinId ?? null)
   const setTitle = useSetPageTitle()
 
   const updateMutation = useUpdateSkinMutation(Number(skinId))

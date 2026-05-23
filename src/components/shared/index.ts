@@ -9,3 +9,9 @@ export type { McSectionHeaderProps, McSectionHeaderVariant } from './mc-section-
 
 export { McBadge } from './mc-badge'
 export type { McBadgeProps, McBadgeVariant } from './mc-badge'
+
+export { InfoRow } from './info-row'
+
+export { QuotaBar } from './quota-bar'
+
+export { SecretKeyRevealDialog } from './secret-key-reveal-dialog'

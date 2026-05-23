@@ -6,6 +6,7 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { motion } from 'motion/react'
+import { staggerContainer, fadeUpItem } from '#/lib/motion-presets'
 import { Plus, Pencil, Trash2, Tags } from 'lucide-react'
 import { Button } from '#/components/ui/button'
 import { Input } from '#/components/ui/input'
@@ -43,21 +44,6 @@ import { isSuperAdmin } from '#/lib/permissions'
 import { McCard } from '#/components/shared/mc-card'
 import { PageHeader } from '#/components/public/page-header'
 import { McBadge } from '#/components/shared/mc-badge'
-
-const staggerContainer = {
-  animate: {
-    transition: { staggerChildren: 0.08, delayChildren: 0.05 },
-  },
-}
-
-const fadeUpItem = {
-  initial: { opacity: 0, y: 16 },
-  animate: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
-  },
-}
 
 export const Route = createFileRoute('/admin/issue-types/')({
   component: IssueTypesPage,

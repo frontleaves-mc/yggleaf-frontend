@@ -32,7 +32,7 @@ import {
 } from '#/components/ui/select'
 import { ConfirmDialog } from '#/components/public/confirm-dialog'
 import { LoadingPage } from '#/components/public/loading-page'
-import { Loader2, ArrowLeft, Save, Trash2, Award, Trophy } from 'lucide-react'
+import { Loader2, Save, Trash2, Award, Trophy } from 'lucide-react'
 import { useState } from 'react'
 import { motion } from 'motion/react'
 import { toast } from 'sonner'

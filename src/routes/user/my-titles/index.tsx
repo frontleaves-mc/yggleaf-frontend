@@ -158,7 +158,7 @@ export default function MyTitlesPage() {
                           <Crown style={eqColor ? { color: eqColor } : undefined} />
                         </McIconBox>
                       ) : (
-                        <McIconBox variant="default" size="md">
+                        <McIconBox variant="grass" size="md">
                           <Award />
                         </McIconBox>
                       )}

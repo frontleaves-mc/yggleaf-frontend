@@ -5,25 +5,10 @@
 
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { motion } from 'motion/react'
-import { Gamepad2 } from 'lucide-react'
+import { Gamepad2, ArrowLeft } from 'lucide-react'
 import { McCard } from '#/components/shared/mc-card'
 import { McSectionHeader } from '#/components/shared/mc-section-header'
-import { McIconBox } from '#/components/shared/mc-icon-box'
-
-const staggerContainer = {
-  animate: {
-    transition: { staggerChildren: 0.08, delayChildren: 0.05 },
-  },
-}
-
-const fadeUpItem = {
-  initial: { opacity: 0, y: 16 },
-  animate: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
-  },
-}
+import { staggerContainer, fadeUpItem } from '#/lib/motion-presets'
 
 export const Route = createFileRoute('/admin/game-profiles/$profileId')({
   component: GameProfileDetailPage,

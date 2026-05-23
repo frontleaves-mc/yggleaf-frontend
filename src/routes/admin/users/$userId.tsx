@@ -31,12 +31,9 @@ import { useAdminUserDetail } from '#/api/endpoints/api-auth/admin-user'
 import { useUserInfo } from '#/api/endpoints/api-auth/user'
 import { isSuperAdmin } from '#/lib/permissions'
 import { useSetPageTitle } from '#/components/layout/page-title-context'
-import {
-  staggerContainer,
-  fadeUpItem,
-  formatTime,
-  QuotaBar,
-} from './components'
+import { staggerContainer, fadeUpItem } from '#/lib/motion-presets'
+import { formatTime } from '#/lib/format'
+import { QuotaBar } from '#/components/shared/quota-bar'
 
 // ─── Route 定义 ────────────────────────────────────────────
 
@@ -50,7 +47,7 @@ function AdminUserDetailPage() {
   const navigate = useNavigate()
   const { userId } = useParams({ strict: false })
   const { data: userInfo } = useUserInfo()
-  const { data: detail, isLoading } = useAdminUserDetail(userId)
+  const { data: detail, isLoading } = useAdminUserDetail(userId!)
   const setTitle = useSetPageTitle()
 
   const superMode = isSuperAdmin(userInfo?.user?.role_name)

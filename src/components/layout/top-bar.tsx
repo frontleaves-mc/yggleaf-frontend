@@ -7,7 +7,7 @@
  *   - 右侧：主题切换 (ThemeToggle - 浅色/深色/跟随系统)
  */
 
-import * as React from 'react'
+
 import { SidebarTrigger } from '#/components/ui/sidebar'
 import { useMatches } from '@tanstack/react-router'
 import { breadcrumbLabels } from '#/config/menu'

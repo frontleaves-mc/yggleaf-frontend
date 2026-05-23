@@ -189,14 +189,14 @@ function CreateAnnouncementPage() {
       <ConfirmDialog
         open={status === 'blocked'}
         onOpenChange={(open) => {
-          if (!open) reset()
+          if (!open) reset?.()
         }}
         title="未保存的更改"
         description="你有未保存的更改，确定要离开吗？离开后更改将丢失。"
         confirmLabel="离开"
         cancelLabel="继续编辑"
         variant="destructive"
-        onConfirm={proceed}
+        onConfirm={() => proceed?.()}
       />
     </>
   )

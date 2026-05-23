@@ -7,6 +7,7 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { motion } from 'motion/react'
+import { staggerContainer, fadeUpItem } from '#/lib/motion-presets'
 import { Plus, Trash2, Server, Pencil } from 'lucide-react'
 import { Button } from '#/components/ui/button'
 import { Input } from '#/components/ui/input'
@@ -49,23 +50,6 @@ import { isSuperAdmin } from '#/lib/permissions'
 import { McCard } from '#/components/shared/mc-card'
 import { McBadge } from '#/components/shared/mc-badge'
 import { McIconBox } from '#/components/shared/mc-icon-box'
-
-// ─── 动画预设 ──────────────────────────────────────────────
-
-const staggerContainer = {
-  animate: {
-    transition: { staggerChildren: 0.08, delayChildren: 0.05 },
-  },
-}
-
-const fadeUpItem = {
-  initial: { opacity: 0, y: 16 },
-  animate: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
-  },
-}
 
 // ─── 路由注册 ──────────────────────────────────────────────
 
@@ -203,30 +187,6 @@ function ServerManagementPage() {
       }
     } catch {
       toast.error('删除失败')
-    }
-  }
-
-  const handleToggleEnabled = async (server: ServerResponse) => {
-    try {
-      await setEnabledMutation.mutateAsync({
-        id: server.id,
-        data: { is_enabled: !server.is_enabled },
-      })
-      toast.success(server.is_enabled ? '已禁用' : '已启用')
-    } catch {
-      toast.error('操作失败')
-    }
-  }
-
-  const handleTogglePublic = async (server: ServerResponse) => {
-    try {
-      await setPublicMutation.mutateAsync({
-        id: server.id,
-        data: { is_public: !server.is_public },
-      })
-      toast.success(server.is_public ? '已设为私有' : '已设为公开')
-    } catch {
-      toast.error('操作失败')
     }
   }
 

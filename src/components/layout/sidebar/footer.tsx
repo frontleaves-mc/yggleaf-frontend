@@ -25,7 +25,7 @@ import {
 import { cn } from '#/lib/utils'
 import { clearAuth } from '#/stores/auth-store'
 
-export function SidebarFooter({ mode = 'user' }: { mode?: 'user' | 'admin' }) {
+export function SidebarFooter({ mode: _mode = 'user' }: { mode?: 'user' | 'admin' }) {
   const navigate = useNavigate()
   const { data: userInfo } = useUserInfo()
   const user = userInfo?.user
@@ -33,7 +33,7 @@ export function SidebarFooter({ mode = 'user' }: { mode?: 'user' | 'admin' }) {
 
   const handleLogout = () => {
     clearAuth()
-    navigate({ to: '/login' })
+    navigate({ to: '/login' } as any)
   }
 
   return (

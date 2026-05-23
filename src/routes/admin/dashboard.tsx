@@ -29,7 +29,6 @@ import { fadeUpItem, staggerContainer } from '#/lib/motion-presets'
 import { McCard } from '#/components/shared/mc-card'
 import { McIconBox } from '#/components/shared/mc-icon-box'
 import { McSectionHeader } from '#/components/shared/mc-section-header'
-import { McBadge } from '#/components/shared/mc-badge'
 
 export const Route = createFileRoute('/admin/dashboard')({
   component: DashboardPage,

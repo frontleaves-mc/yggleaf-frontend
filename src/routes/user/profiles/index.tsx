@@ -44,6 +44,7 @@ import {
   SelectValue,
 } from '#/components/ui/select'
 import { motion } from 'motion/react'
+import { staggerContainer, fadeUpItem } from '#/lib/motion-presets'
 import { authStore } from '#/stores/auth-store'
 import {
   useGameProfiles,
@@ -64,23 +65,6 @@ import { SkinPreview } from '#/components/user/skin-preview'
 export const Route = createFileRoute('/user/profiles/')({
   component: ProfilesPage,
 })
-
-// ─── Stagger 入场动画常量 ──────────────────────────────
-
-const staggerContainer = {
-  animate: {
-    transition: { staggerChildren: 0.08, delayChildren: 0.05 },
-  },
-}
-
-const fadeUpItem = {
-  initial: { opacity: 0, y: 16 },
-  animate: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
-  },
-}
 
 // ─── 页面组件 ─────────────────────────────────────────────
 
@@ -123,7 +107,7 @@ export default function ProfilesPage() {
             variant="grass"
             className="flex-1 mb-0"
           />
-          <Dialog open={dialogOpen} onOpenChange={setDialogOpen} className="shrink-0">
+          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
             <DialogTrigger asChild>
               <Button
                 size="lg"
@@ -375,7 +359,7 @@ function LibrarySelectInner({
   config: (typeof LIBRARY_CONFIG)[LibraryType]
   items: LibrarySimpleItem[]
   isLoading: boolean
-  mutation: { mutate: (...args: unknown[]) => void; isPending: boolean }
+  mutation: { mutate: (variables: any, options?: any) => void; isPending: boolean }
 }) {
   const [selectedId, setSelectedId] = useState<string>('')
   const hasCurrentValue = currentId != null

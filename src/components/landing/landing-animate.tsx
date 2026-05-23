@@ -2,9 +2,7 @@ import { motion, useScroll, useTransform } from 'motion/react'
 import {
   landingStaggerContainer,
   landingStaggerItem,
-  landingFadeInUp,
 } from '#/lib/motion-presets'
-import { cn } from '#/lib/utils'
 import { useRef } from 'react'
 
 interface StaggerContainerProps {

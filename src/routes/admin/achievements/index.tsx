@@ -31,7 +31,6 @@ import { PageHeader } from '#/components/public/page-header'
 import { LoadingPage } from '#/components/public/loading-page'
 import { ConfirmDialog } from '#/components/public/confirm-dialog'
 import { McCard } from '#/components/shared/mc-card'
-import { McIconBox } from '#/components/shared/mc-icon-box'
 import {
   useAdminAchievements,
   useDeleteAchievementMutation,

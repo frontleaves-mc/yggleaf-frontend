@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useState } from 'react'
-import { ArrowRight, CalendarDays, Megaphone, Inbox } from 'lucide-react'
+import { ArrowRight, CalendarDays, Inbox } from 'lucide-react'
 import { motion } from 'motion/react'
 import { usePublicAnnouncements } from '#/api/endpoints/api-mc/public-announcement'
 import type { AnnouncementListItem } from '#/api/types/api-mc/announcement'

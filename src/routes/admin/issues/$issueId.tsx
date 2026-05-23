@@ -15,6 +15,7 @@ import {
   User,
 } from 'lucide-react'
 import { motion } from 'motion/react'
+import { staggerContainer, fadeUpItem } from '#/lib/motion-presets'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import {
@@ -64,31 +65,16 @@ export const Route = createFileRoute('/admin/issues/$issueId')({
   component: AdminIssueDetailPage,
 })
 
-const staggerContainer = {
-  animate: {
-    transition: { staggerChildren: 0.08, delayChildren: 0.05 },
-  },
-}
-
-const fadeUpItem = {
-  initial: { opacity: 0, y: 16 },
-  animate: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
-  },
-}
-
 function AdminIssueDetailPage() {
   const { issueId } = useParams({ strict: false })
-  const { data: issueDetail, isLoading } = useIssueDetail(issueId)
+  const { data: issueDetail, isLoading } = useIssueDetail(issueId!)
   const setTitle = useSetPageTitle()
 
   const [editDialogOpen, setEditDialogOpen] = useState(false)
   const [localTitle, setLocalTitle] = useState('')
   const [localTypeId, setLocalTypeId] = useState('')
-  const infoMutation = useUpdateIssueInfoMutation(issueId)
-  const contentMutation = useUpdateIssueContentMutation(issueId)
+  const infoMutation = useUpdateIssueInfoMutation(issueId!)
+  const contentMutation = useUpdateIssueContentMutation(issueId!)
   const { data: issueTypes } = useIssueTypes()
 
   useEffect(() => {

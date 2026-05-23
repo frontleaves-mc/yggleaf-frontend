@@ -42,7 +42,7 @@ function EditAnnouncementPage() {
   const { announcementId } = useParams({ strict: false })
   const navigate = useNavigate()
   const { data: announcement, isLoading } =
-    useAdminAnnouncementDetail(announcementId)
+    useAdminAnnouncementDetail(announcementId!)
   const setTitle = useSetPageTitle()
 
   const updateMutation = useUpdateAnnouncementMutation()
@@ -85,7 +85,7 @@ function EditAnnouncementPage() {
     isSubmittingRef.current = true
     try {
       await updateMutation.mutateAsync({
-        id: announcementId,
+        id: announcementId!,
         data: {
           title: formTitle.trim(),
           content: formContent.trim(),
@@ -239,14 +239,14 @@ function EditAnnouncementPage() {
       <ConfirmDialog
         open={status === 'blocked'}
         onOpenChange={(open) => {
-          if (!open) reset()
+          if (!open) reset?.()
         }}
         title="未保存的更改"
         description="你有未保存的更改，确定要离开吗？离开后更改将丢失。"
         confirmLabel="离开"
         cancelLabel="继续编辑"
         variant="destructive"
-        onConfirm={proceed}
+        onConfirm={() => proceed?.()}
       />
     </>
   )

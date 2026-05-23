@@ -33,7 +33,7 @@ import {
 import { Badge } from '#/components/ui/badge'
 import { LoadingPage } from '#/components/public/loading-page'
 import { ConfirmDialog } from '#/components/public/confirm-dialog'
-import { SecretKeyRevealDialog } from './components/secret-key-reveal-dialog'
+import { SecretKeyRevealDialog } from '#/components/shared/secret-key-reveal-dialog'
 import {
   usePluginCredentialDetail,
   useUpdatePluginCredentialMutation,
@@ -43,23 +43,7 @@ import { useUserInfo } from '#/api/endpoints/api-auth/user'
 import { toast } from 'sonner'
 import { isSuperAdmin } from '#/lib/permissions'
 import { useSetPageTitle } from '#/components/layout/page-title-context'
-
-// ─── 动画预设 ──────────────────────────────────────────────
-
-const staggerContainer = {
-  animate: {
-    transition: { staggerChildren: 0.08, delayChildren: 0.05 },
-  },
-}
-
-const fadeUpItem = {
-  initial: { opacity: 0, y: 16 },
-  animate: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
-  },
-}
+import { staggerContainer, fadeUpItem } from '#/lib/motion-presets'
 
 // ─── 路由注册 ──────────────────────────────────────────────
 

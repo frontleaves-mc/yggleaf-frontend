@@ -21,6 +21,7 @@ import {
 import { Input } from '#/components/ui/input'
 import { Button } from '#/components/ui/button'
 import { motion } from 'motion/react'
+import { staggerContainer, fadeUpItem } from '#/lib/motion-presets'
 import { useModsMetadata } from '#/api/endpoints/api-auth/mods-metadata'
 import { LoadingPage } from '#/components/public/loading-page'
 import { toast } from 'sonner'
@@ -33,23 +34,6 @@ import { McBadge } from '#/components/shared/mc-badge'
 export const Route = createFileRoute('/user/game-info/')({
   component: GameInfoPage,
 })
-
-// ─── 动画常量 ──────────────────────────────────────────────
-
-const staggerContainer = {
-  animate: {
-    transition: { staggerChildren: 0.08, delayChildren: 0.05 },
-  },
-}
-
-const fadeUpItem = {
-  initial: { opacity: 0, y: 16 },
-  animate: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
-  },
-}
 
 // ─── 工具函数 ──────────────────────────────────────────────
 
