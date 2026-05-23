@@ -2,7 +2,7 @@
 
 /**
  * 聊天消息列表组件
- * 可滚动消息列表，支持自动滚到底部
+ * 可滚动消息列表，自动滚到底部 + 连续消息智能分组
  */
 
 import { useEffect, useRef } from 'react'
@@ -11,13 +11,13 @@ import { ChatMessageItem } from './chat-message-item'
 
 interface ChatMessageListProps {
   messages: ChatLogResponse[]
+  currentPlayerName?: string | null
 }
 
-export function ChatMessageList({ messages }: ChatMessageListProps) {
+export function ChatMessageList({ messages, currentPlayerName }: ChatMessageListProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const isAtBottomRef = useRef(true)
 
-  // 检测用户是否在底部
   const handleScroll = () => {
     const el = containerRef.current
     if (!el) return
@@ -26,7 +26,6 @@ export function ChatMessageList({ messages }: ChatMessageListProps) {
       el.scrollHeight - el.scrollTop - el.clientHeight < threshold
   }
 
-  // 新消息时自动滚到底部
   useEffect(() => {
     if (isAtBottomRef.current) {
       const el = containerRef.current
@@ -48,9 +47,24 @@ export function ChatMessageList({ messages }: ChatMessageListProps) {
         </div>
       ) : (
         <div className="py-2">
-          {messages.map((msg) => (
-            <ChatMessageItem key={msg.id} message={msg} />
-          ))}
+          {messages.map((msg, i) => {
+            const prev = i > 0 ? messages[i - 1] : null
+            const next = i < messages.length - 1 ? messages[i + 1] : null
+
+            const sameSenderAsPrev = prev?.player_name === msg.player_name
+            const sameSenderAsNext = next?.player_name === msg.player_name
+
+            return (
+              <ChatMessageItem
+                key={msg.id}
+                message={msg}
+                currentPlayerName={currentPlayerName}
+                isFirstInGroup={!sameSenderAsPrev}
+                isLastInGroup={!sameSenderAsNext}
+                isSingleInGroup={!sameSenderAsPrev && !sameSenderAsNext}
+              />
+            )
+          })}
         </div>
       )}
     </div>

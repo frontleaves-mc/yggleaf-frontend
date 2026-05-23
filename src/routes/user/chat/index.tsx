@@ -1,19 +1,22 @@
 /**
  * 用户端 - 实时聊天室页面
  * MC 游戏内风格，SSE 实时消息流 + 发送消息
+ * 支持公共频道 + 私聊双模式（侧边栏切换）
  */
 
 import { createFileRoute } from '@tanstack/react-router'
-import { useReducer, useCallback } from 'react'
+import { useReducer, useCallback, useState } from 'react'
 import { MessageCircle, Gamepad2 } from 'lucide-react'
 import { UserPageLayout } from '#/components/public/user-page-layout'
 import { GameProfileSelector } from '#/components/public/game-profile-selector'
 import { McCard } from '#/components/shared/mc-card'
 import { McIconBox } from '#/components/shared/mc-icon-box'
-import { LoadingPage } from '#/components/public/loading-page'
+import { ChatContainer } from '#/components/chat/chat-container'
 import { ChatMessageList } from '#/components/chat/chat-message-list'
 import { ChatInput } from '#/components/chat/chat-input'
 import { ChatConnectionStatus } from '#/components/chat/chat-connection-status'
+import { ChatConversationList } from '#/components/chat/chat-conversation-list'
+import { ChatPrivatePlaceholder } from '#/components/chat/chat-private-placeholder'
 import { useChatStream } from '#/hooks/use-chat-stream'
 import { useSendChatMessageMutation } from '#/api/endpoints/api-mc/user-message'
 import type { ChatLogResponse, SSEChatMessage } from '#/api/types'
@@ -56,7 +59,11 @@ function messageReducer(
 function UserChatPage() {
   const { selectedGameProfile } = useGameProfileStore()
   const uuid = selectedGameProfile?.uuid ?? null
+  const playerName = selectedGameProfile?.name ?? null
   const [messages, dispatch] = useReducer(messageReducer, [])
+
+  /** 当前选中的会话 ID，默认为公共频道 */
+  const [activeConversationId, setActiveConversationId] = useState('public')
 
   const handleInit = useCallback(
     (initMessages: ChatLogResponse[]) => {
@@ -120,22 +127,37 @@ function UserChatPage() {
           <p className="text-sm text-muted-foreground">请先选择游戏档案以连接聊天</p>
         </McCard>
       ) : (
-        <McCard
-          variant="solid"
-          color="diamond"
-          className="flex flex-col overflow-hidden"
+        <ChatContainer
+          className="flex flex-row overflow-hidden"
           style={{ height: 'calc(100vh - 220px)', minHeight: '400px' }}
         >
-          <ChatConnectionStatus
+          {/* ── 左侧：聊天区域 ── */}
+          <div className="flex-1 flex flex-col min-w-0">
+            <ChatConnectionStatus
+              isConnected={isConnected}
+              reconnectCount={reconnectCount}
+            />
+
+            {activeConversationId === 'public' ? (
+              <>
+                <ChatMessageList messages={messages} currentPlayerName={playerName} />
+                <ChatInput
+                  onSend={handleSend}
+                  disabled={sendMutation.isPending}
+                />
+              </>
+            ) : (
+              <ChatPrivatePlaceholder />
+            )}
+          </div>
+
+          {/* ── 右侧：会话列表 ── */}
+          <ChatConversationList
+            activeId={activeConversationId}
+            onSelect={setActiveConversationId}
             isConnected={isConnected}
-            reconnectCount={reconnectCount}
           />
-          <ChatMessageList messages={messages} />
-          <ChatInput
-            onSend={handleSend}
-            disabled={sendMutation.isPending}
-          />
-        </McCard>
+        </ChatContainer>
       )}
     </UserPageLayout>
   )
