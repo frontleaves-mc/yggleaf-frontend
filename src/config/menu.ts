@@ -15,6 +15,8 @@ import {
   LayoutDashboard,
   Map,
   Megaphone,
+  MessageCircle,
+  MessageSquare,
   MessageSquareWarning,
   Puzzle,
   Server,
@@ -22,6 +24,7 @@ import {
   Shirt,
   Store,
   Tags,
+  Terminal,
   Trophy,
   UserCircle,
   Users,
@@ -193,6 +196,25 @@ export const adminMenuSections: MenuSection[] = [
         to: '/admin/servers',
         roles: ['SUPER_ADMIN'],
       },
+      {
+        key: 'messages',
+        label: '消息管理',
+        icon: MessageSquare,
+        children: [
+          {
+            key: 'admin-chat',
+            label: '聊天记录',
+            icon: MessageCircle,
+            to: '/admin/messages/chat',
+          },
+          {
+            key: 'admin-commands',
+            label: '命令记录',
+            icon: Terminal,
+            to: '/admin/messages/commands',
+          },
+        ],
+      },
     ],
   },
 ]
@@ -243,6 +265,18 @@ export const userMenuSections: MenuSection[] = [
         label: '我的称号',
         icon: Tags,
         to: '/user/my-titles',
+      },
+      {
+        key: 'chat',
+        label: '游戏聊天',
+        icon: MessageCircle,
+        to: '/user/chat',
+      },
+      {
+        key: 'commands',
+        label: '命令记录',
+        icon: Terminal,
+        to: '/user/commands',
       },
     ],
   },
@@ -312,6 +346,8 @@ export const breadcrumbLabels: Record<string, string> = {
   '/user/profile': '个人中心',
   '/user/my': '我的资源库',
   '/user/my-titles': '我的称号',
+  '/user/chat': '游戏聊天',
+  '/user/commands': '命令记录',
   '/setup': '账户设置',
   '/setup/password': '设置游戏密码',
 
@@ -337,6 +373,8 @@ export const breadcrumbLabels: Record<string, string> = {
   '/admin/plugin-credentials': '插件凭证',
   '/admin/plugin-credentials/$credentialId': '凭证详情',
   '/admin/servers': '服务器管理',
+  '/admin/messages/chat': '聊天记录',
+  '/admin/messages/commands': '命令记录',
 
   // ── 公告 ──
   '/admin/announcements': '公告管理',

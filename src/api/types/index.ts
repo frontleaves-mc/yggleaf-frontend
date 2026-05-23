@@ -161,3 +161,20 @@ export type {
   UpdateScheduleRequest,
   AdminScheduleListParams,
 } from './api-mc/announcement-schedule'
+
+// ─── 消息模块 ──────────────────────────────────────────────
+
+export { MessageSource } from './api-mc/message'
+
+export type {
+  MessageSourceValue,
+  ChatLogResponse,
+  CommandLogResponse,
+  SSEChatMessage,
+  ChatLogListResponse,
+  CommandLogListResponse,
+  AdminChatListParams,
+  AdminCommandListParams,
+  UserMessageListParams,
+  SendChatMessageRequest,
+} from './api-mc/message'

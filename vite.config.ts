@@ -23,6 +23,10 @@ const config = defineConfig({
         target: 'http://localhost:5577',
         changeOrigin: true,
       },
+      '/api-mc': {
+        target: 'http://localhost:5599',
+        changeOrigin: true,
+      },
     },
   },
   build: {

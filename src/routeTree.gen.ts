@@ -32,6 +32,8 @@ import { Route as UserMyIndexRouteImport } from './routes/user/my/index'
 import { Route as UserMyTitlesIndexRouteImport } from './routes/user/my-titles/index'
 import { Route as UserIssuesIndexRouteImport } from './routes/user/issues/index'
 import { Route as UserGameInfoIndexRouteImport } from './routes/user/game-info/index'
+import { Route as UserCommandsIndexRouteImport } from './routes/user/commands/index'
+import { Route as UserChatIndexRouteImport } from './routes/user/chat/index'
 import { Route as UserCapesIndexRouteImport } from './routes/user/capes/index'
 import { Route as AdminUsersIndexRouteImport } from './routes/admin/users/index'
 import { Route as AdminTitlesIndexRouteImport } from './routes/admin/titles/index'
@@ -58,6 +60,8 @@ import { Route as AdminAnnouncementsCreateRouteImport } from './routes/admin/ann
 import { Route as AdminAnnouncementsAnnouncementIdRouteImport } from './routes/admin/announcements/$announcementId'
 import { Route as AdminAchievementsCreateRouteImport } from './routes/admin/achievements/create'
 import { Route as AdminAchievementsAchievementIdRouteImport } from './routes/admin/achievements/$achievementId'
+import { Route as AdminMessagesCommandsIndexRouteImport } from './routes/admin/messages/commands/index'
+import { Route as AdminMessagesChatIndexRouteImport } from './routes/admin/messages/chat/index'
 import { Route as AdminUsersUserIdGameProfilesRouteImport } from './routes/admin/users/$userId_.game-profiles'
 
 const UserRoute = UserRouteImport.update({
@@ -173,6 +177,16 @@ const UserIssuesIndexRoute = UserIssuesIndexRouteImport.update({
 const UserGameInfoIndexRoute = UserGameInfoIndexRouteImport.update({
   id: '/game-info/',
   path: '/game-info/',
+  getParentRoute: () => UserRoute,
+} as any)
+const UserCommandsIndexRoute = UserCommandsIndexRouteImport.update({
+  id: '/commands/',
+  path: '/commands/',
+  getParentRoute: () => UserRoute,
+} as any)
+const UserChatIndexRoute = UserChatIndexRouteImport.update({
+  id: '/chat/',
+  path: '/chat/',
   getParentRoute: () => UserRoute,
 } as any)
 const UserCapesIndexRoute = UserCapesIndexRouteImport.update({
@@ -312,6 +326,17 @@ const AdminAchievementsAchievementIdRoute =
     path: '/achievements/$achievementId',
     getParentRoute: () => AdminRoute,
   } as any)
+const AdminMessagesCommandsIndexRoute =
+  AdminMessagesCommandsIndexRouteImport.update({
+    id: '/messages/commands/',
+    path: '/messages/commands/',
+    getParentRoute: () => AdminRoute,
+  } as any)
+const AdminMessagesChatIndexRoute = AdminMessagesChatIndexRouteImport.update({
+  id: '/messages/chat/',
+  path: '/messages/chat/',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminUsersUserIdGameProfilesRoute =
   AdminUsersUserIdGameProfilesRouteImport.update({
     id: '/users/$userId_/game-profiles',
@@ -362,6 +387,8 @@ export interface FileRoutesByFullPath {
   '/admin/titles/': typeof AdminTitlesIndexRoute
   '/admin/users/': typeof AdminUsersIndexRoute
   '/user/capes/': typeof UserCapesIndexRoute
+  '/user/chat/': typeof UserChatIndexRoute
+  '/user/commands/': typeof UserCommandsIndexRoute
   '/user/game-info/': typeof UserGameInfoIndexRoute
   '/user/issues/': typeof UserIssuesIndexRoute
   '/user/my-titles/': typeof UserMyTitlesIndexRoute
@@ -370,6 +397,8 @@ export interface FileRoutesByFullPath {
   '/user/profiles/': typeof UserProfilesIndexRoute
   '/user/skins/': typeof UserSkinsIndexRoute
   '/admin/users/$userId/game-profiles': typeof AdminUsersUserIdGameProfilesRoute
+  '/admin/messages/chat/': typeof AdminMessagesChatIndexRoute
+  '/admin/messages/commands/': typeof AdminMessagesCommandsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -412,6 +441,8 @@ export interface FileRoutesByTo {
   '/admin/titles': typeof AdminTitlesIndexRoute
   '/admin/users': typeof AdminUsersIndexRoute
   '/user/capes': typeof UserCapesIndexRoute
+  '/user/chat': typeof UserChatIndexRoute
+  '/user/commands': typeof UserCommandsIndexRoute
   '/user/game-info': typeof UserGameInfoIndexRoute
   '/user/issues': typeof UserIssuesIndexRoute
   '/user/my-titles': typeof UserMyTitlesIndexRoute
@@ -420,6 +451,8 @@ export interface FileRoutesByTo {
   '/user/profiles': typeof UserProfilesIndexRoute
   '/user/skins': typeof UserSkinsIndexRoute
   '/admin/users/$userId/game-profiles': typeof AdminUsersUserIdGameProfilesRoute
+  '/admin/messages/chat': typeof AdminMessagesChatIndexRoute
+  '/admin/messages/commands': typeof AdminMessagesCommandsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -465,6 +498,8 @@ export interface FileRoutesById {
   '/admin/titles/': typeof AdminTitlesIndexRoute
   '/admin/users/': typeof AdminUsersIndexRoute
   '/user/capes/': typeof UserCapesIndexRoute
+  '/user/chat/': typeof UserChatIndexRoute
+  '/user/commands/': typeof UserCommandsIndexRoute
   '/user/game-info/': typeof UserGameInfoIndexRoute
   '/user/issues/': typeof UserIssuesIndexRoute
   '/user/my-titles/': typeof UserMyTitlesIndexRoute
@@ -473,6 +508,8 @@ export interface FileRoutesById {
   '/user/profiles/': typeof UserProfilesIndexRoute
   '/user/skins/': typeof UserSkinsIndexRoute
   '/admin/users/$userId_/game-profiles': typeof AdminUsersUserIdGameProfilesRoute
+  '/admin/messages/chat/': typeof AdminMessagesChatIndexRoute
+  '/admin/messages/commands/': typeof AdminMessagesCommandsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -519,6 +556,8 @@ export interface FileRouteTypes {
     | '/admin/titles/'
     | '/admin/users/'
     | '/user/capes/'
+    | '/user/chat/'
+    | '/user/commands/'
     | '/user/game-info/'
     | '/user/issues/'
     | '/user/my-titles/'
@@ -527,6 +566,8 @@ export interface FileRouteTypes {
     | '/user/profiles/'
     | '/user/skins/'
     | '/admin/users/$userId/game-profiles'
+    | '/admin/messages/chat/'
+    | '/admin/messages/commands/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -569,6 +610,8 @@ export interface FileRouteTypes {
     | '/admin/titles'
     | '/admin/users'
     | '/user/capes'
+    | '/user/chat'
+    | '/user/commands'
     | '/user/game-info'
     | '/user/issues'
     | '/user/my-titles'
@@ -577,6 +620,8 @@ export interface FileRouteTypes {
     | '/user/profiles'
     | '/user/skins'
     | '/admin/users/$userId/game-profiles'
+    | '/admin/messages/chat'
+    | '/admin/messages/commands'
   id:
     | '__root__'
     | '/'
@@ -621,6 +666,8 @@ export interface FileRouteTypes {
     | '/admin/titles/'
     | '/admin/users/'
     | '/user/capes/'
+    | '/user/chat/'
+    | '/user/commands/'
     | '/user/game-info/'
     | '/user/issues/'
     | '/user/my-titles/'
@@ -629,6 +676,8 @@ export interface FileRouteTypes {
     | '/user/profiles/'
     | '/user/skins/'
     | '/admin/users/$userId_/game-profiles'
+    | '/admin/messages/chat/'
+    | '/admin/messages/commands/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -805,6 +854,20 @@ declare module '@tanstack/react-router' {
       path: '/game-info'
       fullPath: '/user/game-info/'
       preLoaderRoute: typeof UserGameInfoIndexRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/user/commands/': {
+      id: '/user/commands/'
+      path: '/commands'
+      fullPath: '/user/commands/'
+      preLoaderRoute: typeof UserCommandsIndexRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/user/chat/': {
+      id: '/user/chat/'
+      path: '/chat'
+      fullPath: '/user/chat/'
+      preLoaderRoute: typeof UserChatIndexRouteImport
       parentRoute: typeof UserRoute
     }
     '/user/capes/': {
@@ -989,6 +1052,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAchievementsAchievementIdRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/messages/commands/': {
+      id: '/admin/messages/commands/'
+      path: '/messages/commands'
+      fullPath: '/admin/messages/commands/'
+      preLoaderRoute: typeof AdminMessagesCommandsIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/messages/chat/': {
+      id: '/admin/messages/chat/'
+      path: '/messages/chat'
+      fullPath: '/admin/messages/chat/'
+      preLoaderRoute: typeof AdminMessagesChatIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/users/$userId_/game-profiles': {
       id: '/admin/users/$userId_/game-profiles'
       path: '/users/$userId/game-profiles'
@@ -1027,6 +1104,8 @@ interface AdminRouteChildren {
   AdminTitlesIndexRoute: typeof AdminTitlesIndexRoute
   AdminUsersIndexRoute: typeof AdminUsersIndexRoute
   AdminUsersUserIdGameProfilesRoute: typeof AdminUsersUserIdGameProfilesRoute
+  AdminMessagesChatIndexRoute: typeof AdminMessagesChatIndexRoute
+  AdminMessagesCommandsIndexRoute: typeof AdminMessagesCommandsIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
@@ -1058,6 +1137,8 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminTitlesIndexRoute: AdminTitlesIndexRoute,
   AdminUsersIndexRoute: AdminUsersIndexRoute,
   AdminUsersUserIdGameProfilesRoute: AdminUsersUserIdGameProfilesRoute,
+  AdminMessagesChatIndexRoute: AdminMessagesChatIndexRoute,
+  AdminMessagesCommandsIndexRoute: AdminMessagesCommandsIndexRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
@@ -1078,6 +1159,8 @@ interface UserRouteChildren {
   UserIndexRoute: typeof UserIndexRoute
   UserIssuesIssueIdRoute: typeof UserIssuesIssueIdRoute
   UserCapesIndexRoute: typeof UserCapesIndexRoute
+  UserChatIndexRoute: typeof UserChatIndexRoute
+  UserCommandsIndexRoute: typeof UserCommandsIndexRoute
   UserGameInfoIndexRoute: typeof UserGameInfoIndexRoute
   UserIssuesIndexRoute: typeof UserIssuesIndexRoute
   UserMyTitlesIndexRoute: typeof UserMyTitlesIndexRoute
@@ -1093,6 +1176,8 @@ const UserRouteChildren: UserRouteChildren = {
   UserIndexRoute: UserIndexRoute,
   UserIssuesIssueIdRoute: UserIssuesIssueIdRoute,
   UserCapesIndexRoute: UserCapesIndexRoute,
+  UserChatIndexRoute: UserChatIndexRoute,
+  UserCommandsIndexRoute: UserCommandsIndexRoute,
   UserGameInfoIndexRoute: UserGameInfoIndexRoute,
   UserIssuesIndexRoute: UserIssuesIndexRoute,
   UserMyTitlesIndexRoute: UserMyTitlesIndexRoute,
