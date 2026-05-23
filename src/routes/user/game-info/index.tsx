@@ -81,7 +81,7 @@ function extractModName(filename: string): string {
 
 // ─── 页面组件 ──────────────────────────────────────────────
 
-export default function GameInfoPage() {
+function GameInfoPage() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [searchQuery, setSearchQuery] = useState('')
   const { data, isLoading } = useModsMetadata()

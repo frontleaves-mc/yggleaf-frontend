@@ -28,7 +28,7 @@ export const Route = createFileRoute('/user/skins/')({
 
 // ─── 页面组件 ─────────────────────────────────────────────
 
-export default function SkinsPage() {
+function SkinsPage() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const { data, isLoading } = useSkins({
     mode: 'market',

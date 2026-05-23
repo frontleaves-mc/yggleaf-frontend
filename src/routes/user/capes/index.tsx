@@ -28,7 +28,7 @@ export const Route = createFileRoute('/user/capes/')({
 
 // ─── 页面组件 ─────────────────────────────────────────────
 
-export default function CapesPage() {
+function CapesPage() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const { data, isLoading } = useCapes({
     mode: 'market',

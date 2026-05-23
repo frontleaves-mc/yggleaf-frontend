@@ -68,7 +68,7 @@ export const Route = createFileRoute('/user/profiles/')({
 
 // ─── 页面组件 ─────────────────────────────────────────────
 
-export default function ProfilesPage() {
+function ProfilesPage() {
   const isAuthenticated = authStore.state.isAuthenticated
   const {
     data: profiles = [],

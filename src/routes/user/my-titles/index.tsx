@@ -106,7 +106,7 @@ function getTitleColor(title: { color?: string }): string | null {
 
 // ─── 页面组件 ─────────────────────────────────────────────
 
-export default function MyTitlesPage() {
+function MyTitlesPage() {
   const { selectedGameProfile } = useGameProfileStore()
   const uuid = selectedGameProfile?.uuid ?? null
 

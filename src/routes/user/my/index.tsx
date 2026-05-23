@@ -94,7 +94,7 @@ const MOCK_PROFILES = [
 
 // ─── 页面组件 ───────────────────────────────────────────
 
-export default function MyPage() {
+function MyPage() {
   return (
     <motion.div
       className="space-y-6"
