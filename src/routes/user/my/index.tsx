@@ -3,7 +3,6 @@
  *
  * 用户的个人资源管理中心，包含：
  * - 上传皮肤/披风
- * - 从游戏档案同步官方皮肤
  * - 管理已上传的资源
  */
 
@@ -12,20 +11,15 @@ import { createFileRoute } from '@tanstack/react-router'
 import { motion } from 'motion/react'
 import {
   Upload,
-  Download,
   FolderOpen,
   Shirt,
   Flag,
-  Gamepad2,
-  UserCircle,
-  CheckCircle2,
   Loader2,
 } from 'lucide-react'
 import { Button } from '#/components/ui/button'
 import { Input } from '#/components/ui/input'
 import { Label } from '#/components/ui/label'
 import { Switch } from '#/components/ui/switch'
-import { Avatar, AvatarFallback } from '#/components/ui/avatar'
 import {
   Select,
   SelectContent,
@@ -66,32 +60,6 @@ function fileToBase64(file: File): Promise<string> {
   })
 }
 
-// ─── Mock 数据 ─────────────────────────────────────────
-
-const MOCK_PROFILES = [
-  {
-    id: 1,
-    name: 'Steve_Builder',
-    uuid: '550e8400-e29b-41d4-a716-446655440000',
-    skinName: '经典 Steve',
-    hasSkin: true,
-  },
-  {
-    id: 2,
-    name: 'Alex_Explorer',
-    uuid: '6ba7b810-9dad-11d1-80b4-00c04fd430c8',
-    skinName: '经典 Alex',
-    hasSkin: true,
-  },
-  {
-    id: 3,
-    name: 'NewPlayer',
-    uuid: '7c9e6679-7425-40de-944b-e07fc1f90ae7',
-    skinName: null,
-    hasSkin: false,
-  },
-]
-
 // ─── 页面组件 ───────────────────────────────────────────
 
 function MyPage() {
@@ -117,10 +85,6 @@ function MyPage() {
               <Upload className="size-3.5" />
               上传资源
             </TabsTrigger>
-            <TabsTrigger value="sync">
-              <Download className="size-3.5" />
-              官方同步
-            </TabsTrigger>
             <TabsTrigger value="resources">
               <FolderOpen className="size-3.5" />
               我的资源
@@ -129,10 +93,6 @@ function MyPage() {
 
           <TabsContent value="upload" className="mt-6">
             <UploadSection />
-          </TabsContent>
-
-          <TabsContent value="sync" className="mt-6">
-            <OfficialSyncSection />
           </TabsContent>
 
           <TabsContent value="resources" className="mt-6">
@@ -404,119 +364,6 @@ function CapeUploadCard() {
             </>
           )}
         </Button>
-      </div>
-    </McCard>
-  )
-}
-
-// ─── 官方同步区 ─────────────────────────────────────────
-
-function OfficialSyncSection() {
-  const [selectedProfileId, setSelectedProfileId] = useState<string>('')
-  const [synced, setSynced] = useState(false)
-
-  const selectedProfile = MOCK_PROFILES.find(
-    (p) => String(p.id) === selectedProfileId,
-  )
-
-  const handleSync = () => {
-    setSynced(true)
-    setTimeout(() => setSynced(false), 3000)
-  }
-
-  return (
-    <McCard variant="solid" color="nether" className="max-w-lg">
-      <div className="p-5 space-y-4">
-        <div className="flex items-center gap-2.5 text-base font-semibold">
-          <McIconBox variant="nether" size="sm">
-            <Gamepad2 />
-          </McIconBox>
-          同步官方皮肤
-        </div>
-
-        <div className="space-y-2">
-          <Label>选择游戏档案</Label>
-          <Select
-            value={selectedProfileId}
-            onValueChange={setSelectedProfileId}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="选择一个游戏档案" />
-            </SelectTrigger>
-            <SelectContent>
-              {MOCK_PROFILES.map((profile) => (
-                <SelectItem key={profile.id} value={String(profile.id)}>
-                  {profile.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-
-        {selectedProfile && (
-          <div className="rounded-lg border border-border p-4 space-y-3">
-            <div className="flex items-center gap-3">
-              <Avatar className="size-12 rounded-lg">
-                <AvatarFallback className="rounded-lg bg-muted/50">
-                  <UserCircle className="size-6 text-muted-foreground" />
-                </AvatarFallback>
-              </Avatar>
-              <div className="min-w-0 flex-1">
-                <p className="font-medium text-foreground">
-                  {selectedProfile.name}
-                </p>
-                <p className="text-xs text-muted-foreground font-mono truncate">
-                  {selectedProfile.uuid}
-                </p>
-              </div>
-            </div>
-
-            {selectedProfile.hasSkin ? (
-              <div className="flex items-center gap-2 text-sm">
-                <span className="text-muted-foreground">当前皮肤:</span>
-                <McBadge variant="grass">{selectedProfile.skinName}</McBadge>
-              </div>
-            ) : (
-              <div className="flex items-center gap-2 text-sm">
-                <span className="text-muted-foreground">当前皮肤:</span>
-                <McBadge variant="default">未设置</McBadge>
-              </div>
-            )}
-
-            <Button
-              className="w-full"
-              variant="gradient"
-              onClick={handleSync}
-              disabled={synced}
-            >
-              {synced ? (
-                <>
-                  <CheckCircle2 className="mr-2 size-4" />
-                  同步成功
-                </>
-              ) : (
-                <>
-                  <Download className="mr-2 size-4" />从 Mojang 下载皮肤
-                </>
-              )}
-            </Button>
-
-            <p className="text-[12px] text-muted-foreground text-center">
-              将尝试从 Mojang 服务器下载该角色当前使用的正版皮肤
-            </p>
-          </div>
-        )}
-
-        {!selectedProfile && (
-          <div className="py-8 text-center">
-            <div className="mx-auto mb-3 flex size-14 items-center justify-center rounded-xl bg-muted/50">
-              <Gamepad2 className="size-7 text-muted-foreground/40" />
-            </div>
-            <p className="text-sm text-muted-foreground">
-              选择一个游戏档案以同步皮肤
-            </p>
-          </div>
-        )}
       </div>
     </McCard>
   )

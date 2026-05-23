@@ -26,7 +26,6 @@ import { DashboardWelcome } from '#/components/dashboard/dashboard-welcome'
 import { McCard } from '#/components/shared/mc-card'
 import { McIconBox } from '#/components/shared/mc-icon-box'
 import { McSectionHeader } from '#/components/shared/mc-section-header'
-import { McBadge } from '#/components/shared/mc-badge'
 import {
   mcStaggerGrid,
   mcStaggerGridItem,
@@ -149,32 +148,42 @@ function DashboardPage() {
         <section className="flex flex-col gap-4">
           <McSectionHeader title="在线玩家" icon={Users} variant="grass" />
 
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-4">
             {serverLoading ? (
-              ['a', 'b'].map((k) => (
-                <McCard key={k} variant="glass" className="px-4 py-3">
-                  <div className="h-4 w-1/3 animate-pulse rounded bg-muted" />
-                </McCard>
-              ))
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <McCard key={i} variant="glass" className="p-4">
+                    <div className="h-4 w-2/3 animate-pulse rounded bg-muted" />
+                    <div className="mt-2 h-3 w-1/2 animate-pulse rounded bg-muted" />
+                  </McCard>
+                ))}
+              </div>
             ) : servers.length > 0 && servers.some((s) => s.online && s.players.length > 0) ? (
               servers
                 .filter((s) => s.online && s.players.length > 0)
                 .map((server) => (
                   <div key={server.server_name}>
                     {servers.length > 1 && (
-                      <p className="mb-1.5 text-[11px] font-medium uppercase tracking-wider text-muted-foreground/50">
+                      <p className="mb-2 text-[11px] font-medium uppercase tracking-wider text-muted-foreground/50">
                         {server.server_name}
                       </p>
                     )}
-                    <McCard variant="glass" color="grass" className="px-4 py-3">
-                      <div className="flex flex-wrap items-center gap-2">
-                        {server.players.map((player) => (
-                          <McBadge key={player.player_uuid} variant="grass">
-                            {player.player_name}
-                          </McBadge>
-                        ))}
-                      </div>
-                    </McCard>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                      {server.players.map((player) => (
+                        <McCard key={player.player_uuid} variant="glass" color="grass" className="group overflow-hidden">
+                          <div className="p-4">
+                            <div className="flex items-center justify-between gap-2">
+                              <h3 className="font-medium text-sm text-foreground truncate group-hover:text-mc-grass transition-colors">
+                                {player.player_name}
+                              </h3>
+                              <span className="shrink-0 text-[11px] text-muted-foreground truncate font-mono">
+                                {player.world_name}
+                              </span>
+                            </div>
+                          </div>
+                        </McCard>
+                      ))}
+                    </div>
                   </div>
                 ))
             ) : (

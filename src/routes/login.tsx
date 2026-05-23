@@ -15,7 +15,6 @@ import { normalizeAuthRedirect, stashAuthRedirect } from '#/lib/auth-redirect'
 import { SimpleMarkdown } from '#/lib/markdown'
 import {
   hoverLiftTransition,
-  landingCardHover,
   landingHeroVariants,
 } from '#/lib/motion-presets'
 
@@ -172,12 +171,17 @@ function LoginPage() {
           </motion.div>
 
           <motion.div
-            variants={landingCardHover}
             initial="rest"
             whileHover="hover"
-            transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+            whileTap="tap"
+            variants={{
+              rest: { scale: 1 },
+              hover: { scale: 1 },
+              tap: { scale: 0.985 },
+            }}
+            transition={{ duration: 0.15, ease: 'easeOut' }}
           >
-            <LandingCard className="p-6 sm:p-8">
+            <LandingCard className="p-6 sm:p-8 transition-shadow duration-200 hover:shadow-[0_0_0_1px_oklch(from_var(--foreground)_l_c_h/0.12),0_2px_8px_-2px_oklch(from_var(--foreground)_l_c_h/0.06)]">
               <div className="mb-7 flex flex-col gap-3">
                 <div className="hidden items-center gap-3 lg:flex">
                   <img

@@ -166,35 +166,45 @@ function DashboardPage() {
           icon={Activity}
           variant="nether"
         />
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-4">
           {serverLoading ? (
-            ['a', 'b'].map((k) => (
-              <McCard key={k} variant="glass" className="p-4">
-                <div className="h-4 w-1/3 rounded bg-muted animate-pulse" />
-              </McCard>
-            ))
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <McCard key={i} variant="glass" className="p-4">
+                  <div className="h-4 w-2/3 rounded bg-muted animate-pulse" />
+                  <div className="mt-2 h-3 w-1/2 rounded bg-muted animate-pulse" />
+                </McCard>
+              ))}
+            </div>
           ) : servers.length > 0 && servers.some((s) => s.online && s.players.length > 0) ? (
             servers
               .filter((s) => s.online && s.players.length > 0)
               .map((server) => (
                 <div key={server.server_name}>
                   {servers.length > 1 && (
-                    <p className="mb-1.5 text-[11px] font-medium uppercase tracking-wider text-muted-foreground/50">
+                    <p className="mb-2 text-[11px] font-medium uppercase tracking-wider text-muted-foreground/50">
                       {server.server_name}
                     </p>
                   )}
-                  <McCard variant="glass" className="px-4 py-3">
-                    <div className="flex flex-wrap items-center gap-2">
-                      {server.players.map((player) => (
-                        <span
-                          key={player.player_uuid}
-                          className="inline-flex items-center gap-1.5 rounded-full border border-border/50 bg-background/60 px-2.5 py-0.5 text-[13px] font-medium text-foreground/80"
-                        >
-                          {player.player_name}
-                        </span>
-                      ))}
-                    </div>
-                  </McCard>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                    {server.players.map((player) => (
+                      <McCard key={player.player_uuid} variant="glass" color="nether" className="group overflow-hidden">
+                        <div className="p-4">
+                          <div className="flex items-center justify-between gap-2">
+                            <h3 className="font-medium text-sm text-foreground truncate group-hover:text-mc-nether transition-colors">
+                              {player.player_name}
+                            </h3>
+                            <span className="shrink-0 text-[11px] text-muted-foreground truncate font-mono">
+                              {player.world_name}
+                            </span>
+                          </div>
+                          <code className="mt-2 block text-[10px] text-muted-foreground/40 font-mono">
+                            {player.player_uuid.slice(0, 8)}
+                          </code>
+                        </div>
+                      </McCard>
+                    ))}
+                  </div>
                 </div>
               ))
           ) : (
