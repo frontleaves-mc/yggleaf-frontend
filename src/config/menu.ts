@@ -8,6 +8,7 @@
 import type { LucideIcon } from 'lucide-react'
 import type { RoleName } from '#/api/types'
 import {
+  Activity,
   CalendarClock,
   Flag,
   Gamepad2,
@@ -197,6 +198,13 @@ export const adminMenuSections: MenuSection[] = [
         roles: ['SUPER_ADMIN'],
       },
       {
+        key: 'server-load',
+        label: '服务器负载',
+        icon: Activity,
+        to: '/admin/server-load',
+        roles: ['SUPER_ADMIN'],
+      },
+      {
         key: 'messages',
         label: '消息管理',
         icon: MessageSquare,
@@ -373,6 +381,7 @@ export const breadcrumbLabels: Record<string, string> = {
   '/admin/plugin-credentials': '插件凭证',
   '/admin/plugin-credentials/$credentialId': '凭证详情',
   '/admin/servers': '服务器管理',
+  '/admin/server-load': '服务器负载',
   '/admin/messages/chat': '聊天记录',
   '/admin/messages/commands': '命令记录',
 

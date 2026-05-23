@@ -178,3 +178,17 @@ export type {
   UserMessageListParams,
   SendChatMessageRequest,
 } from './api-mc/message'
+
+// ─── 服务器负载模块 ──────────────────────────────────────────
+
+export type {
+  CPUInfo,
+  MemoryInfo,
+  JVMInfo,
+  ServerRealtimeLoad,
+  ServerRealtimeLoadListResponse,
+  LoadSample,
+  LoadHistoryRecord,
+  ServerLoadHistoryResponse,
+  ServerLoadHistoryParams,
+} from './api-mc/server-load'
