@@ -98,6 +98,25 @@ export const adminMenuSections: MenuSection[] = [
         to: '/admin/achievements',
         roles: ['SUPER_ADMIN'],
       },
+      {
+        key: 'messages',
+        label: '消息管理',
+        icon: MessageSquare,
+        children: [
+          {
+            key: 'admin-chat',
+            label: '聊天记录',
+            icon: MessageCircle,
+            to: '/admin/messages/chat',
+          },
+          {
+            key: 'admin-commands',
+            label: '命令记录',
+            icon: Terminal,
+            to: '/admin/messages/commands',
+          },
+        ],
+      },
     ],
   },
   {
@@ -203,25 +222,6 @@ export const adminMenuSections: MenuSection[] = [
         icon: Activity,
         to: '/admin/server-load',
         roles: ['SUPER_ADMIN'],
-      },
-      {
-        key: 'messages',
-        label: '消息管理',
-        icon: MessageSquare,
-        children: [
-          {
-            key: 'admin-chat',
-            label: '聊天记录',
-            icon: MessageCircle,
-            to: '/admin/messages/chat',
-          },
-          {
-            key: 'admin-commands',
-            label: '命令记录',
-            icon: Terminal,
-            to: '/admin/messages/commands',
-          },
-        ],
       },
     ],
   },
