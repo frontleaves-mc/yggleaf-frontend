@@ -34,6 +34,22 @@ export function ResourceTrendChart({
     const memValues = records.map((r) => r.mem_used_avg / (1024 * 1024))
     const jvmValues = records.map((r) => r.jvm_used_avg / (1024 * 1024))
 
+    const memTotalMB = records.length > 0
+      ? Math.max(...records.map((r) =>
+          r.samples.length > 0
+            ? Math.max(...r.samples.map((s) => s.mem_total_bytes))
+            : 0,
+        )) / (1024 * 1024)
+      : 0
+
+    const jvmMaxMB = records.length > 0
+      ? Math.max(...records.map((r) =>
+          r.samples.length > 0
+            ? Math.max(...r.samples.map((s) => s.jvm_max_bytes))
+            : 0,
+        )) / (1024 * 1024)
+      : 0
+
     return {
       title: {
         text: title,
@@ -106,6 +122,20 @@ export function ResourceTrendChart({
           symbolSize: 3,
           lineStyle: { color: '#3b82f6', width: 2 },
           itemStyle: { color: '#3b82f6' },
+          markLine: memTotalMB > 0 ? {
+            silent: true,
+            symbol: 'none',
+            lineStyle: { color: '#3b82f6', type: 'dashed', width: 1, opacity: 0.5 },
+            data: [{
+              yAxis: Number(memTotalMB.toFixed(1)),
+              label: {
+                formatter: `物理内存总量 ${formatBytes(memTotalMB * 1024 * 1024)}`,
+                fontSize: 10,
+                color: '#3b82f6',
+                position: 'insideEndTop',
+              },
+            }],
+          } : undefined,
         },
         {
           name: 'JVM 内存',
@@ -117,6 +147,20 @@ export function ResourceTrendChart({
           symbolSize: 3,
           lineStyle: { color: '#a855f7', width: 2 },
           itemStyle: { color: '#a855f7' },
+          markLine: jvmMaxMB > 0 ? {
+            silent: true,
+            symbol: 'none',
+            lineStyle: { color: '#a855f7', type: 'dashed', width: 1, opacity: 0.5 },
+            data: [{
+              yAxis: Number(jvmMaxMB.toFixed(1)),
+              label: {
+                formatter: `JVM 最大 ${formatBytes(jvmMaxMB * 1024 * 1024)}`,
+                fontSize: 10,
+                color: '#a855f7',
+                position: 'insideEndTop',
+              },
+            }],
+          } : undefined,
         },
       ],
     }

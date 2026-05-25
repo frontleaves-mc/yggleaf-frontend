@@ -96,14 +96,18 @@ function MetricBar({
 }
 
 function ServerCard({ server }: { server: ServerRealtimeLoad }) {
+  const memInfo = server.memory_info ?? { total_bytes: 0, used_bytes: 0, free_bytes: 0 }
+  const jvmInfo = server.jvm_info ?? { max_memory_bytes: 0, used_memory_bytes: 0 }
+  const cpuInfo = server.cpu_info ?? { cores: 0, usage_percent: 0 }
+
   const memUsagePercent =
-    server.memory_info.total_bytes > 0
-      ? (server.memory_info.used_bytes / server.memory_info.total_bytes) * 100
+    memInfo.total_bytes > 0
+      ? (memInfo.used_bytes / memInfo.total_bytes) * 100
       : 0
 
   const jvmUsagePercent =
-    server.jvm_info.max_memory_bytes > 0
-      ? (server.jvm_info.used_memory_bytes / server.jvm_info.max_memory_bytes) * 100
+    jvmInfo.max_memory_bytes > 0
+      ? (jvmInfo.used_memory_bytes / jvmInfo.max_memory_bytes) * 100
       : 0
 
   return (
@@ -159,20 +163,20 @@ function ServerCard({ server }: { server: ServerRealtimeLoad }) {
             <MetricBar
               label="CPU"
               icon={Cpu}
-              percent={server.cpu_info.usage_percent}
-              detail={`${server.cpu_info.cores} 核心`}
+              percent={cpuInfo.usage_percent}
+              detail={`${cpuInfo.cores} 核心`}
             />
             <MetricBar
               label="内存"
               icon={MemoryStick}
               percent={memUsagePercent}
-              detail={`${formatBytes(server.memory_info.used_bytes)} / ${formatBytes(server.memory_info.total_bytes)}`}
+              detail={`${formatBytes(memInfo.used_bytes)} / ${formatBytes(memInfo.total_bytes)}`}
             />
             <MetricBar
               label="JVM"
               icon={HardDrive}
               percent={jvmUsagePercent}
-              detail={`${formatBytes(server.jvm_info.used_memory_bytes)} / ${formatBytes(server.jvm_info.max_memory_bytes)}`}
+              detail={`${formatBytes(jvmInfo.used_memory_bytes)} / ${formatBytes(jvmInfo.max_memory_bytes)}`}
             />
           </div>
 
@@ -269,89 +273,6 @@ function ServerLoadPage() {
           }
         />
       </motion.div>
-
-      {summary && (
-        <motion.section variants={fadeUpItem} className="flex flex-col gap-4">
-          <McSectionHeader
-            label="Summary"
-            title="集群概览"
-            icon={Activity}
-            variant="nether"
-          />
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            <McCard variant="glass" color="nether" className="p-5">
-              <div className="flex items-center justify-between gap-4">
-                <div className="space-y-1.5">
-                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                    在线服务器
-                  </p>
-                  <p className="text-2xl font-bold tabular-nums">
-                    {onlineServers.length}
-                    <span className="text-sm font-normal text-muted-foreground/60">
-                      /{(servers ?? []).length}
-                    </span>
-                  </p>
-                </div>
-                <McIconBox variant="nether" size="md">
-                  <Server />
-                </McIconBox>
-              </div>
-            </McCard>
-
-            <McCard variant="glass" color="gold" className="p-5">
-              <div className="flex items-center justify-between gap-4">
-                <div className="space-y-1.5">
-                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                    平均 TPS
-                  </p>
-                  <p className={`text-2xl font-bold tabular-nums ${tpsColor(summary.avgTps)}`}>
-                    {summary.avgTps.toFixed(1)}
-                  </p>
-                </div>
-                <McIconBox variant="gold" size="md">
-                  <Activity />
-                </McIconBox>
-              </div>
-            </McCard>
-
-            <McCard variant="glass" color="nether" className="p-5">
-              <div className="flex items-center justify-between gap-4">
-                <div className="space-y-1.5">
-                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                    平均 CPU
-                  </p>
-                  <p className="text-2xl font-bold tabular-nums">
-                    {summary.avgCpu.toFixed(1)}
-                    <span className="text-sm font-normal text-muted-foreground/60">%</span>
-                  </p>
-                </div>
-                <McIconBox variant="nether" size="md">
-                  <Cpu />
-                </McIconBox>
-              </div>
-            </McCard>
-
-            <McCard variant="glass" color="gold" className="p-5">
-              <div className="flex items-center justify-between gap-4">
-                <div className="space-y-1.5">
-                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                    内存使用
-                  </p>
-                  <p className="text-lg font-bold tabular-nums">
-                    {formatBytes(summary.usedMem)}
-                    <span className="text-xs font-normal text-muted-foreground/60">
-                      {' '}/ {formatBytes(summary.totalMem)}
-                    </span>
-                  </p>
-                </div>
-                <McIconBox variant="gold" size="md">
-                  <MemoryStick />
-                </McIconBox>
-              </div>
-            </McCard>
-          </div>
-        </motion.section>
-      )}
 
       <motion.section variants={fadeUpItem} className="flex flex-col gap-4">
         <McSectionHeader
