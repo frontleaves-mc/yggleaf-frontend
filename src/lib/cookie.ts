@@ -5,8 +5,8 @@
 
 // ─── 常量 ──────────────────────────────────────────────────
 
-/** Access Token 有效期：1 小时（秒） */
-export const AT_MAX_AGE = 3600
+/** Access Token 有效期：30 天（秒） — 与 RT 一致，避免浏览器删除后刷新页面登出 */
+export const AT_MAX_AGE = 30 * 24 * 3600
 
 /** Refresh Token 有效期：30 天（秒） */
 export const RT_MAX_AGE = 30 * 24 * 3600
