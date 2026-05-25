@@ -43,6 +43,13 @@ export type {
   AdminGameProfileCape,
   AdminGameProfileItem,
   AdminGameProfileListResponse,
+  AdminGameProfileListItem,
+  AdminGameProfileDetailUser,
+  AdminGameProfileDetail,
+  AdminForceSetSkinRequest,
+  AdminForceSetCapeRequest,
+  AdminUpdateRoleRequest,
+  AdminUpdateRoleResponse,
 } from './api-auth/user'
 
 export type { ApiResponse, PaginatedResponse } from './response'

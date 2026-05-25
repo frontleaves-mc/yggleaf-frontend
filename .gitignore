@@ -15,6 +15,7 @@ todos.json
 # Claude Code
 skills-lock.json
 .sisyphus/
+.omo/
 
 # OpenCode
 .opencode/skills/*/scripts/__pycache__/

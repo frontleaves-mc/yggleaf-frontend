@@ -23,8 +23,6 @@ import {
   Minus,
   Loader2,
   Save,
-  Shirt,
-  Flag,
 } from 'lucide-react'
 import { McCard } from '#/components/shared/mc-card'
 import { McBadge } from '#/components/shared/mc-badge'
@@ -46,7 +44,7 @@ import { useSetPageTitle } from '#/components/layout/page-title-context'
 import { staggerContainer, fadeUpItem } from '#/lib/motion-presets'
 import { formatTime } from '#/lib/format'
 import { QuotaBar } from '#/components/shared/quota-bar'
-import type { AdminGameProfileItem } from '#/api/types'
+import type { AdminGameProfileListItem } from '#/api/types'
 
 // ─── Route 定义 ────────────────────────────────────────────
 
@@ -68,7 +66,7 @@ const roleConfig = {
 
 // ─── 子组件：档案卡片（MC 风格） ─────────────────────────────
 
-function ProfileCard({ profile }: { profile: AdminGameProfileItem }) {
+function ProfileCard({ profile }: { profile: AdminGameProfileListItem }) {
   return (
     <McCard variant="solid" color="gold">
       <div className="p-4 space-y-3">
@@ -82,24 +80,6 @@ function ProfileCard({ profile }: { profile: AdminGameProfileItem }) {
               {profile.uuid}
             </p>
           </div>
-        </div>
-
-        <div className="space-y-1.5">
-          {profile.skin && (
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <Shirt className="h-3 w-3 shrink-0" />
-              <span className="truncate">{profile.skin.name}</span>
-              <McBadge variant="default">
-                {profile.skin.model === 2 ? 'ALEX' : 'STEVE'}
-              </McBadge>
-            </div>
-          )}
-          {profile.cape && (
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <Flag className="h-3 w-3 shrink-0" />
-              <span className="truncate">{profile.cape.name}</span>
-            </div>
-          )}
         </div>
 
         <p className="text-[11px] text-muted-foreground">
@@ -143,8 +123,8 @@ function AdminUserGameProfilesPage() {
     )
 
   const { user, game_profile } = detail
-  const profiles = profilesData?.items ?? []
-  const rc = roleConfig[user.role_name] ?? roleConfig.PLAYER
+  const profiles = profilesData?.list ?? []
+  const rc = roleConfig[user.role_name]
 
   const handleAdjustQuota = async () => {
     const delta = Number(deltaInput)
@@ -265,7 +245,6 @@ function AdminUserGameProfilesPage() {
             </div>
           </McCard>
 
-          {superMode && (
             <McCard variant="solid" color="nether">
               <div className="p-5 space-y-3">
                 <McSectionHeader
@@ -348,7 +327,6 @@ function AdminUserGameProfilesPage() {
                 </Button>
               </div>
             </McCard>
-          )}
         </motion.aside>
       </div>
     </motion.div>

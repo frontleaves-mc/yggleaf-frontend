@@ -426,7 +426,90 @@ export interface AdminGameProfileItem {
   updated_at: string
 }
 
-/** 管理员 - 游戏档案列表响应（authApiClient 已解包外层 data） */
+/** 管理员 - 游戏档案列表响应（分页格式） */
 export interface AdminGameProfileListResponse {
-  items: AdminGameProfileItem[]
+  list: AdminGameProfileListItem[]
+  page: number
+  size: number
+  total: number
+}
+
+// ─── 管理员 - 游戏档案列表 & 详情类型（雪花 string ID） ──────
+
+/** 管理员 - 游戏档案列表项 */
+export interface AdminGameProfileListItem {
+  /** 档案 ID */
+  id: string
+  /** 游戏内用户名 */
+  name: string
+  /** Minecraft UUID */
+  uuid: string
+  /** 所属用户 ID */
+  user_id: string
+  /** 关联皮肤库 ID */
+  skin_library_id: string
+  /** 关联披风库 ID */
+  cape_library_id: string
+  /** 所属用户名（列表接口附带） */
+  username: string
+  /** 更新时间 */
+  updated_at: string
+}
+
+/** 管理员 - 游戏档案详情嵌套用户信息 */
+export interface AdminGameProfileDetailUser {
+  /** 用户头像 URL */
+  avatar: string
+  /** 用户 ID */
+  id: string
+  /** 用户名 */
+  username: string
+}
+
+/** 管理员 - 游戏档案详情 */
+export interface AdminGameProfileDetail {
+  /** 档案 ID */
+  id: string
+  /** 游戏内用户名 */
+  name: string
+  /** Minecraft UUID */
+  uuid: string
+  /** 所属用户 ID */
+  user_id: string
+  /** 关联皮肤库 ID */
+  skin_library_id: string
+  /** 关联披风库 ID */
+  cape_library_id: string
+  /** 关联用户详情 */
+  user: AdminGameProfileDetailUser
+  /** 更新时间 */
+  updated_at: string
+}
+
+/** 管理员 - 强制设置皮肤请求 */
+export interface AdminForceSetSkinRequest {
+  /** 皮肤库 ID（传 null 卸下皮肤） */
+  skin_library_id: string | null
+}
+
+/** 管理员 - 强制设置披风请求 */
+export interface AdminForceSetCapeRequest {
+  /** 披风库 ID（传 null 卸下披风） */
+  cape_library_id: string | null
+}
+
+/** 管理员 - 调整用户角色请求 */
+export interface AdminUpdateRoleRequest {
+  /** 目标角色 */
+  role: 'PLAYER' | 'ADMIN'
+}
+
+/** 管理员 - 调整用户角色响应 */
+export interface AdminUpdateRoleResponse {
+  /** 用户 ID */
+  user_id: string
+  /** 新角色名称 */
+  role_name: string
+  /** 更新时间 */
+  updated_at: string
 }

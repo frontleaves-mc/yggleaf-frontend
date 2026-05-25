@@ -12,6 +12,8 @@ import type {
   AdminUserDetailResponse,
   AdminGameProfileListResponse,
   AdjustGameProfileQuotaRequest,
+  AdminUpdateRoleRequest,
+  AdminUpdateRoleResponse,
   GameProfileQuota,
   RoleName,
 } from '#/api/types'
@@ -83,6 +85,17 @@ export async function adjustGameProfileQuota(
   )
 }
 
+/** 管理员调整用户角色 */
+export async function updateUserRole(
+  userId: string,
+  data: AdminUpdateRoleRequest,
+): Promise<AdminUpdateRoleResponse> {
+  return authApiClient.put<AdminUpdateRoleResponse>(
+    `/admin/users/${userId}/role`,
+    data,
+  )
+}
+
 // ─── TanStack Query Hooks ──────────────────────────────────
 
 /** 管理员用户列表 Query */
@@ -117,6 +130,22 @@ export function useAdjustGameProfileQuotaMutation(userId: string) {
   return useMutation({
     mutationFn: (data: AdjustGameProfileQuotaRequest) =>
       adjustGameProfileQuota(userId, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [...ADMIN_USER_DETAIL_QUERY_KEY, userId],
+      })
+      queryClient.invalidateQueries({
+        queryKey: ADMIN_USER_LIST_QUERY_KEY,
+      })
+    },
+  })
+}
+
+/** 调整用户角色 Mutation */
+export function useUpdateUserRoleMutation(userId: string) {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (data: AdminUpdateRoleRequest) => updateUserRole(userId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [...ADMIN_USER_DETAIL_QUERY_KEY, userId],
