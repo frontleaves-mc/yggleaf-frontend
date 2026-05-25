@@ -10,7 +10,7 @@ import {
   useParams,
   useNavigate,
 } from '@tanstack/react-router'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { motion } from 'motion/react'
 import {
   ArrowLeft,
@@ -22,12 +22,18 @@ import {
   User,
   Image as ImageIcon,
 } from 'lucide-react'
+import { toast } from 'sonner'
 import { McCard } from '#/components/shared/mc-card'
 import { McBadge } from '#/components/shared/mc-badge'
 import { McIconBox } from '#/components/shared/mc-icon-box'
 import { McSectionHeader } from '#/components/shared/mc-section-header'
 import { LoadingPage } from '#/components/public/loading-page'
-import { useAdminUserDetail } from '#/api/endpoints/api-auth/admin-user'
+import { Button } from '#/components/ui/button'
+import { ConfirmDialog } from '#/components/public/confirm-dialog'
+import {
+  useAdminUserDetail,
+  useUpdateUserRoleMutation,
+} from '#/api/endpoints/api-auth/admin-user'
 import { useUserInfo } from '#/api/endpoints/api-auth/user'
 import { isSuperAdmin } from '#/lib/permissions'
 import { useSetPageTitle } from '#/components/layout/page-title-context'
@@ -50,11 +56,15 @@ function AdminUserDetailPage() {
   const { data: detail, isLoading } = useAdminUserDetail(userId!)
   const setTitle = useSetPageTitle()
 
-  const superMode = isSuperAdmin(userInfo?.user?.role_name)
+  const superMode = isSuperAdmin(userInfo?.user.role_name)
   if (!superMode) {
     navigate({ to: '/admin' })
     return null
   }
+
+  const roleMutation = useUpdateUserRoleMutation(userId!)
+  const [roleDialogOpen, setRoleDialogOpen] = useState(false)
+  const [pendingRole, setPendingRole] = useState<'PLAYER' | 'ADMIN'>('PLAYER')
 
   useEffect(() => {
     if (detail) setTitle(detail.user.username)
@@ -79,7 +89,19 @@ function AdminUserDetailPage() {
     PLAYER: { label: '玩家', variant: 'default' as const, Icon: User },
   }
 
-  const rc = roleConfig[user.role_name] ?? roleConfig.PLAYER
+  const rc = roleConfig[user.role_name]
+
+  const handleRoleChange = async () => {
+    try {
+      await roleMutation.mutateAsync({ role: pendingRole })
+      toast.success(`角色已更改为${roleConfig[pendingRole].label}`)
+      setRoleDialogOpen(false)
+    } catch {
+      toast.error('角色变更失败')
+    }
+  }
+
+  const canChangeRole = user.role_name !== 'SUPER_ADMIN'
 
   return (
     <motion.div
@@ -119,7 +141,6 @@ function AdminUserDetailPage() {
       <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_320px] xl:grid-cols-[minmax(0,1fr)_360px]">
         {/* 左侧：详细信息 */}
         <motion.div variants={fadeUpItem} className="space-y-4 min-w-0">
-          {superMode && (
             <McCard variant="solid" color="gold">
               <div className="p-5 space-y-4">
                 <McSectionHeader
@@ -163,9 +184,7 @@ function AdminUserDetailPage() {
                 </div>
               </div>
             </McCard>
-          )}
 
-          {superMode && (
             <McCard variant="solid" color="nether">
               <div className="p-5 space-y-4">
                 <McSectionHeader
@@ -216,9 +235,7 @@ function AdminUserDetailPage() {
                 )}
               </div>
             </McCard>
-          )}
 
-          {superMode && (
             <McCard variant="solid" color="gold">
               <div className="p-5 space-y-4">
                 <McSectionHeader
@@ -264,7 +281,6 @@ function AdminUserDetailPage() {
                 )}
               </div>
             </McCard>
-          )}
         </motion.div>
 
         {/* 右侧：基本信息 */}
@@ -297,8 +313,59 @@ function AdminUserDetailPage() {
               </div>
             </div>
           </McCard>
+
+          {/* 角色管理 */}
+          {canChangeRole && (
+            <McCard variant="solid" color="gold" className="p-5">
+              <McSectionHeader
+                title="角色管理"
+                icon={Shield}
+                variant="gold"
+              />
+              <div className="mt-3 space-y-3">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-muted-foreground">当前角色</span>
+                  <McBadge variant={rc.variant}>{rc.label}</McBadge>
+                </div>
+                <div className="flex gap-2">
+                  {(['PLAYER', 'ADMIN'] as const)
+                    .filter((r) => r !== user.role_name)
+                    .map((targetRole) => {
+                      const trc = roleConfig[targetRole]
+                      return (
+                        <Button
+                          key={targetRole}
+                          className="flex-1"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            setPendingRole(targetRole)
+                            setRoleDialogOpen(true)
+                          }}
+                        >
+                          <trc.Icon className="h-3.5 w-3.5 mr-1.5" />
+                          设为{trc.label}
+                        </Button>
+                      )
+                    })}
+                </div>
+              </div>
+            </McCard>
+          )}
         </motion.aside>
       </div>
+
+      {/* 角色变更确认对话框 */}
+      <ConfirmDialog
+        open={roleDialogOpen}
+        onOpenChange={setRoleDialogOpen}
+        title="变更用户角色"
+        description={`将用户「${user.username}」的角色从 ${rc.label} 更改为 ${roleConfig[pendingRole].label}，确认继续？`}
+        confirmLabel="确认变更"
+        variant="default"
+        onConfirm={handleRoleChange}
+        loading={roleMutation.isPending}
+      />
     </motion.div>
   )
 }
