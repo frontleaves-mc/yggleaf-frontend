@@ -14,6 +14,9 @@ import {
   Flag,
   RotateCcw,
   UserCircle,
+  Gift,
+  X,
+  RefreshCw,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { McCard } from '#/components/shared/mc-card'
@@ -29,6 +32,15 @@ import {
   useForceSetCapeMutation,
   useForceResetProfileMutation,
 } from '#/api/endpoints/api-auth/admin-game-profile'
+import {
+  useAdminUserSkins,
+  useAdminUserCapes,
+  useGiftSkinMutation,
+  useRevokeSkinMutation,
+  useGiftCapeMutation,
+  useRevokeCapeMutation,
+  useSyncQuotaMutation,
+} from '#/api/endpoints/api-auth/admin-library'
 import { useSetPageTitle } from '#/components/layout/page-title-context'
 import { staggerContainer, fadeUpItem } from '#/lib/motion-presets'
 import { formatTime } from '#/lib/format'
@@ -61,14 +73,33 @@ function GameProfileDetailPage() {
   const capeMutation = useForceSetCapeMutation(profileId!)
   const resetMutation = useForceResetProfileMutation(profileId!)
 
+  const userId = detail?.user.id ?? ''
+  const { data: skinsData } = useAdminUserSkins(userId)
+  const { data: capesData } = useAdminUserCapes(userId)
+  const giftSkinMutation = useGiftSkinMutation(userId)
+  const revokeSkinMutation = useRevokeSkinMutation(userId)
+  const giftCapeMutation = useGiftCapeMutation(userId)
+  const revokeCapeMutation = useRevokeCapeMutation(userId)
+  const syncQuotaMutation = useSyncQuotaMutation(userId)
+
   // 对话框状态
   const [skinDialogOpen, setSkinDialogOpen] = useState(false)
   const [capeDialogOpen, setCapeDialogOpen] = useState(false)
   const [resetDialogOpen, setResetDialogOpen] = useState(false)
+  const [giftSkinDialogOpen, setGiftSkinDialogOpen] = useState(false)
+  const [giftCapeDialogOpen, setGiftCapeDialogOpen] = useState(false)
+  const [syncQuotaDialogOpen, setSyncQuotaDialogOpen] = useState(false)
+  const [revokeTarget, setRevokeTarget] = useState<{
+    type: 'skin' | 'cape'
+    id: string
+    name: string
+  } | null>(null)
 
   // 输入状态
   const [skinLibraryId, setSkinLibraryId] = useState('')
   const [capeLibraryId, setCapeLibraryId] = useState('')
+  const [giftSkinId, setGiftSkinId] = useState('')
+  const [giftCapeId, setGiftCapeId] = useState('')
 
   // 页面标题同步
   useEffect(() => {
@@ -111,6 +142,53 @@ function GameProfileDetailPage() {
       setResetDialogOpen(false)
     } catch {
       toast.error('重置档案失败')
+    }
+  }
+
+  const handleGiftSkin = async () => {
+    try {
+      await giftSkinMutation.mutateAsync({ assignment_type: 3, skin_library_id: giftSkinId })
+      toast.success('皮肤赠送成功')
+      setGiftSkinDialogOpen(false)
+      setGiftSkinId('')
+    } catch {
+      toast.error('赠送皮肤失败')
+    }
+  }
+
+  const handleGiftCape = async () => {
+    try {
+      await giftCapeMutation.mutateAsync({ assignment_type: 3, cape_library_id: giftCapeId })
+      toast.success('披风赠送成功')
+      setGiftCapeDialogOpen(false)
+      setGiftCapeId('')
+    } catch {
+      toast.error('赠送披风失败')
+    }
+  }
+
+  const handleRevoke = async () => {
+    if (!revokeTarget) return
+    try {
+      if (revokeTarget.type === 'skin') {
+        await revokeSkinMutation.mutateAsync(revokeTarget.id)
+      } else {
+        await revokeCapeMutation.mutateAsync(revokeTarget.id)
+      }
+      toast.success(`${revokeTarget.type === 'skin' ? '皮肤' : '披风'}撤销成功`)
+      setRevokeTarget(null)
+    } catch {
+      toast.error('撤销失败')
+    }
+  }
+
+  const handleSyncQuota = async () => {
+    try {
+      await syncQuotaMutation.mutateAsync()
+      toast.success('配额同步成功')
+      setSyncQuotaDialogOpen(false)
+    } catch {
+      toast.error('同步配额失败')
     }
   }
 
@@ -264,6 +342,126 @@ function GameProfileDetailPage() {
                 <RotateCcw className="h-4 w-4 mr-2" />
                 重置档案
               </Button>
+
+              {/* 同步配额 */}
+              <Button
+                className="w-full justify-start cursor-pointer transition-colors duration-200"
+                variant="outline"
+                size="sm"
+                onClick={() => setSyncQuotaDialogOpen(true)}
+              >
+                <RefreshCw className="h-4 w-4 mr-2" />
+                同步配额
+              </Button>
+            </div>
+          </McCard>
+
+          {/* 用户皮肤库 */}
+          <McCard variant="solid" color="gold">
+            <div className="p-5 space-y-3">
+              <McSectionHeader
+                title="用户皮肤库"
+                icon={Shirt}
+                variant="gold"
+              />
+              {skinsData?.items && skinsData.items.length > 0 ? (
+                <div className="space-y-1">
+                  {skinsData.items.map((skin) => (
+                    <div
+                      key={skin.id}
+                      className="flex items-center justify-between rounded-lg border border-border/60 bg-background/40 px-3 py-2"
+                    >
+                      <div className="min-w-0 flex-1">
+                        <span className="text-[13px] font-medium">{skin.name}</span>
+                        <span className="ml-2 text-[11px] text-muted-foreground">
+                          {skin.model === 1 ? 'Steve' : 'Alex'}
+                        </span>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-7 text-[11px] text-muted-foreground hover:text-destructive cursor-pointer"
+                        onClick={() => setRevokeTarget({ type: 'skin', id: String(skin.id), name: skin.name })}
+                      >
+                        <X className="h-3 w-3 mr-1" />
+                        撤销
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-[13px] text-muted-foreground">暂无皮肤</p>
+              )}
+              <div className="space-y-2">
+                <Input
+                  placeholder="皮肤库 ID"
+                  value={giftSkinId}
+                  onChange={(e) => setGiftSkinId(e.target.value)}
+                  className="text-xs"
+                />
+                <Button
+                  className="w-full justify-start cursor-pointer transition-colors duration-200"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setGiftSkinDialogOpen(true)}
+                >
+                  <Gift className="h-4 w-4 mr-2" />
+                  赠送皮肤
+                </Button>
+              </div>
+            </div>
+          </McCard>
+
+          {/* 用户披风库 */}
+          <McCard variant="solid" color="gold">
+            <div className="p-5 space-y-3">
+              <McSectionHeader
+                title="用户披风库"
+                icon={Flag}
+                variant="gold"
+              />
+              {capesData?.items && capesData.items.length > 0 ? (
+                <div className="space-y-1">
+                  {capesData.items.map((cape) => (
+                    <div
+                      key={cape.id}
+                      className="flex items-center justify-between rounded-lg border border-border/60 bg-background/40 px-3 py-2"
+                    >
+                      <div className="min-w-0 flex-1">
+                        <span className="text-[13px] font-medium">{cape.name}</span>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-7 text-[11px] text-muted-foreground hover:text-destructive cursor-pointer"
+                        onClick={() => setRevokeTarget({ type: 'cape', id: String(cape.id), name: cape.name })}
+                      >
+                        <X className="h-3 w-3 mr-1" />
+                        撤销
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-[13px] text-muted-foreground">暂无披风</p>
+              )}
+              <div className="space-y-2">
+                <Input
+                  placeholder="披风库 ID"
+                  value={giftCapeId}
+                  onChange={(e) => setGiftCapeId(e.target.value)}
+                  className="text-xs"
+                />
+                <Button
+                  className="w-full justify-start cursor-pointer transition-colors duration-200"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setGiftCapeDialogOpen(true)}
+                >
+                  <Gift className="h-4 w-4 mr-2" />
+                  赠送披风
+                </Button>
+              </div>
             </div>
           </McCard>
         </motion.aside>
@@ -310,6 +508,54 @@ function GameProfileDetailPage() {
         variant="destructive"
         onConfirm={handleForceReset}
         loading={resetMutation.isPending}
+      />
+
+      {/* 赠送皮肤确认 */}
+      <ConfirmDialog
+        open={giftSkinDialogOpen}
+        onOpenChange={setGiftSkinDialogOpen}
+        title="赠送皮肤"
+        description={`确认将皮肤库 ID「${giftSkinId}」赠送给该用户？`}
+        confirmLabel="确认赠送"
+        variant="default"
+        onConfirm={handleGiftSkin}
+        loading={giftSkinMutation.isPending}
+      />
+
+      {/* 赠送披风确认 */}
+      <ConfirmDialog
+        open={giftCapeDialogOpen}
+        onOpenChange={setGiftCapeDialogOpen}
+        title="赠送披风"
+        description={`确认将披风库 ID「${giftCapeId}」赠送给该用户？`}
+        confirmLabel="确认赠送"
+        variant="default"
+        onConfirm={handleGiftCape}
+        loading={giftCapeMutation.isPending}
+      />
+
+      {/* 撤销确认 */}
+      <ConfirmDialog
+        open={!!revokeTarget}
+        onOpenChange={(open) => { if (!open) setRevokeTarget(null) }}
+        title={`撤销${revokeTarget?.type === 'skin' ? '皮肤' : '披风'}`}
+        description={revokeTarget ? `确认撤销「${revokeTarget.name}」？此操作不可撤销。` : ''}
+        confirmLabel="确认撤销"
+        variant="destructive"
+        onConfirm={handleRevoke}
+        loading={revokeSkinMutation.isPending || revokeCapeMutation.isPending}
+      />
+
+      {/* 同步配额确认 */}
+      <ConfirmDialog
+        open={syncQuotaDialogOpen}
+        onOpenChange={setSyncQuotaDialogOpen}
+        title="同步配额"
+        description="将重新计算并同步该用户的资源库配额，确认继续？"
+        confirmLabel="确认同步"
+        variant="default"
+        onConfirm={handleSyncQuota}
+        loading={syncQuotaMutation.isPending}
       />
     </motion.div>
   )
