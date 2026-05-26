@@ -25,6 +25,13 @@ import { McIconBox } from '#/components/shared/mc-icon-box'
 import { LoadingPage } from '#/components/public/loading-page'
 import { Button } from '#/components/ui/button'
 import { Input } from '#/components/ui/input'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '#/components/ui/select'
 import { ConfirmDialog } from '#/components/public/confirm-dialog'
 import {
   useAdminGameProfileDetail,
@@ -41,6 +48,8 @@ import {
   useRevokeCapeMutation,
   useSyncQuotaMutation,
 } from '#/api/endpoints/api-auth/admin-library'
+import { useSkinsList } from '#/api/endpoints/api-auth/skin-library'
+import { useCapesList } from '#/api/endpoints/api-auth/cape-library'
 import { useSetPageTitle } from '#/components/layout/page-title-context'
 import { staggerContainer, fadeUpItem } from '#/lib/motion-presets'
 import { formatTime } from '#/lib/format'
@@ -81,6 +90,9 @@ function GameProfileDetailPage() {
   const giftCapeMutation = useGiftCapeMutation(userId)
   const revokeCapeMutation = useRevokeCapeMutation(userId)
   const syncQuotaMutation = useSyncQuotaMutation(userId)
+
+  const { data: skinsListData, isLoading: skinsListLoading } = useSkinsList({ enabled: !!userId })
+  const { data: capesListData, isLoading: capesListLoading } = useCapesList({ enabled: !!userId })
 
   // 对话框状态
   const [skinDialogOpen, setSkinDialogOpen] = useState(false)
@@ -393,16 +405,27 @@ function GameProfileDetailPage() {
                 <p className="text-[13px] text-muted-foreground">暂无皮肤</p>
               )}
               <div className="space-y-2">
-                <Input
-                  placeholder="皮肤库 ID"
-                  value={giftSkinId}
-                  onChange={(e) => setGiftSkinId(e.target.value)}
-                  className="text-xs"
-                />
+                <Select value={giftSkinId} onValueChange={setGiftSkinId}>
+                  <SelectTrigger className="w-full text-xs">
+                    <SelectValue placeholder="选择要赠送的皮肤..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {skinsListLoading ? (
+                      <SelectItem value="__loading__" disabled>加载中...</SelectItem>
+                    ) : (
+                      skinsListData?.items.map((item) => (
+                        <SelectItem key={item.id} value={String(item.id)}>
+                          {item.name}
+                        </SelectItem>
+                      ))
+                    )}
+                  </SelectContent>
+                </Select>
                 <Button
                   className="w-full justify-start cursor-pointer transition-colors duration-200"
                   variant="outline"
                   size="sm"
+                  disabled={!giftSkinId}
                   onClick={() => setGiftSkinDialogOpen(true)}
                 >
                   <Gift className="h-4 w-4 mr-2" />
@@ -446,16 +469,27 @@ function GameProfileDetailPage() {
                 <p className="text-[13px] text-muted-foreground">暂无披风</p>
               )}
               <div className="space-y-2">
-                <Input
-                  placeholder="披风库 ID"
-                  value={giftCapeId}
-                  onChange={(e) => setGiftCapeId(e.target.value)}
-                  className="text-xs"
-                />
+                <Select value={giftCapeId} onValueChange={setGiftCapeId}>
+                  <SelectTrigger className="w-full text-xs">
+                    <SelectValue placeholder="选择要赠送的披风..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {capesListLoading ? (
+                      <SelectItem value="__loading__" disabled>加载中...</SelectItem>
+                    ) : (
+                      capesListData?.items.map((item) => (
+                        <SelectItem key={item.id} value={String(item.id)}>
+                          {item.name}
+                        </SelectItem>
+                      ))
+                    )}
+                  </SelectContent>
+                </Select>
                 <Button
                   className="w-full justify-start cursor-pointer transition-colors duration-200"
                   variant="outline"
                   size="sm"
+                  disabled={!giftCapeId}
                   onClick={() => setGiftCapeDialogOpen(true)}
                 >
                   <Gift className="h-4 w-4 mr-2" />
@@ -515,7 +549,7 @@ function GameProfileDetailPage() {
         open={giftSkinDialogOpen}
         onOpenChange={setGiftSkinDialogOpen}
         title="赠送皮肤"
-        description={`确认将皮肤库 ID「${giftSkinId}」赠送给该用户？`}
+        description={`确认将皮肤「${skinsListData?.items.find(i => String(i.id) === giftSkinId)?.name ?? giftSkinId}」赠送给该用户？`}
         confirmLabel="确认赠送"
         variant="default"
         onConfirm={handleGiftSkin}
@@ -527,7 +561,7 @@ function GameProfileDetailPage() {
         open={giftCapeDialogOpen}
         onOpenChange={setGiftCapeDialogOpen}
         title="赠送披风"
-        description={`确认将披风库 ID「${giftCapeId}」赠送给该用户？`}
+        description={`确认将披风「${capesListData?.items.find(i => String(i.id) === giftCapeId)?.name ?? giftCapeId}」赠送给该用户？`}
         confirmLabel="确认赠送"
         variant="default"
         onConfirm={handleGiftCape}
