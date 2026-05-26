@@ -498,6 +498,81 @@ export interface AdminForceSetCapeRequest {
   cape_library_id: string | null
 }
 
+// ─── 管理员 - 资源库管理类型 ──────────────────────
+
+/** 关联分配类型 (1=用户自建 Normal, 2=赠送 Gift, 3=管理员分配 Admin) */
+export type AssignmentType = 1 | 2 | 3
+
+/** 管理员 - 用户皮肤列表项 */
+export interface AdminLibrarySkinItem {
+  /** 皮肤库记录 ID */
+  id: number
+  /** 皮肤名称 */
+  name: string
+  /** 皮肤模型 (1=classic, 2=slim) */
+  model: 1 | 2
+  /** 皮肤纹理 URL */
+  texture_url: string
+  /** 皮肤纹理哈希 */
+  texture_hash: string
+  /** 是否公开 */
+  is_public: boolean
+  /** 创建者/上传者用户 ID */
+  user_id: number
+  /** 关联类型 */
+  assignment_type?: AssignmentType
+  /** 更新时间 */
+  updated_at: string
+}
+
+/** 管理员 - 用户披风列表项 */
+export interface AdminLibraryCapeItem {
+  /** 披风库记录 ID */
+  id: number
+  /** 披风名称 */
+  name: string
+  /** 披风纹理 URL */
+  texture_url: string
+  /** 披风纹理哈希 */
+  texture_hash: string
+  /** 是否公开 */
+  is_public: boolean
+  /** 创建者/上传者用户 ID */
+  user_id: number
+  /** 关联类型 */
+  assignment_type?: AssignmentType
+  /** 更新时间 */
+  updated_at: string
+}
+
+/** 管理员 - 用户皮肤列表响应 */
+export interface AdminSkinListResponse {
+  items: AdminLibrarySkinItem[]
+  total: number
+}
+
+/** 管理员 - 用户披风列表响应 */
+export interface AdminCapeListResponse {
+  items: AdminLibraryCapeItem[]
+  total: number
+}
+
+/** 管理员 - 赠送皮肤请求 */
+export interface AdminGiftSkinRequest {
+  /** 分配类型 (固定 3=Admin) */
+  assignment_type: number
+  /** 皮肤库 ID */
+  skin_library_id: string
+}
+
+/** 管理员 - 赠送披风请求 */
+export interface AdminGiftCapeRequest {
+  /** 分配类型 (固定 3=Admin) */
+  assignment_type: number
+  /** 披风库 ID */
+  cape_library_id: string
+}
+
 /** 管理员 - 调整用户角色请求 */
 export interface AdminUpdateRoleRequest {
   /** 目标角色 */

@@ -49,6 +49,13 @@ export type {
   AdminForceSetSkinRequest,
   AdminForceSetCapeRequest,
   AdminUpdateRoleRequest,
+  AssignmentType,
+  AdminLibrarySkinItem,
+  AdminLibraryCapeItem,
+  AdminSkinListResponse,
+  AdminCapeListResponse,
+  AdminGiftSkinRequest,
+  AdminGiftCapeRequest,
   AdminUpdateRoleResponse,
 } from './api-auth/user'
 
