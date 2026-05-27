@@ -24,8 +24,10 @@ import {
   RefreshCw,
   User,
   Fingerprint,
+  ChevronDown,
 } from 'lucide-react'
 import { toast } from 'sonner'
+import { cn } from '#/lib/utils'
 import { McCard } from '#/components/shared/mc-card'
 import { McSectionHeader } from '#/components/shared/mc-section-header'
 import { McIconBox } from '#/components/shared/mc-icon-box'
@@ -178,6 +180,12 @@ function GameProfileDetailPage() {
   const [capeLibraryId, setCapeLibraryId] = useState('')
   const [giftSkinId, setGiftSkinId] = useState('')
   const [giftCapeId, setGiftCapeId] = useState('')
+
+  const [expandedDetails, setExpandedDetails] = useState<Record<string, boolean>>({})
+
+  const toggleDetail = (key: string) => {
+    setExpandedDetails(prev => ({ ...prev, [key]: !prev[key] }))
+  }
 
   // 页面标题同步
   useEffect(() => {
@@ -403,6 +411,64 @@ function GameProfileDetailPage() {
                         </McCard>
                       ))}
                     </div>
+
+                    {(() => {
+                      const detailSections = [
+                        { key: 'blocks_break', label: '方块破坏明细', data: matrixData.blocks_break, icon: Pickaxe, color: 'nether' as const },
+                        { key: 'blocks_place', label: '方块放置明细', data: matrixData.blocks_place, icon: Box, color: 'gold' as const },
+                        { key: 'deaths', label: '死亡原因明细', data: matrixData.deaths, icon: Skull, color: 'nether' as const },
+                        { key: 'entities_kill', label: '击杀实体明细', data: matrixData.entities_kill, icon: Sword, color: 'grass' as const },
+                        { key: 'items_used', label: '物品使用明细', data: matrixData.items_used, icon: Shirt, color: 'diamond' as const },
+                      ]
+
+                      return (
+                        <div className="mt-4 space-y-2">
+                          {detailSections.map((section) => {
+                            const entries = Object.entries(section.data ?? {})
+                            const totalCount = entries.length
+                            const isExpanded = expandedDetails[section.key] ?? false
+
+                            return (
+                              <div key={section.key}>
+                                <button
+                                  onClick={() => toggleDetail(section.key)}
+                                  className="flex w-full items-center justify-between rounded-lg border border-border/60 bg-background/40 px-4 py-3 transition-colors hover:bg-background/60 cursor-pointer"
+                                >
+                                  <div className="flex items-center gap-2">
+                                    <section.icon className="h-4 w-4 text-muted-foreground" />
+                                    <span className="text-[13px] font-medium">{section.label}</span>
+                                  </div>
+                                  <div className="flex items-center gap-2">
+                                    <span className="text-[12px] text-muted-foreground">{totalCount} 项</span>
+                                    <ChevronDown className={cn('h-4 w-4 text-muted-foreground transition-transform duration-200', isExpanded && 'rotate-180')} />
+                                  </div>
+                                </button>
+
+                                {isExpanded && (
+                                  <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                                    {totalCount === 0 ? (
+                                      <div className="col-span-full py-4 text-center text-[13px] text-muted-foreground">暂无数据</div>
+                                    ) : (
+                                      entries
+                                        .sort(([, a], [, b]) => b - a)
+                                        .map(([rawKey, value]) => {
+                                          const displayKey = rawKey.replace(/^minecraft:/, '')
+                                          return (
+                                            <div key={rawKey} className="flex items-center justify-between rounded-lg border border-border/60 bg-background/40 px-3 py-2">
+                                              <span className="text-[12px] font-mono text-muted-foreground">{displayKey}</span>
+                                              <span className="text-[12px] font-bold tabular-nums">{value.toLocaleString()}</span>
+                                            </div>
+                                          )
+                                        })
+                                    )}
+                                  </div>
+                                )}
+                              </div>
+                            )
+                          })}
+                        </div>
+                      )
+                    })()}
                   </>
                 ) : null}
               </div>

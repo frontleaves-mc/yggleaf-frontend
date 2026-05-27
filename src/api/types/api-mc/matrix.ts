@@ -17,11 +17,11 @@ export interface MatrixStatisticResponse {
   total_blocks_placed: number
   total_deaths: number
   total_entities_killed: number
-  blocks_break: number[]
-  blocks_place: number[]
-  deaths: number[]
-  entities_kill: number[]
-  items_used: number[]
+  blocks_break: Record<string, number>
+  blocks_place: Record<string, number>
+  deaths: Record<string, number>
+  entities_kill: Record<string, number>
+  items_used: Record<string, number>
 }
 
 /** 警告列表项 */

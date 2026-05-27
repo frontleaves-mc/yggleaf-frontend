@@ -8,9 +8,11 @@
 
 import { createFileRoute } from '@tanstack/react-router'
 import {
+  Box,
   Clock,
   Gamepad2,
   Pickaxe,
+  Shirt,
   Skull,
   Sword,
   Target,
@@ -48,6 +50,10 @@ function formatPlayTime(ms: number): string {
   return '不到1分钟'
 }
 
+function cleanMinecraftId(id: string): string {
+  return id.replace(/^minecraft:/, '')
+}
+
 // ─── 统计卡片 ────────────────────────────────────────────────
 
 interface StatCardProps {
@@ -73,6 +79,56 @@ function StatCard({ icon: Icon, label, value, variant }: StatCardProps) {
               {value}
             </span>
           </div>
+        </div>
+      </McCard>
+    </motion.div>
+  )
+}
+
+// ─── 详细数据明细组件 ────────────────────────────────────────
+
+interface DetailSectionProps {
+  title: string
+  icon: React.ComponentType<{ className?: string }>
+  data: Record<string, number>
+  variant: 'grass' | 'diamond' | 'nether' | 'gold'
+}
+
+function DetailSection({ title, icon: Icon, data, variant }: DetailSectionProps) {
+  const entries = Object.entries(data).sort(([, a], [, b]) => b - a)
+
+  return (
+    <motion.div variants={mcStaggerGridItem}>
+      <McCard variant="glass" color={variant} className="p-5">
+        <div className="space-y-3">
+          <div className="flex items-center gap-2.5">
+            <Icon className="h-4 w-4 text-muted-foreground" />
+            <span className="text-[13px] font-medium text-muted-foreground">
+              {title}
+            </span>
+            <span className="ml-auto text-[11px] text-muted-foreground/60">
+              {entries.length} 种
+            </span>
+          </div>
+          {entries.length > 0 ? (
+            <div className="grid gap-2 sm:grid-cols-2">
+              {entries.map(([key, value]) => (
+                <div
+                  key={key}
+                  className="flex items-center justify-between rounded-lg border border-border/60 bg-background/40 px-3 py-2"
+                >
+                  <span className="text-[12px] font-mono text-muted-foreground truncate mr-2">
+                    {cleanMinecraftId(key)}
+                  </span>
+                  <span className="text-[12px] font-bold tabular-nums shrink-0">
+                    {value.toLocaleString()}
+                  </span>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-[13px] text-muted-foreground py-2">暂无数据</p>
+          )}
         </div>
       </McCard>
     </motion.div>
@@ -205,6 +261,43 @@ function MatrixStatisticsPage() {
           {statCards.map((card) => (
             <StatCard key={card.label} {...card} />
           ))}
+        </div>
+      </section>
+
+      {/* 详细数据明细 */}
+      <section className="flex flex-col gap-4">
+        <McSectionHeader title="数据明细" icon={Target} variant="nether" />
+        <div className="grid gap-4 sm:grid-cols-2">
+          <DetailSection
+            title="方块破坏明细"
+            icon={Pickaxe}
+            data={data.blocks_break}
+            variant="nether"
+          />
+          <DetailSection
+            title="方块放置明细"
+            icon={Box}
+            data={data.blocks_place}
+            variant="gold"
+          />
+          <DetailSection
+            title="死亡原因明细"
+            icon={Skull}
+            data={data.deaths}
+            variant="nether"
+          />
+          <DetailSection
+            title="击杀实体明细"
+            icon={Sword}
+            data={data.entities_kill}
+            variant="grass"
+          />
+          <DetailSection
+            title="物品使用明细"
+            icon={Shirt}
+            data={data.items_used}
+            variant="diamond"
+          />
         </div>
       </section>
     </motion.div>
