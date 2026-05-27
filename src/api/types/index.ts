@@ -207,6 +207,16 @@ export type {
   SSEDirectMessage,
 } from './api-mc/message'
 
+// ─── Matrix 模块 ─────────────────────────────────────────────
+
+export type {
+  MatrixStatisticResponse,
+  MatrixWarningListItem,
+  MatrixWarningListResponse,
+  MatrixWarningDetailResponse,
+  AdminMatrixWarningListParams,
+} from './api-mc/matrix'
+
 // ─── 服务器负载模块 ──────────────────────────────────────────
 
 export type {

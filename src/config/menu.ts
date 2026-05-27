@@ -9,6 +9,7 @@ import type { LucideIcon } from 'lucide-react'
 import type { RoleName } from '#/api/types'
 import {
   Activity,
+  BarChart3,
   CalendarClock,
   Flag,
   Gamepad2,
@@ -22,6 +23,7 @@ import {
   Puzzle,
   Server,
   Settings,
+  ShieldAlert,
   Shirt,
   Store,
   Tags,
@@ -184,6 +186,24 @@ export const adminMenuSections: MenuSection[] = [
     ],
   },
   {
+    key: 'matrix',
+    label: 'Matrix',
+    items: [
+      {
+        key: 'matrix-statistics',
+        label: '玩家统计',
+        icon: BarChart3,
+        to: '/admin/matrix/statistics',
+      },
+      {
+        key: 'matrix-warnings',
+        label: '警告管理',
+        icon: ShieldAlert,
+        to: '/admin/matrix/warnings',
+      },
+    ],
+  },
+  {
     key: 'system',
     label: '系统',
     items: [
@@ -286,6 +306,12 @@ export const userMenuSections: MenuSection[] = [
         icon: Terminal,
         to: '/user/commands',
       },
+      {
+        key: 'matrix-statistics',
+        label: '游戏统计',
+        icon: BarChart3,
+        to: '/user/matrix-statistics',
+      },
     ],
   },
   {
@@ -356,11 +382,15 @@ export const breadcrumbLabels: Record<string, string> = {
   '/user/my-titles': '我的称号',
   '/user/chat': '游戏聊天',
   '/user/commands': '命令记录',
+  '/user/matrix-statistics': '游戏统计',
   '/setup': '账户设置',
   '/setup/password': '设置游戏密码',
 
   // ── 管理端 ──
   '/admin/dashboard': '仪表盘',
+  '/admin/matrix/statistics': '玩家统计',
+  '/admin/matrix/warnings': '警告管理',
+  '/admin/matrix/warnings/$warningId': '警告详情',
   '/admin/users': '用户管理',
   '/admin/users/$userId': '用户详情',
   '/admin/game-profiles': '游戏档案管理',
