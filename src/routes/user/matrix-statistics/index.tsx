@@ -1,9 +1,11 @@
 /**
  * 玩家端 Matrix 统计页面 - 我的游戏统计
  *
- * 展示当前登录玩家的游戏统计数据卡片：
- *   - 基本信息：玩家名称、当前会话开始时间
- *   - 6 个游戏数据卡片（grid 布局）
+ * 使用 SubTab 导航分区展示：
+ *   - 概览：基本信息 + 6 个核心数据卡片
+ *   - 方块：方块破坏/放置明细
+ *   - 战斗：死亡原因/击杀实体明细
+ *   - 物品：物品使用明细
  */
 
 import { createFileRoute } from '@tanstack/react-router'
@@ -24,6 +26,7 @@ import { LoadingPage } from '#/components/public/loading-page'
 import { McCard } from '#/components/shared/mc-card'
 import { McIconBox } from '#/components/shared/mc-icon-box'
 import { McSectionHeader } from '#/components/shared/mc-section-header'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '#/components/ui/tabs'
 import { mcStaggerGrid, mcStaggerGridItem } from '#/lib/motion-presets'
 
 export const Route = createFileRoute('/user/matrix-statistics/')({
@@ -94,7 +97,12 @@ interface DetailSectionProps {
   variant: 'grass' | 'diamond' | 'nether' | 'gold'
 }
 
-function DetailSection({ title, icon: Icon, data, variant }: DetailSectionProps) {
+function DetailSection({
+  title,
+  icon: Icon,
+  data,
+  variant,
+}: DetailSectionProps) {
   const entries = Object.entries(data).sort(([, a], [, b]) => b - a)
 
   return (
@@ -199,107 +207,145 @@ function MatrixStatisticsPage() {
   ]
 
   return (
-    <motion.div
-      className="flex flex-col gap-8"
-      variants={mcStaggerGrid}
-      initial="hidden"
-      animate="visible"
-    >
+    <div className="flex flex-col gap-6">
       {/* 页面标题 */}
       <McSectionHeader title="我的游戏统计" icon={Gamepad2} variant="diamond" />
 
-      {/* 基本信息区 */}
-      <motion.div variants={mcStaggerGridItem}>
-        <McCard variant="solid" color="diamond" className="p-6">
-          <div className="flex flex-wrap items-center gap-6">
-            <div className="flex items-start gap-3">
-              <McIconBox variant="diamond" size="sm">
-                <Gamepad2 />
-              </McIconBox>
-              <div className="flex flex-col gap-0.5">
-                <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground/60">
-                  玩家名称
-                </span>
-                <span className="text-sm font-semibold text-foreground">
-                  {data.player_name}
-                </span>
-              </div>
+      {/* SubTab 导航 */}
+      <Tabs defaultValue="overview">
+        <TabsList variant="line">
+          <TabsTrigger value="overview">概览</TabsTrigger>
+          <TabsTrigger value="blocks">方块</TabsTrigger>
+          <TabsTrigger value="combat">战斗</TabsTrigger>
+          <TabsTrigger value="items">物品</TabsTrigger>
+        </TabsList>
+
+        {/* ─── 概览 ──────────────────────────────── */}
+        <TabsContent value="overview" className="mt-6">
+          <motion.div
+            className="flex flex-col gap-6"
+            variants={mcStaggerGrid}
+            initial="hidden"
+            animate="visible"
+          >
+            {/* 基本信息区 */}
+            <motion.div variants={mcStaggerGridItem}>
+              <McCard variant="solid" color="diamond" className="p-6">
+                <div className="flex flex-wrap items-center gap-6">
+                  <div className="flex items-start gap-3">
+                    <McIconBox variant="diamond" size="sm">
+                      <Gamepad2 />
+                    </McIconBox>
+                    <div className="flex flex-col gap-0.5">
+                      <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground/60">
+                        玩家名称
+                      </span>
+                      <span className="text-sm font-semibold text-foreground">
+                        {data.player_name}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <McIconBox variant="gold" size="sm">
+                      <Clock />
+                    </McIconBox>
+                    <div className="flex flex-col gap-0.5">
+                      <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground/60">
+                        当前会话开始时间
+                      </span>
+                      <span className="text-sm font-semibold text-foreground">
+                        {data.current_session_start
+                          ? new Date(data.current_session_start).toLocaleString(
+                              'zh-CN',
+                              {
+                                year: 'numeric',
+                                month: '2-digit',
+                                day: '2-digit',
+                                hour: '2-digit',
+                                minute: '2-digit',
+                              },
+                            )
+                          : '未在游戏中'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </McCard>
+            </motion.div>
+
+            {/* 统计数据卡片组 */}
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {statCards.map((card) => (
+                <StatCard key={card.label} {...card} />
+              ))}
             </div>
+          </motion.div>
+        </TabsContent>
 
-            <div className="flex items-start gap-3">
-              <McIconBox variant="gold" size="sm">
-                <Clock />
-              </McIconBox>
-              <div className="flex flex-col gap-0.5">
-                <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground/60">
-                  当前会话开始时间
-                </span>
-                <span className="text-sm font-semibold text-foreground">
-                  {data.current_session_start
-                    ? new Date(data.current_session_start).toLocaleString(
-                        'zh-CN',
-                        {
-                          year: 'numeric',
-                          month: '2-digit',
-                          day: '2-digit',
-                          hour: '2-digit',
-                          minute: '2-digit',
-                        },
-                      )
-                    : '未在游戏中'}
-                </span>
-              </div>
-            </div>
-          </div>
-        </McCard>
-      </motion.div>
+        {/* ─── 方块统计 ──────────────────────────── */}
+        <TabsContent value="blocks" className="mt-6">
+          <motion.div
+            className="grid gap-4 sm:grid-cols-2"
+            variants={mcStaggerGrid}
+            initial="hidden"
+            animate="visible"
+          >
+            <DetailSection
+              title="方块破坏明细"
+              icon={Pickaxe}
+              data={data.blocks_break}
+              variant="nether"
+            />
+            <DetailSection
+              title="方块放置明细"
+              icon={Box}
+              data={data.blocks_place}
+              variant="gold"
+            />
+          </motion.div>
+        </TabsContent>
 
-      {/* 统计数据卡片组 */}
-      <section className="flex flex-col gap-4">
-        <McSectionHeader title="游戏数据" icon={Target} variant="grass" />
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {statCards.map((card) => (
-            <StatCard key={card.label} {...card} />
-          ))}
-        </div>
-      </section>
+        {/* ─── 战斗统计 ──────────────────────────── */}
+        <TabsContent value="combat" className="mt-6">
+          <motion.div
+            className="grid gap-4 sm:grid-cols-2"
+            variants={mcStaggerGrid}
+            initial="hidden"
+            animate="visible"
+          >
+            <DetailSection
+              title="死亡原因明细"
+              icon={Skull}
+              data={data.deaths}
+              variant="nether"
+            />
+            <DetailSection
+              title="击杀实体明细"
+              icon={Sword}
+              data={data.entities_kill}
+              variant="grass"
+            />
+          </motion.div>
+        </TabsContent>
 
-      {/* 详细数据明细 */}
-      <section className="flex flex-col gap-4">
-        <McSectionHeader title="数据明细" icon={Target} variant="nether" />
-        <div className="grid gap-4 sm:grid-cols-2">
-          <DetailSection
-            title="方块破坏明细"
-            icon={Pickaxe}
-            data={data.blocks_break}
-            variant="nether"
-          />
-          <DetailSection
-            title="方块放置明细"
-            icon={Box}
-            data={data.blocks_place}
-            variant="gold"
-          />
-          <DetailSection
-            title="死亡原因明细"
-            icon={Skull}
-            data={data.deaths}
-            variant="nether"
-          />
-          <DetailSection
-            title="击杀实体明细"
-            icon={Sword}
-            data={data.entities_kill}
-            variant="grass"
-          />
-          <DetailSection
-            title="物品使用明细"
-            icon={Shirt}
-            data={data.items_used}
-            variant="diamond"
-          />
-        </div>
-      </section>
-    </motion.div>
+        {/* ─── 物品统计 ──────────────────────────── */}
+        <TabsContent value="items" className="mt-6">
+          <motion.div
+            className="grid gap-4 sm:grid-cols-2"
+            variants={mcStaggerGrid}
+            initial="hidden"
+            animate="visible"
+          >
+            <DetailSection
+              title="物品使用明细"
+              icon={Shirt}
+              data={data.items_used}
+              variant="diamond"
+            />
+          </motion.div>
+        </TabsContent>
+      </Tabs>
+    </div>
   )
 }
