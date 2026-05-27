@@ -2,7 +2,7 @@
  * SSE 实时聊天流连接 Hook
  *
  * 基于 fetch + ReadableStream 手动解析 SSE，因为标准 EventSource 不支持自定义 Header。
- * 支持 init（批量初始化）和 chat（实时消息）两种事件类型。
+ * 支持 init（批量初始化）、chat（实时消息）和 dm（实时私信）三种事件类型。
  * 内置指数退避自动重连 + 雪花 ID 精度保护。
  */
 
@@ -10,7 +10,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { authStore } from '#/stores/auth-store'
 import { MC_API_BASE_URL, ACCESS_TOKEN_KEY } from '#/config/constants'
 import { getCookie } from '#/lib/cookie'
-import type { ChatLogResponse, SSEChatMessage } from '#/api/types/api-mc/message'
+import type { ChatLogResponse, SSEChatMessage, SSEDirectMessage } from '#/api/types/api-mc/message'
 
 // ─── 类型定义 ──────────────────────────────────────────────
 
@@ -21,6 +21,8 @@ export interface UseChatStreamOptions {
   onInit: (messages: ChatLogResponse[]) => void
   /** chat 事件回调：实时聊天消息推送 */
   onChat: (message: SSEChatMessage) => void
+  /** dm 事件回调：实时私信推送 */
+  onDm?: (message: SSEDirectMessage) => void
   /** 错误回调 */
   onError?: (error: Error) => void
 }
@@ -95,7 +97,7 @@ function getAccessToken(): string | null {
 // ─── Hook 实现 ──────────────────────────────────────────────
 
 export function useChatStream(options: UseChatStreamOptions): UseChatStreamReturn {
-  const { enabled = true, onInit, onChat, onError } = options
+  const { enabled = true, onInit, onChat, onDm, onError } = options
 
   const [isConnected, setIsConnected] = useState(false)
   const [reconnectCount, setReconnectCount] = useState(0)
@@ -106,12 +108,14 @@ export function useChatStream(options: UseChatStreamOptions): UseChatStreamRetur
   const enabledRef = useRef(enabled)
   const onInitRef = useRef(onInit)
   const onChatRef = useRef(onChat)
+  const onDmRef = useRef(onDm)
   const onErrorRef = useRef(onError)
 
   // 保持回调 ref 最新
   useEffect(() => {
     onInitRef.current = onInit
     onChatRef.current = onChat
+    onDmRef.current = onDm
     onErrorRef.current = onError
   })
 
@@ -189,6 +193,9 @@ export function useChatStream(options: UseChatStreamOptions): UseChatStreamRetur
                 } else if (evt.event === 'chat') {
                   const message = safeParseSSE(evt.data) as SSEChatMessage
                   onChatRef.current(message)
+                } else if (evt.event === 'dm') {
+                  const dm = safeParseSSE(evt.data) as SSEDirectMessage
+                  onDmRef.current?.(dm)
                 }
               } catch {
                 // JSON 解析失败，忽略该事件

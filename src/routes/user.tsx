@@ -13,8 +13,9 @@ import {
 import { Layout } from '#/components/layout/layout'
 import { ensureAuthenticated } from '#/hooks/use-auth-guard'
 import { useUserInfo } from '#/api/endpoints/api-auth/user'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { userMenuSections } from '#/config/menu'
+import { useUnreadDMCount } from '#/api/endpoints/api-mc/user-message'
 
 export const Route = createFileRoute('/user')({
   beforeLoad: async ({ location }) => {
@@ -43,8 +44,21 @@ function AccountReadyGuard() {
 }
 
 function UserLayoutWrapper() {
+  const { data: unreadData } = useUnreadDMCount()
+  const unreadCount = unreadData?.total ?? 0
+
+  const menuSections = useMemo(() => {
+    if (unreadCount <= 0) return userMenuSections
+    return userMenuSections.map((section) => ({
+      ...section,
+      items: section.items.map((item) =>
+        item.key === 'chat' ? { ...item, badge: unreadCount } : item,
+      ),
+    }))
+  }, [unreadCount])
+
   return (
-    <Layout mode="user" sections={userMenuSections}>
+    <Layout mode="user" sections={menuSections}>
       <AccountReadyGuard />
       <Outlet />
     </Layout>

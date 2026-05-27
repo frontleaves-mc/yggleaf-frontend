@@ -193,6 +193,20 @@ export type {
   SendChatMessageRequest,
 } from './api-mc/message'
 
+export type {
+  DirectMessageResponse,
+  DirectMessageListResponse,
+  ConversationResponse,
+  ConversationListResponse,
+  UnreadCountByUser,
+  UnreadCountResponse,
+  SendDirectMessageRequest,
+  MarkAsReadRequest,
+  DirectMessageParams,
+  AdminDirectMessageParams,
+  SSEDirectMessage,
+} from './api-mc/message'
+
 // ─── 服务器负载模块 ──────────────────────────────────────────
 
 export type {

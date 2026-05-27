@@ -2,7 +2,7 @@
  * 管理员消息管理 API 端点函数 + TanStack Query Hooks
  * 对接锋楪插件后端 (mcApiClient)
  *
- * 接口路径：/admin/messages/chat, /admin/messages/commands
+ * 接口路径：/admin/messages/chat, /admin/messages/commands, /admin/messages/dm
  */
 
 import { useQuery } from '@tanstack/react-query'
@@ -12,6 +12,8 @@ import type {
   CommandLogListResponse,
   AdminChatListParams,
   AdminCommandListParams,
+  DirectMessageListResponse,
+  AdminDirectMessageParams,
 } from '../../types/api-mc/message'
 
 // ─── Query Keys ────────────────────────────────────────────
@@ -25,6 +27,11 @@ export const ADMIN_COMMAND_LIST_QUERY_KEY = [
   'admin',
   'messages',
   'commands',
+] as const
+export const ADMIN_DM_LIST_QUERY_KEY = [
+  'admin',
+  'messages',
+  'dm',
 ] as const
 
 // ─── 端点函数 ──────────────────────────────────────────────
@@ -60,6 +67,21 @@ export async function getAdminCommandList(
   )
 }
 
+/** 管理员查询所有私信记录（分页 + 筛选） */
+export async function getAdminDMList(
+  params?: AdminDirectMessageParams,
+): Promise<DirectMessageListResponse> {
+  const sp = new URLSearchParams()
+  if (params?.page) sp.set('page', String(params.page))
+  if (params?.page_size) sp.set('page_size', String(params.page_size))
+  if (params?.sender_name) sp.set('sender_name', params.sender_name)
+  if (params?.receiver_name) sp.set('receiver_name', params.receiver_name)
+  const qs = sp.toString()
+  return mcApiClient.get<DirectMessageListResponse>(
+    qs ? `/admin/messages/dm?${qs}` : '/admin/messages/dm',
+  )
+}
+
 // ─── TanStack Query Hooks ──────────────────────────────────
 
 /** 管理员聊天记录列表 Query */
@@ -75,5 +97,13 @@ export function useAdminCommandList(params?: AdminCommandListParams) {
   return useQuery({
     queryKey: [...ADMIN_COMMAND_LIST_QUERY_KEY, params],
     queryFn: () => getAdminCommandList(params),
+  })
+}
+
+/** 管理员私信记录列表 Query */
+export function useAdminDMList(params?: AdminDirectMessageParams) {
+  return useQuery({
+    queryKey: [...ADMIN_DM_LIST_QUERY_KEY, params],
+    queryFn: () => getAdminDMList(params),
   })
 }

@@ -5,7 +5,7 @@
  */
 
 import { createFileRoute } from '@tanstack/react-router'
-import { useReducer, useCallback, useState } from 'react'
+import { useReducer, useCallback, useState, useRef } from 'react'
 import { MessageCircle, Gamepad2 } from 'lucide-react'
 import { UserPageLayout } from '#/components/public/user-page-layout'
 import { GameProfileSelector } from '#/components/public/game-profile-selector'
@@ -16,11 +16,20 @@ import { ChatMessageList } from '#/components/chat/chat-message-list'
 import { ChatInput } from '#/components/chat/chat-input'
 import { ChatConnectionStatus } from '#/components/chat/chat-connection-status'
 import { ChatConversationList } from '#/components/chat/chat-conversation-list'
-import { ChatPrivatePlaceholder } from '#/components/chat/chat-private-placeholder'
+import { ChatDMView } from '#/components/chat/chat-dm-view'
 import { useChatStream } from '#/hooks/use-chat-stream'
-import { useSendChatMessageMutation } from '#/api/endpoints/api-mc/user-message'
-import type { ChatLogResponse, SSEChatMessage } from '#/api/types'
+import {
+  useSendChatMessageMutation,
+  useUserConversations,
+  useSendDMMutation,
+  useMarkAsReadMutation,
+  DM_CONVERSATIONS_QUERY_KEY,
+  DM_MESSAGES_QUERY_KEY,
+  DM_UNREAD_QUERY_KEY,
+} from '#/api/endpoints/api-mc/user-message'
+import type { ChatLogResponse, SSEChatMessage, SSEDirectMessage } from '#/api/types'
 import { useGameProfileStore } from '#/hooks/use-game-profile-store'
+import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 
 // ─── 路由注册 ──────────────────────────────────────────────
@@ -57,13 +66,28 @@ function messageReducer(
 // ─── 页面组件 ──────────────────────────────────────────────
 
 function UserChatPage() {
+  const queryClient = useQueryClient()
   const { selectedGameProfile } = useGameProfileStore()
   const uuid = selectedGameProfile?.uuid ?? null
   const playerName = selectedGameProfile?.name ?? null
+  const userId = String(selectedGameProfile?.user_id ?? '')
   const [messages, dispatch] = useReducer(messageReducer, [])
 
   /** 当前选中的会话 ID，默认为公共频道 */
   const [activeConversationId, setActiveConversationId] = useState('public')
+  const activeConversationIdRef = useRef(activeConversationId)
+  activeConversationIdRef.current = activeConversationId
+
+  // ─── DM Hooks ──────────────────────────────────────────
+
+  const { data: conversationsData, isLoading: isConversationsLoading } =
+    useUserConversations()
+  const sendDMMutation = useSendDMMutation()
+  const markAsReadMutation = useMarkAsReadMutation()
+
+  const conversations = conversationsData?.list ?? []
+
+  // ─── SSE 回调 ──────────────────────────────────────────
 
   const handleInit = useCallback(
     (initMessages: ChatLogResponse[]) => {
@@ -88,14 +112,34 @@ function UserChatPage() {
     [],
   )
 
+  const handleDm = useCallback(
+    (dm: SSEDirectMessage) => {
+      const dmConvId = `dm:${dm.sender_id}`
+      if (activeConversationIdRef.current === dmConvId) {
+        // 当前正在与发送者对话 → 刷新消息列表 + 自动标记已读
+        queryClient.invalidateQueries({ queryKey: DM_MESSAGES_QUERY_KEY })
+        markAsReadMutation.mutate({ sender_id: dm.sender_id })
+      } else {
+        // 不在当前对话 → 刷新会话列表和未读数
+        queryClient.invalidateQueries({ queryKey: DM_CONVERSATIONS_QUERY_KEY })
+        queryClient.invalidateQueries({ queryKey: DM_UNREAD_QUERY_KEY })
+        toast.info(`${dm.sender_name}: ${dm.message.slice(0, 50)}`)
+      }
+    },
+    [queryClient, markAsReadMutation],
+  )
+
   const { isConnected, reconnectCount } = useChatStream({
     enabled: !!uuid,
     onInit: handleInit,
     onChat: handleChat,
+    onDm: handleDm,
     onError: (err) => {
       toast.error(`聊天连接错误: ${err.message}`)
     },
   })
+
+  // ─── 公共聊天发送 ──────────────────────────────────────
 
   const sendMutation = useSendChatMessageMutation()
 
@@ -110,6 +154,40 @@ function UserChatPage() {
       },
     )
   }
+
+  // ─── 私聊发送 ──────────────────────────────────────────
+
+  const handleSendDM = (message: string) => {
+    if (!activeConversationId.startsWith('dm:')) return
+    const targetUserId = activeConversationId.slice(3)
+    sendDMMutation.mutate(
+      { message, receiver_id: targetUserId },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: DM_MESSAGES_QUERY_KEY })
+        },
+        onError: () => {
+          toast.error('私信发送失败')
+        },
+      },
+    )
+  }
+
+  // ─── 会话切换时标记已读 ──────────────────────────────────
+
+  const handleConversationSelect = (id: string) => {
+    setActiveConversationId(id)
+    if (id.startsWith('dm:')) {
+      const senderId = id.slice(3)
+      markAsReadMutation.mutate({ sender_id: senderId })
+    }
+  }
+
+  // ─── 获取当前 DM 会话对象信息 ──────────────────────────────
+
+  const currentDMConversation = activeConversationId.startsWith('dm:')
+    ? conversations.find((c) => `dm:${c.user_id}` === activeConversationId)
+    : null
 
   return (
     <UserPageLayout
@@ -146,16 +224,29 @@ function UserChatPage() {
                   disabled={sendMutation.isPending}
                 />
               </>
+            ) : currentDMConversation ? (
+              <ChatDMView
+                targetUserId={currentDMConversation.user_id}
+                targetUserName={currentDMConversation.user_name}
+                currentUserId={userId}
+                currentPlayerName={playerName ?? ''}
+                onSend={handleSendDM}
+                sendPending={sendDMMutation.isPending}
+              />
             ) : (
-              <ChatPrivatePlaceholder />
+              <div className="flex-1 flex items-center justify-center text-sm text-muted-foreground">
+                选择一个会话开始聊天
+              </div>
             )}
           </div>
 
           {/* ── 右侧：会话列表 ── */}
           <ChatConversationList
             activeId={activeConversationId}
-            onSelect={setActiveConversationId}
+            onSelect={handleConversationSelect}
             isConnected={isConnected}
+            conversations={conversations}
+            isLoadingConversations={isConversationsLoading}
           />
         </ChatContainer>
       )}

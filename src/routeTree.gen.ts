@@ -61,6 +61,7 @@ import { Route as AdminAnnouncementsCreateRouteImport } from './routes/admin/ann
 import { Route as AdminAnnouncementsAnnouncementIdRouteImport } from './routes/admin/announcements/$announcementId'
 import { Route as AdminAchievementsCreateRouteImport } from './routes/admin/achievements/create'
 import { Route as AdminAchievementsAchievementIdRouteImport } from './routes/admin/achievements/$achievementId'
+import { Route as AdminMessagesDmIndexRouteImport } from './routes/admin/messages/dm/index'
 import { Route as AdminMessagesCommandsIndexRouteImport } from './routes/admin/messages/commands/index'
 import { Route as AdminMessagesChatIndexRouteImport } from './routes/admin/messages/chat/index'
 import { Route as AdminUsersUserIdGameProfilesRouteImport } from './routes/admin/users/$userId_.game-profiles'
@@ -332,6 +333,11 @@ const AdminAchievementsAchievementIdRoute =
     path: '/achievements/$achievementId',
     getParentRoute: () => AdminRoute,
   } as any)
+const AdminMessagesDmIndexRoute = AdminMessagesDmIndexRouteImport.update({
+  id: '/messages/dm/',
+  path: '/messages/dm/',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminMessagesCommandsIndexRoute =
   AdminMessagesCommandsIndexRouteImport.update({
     id: '/messages/commands/',
@@ -406,6 +412,7 @@ export interface FileRoutesByFullPath {
   '/admin/users/$userId/game-profiles': typeof AdminUsersUserIdGameProfilesRoute
   '/admin/messages/chat/': typeof AdminMessagesChatIndexRoute
   '/admin/messages/commands/': typeof AdminMessagesCommandsIndexRoute
+  '/admin/messages/dm/': typeof AdminMessagesDmIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -461,6 +468,7 @@ export interface FileRoutesByTo {
   '/admin/users/$userId/game-profiles': typeof AdminUsersUserIdGameProfilesRoute
   '/admin/messages/chat': typeof AdminMessagesChatIndexRoute
   '/admin/messages/commands': typeof AdminMessagesCommandsIndexRoute
+  '/admin/messages/dm': typeof AdminMessagesDmIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -519,6 +527,7 @@ export interface FileRoutesById {
   '/admin/users/$userId_/game-profiles': typeof AdminUsersUserIdGameProfilesRoute
   '/admin/messages/chat/': typeof AdminMessagesChatIndexRoute
   '/admin/messages/commands/': typeof AdminMessagesCommandsIndexRoute
+  '/admin/messages/dm/': typeof AdminMessagesDmIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -578,6 +587,7 @@ export interface FileRouteTypes {
     | '/admin/users/$userId/game-profiles'
     | '/admin/messages/chat/'
     | '/admin/messages/commands/'
+    | '/admin/messages/dm/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -633,6 +643,7 @@ export interface FileRouteTypes {
     | '/admin/users/$userId/game-profiles'
     | '/admin/messages/chat'
     | '/admin/messages/commands'
+    | '/admin/messages/dm'
   id:
     | '__root__'
     | '/'
@@ -690,6 +701,7 @@ export interface FileRouteTypes {
     | '/admin/users/$userId_/game-profiles'
     | '/admin/messages/chat/'
     | '/admin/messages/commands/'
+    | '/admin/messages/dm/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -1071,6 +1083,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAchievementsAchievementIdRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/messages/dm/': {
+      id: '/admin/messages/dm/'
+      path: '/messages/dm'
+      fullPath: '/admin/messages/dm/'
+      preLoaderRoute: typeof AdminMessagesDmIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/messages/commands/': {
       id: '/admin/messages/commands/'
       path: '/messages/commands'
@@ -1126,6 +1145,7 @@ interface AdminRouteChildren {
   AdminUsersUserIdGameProfilesRoute: typeof AdminUsersUserIdGameProfilesRoute
   AdminMessagesChatIndexRoute: typeof AdminMessagesChatIndexRoute
   AdminMessagesCommandsIndexRoute: typeof AdminMessagesCommandsIndexRoute
+  AdminMessagesDmIndexRoute: typeof AdminMessagesDmIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
@@ -1160,6 +1180,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminUsersUserIdGameProfilesRoute: AdminUsersUserIdGameProfilesRoute,
   AdminMessagesChatIndexRoute: AdminMessagesChatIndexRoute,
   AdminMessagesCommandsIndexRoute: AdminMessagesCommandsIndexRoute,
+  AdminMessagesDmIndexRoute: AdminMessagesDmIndexRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)

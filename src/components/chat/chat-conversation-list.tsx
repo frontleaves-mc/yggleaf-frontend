@@ -2,34 +2,24 @@
 
 /**
  * 聊天会话列表面板
- * 右侧边栏：频道区（公共聊天）+ 私聊区（联系人列表）
+ * 右侧边栏：频道区（公共聊天）+ 私聊区（API 会话列表）
  */
 
-import { Hash, MessageCircle, User } from 'lucide-react'
+import { Hash, User, MessageCircle } from 'lucide-react'
 import { cn } from '#/lib/utils'
+import type { ConversationResponse } from '#/api/types'
 
 // ─── 类型定义 ──────────────────────────────────────────────
-
-interface ConversationItem {
-  id: string
-  name: string
-  lastMessage?: string
-  unread?: number
-}
 
 export interface ChatConversationListProps {
   activeId: string
   onSelect: (id: string) => void
   isConnected: boolean
+  /** 私聊会话列表（来自 API） */
+  conversations: ConversationResponse[]
+  /** 是否正在加载会话 */
+  isLoadingConversations?: boolean
 }
-
-// ─── 占位数据（后端私聊 API 就绪后移除）──────────────────────
-
-const PRIVATE_CHATS: ConversationItem[] = [
-  { id: 'private-steve', name: 'Steve', lastMessage: '一起去挖矿吧！', unread: 2 },
-  { id: 'private-alex', name: 'Alex', lastMessage: '好的', unread: 0 },
-  { id: 'private-notch', name: 'Notch', lastMessage: '明天见', unread: 1 },
-]
 
 // ─── 子组件 ────────────────────────────────────────────────
 
@@ -44,13 +34,17 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 }
 
 function ConversationEntry({
-  item,
+  id: _id,
+  name,
+  lastMessage,
   icon,
   active,
   badge,
   onClick,
 }: {
-  item: ConversationItem
+  id: string
+  name: string
+  lastMessage?: string
   icon: React.ReactNode
   active: boolean
   badge?: React.ReactNode
@@ -80,13 +74,13 @@ function ConversationEntry({
             'text-[13px] truncate transition-colors duration-150',
             active ? 'text-foreground font-medium' : 'text-foreground/70',
           )}>
-            {item.name}
+            {name}
           </span>
           {badge}
         </div>
-        {item.lastMessage && (
+        {lastMessage && (
           <p className="text-[11px] text-muted-foreground/40 truncate mt-0.5 leading-tight">
-            {item.lastMessage}
+            {lastMessage}
           </p>
         )}
       </div>
@@ -116,12 +110,26 @@ function ConnectionDot({ isConnected }: { isConnected: boolean }) {
   )
 }
 
+function ConversationSkeleton() {
+  return (
+    <div className="flex items-center gap-2.5 px-3 py-2">
+      <div className="size-4 rounded-full bg-muted/40 animate-pulse" />
+      <div className="flex-1 space-y-1.5">
+        <div className="h-3 w-20 rounded bg-muted/40 animate-pulse" />
+        <div className="h-2.5 w-32 rounded bg-muted/30 animate-pulse" />
+      </div>
+    </div>
+  )
+}
+
 // ─── 主组件 ────────────────────────────────────────────────
 
 export function ChatConversationList({
   activeId,
   onSelect,
   isConnected,
+  conversations,
+  isLoadingConversations,
 }: ChatConversationListProps) {
   return (
     <div className="hidden md:flex w-[220px] shrink-0 flex-col border-l border-border/30 bg-muted/[0.06]">
@@ -129,7 +137,8 @@ export function ChatConversationList({
       <SectionLabel>频道</SectionLabel>
 
       <ConversationEntry
-        item={{ id: 'public', name: '公共聊天' }}
+        id="public"
+        name="公共聊天"
         icon={<Hash />}
         active={activeId === 'public'}
         badge={<ConnectionDot isConnected={isConnected} />}
@@ -140,32 +149,36 @@ export function ChatConversationList({
       <SectionLabel>私聊</SectionLabel>
 
       <div className="flex-1 overflow-y-auto min-h-0">
-        {PRIVATE_CHATS.length === 0 ? (
+        {isLoadingConversations ? (
+          <>
+            <ConversationSkeleton />
+            <ConversationSkeleton />
+            <ConversationSkeleton />
+          </>
+        ) : conversations.length === 0 ? (
           <div className="px-3 py-4 text-center">
+            <MessageCircle className="size-4 text-muted-foreground/20 mx-auto mb-1" />
             <p className="text-[11px] text-muted-foreground/40">
               暂无私聊会话
             </p>
           </div>
         ) : (
-          PRIVATE_CHATS.map((chat) => (
-            <ConversationEntry
-              key={chat.id}
-              item={chat}
-              icon={<User />}
-              active={activeId === chat.id}
-              badge={<UnreadBadge count={chat.unread ?? 0} />}
-              onClick={() => onSelect(chat.id)}
-            />
-          ))
+          conversations.map((conv) => {
+            const convId = `dm:${conv.user_id}`
+            return (
+              <ConversationEntry
+                key={convId}
+                id={convId}
+                name={conv.user_name}
+                lastMessage={conv.last_message}
+                icon={<User />}
+                active={activeId === convId}
+                badge={<UnreadBadge count={conv.unread_count} />}
+                onClick={() => onSelect(convId)}
+              />
+            )
+          })
         )}
-      </div>
-
-      {/* ── 底部提示 ── */}
-      <div className="px-3 py-2 border-t border-border/15">
-        <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground/35">
-          <MessageCircle className="size-3" />
-          <span>私聊功能即将上线</span>
-        </div>
       </div>
     </div>
   )
