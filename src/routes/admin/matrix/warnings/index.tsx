@@ -21,7 +21,6 @@ import { McSectionHeader } from '#/components/shared/mc-section-header'
 import { Button } from '#/components/ui/button'
 import { Input } from '#/components/ui/input'
 import {
-  
   TableColumnHeader,
   TableProvider,
   TSTableBody,
@@ -29,9 +28,9 @@ import {
   TSTableHead,
   TSTableHeader,
   TSTableHeaderGroup,
-  TSTableRow
+  TSTableRow,
 } from '#/components/ui/tanstack-table'
-import type {ColumnDef} from '#/components/ui/tanstack-table';
+import type { ColumnDef } from '#/components/ui/tanstack-table'
 import { formatTime } from '#/lib/format'
 import { fadeUpItem, staggerContainer } from '#/lib/motion-presets'
 

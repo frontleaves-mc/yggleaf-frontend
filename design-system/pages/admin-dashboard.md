@@ -29,32 +29,32 @@
 
 ### 2.1 主色强调
 
-| 用途 | 色值 | 说明 |
-|------|------|------|
-| Primary 按钮 | `bg-primary text-primary-foreground` | 红色填充 + 浅色文字 |
-| Primary 边框 | `border-primary/50` hover `border-primary` | 轮廓按钮 |
-| Active 状态 | `bg-primary/10` | 选中项背景 |
-| Sidebar Active | `bg-sidebar-primary text-sidebar-primary-foreground` | 侧栏活跃项 |
-| Ring Focus | `ring-[oklch(0.55_0.15_25)]` | 红色 Focus 环 |
+| 用途           | 色值                                                 | 说明                |
+| -------------- | ---------------------------------------------------- | ------------------- |
+| Primary 按钮   | `bg-primary text-primary-foreground`                 | 红色填充 + 浅色文字 |
+| Primary 边框   | `border-primary/50` hover `border-primary`           | 轮廓按钮            |
+| Active 状态    | `bg-primary/10`                                      | 选中项背景          |
+| Sidebar Active | `bg-sidebar-primary text-sidebar-primary-foreground` | 侧栏活跃项          |
+| Ring Focus     | `ring-[oklch(0.55_0.15_25)]`                         | 红色 Focus 环       |
 
 ### 2.2 Admin 特有状态色
 
-| 状态 | 色彩 | 与 User 端差异 |
-|------|------|-------------|
-| 危险操作 | `mc-nether` (主色本身就是红色系) | Primary 即为危险色 |
-| 审核/待批 | `mc-gold` | 强调待处理 |
-| 通过/正常 | `mc-grass` | 同 User 端 |
-| 信息/查看 | `mc-diamond` | 同 User 端 |
+| 状态      | 色彩                             | 与 User 端差异     |
+| --------- | -------------------------------- | ------------------ |
+| 危险操作  | `mc-nether` (主色本身就是红色系) | Primary 即为危险色 |
+| 审核/待批 | `mc-gold`                        | 强调待处理         |
+| 通过/正常 | `mc-grass`                       | 同 User 端         |
+| 信息/查看 | `mc-diamond`                     | 同 User 端         |
 
 ### 2.3 操作色区分
 
 由于 Admin 端主色为红色，需特别注意与 Nether (危险) 色的区分：
 
-| 操作 | 颜色 | 规则 |
-|------|------|------|
-| 常规操作 (保存、编辑) | Primary (红色系) | 使用 `bg-primary` |
-| 危险操作 (删除、清空) | `bg-destructive` | 使用 shadcn destructive 变量，视觉上比 Primary 更深 |
-| 确认按钮 | `bg-mc-grass text-white` | 使用绿色系，区别于红色主色 |
+| 操作                  | 颜色                     | 规则                                                |
+| --------------------- | ------------------------ | --------------------------------------------------- |
+| 常规操作 (保存、编辑) | Primary (红色系)         | 使用 `bg-primary`                                   |
+| 危险操作 (删除、清空) | `bg-destructive`         | 使用 shadcn destructive 变量，视觉上比 Primary 更深 |
+| 确认按钮              | `bg-mc-grass text-white` | 使用绿色系，区别于红色主色                          |
 
 ---
 
@@ -80,12 +80,12 @@
 
 ### 3.2 网格系统
 
-| 场景 | 列配置 | 间距 |
-|------|--------|------|
-| 统计卡片 | `grid-cols-1 md:grid-cols-2 xl:grid-cols-4` | `gap-4` |
-| 数据表格 (宽) | `grid-cols-1` | -- |
-| 双面板管理 | `grid-cols-1 lg:grid-cols-2` | `gap-6` |
-| 审核列表 | `grid-cols-1` | `space-y-3` |
+| 场景          | 列配置                                      | 间距        |
+| ------------- | ------------------------------------------- | ----------- |
+| 统计卡片      | `grid-cols-1 md:grid-cols-2 xl:grid-cols-4` | `gap-4`     |
+| 数据表格 (宽) | `grid-cols-1`                               | --          |
+| 双面板管理    | `grid-cols-1 lg:grid-cols-2`                | `gap-6`     |
+| 审核列表      | `grid-cols-1`                               | `space-y-3` |
 
 ---
 
@@ -118,6 +118,7 @@ border-l-4 border-l-mc-nether   -- 已拒绝
 ### 5.1 页面入场
 
 与 User Dashboard 共享同一套入场动画:
+
 - `staggerContainer` + `fadeUpItem`
 - `staggerChildren: 80ms`, `delayChildren: 50ms`
 
@@ -125,11 +126,11 @@ border-l-4 border-l-mc-nether   -- 已拒绝
 
 与 User Dashboard 共享，额外增加:
 
-| 交互 | 动画 | 说明 |
-|------|------|------|
-| 删除确认 | `scale: 0.98` + 红色 ring | 按下收缩反馈 |
+| 交互     | 动画                                     | 说明           |
+| -------- | ---------------------------------------- | -------------- |
+| 删除确认 | `scale: 0.98` + 红色 ring                | 按下收缩反馈   |
 | 审核操作 | 列表项淡出 `opacity: 1 -> 0, y: 0 -> -8` | 操作后移除动画 |
-| 批量选择 | checkbox `scale: 1.2` then `scale: 1` | 选中弹性效果 |
+| 批量选择 | checkbox `scale: 1.2` then `scale: 1`    | 选中弹性效果   |
 
 ---
 
@@ -204,13 +205,13 @@ shadow-lg
 
 Admin 端红色主色在暗色模式中需要特别注意对比度:
 
-| 元素 | 处理方式 |
-|------|---------|
+| 元素         | 处理方式                                          |
+| ------------ | ------------------------------------------------- |
 | Primary 按钮 | 暗色下 Primary 红色与浅色文字对比度足够，无需调整 |
-| 侧栏 Active | 确保红色背景与侧栏暗色背景对比度 > 3:1 |
-| 表格行 hover | 使用 `bg-primary/5` (极低透明度) 避免过亮 |
-| 状态指示灯 | 增加 `ring-{color}/30` 发光环增强可辨识度 |
-| 紧凑数据 | 暗色下可使用 `text-xs` 减少视觉密度 |
+| 侧栏 Active  | 确保红色背景与侧栏暗色背景对比度 > 3:1            |
+| 表格行 hover | 使用 `bg-primary/5` (极低透明度) 避免过亮         |
+| 状态指示灯   | 增加 `ring-{color}/30` 发光环增强可辨识度         |
+| 紧凑数据     | 暗色下可使用 `text-xs` 减少视觉密度               |
 
 ---
 
@@ -218,9 +219,9 @@ Admin 端红色主色在暗色模式中需要特别注意对比度:
 
 Admin 端特有的权限相关视觉提示:
 
-| 元素 | 样式 |
-|------|------|
+| 元素       | 样式                                                                                      |
+| ---------- | ----------------------------------------------------------------------------------------- |
 | 管理员标识 | `bg-mc-gold/15 text-mc-gold border-mc-gold/30 rounded-md px-2 py-0.5 text-xs font-medium` |
-| 超级管理员 | 在管理员标识基础上增加 `ring-1 ring-mc-gold/50` |
-| 只读区域 | `opacity-60 pointer-events-none` |
-| 调试模式 | `border-l-2 border-l-mc-diamond` 蓝色左边框标识 |
+| 超级管理员 | 在管理员标识基础上增加 `ring-1 ring-mc-gold/50`                                           |
+| 只读区域   | `opacity-60 pointer-events-none`                                                          |
+| 调试模式   | `border-l-2 border-l-mc-diamond` 蓝色左边框标识                                           |

@@ -151,9 +151,7 @@ function AdminIssueDetailPage() {
             </McBadge>
             <IssueStatusBadge status={issueDetail.issue.status} />
             <IssuePriorityBadge priority={issueDetail.issue.priority} />
-            <McBadge variant="default">
-              {issueDetail.issue_type.name}
-            </McBadge>
+            <McBadge variant="default">{issueDetail.issue_type.name}</McBadge>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button

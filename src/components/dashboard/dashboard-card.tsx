@@ -29,7 +29,10 @@ export function DashboardCard({
   onClick,
 }: DashboardCardProps) {
   return (
-    <McCard variant="glass" color={iconVariant === 'nether' ? 'nether' : iconVariant}>
+    <McCard
+      variant="glass"
+      color={iconVariant === 'nether' ? 'nether' : iconVariant}
+    >
       <motion.button
         variants={{
           rest: {},

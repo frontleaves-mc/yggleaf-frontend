@@ -94,11 +94,7 @@ function AdminIssuesPage() {
       ),
       cell: ({ row }) => {
         const item = row.original
-        return (
-          <McBadge variant="default">
-            {item.issue_type_name}
-          </McBadge>
-        )
+        return <McBadge variant="default">{item.issue_type_name}</McBadge>
       },
       size: 96,
     },
@@ -191,86 +187,93 @@ function AdminIssuesPage() {
 
       {/* 筛选栏 */}
       <motion.div variants={fadeUpItem}>
-        <McCard variant="glass" className="flex flex-wrap items-center gap-3 p-4">
-        <div className="relative flex-1 max-w-xs">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder="搜索问题标题..."
-            className="pl-9 h-9"
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
-          />
-        </div>
+        <McCard
+          variant="glass"
+          className="flex flex-wrap items-center gap-3 p-4"
+        >
+          <div className="relative flex-1 max-w-xs">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="搜索问题标题..."
+              className="pl-9 h-9"
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+            />
+          </div>
 
-        <Select value={status} onValueChange={setStatus}>
-          <SelectTrigger className="w-28 h-9 text-xs">
-            <SelectValue placeholder="状态" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="nofinal">未终态</SelectItem>
-            <SelectItem value="all">全部状态</SelectItem>
-            <SelectItem value="registered">已登记</SelectItem>
-            <SelectItem value="pending">待处理</SelectItem>
-            <SelectItem value="processing">处理中</SelectItem>
-            <SelectItem value="resolved">已解决</SelectItem>
-            <SelectItem value="unplanned">无计划</SelectItem>
-            <SelectItem value="closed">已关闭</SelectItem>
-          </SelectContent>
-        </Select>
-
-        <Select value={priority} onValueChange={setPriority}>
-          <SelectTrigger className="w-28 h-9 text-xs">
-            <SelectValue placeholder="优先级" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">全部优先级</SelectItem>
-            <SelectItem value="low">低</SelectItem>
-            <SelectItem value="medium">中</SelectItem>
-            <SelectItem value="high">高</SelectItem>
-            <SelectItem value="urgent">紧急</SelectItem>
-          </SelectContent>
-        </Select>
-
-        {issueTypes && issueTypes.length > 0 && (
-          <Select value={typeId} onValueChange={setTypeId}>
+          <Select value={status} onValueChange={setStatus}>
             <SelectTrigger className="w-28 h-9 text-xs">
-              <SelectValue placeholder="类型" />
+              <SelectValue placeholder="状态" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">全部类型</SelectItem>
-              {issueTypes.map((type) => (
-                <SelectItem key={type.id} value={String(type.id)}>
-                  {type.name}
-                </SelectItem>
-              ))}
+              <SelectItem value="nofinal">未终态</SelectItem>
+              <SelectItem value="all">全部状态</SelectItem>
+              <SelectItem value="registered">已登记</SelectItem>
+              <SelectItem value="pending">待处理</SelectItem>
+              <SelectItem value="processing">处理中</SelectItem>
+              <SelectItem value="resolved">已解决</SelectItem>
+              <SelectItem value="unplanned">无计划</SelectItem>
+              <SelectItem value="closed">已关闭</SelectItem>
             </SelectContent>
           </Select>
-        )}
+
+          <Select value={priority} onValueChange={setPriority}>
+            <SelectTrigger className="w-28 h-9 text-xs">
+              <SelectValue placeholder="优先级" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">全部优先级</SelectItem>
+              <SelectItem value="low">低</SelectItem>
+              <SelectItem value="medium">中</SelectItem>
+              <SelectItem value="high">高</SelectItem>
+              <SelectItem value="urgent">紧急</SelectItem>
+            </SelectContent>
+          </Select>
+
+          {issueTypes && issueTypes.length > 0 && (
+            <Select value={typeId} onValueChange={setTypeId}>
+              <SelectTrigger className="w-28 h-9 text-xs">
+                <SelectValue placeholder="类型" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">全部类型</SelectItem>
+                {issueTypes.map((type) => (
+                  <SelectItem key={type.id} value={String(type.id)}>
+                    {type.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
         </McCard>
       </motion.div>
 
       <motion.div variants={fadeUpItem}>
-        <McCard variant="solid" color="nether" className="p-0 overflow-hidden [&>div]:rounded-none [&>div]:border-0 [&>div]:shadow-none">
-        <TableProvider columns={columns} data={issues}>
-          <TSTableHeader>
-            {({ headerGroup }) => (
-              <TSTableHeaderGroup headerGroup={headerGroup}>
-                {({ header }) => <TSTableHead header={header} />}
-              </TSTableHeaderGroup>
-            )}
-          </TSTableHeader>
-          <TSTableBody
-            emptyContent={
-              <p className="text-sm text-muted-foreground">暂无问题数据</p>
-            }
-          >
-            {({ row }) => (
-              <TSTableRow row={row}>
-                {({ cell }) => <TSTableCell cell={cell} />}
-              </TSTableRow>
-            )}
-          </TSTableBody>
-        </TableProvider>
+        <McCard
+          variant="solid"
+          color="nether"
+          className="p-0 overflow-hidden [&>div]:rounded-none [&>div]:border-0 [&>div]:shadow-none"
+        >
+          <TableProvider columns={columns} data={issues}>
+            <TSTableHeader>
+              {({ headerGroup }) => (
+                <TSTableHeaderGroup headerGroup={headerGroup}>
+                  {({ header }) => <TSTableHead header={header} />}
+                </TSTableHeaderGroup>
+              )}
+            </TSTableHeader>
+            <TSTableBody
+              emptyContent={
+                <p className="text-sm text-muted-foreground">暂无问题数据</p>
+              }
+            >
+              {({ row }) => (
+                <TSTableRow row={row}>
+                  {({ cell }) => <TSTableCell cell={cell} />}
+                </TSTableRow>
+              )}
+            </TSTableBody>
+          </TableProvider>
         </McCard>
       </motion.div>
     </motion.div>

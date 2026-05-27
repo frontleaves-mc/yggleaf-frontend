@@ -25,7 +25,11 @@ import {
 import { cn } from '#/lib/utils'
 import { clearAuth } from '#/stores/auth-store'
 
-export function SidebarFooter({ mode: _mode = 'user' }: { mode?: 'user' | 'admin' }) {
+export function SidebarFooter({
+  mode: _mode = 'user',
+}: {
+  mode?: 'user' | 'admin'
+}) {
   const navigate = useNavigate()
   const { data: userInfo } = useUserInfo()
   const user = userInfo?.user
@@ -57,10 +61,15 @@ export function SidebarFooter({ mode: _mode = 'user' }: { mode?: 'user' | 'admin
                     'hover:shadow-[0_4px_16px_-4px_oklch(from_var(--mc-grass)_l_c_h/0.12)] hover:border-oklch(from_var(--mc-grass)_l_c_h/_0.20)',
                   )}
                 >
-                  <div className="pointer-events-none absolute top-0 left-0 right-0 h-px" style={{
-                    background: 'linear-gradient(90deg in oklch, var(--mc-grass), var(--mc-diamond))',
-                    opacity: 0.45,
-                  }} aria-hidden="true" />
+                  <div
+                    className="pointer-events-none absolute top-0 left-0 right-0 h-px"
+                    style={{
+                      background:
+                        'linear-gradient(90deg in oklch, var(--mc-grass), var(--mc-diamond))',
+                      opacity: 0.45,
+                    }}
+                    aria-hidden="true"
+                  />
                   <div className="relative">
                     <Avatar className="size-8">
                       <AvatarFallback

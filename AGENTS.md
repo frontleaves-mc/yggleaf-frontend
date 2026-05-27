@@ -30,18 +30,18 @@ src/
 
 ## WHERE TO LOOK
 
-| 任务 | 位置 | 备注 |
-|------|------|------|
-| 添加新页面 | `src/routes/` | TanStack 文件路由，自动生成 routeTree |
-| 添加 API 接口 | `src/api/endpoints/` | 按 api-auth/api-mc 分组 |
-| 添加类型定义 | `src/api/types/` | 与 endpoints 对应 |
-| 添加 UI 组件 | `src/components/ui/` | shadcn/ui 组件 |
-| 修改导航/菜单 | `src/lib/nav-links.ts` 或 `src/config/menu.ts` | 公共 vs 管理端 |
-| 修改认证逻辑 | `src/stores/auth-store.ts` + `src/api/client.ts` | Token 存 Cookie |
-| 修改全局常量 | `src/config/constants.ts` | API URL、Key 名等 |
-| 添加自定义 Hook | `src/hooks/` | 认证、聊天流、游戏档案 |
-| 修改构建配置 | `vite.config.ts` | 代理、代码分割、插件 |
-| 部署 | `Makefile` + `script/upload.prod.sh` | rsync 部署 |
+| 任务            | 位置                                             | 备注                                  |
+| --------------- | ------------------------------------------------ | ------------------------------------- |
+| 添加新页面      | `src/routes/`                                    | TanStack 文件路由，自动生成 routeTree |
+| 添加 API 接口   | `src/api/endpoints/`                             | 按 api-auth/api-mc 分组               |
+| 添加类型定义    | `src/api/types/`                                 | 与 endpoints 对应                     |
+| 添加 UI 组件    | `src/components/ui/`                             | shadcn/ui 组件                        |
+| 修改导航/菜单   | `src/lib/nav-links.ts` 或 `src/config/menu.ts`   | 公共 vs 管理端                        |
+| 修改认证逻辑    | `src/stores/auth-store.ts` + `src/api/client.ts` | Token 存 Cookie                       |
+| 修改全局常量    | `src/config/constants.ts`                        | API URL、Key 名等                     |
+| 添加自定义 Hook | `src/hooks/`                                     | 认证、聊天流、游戏档案                |
+| 修改构建配置    | `vite.config.ts`                                 | 代理、代码分割、插件                  |
+| 部署            | `Makefile` + `script/upload.prod.sh`             | rsync 部署                            |
 
 ## CONVENTIONS
 

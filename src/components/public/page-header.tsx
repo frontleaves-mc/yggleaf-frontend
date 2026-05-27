@@ -49,7 +49,10 @@ export function PageHeader({
   className,
   ...props
 }: PageHeaderProps) {
-  const colorVariant = variant === 'default' ? 'grass' : (variant as Exclude<PageHeaderVariant, 'default'>)
+  const colorVariant =
+    variant === 'default'
+      ? 'grass'
+      : (variant as Exclude<PageHeaderVariant, 'default'>)
 
   const isLarge = size === 'lg'
 

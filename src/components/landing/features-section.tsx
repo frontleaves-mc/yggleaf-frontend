@@ -148,10 +148,7 @@ function FeatureCard({
         )}
       >
         <span
-          className={cn(
-            'text-lg font-bold tabular-nums',
-            accentText[accent],
-          )}
+          className={cn('text-lg font-bold tabular-nums', accentText[accent])}
         >
           {String(index).padStart(2, '0')}
         </span>

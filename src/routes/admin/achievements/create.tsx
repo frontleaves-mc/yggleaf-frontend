@@ -62,7 +62,9 @@ function CreateAchievementPage() {
         description: formDesc.trim(),
         type: Number(formType) as AchievementType,
         condition_key: formConditionKey.trim(),
-        condition_params: formThreshold ? { threshold: Number(formThreshold) } : undefined,
+        condition_params: formThreshold
+          ? { threshold: Number(formThreshold) }
+          : undefined,
         reward_config: formTitleId ? { title_id: formTitleId } : undefined,
         sort_order: formSortOrder ? Number(formSortOrder) : undefined,
       })
@@ -94,7 +96,11 @@ function CreateAchievementPage() {
 
       <motion.div variants={fadeUpItem}>
         <div className="grid gap-6 lg:grid-cols-3">
-          <McCard variant="glass" color="gold" className="max-w-xl lg:col-span-2 p-6">
+          <McCard
+            variant="glass"
+            color="gold"
+            className="max-w-xl lg:col-span-2 p-6"
+          >
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="space-y-2">
                 <Label htmlFor="achievement-name">名称 *</Label>
@@ -124,15 +130,27 @@ function CreateAchievementPage() {
 
               <div className="space-y-2">
                 <Label htmlFor="achievement-type">类型 *</Label>
-                <Select value={formType} onValueChange={setFormType} disabled={createMutation.isPending}>
+                <Select
+                  value={formType}
+                  onValueChange={setFormType}
+                  disabled={createMutation.isPending}
+                >
                   <SelectTrigger id="achievement-type">
                     <SelectValue placeholder="选择类型" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value={String(AchievementType.Stat)}>统计类</SelectItem>
-                    <SelectItem value={String(AchievementType.Event)}>事件类</SelectItem>
-                    <SelectItem value={String(AchievementType.Special)}>特殊条件</SelectItem>
-                    <SelectItem value={String(AchievementType.Manual)}>管理员手动</SelectItem>
+                    <SelectItem value={String(AchievementType.Stat)}>
+                      统计类
+                    </SelectItem>
+                    <SelectItem value={String(AchievementType.Event)}>
+                      事件类
+                    </SelectItem>
+                    <SelectItem value={String(AchievementType.Special)}>
+                      特殊条件
+                    </SelectItem>
+                    <SelectItem value={String(AchievementType.Manual)}>
+                      管理员手动
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -170,16 +188,22 @@ function CreateAchievementPage() {
                     事件类成就无需条件参数
                   </p>
                 )}
-                {(selectedType === AchievementType.Stat || selectedType === AchievementType.Special) && formThreshold && (
-                  <p className="text-[12px] text-muted-foreground">
-                    统计类/特殊条件成就的条件阈值
-                  </p>
-                )}
+                {(selectedType === AchievementType.Stat ||
+                  selectedType === AchievementType.Special) &&
+                  formThreshold && (
+                    <p className="text-[12px] text-muted-foreground">
+                      统计类/特殊条件成就的条件阈值
+                    </p>
+                  )}
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="achievement-title">奖励称号</Label>
-                <Select value={formTitleId} onValueChange={setFormTitleId} disabled={createMutation.isPending}>
+                <Select
+                  value={formTitleId}
+                  onValueChange={setFormTitleId}
+                  disabled={createMutation.isPending}
+                >
                   <SelectTrigger id="achievement-title">
                     <SelectValue placeholder="选择奖励称号（可选）" />
                   </SelectTrigger>
@@ -220,7 +244,12 @@ function CreateAchievementPage() {
                 <Button
                   type="submit"
                   size="sm"
-                  disabled={createMutation.isPending || !formName.trim() || !formDesc.trim() || !formConditionKey.trim()}
+                  disabled={
+                    createMutation.isPending ||
+                    !formName.trim() ||
+                    !formDesc.trim() ||
+                    !formConditionKey.trim()
+                  }
                   className="flex-1 sm:flex-none"
                   variant="gradient"
                 >
@@ -240,8 +269,8 @@ function CreateAchievementPage() {
             </form>
           </McCard>
 
-        {/* 右侧类型引导 */}
-        <AchievementTypeGuide selectedType={selectedType} />
+          {/* 右侧类型引导 */}
+          <AchievementTypeGuide selectedType={selectedType} />
         </div>
       </motion.div>
     </motion.div>

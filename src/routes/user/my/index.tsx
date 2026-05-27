@@ -9,13 +9,7 @@
 import { useState, useCallback, useEffect } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 import { motion } from 'motion/react'
-import {
-  Upload,
-  FolderOpen,
-  Shirt,
-  Flag,
-  Loader2,
-} from 'lucide-react'
+import { Upload, FolderOpen, Shirt, Flag, Loader2 } from 'lucide-react'
 import { Button } from '#/components/ui/button'
 import { Input } from '#/components/ui/input'
 import { Label } from '#/components/ui/label'
@@ -34,10 +28,7 @@ import { useCreateSkinMutation } from '#/api/endpoints/api-auth/skin-library'
 import { useCreateCapeMutation } from '#/api/endpoints/api-auth/cape-library'
 import { useLibraryQuota } from '#/api/endpoints/api-auth/library-quota'
 import { toast } from 'sonner'
-import {
-  mcStaggerGrid,
-  mcStaggerGridItem,
-} from '#/lib/motion-presets'
+import { mcStaggerGrid, mcStaggerGridItem } from '#/lib/motion-presets'
 import { PageHeader } from '#/components/public/page-header'
 import { McCard } from '#/components/shared/mc-card'
 import { McIconBox } from '#/components/shared/mc-icon-box'
@@ -485,7 +476,11 @@ function QuotaCard({
         <div className="mt-2 h-1.5 w-full rounded-full bg-muted">
           <div
             className={`h-full rounded-full transition-all ${
-              isFull ? 'bg-destructive' : pct > 80 ? 'bg-chart-4' : barColorMap[color]
+              isFull
+                ? 'bg-destructive'
+                : pct > 80
+                  ? 'bg-chart-4'
+                  : barColorMap[color]
             }`}
             style={{ width: `${Math.min(pct, 100)}%` }}
           />

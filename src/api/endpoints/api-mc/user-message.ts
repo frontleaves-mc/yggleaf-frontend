@@ -23,11 +23,7 @@ import { ADMIN_CHAT_LIST_QUERY_KEY } from './admin-message'
 
 // ─── Query Keys ────────────────────────────────────────────
 
-export const USER_CHAT_LIST_QUERY_KEY = [
-  'user',
-  'messages',
-  'chat',
-] as const
+export const USER_CHAT_LIST_QUERY_KEY = ['user', 'messages', 'chat'] as const
 export const USER_COMMAND_LIST_QUERY_KEY = [
   'user',
   'messages',
@@ -39,17 +35,8 @@ export const DM_CONVERSATIONS_QUERY_KEY = [
   'dm',
   'conversations',
 ] as const
-export const DM_MESSAGES_QUERY_KEY = [
-  'user',
-  'messages',
-  'dm',
-] as const
-export const DM_UNREAD_QUERY_KEY = [
-  'user',
-  'messages',
-  'dm',
-  'unread',
-] as const
+export const DM_MESSAGES_QUERY_KEY = ['user', 'messages', 'dm'] as const
+export const DM_UNREAD_QUERY_KEY = ['user', 'messages', 'dm', 'unread'] as const
 
 // ─── 端点函数 ──────────────────────────────────────────────
 
@@ -88,7 +75,9 @@ export async function sendChatMessage(
 
 /** 查询私聊会话列表 */
 export async function getUserConversations(): Promise<ConversationListResponse> {
-  return mcApiClient.get<ConversationListResponse>('/user/messages/dm/conversations')
+  return mcApiClient.get<ConversationListResponse>(
+    '/user/messages/dm/conversations',
+  )
 }
 
 /** 查询与指定用户的私信记录 */
@@ -99,7 +88,9 @@ export async function getDirectMessages(
   sp.set('target_user', params.target_user)
   if (params.page) sp.set('page', String(params.page))
   if (params.page_size) sp.set('page_size', String(params.page_size))
-  return mcApiClient.get<DirectMessageListResponse>(`/user/messages/dm?${sp.toString()}`)
+  return mcApiClient.get<DirectMessageListResponse>(
+    `/user/messages/dm?${sp.toString()}`,
+  )
 }
 
 /** 发送私信 */
@@ -110,9 +101,7 @@ export async function sendDirectMessage(
 }
 
 /** 标记私信已读 */
-export async function markAsRead(
-  data: MarkAsReadRequest,
-): Promise<void> {
+export async function markAsRead(data: MarkAsReadRequest): Promise<void> {
   return mcApiClient.put('/user/messages/dm/read', data)
 }
 

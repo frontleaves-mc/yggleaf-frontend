@@ -107,7 +107,11 @@ function EditCapePage() {
 
       <motion.div variants={fadeUpItem}>
         <div className="grid gap-6 lg:grid-cols-3">
-          <McCard variant="solid" color="gold" className="max-w-xl lg:col-span-2">
+          <McCard
+            variant="solid"
+            color="gold"
+            className="max-w-xl lg:col-span-2"
+          >
             <div className="p-6 pb-4">
               <div className="flex items-center justify-between">
                 <McSectionHeader

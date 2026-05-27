@@ -376,7 +376,9 @@
     backdrop-filter: blur(14px) saturate(170%);
     border: 1px solid oklch(1 0 0 / 12%);
     border-radius: var(--radius-lg);
-    box-shadow: 0 1px 3px oklch(0 0 0 / 6%), 0 0 20px oklch(0.53 0.12 130 / 8%);
+    box-shadow:
+      0 1px 3px oklch(0 0 0 / 6%),
+      0 0 20px oklch(0.53 0.12 130 / 8%);
     position: relative;
     overflow: hidden;
   }
@@ -387,13 +389,19 @@
     left: 0;
     right: 0;
     height: 2px;
-    background: linear-gradient(90deg in oklch, var(--mc-grass), var(--mc-diamond));
+    background: linear-gradient(
+      90deg in oklch,
+      var(--mc-grass),
+      var(--mc-diamond)
+    );
     opacity: 0.7;
   }
   .dark .mc-card {
     background: oklch(0.22 0.014 238 / 40%);
     border: 1px solid oklch(1 0 0 / 8%);
-    box-shadow: 0 1px 3px oklch(0 0 0 / 20%), 0 0 20px oklch(0.53 0.12 130 / 12%);
+    box-shadow:
+      0 1px 3px oklch(0 0 0 / 20%),
+      0 0 20px oklch(0.53 0.12 130 / 12%);
   }
   .dark .mc-card::before {
     opacity: 0.5;
@@ -402,7 +410,11 @@
     border: 1px solid oklch(0.6 0.22 25 / 10%);
   }
   [data-mode='admin'] .mc-card::before {
-    background: linear-gradient(90deg in oklch, var(--mc-nether), var(--mc-gold));
+    background: linear-gradient(
+      90deg in oklch,
+      var(--mc-nether),
+      var(--mc-gold)
+    );
   }
   .dark [data-mode='admin'] .mc-card {
     border: 1px solid oklch(0.7 0.22 25 / 10%);
@@ -455,14 +467,20 @@
 
   /* Accent glow — card hover state */
   .landing-glow-hover {
-    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    transition:
+      box-shadow 0.3s ease,
+      border-color 0.3s ease;
   }
   .landing-glow-hover:hover {
-    box-shadow: 0 0 20px oklch(0.49 0.115 146 / 12%), 0 4px 16px oklch(0 0 0 / 8%);
+    box-shadow:
+      0 0 20px oklch(0.49 0.115 146 / 12%),
+      0 4px 16px oklch(0 0 0 / 8%);
     border-color: oklch(0.49 0.115 146 / 25%);
   }
   .dark .landing-glow-hover:hover {
-    box-shadow: 0 0 24px oklch(0.62 0.13 146 / 15%), 0 4px 16px oklch(0 0 0 / 20%);
+    box-shadow:
+      0 0 24px oklch(0.62 0.13 146 / 15%),
+      0 4px 16px oklch(0 0 0 / 20%);
     border-color: oklch(0.62 0.13 146 / 20%);
   }
 

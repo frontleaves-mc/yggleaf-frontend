@@ -48,7 +48,10 @@ import { staggerContainer, fadeUpItem } from '#/lib/motion-presets'
 // ─── 辅助函数 ──────────────────────────────────────────────
 
 function getAchievementTypeBadge(type: AchievementType) {
-  const map: Record<number, { label: string; variant: 'nether' | 'gold' | 'diamond' | 'default' }> = {
+  const map: Record<
+    number,
+    { label: string; variant: 'nether' | 'gold' | 'diamond' | 'default' }
+  > = {
     [AchievementType.Stat]: {
       label: '统计类',
       variant: 'diamond',
@@ -70,11 +73,7 @@ function getAchievementTypeBadge(type: AchievementType) {
     label: '未知' as const,
     variant: 'default' as const,
   }
-  return (
-    <McBadge variant={info.variant}>
-      {info.label}
-    </McBadge>
-  )
+  return <McBadge variant={info.variant}>{info.label}</McBadge>
 }
 
 // ─── 路由注册 ──────────────────────────────────────────────
@@ -99,7 +98,9 @@ function AchievementsAdminPage() {
   const params: AdminAchievementListParams = {
     page,
     page_size: pageSize,
-    ...(filterType !== 'all' ? { type: Number(filterType) as AchievementType } : {}),
+    ...(filterType !== 'all'
+      ? { type: Number(filterType) as AchievementType }
+      : {}),
   }
 
   // ─── 数据查询 ────────────────────────────────────────
@@ -206,8 +207,16 @@ function AchievementsAdminPage() {
         const achievement = row.original
         return (
           <div className="flex items-center gap-1">
-            <Button variant="ghost" size="sm" className="h-7 px-2 text-xs" asChild>
-              <Link to="/admin/achievements/$achievementId" params={{ achievementId: achievement.id }}>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-7 px-2 text-xs"
+              asChild
+            >
+              <Link
+                to="/admin/achievements/$achievementId"
+                params={{ achievementId: achievement.id }}
+              >
                 <Eye className="mr-1 h-3 w-3" />
                 详情
               </Link>
@@ -263,42 +272,46 @@ function AchievementsAdminPage() {
           <SelectContent>
             <SelectItem value="all">全部类型</SelectItem>
             <SelectItem value={String(AchievementType.Stat)}>统计类</SelectItem>
-            <SelectItem value={String(AchievementType.Event)}>事件类</SelectItem>
-            <SelectItem value={String(AchievementType.Special)}>特殊条件</SelectItem>
-            <SelectItem value={String(AchievementType.Manual)}>管理员手动</SelectItem>
+            <SelectItem value={String(AchievementType.Event)}>
+              事件类
+            </SelectItem>
+            <SelectItem value={String(AchievementType.Special)}>
+              特殊条件
+            </SelectItem>
+            <SelectItem value={String(AchievementType.Manual)}>
+              管理员手动
+            </SelectItem>
           </SelectContent>
         </Select>
       </motion.div>
 
-      <motion.div
-        variants={fadeUpItem}
-      >
+      <motion.div variants={fadeUpItem}>
         <McCard variant="glass" className="overflow-hidden">
-        <TableProvider columns={columns} data={achievements}>
-          <TSTableHeader>
-            {({ headerGroup }) => (
-              <TSTableHeaderGroup headerGroup={headerGroup}>
-                {({ header }) => <TSTableHead header={header} />}
-              </TSTableHeaderGroup>
-            )}
-          </TSTableHeader>
-          <TSTableBody
-            emptyContent={
-              <>
-                <Trophy className="mx-auto h-8 w-8 text-muted-foreground/30 mb-3" />
-                <p className="text-sm text-muted-foreground">
-                  暂无成就，点击右上角创建
-                </p>
-              </>
-            }
-          >
-            {({ row }) => (
-              <TSTableRow row={row}>
-                {({ cell }) => <TSTableCell cell={cell} />}
-              </TSTableRow>
-            )}
-          </TSTableBody>
-        </TableProvider>
+          <TableProvider columns={columns} data={achievements}>
+            <TSTableHeader>
+              {({ headerGroup }) => (
+                <TSTableHeaderGroup headerGroup={headerGroup}>
+                  {({ header }) => <TSTableHead header={header} />}
+                </TSTableHeaderGroup>
+              )}
+            </TSTableHeader>
+            <TSTableBody
+              emptyContent={
+                <>
+                  <Trophy className="mx-auto h-8 w-8 text-muted-foreground/30 mb-3" />
+                  <p className="text-sm text-muted-foreground">
+                    暂无成就，点击右上角创建
+                  </p>
+                </>
+              }
+            >
+              {({ row }) => (
+                <TSTableRow row={row}>
+                  {({ cell }) => <TSTableCell cell={cell} />}
+                </TSTableRow>
+              )}
+            </TSTableBody>
+          </TableProvider>
         </McCard>
       </motion.div>
 

@@ -33,7 +33,6 @@ export const Route = createFileRoute('/user/issues/$issueId')({
   component: UserIssueDetailPage,
 })
 
-
 function UserIssueDetailPage() {
   const { issueId } = useParams({ strict: false })
   const { data: issueDetail, isLoading } = useIssueDetail(issueId!)
@@ -77,9 +76,7 @@ function UserIssueDetailPage() {
           </span>
           <IssueStatusBadge status={issue.status} />
           <IssuePriorityBadge priority={issue.priority} />
-          <McBadge variant="default">
-            {issueDetail.issue_type.name}
-          </McBadge>
+          <McBadge variant="default">{issueDetail.issue_type.name}</McBadge>
         </div>
         <div className="ml-auto flex items-center gap-3 text-xs text-muted-foreground shrink-0">
           <span className="inline-flex items-center gap-1">

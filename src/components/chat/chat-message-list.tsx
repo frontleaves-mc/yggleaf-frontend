@@ -14,7 +14,10 @@ interface ChatMessageListProps {
   currentPlayerName?: string | null
 }
 
-export function ChatMessageList({ messages, currentPlayerName }: ChatMessageListProps) {
+export function ChatMessageList({
+  messages,
+  currentPlayerName,
+}: ChatMessageListProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const isAtBottomRef = useRef(true)
 

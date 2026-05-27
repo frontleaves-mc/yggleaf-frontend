@@ -60,7 +60,10 @@ import { isSuperAdmin } from '#/lib/permissions'
 // ─── 辅助函数 ──────────────────────────────────────────────
 
 function getTitleTypeBadge(type: TitleType) {
-  const map: Record<number, { label: string; variant: 'diamond' | 'nether' | 'gold' | 'default' }> = {
+  const map: Record<
+    number,
+    { label: string; variant: 'diamond' | 'nether' | 'gold' | 'default' }
+  > = {
     [TitleType.General]: {
       label: '通用',
       variant: 'diamond',
@@ -78,11 +81,7 @@ function getTitleTypeBadge(type: TitleType) {
     label: '未知',
     variant: 'default' as const,
   }
-  return (
-    <McBadge variant={info.variant}>
-      {info.label}
-    </McBadge>
-  )
+  return <McBadge variant={info.variant}>{info.label}</McBadge>
 }
 
 // ─── 路由注册 ──────────────────────────────────────────────
@@ -424,35 +423,33 @@ function TitlesAdminPage() {
         </PageHeader>
       </motion.div>
 
-      <motion.div
-        variants={fadeUpItem}
-      >
+      <motion.div variants={fadeUpItem}>
         <McCard variant="glass" className="overflow-hidden">
-        <TableProvider columns={columns} data={titles}>
-          <TSTableHeader>
-            {({ headerGroup }) => (
-              <TSTableHeaderGroup headerGroup={headerGroup}>
-                {({ header }) => <TSTableHead header={header} />}
-              </TSTableHeaderGroup>
-            )}
-          </TSTableHeader>
-          <TSTableBody
-            emptyContent={
-              <>
-                <Tags className="mx-auto h-8 w-8 text-muted-foreground/30 mb-3" />
-                <p className="text-sm text-muted-foreground">
-                  暂无称号，点击右上角新建
-                </p>
-              </>
-            }
-          >
-            {({ row }) => (
-              <TSTableRow row={row}>
-                {({ cell }) => <TSTableCell cell={cell} />}
-              </TSTableRow>
-            )}
-          </TSTableBody>
-        </TableProvider>
+          <TableProvider columns={columns} data={titles}>
+            <TSTableHeader>
+              {({ headerGroup }) => (
+                <TSTableHeaderGroup headerGroup={headerGroup}>
+                  {({ header }) => <TSTableHead header={header} />}
+                </TSTableHeaderGroup>
+              )}
+            </TSTableHeader>
+            <TSTableBody
+              emptyContent={
+                <>
+                  <Tags className="mx-auto h-8 w-8 text-muted-foreground/30 mb-3" />
+                  <p className="text-sm text-muted-foreground">
+                    暂无称号，点击右上角新建
+                  </p>
+                </>
+              }
+            >
+              {({ row }) => (
+                <TSTableRow row={row}>
+                  {({ cell }) => <TSTableCell cell={cell} />}
+                </TSTableRow>
+              )}
+            </TSTableBody>
+          </TableProvider>
         </McCard>
       </motion.div>
 

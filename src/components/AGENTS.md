@@ -26,18 +26,18 @@ user/                  # 用户端组件：skin-preview(3D) + my/(resource-grid,
 
 ## WHERE TO LOOK
 
-| 任务 | 位置 | 备注 |
-|------|------|------|
-| 添加 shadcn 组件 | `ui/` | 用 `pnpm dlx shadcn@latest add <name>` |
-| 落地页新区块 | `landing/` | 新建 `*-section.tsx`，加入 `index.ts` 导出 |
-| 聊天功能 | `chat/` | SSE 流在 `src/hooks/use-chat-stream.ts` |
-| 工单状态/优先级 | `issue/issue-*-badge.tsx` | 状态映射在此定义 |
-| 服务器监控图表 | `admin/server-load/` | ECharts |
-| 皮肤/披风预览 | `user/skin-preview.tsx` | skinview3d |
-| 颜色选择器 | `ui/color-picker.tsx` | react-colorful |
-| Markdown 编辑 | `ui/markdown-*.tsx` | 编辑器/渲染器/分栏 |
-| 侧边栏/全局搜索 | `layout/sidebar/` | 渲染逻辑在 `menu-renderer.tsx` |
-| 共享 MC 风格组件 | `shared/index.ts` | McCard/McBadge/McIconBox/McSectionHeader |
+| 任务             | 位置                      | 备注                                       |
+| ---------------- | ------------------------- | ------------------------------------------ |
+| 添加 shadcn 组件 | `ui/`                     | 用 `pnpm dlx shadcn@latest add <name>`     |
+| 落地页新区块     | `landing/`                | 新建 `*-section.tsx`，加入 `index.ts` 导出 |
+| 聊天功能         | `chat/`                   | SSE 流在 `src/hooks/use-chat-stream.ts`    |
+| 工单状态/优先级  | `issue/issue-*-badge.tsx` | 状态映射在此定义                           |
+| 服务器监控图表   | `admin/server-load/`      | ECharts                                    |
+| 皮肤/披风预览    | `user/skin-preview.tsx`   | skinview3d                                 |
+| 颜色选择器       | `ui/color-picker.tsx`     | react-colorful                             |
+| Markdown 编辑    | `ui/markdown-*.tsx`       | 编辑器/渲染器/分栏                         |
+| 侧边栏/全局搜索  | `layout/sidebar/`         | 渲染逻辑在 `menu-renderer.tsx`             |
+| 共享 MC 风格组件 | `shared/index.ts`         | McCard/McBadge/McIconBox/McSectionHeader   |
 
 ## CONVENTIONS
 

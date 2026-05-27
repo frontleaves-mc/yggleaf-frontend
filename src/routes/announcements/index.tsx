@@ -260,7 +260,10 @@ function PublicAnnouncementsPage() {
                       }
                       if (i === 3 || i === 4) {
                         return (
-                          <span key="page-ellipsis" className="px-0.5 text-muted-foreground/40">
+                          <span
+                            key="page-ellipsis"
+                            className="px-0.5 text-muted-foreground/40"
+                          >
                             ···
                           </span>
                         )
@@ -331,14 +334,20 @@ function AnnouncementRow({
   const displayIndex = String(index + 1).padStart(2, '0')
 
   return (
-    <Link to="/announcements/$id" params={{ id: item.id }} className="block group">
+    <Link
+      to="/announcements/$id"
+      params={{ id: item.id }}
+      className="block group"
+    >
       <motion.div
         variants={cardHoverVariants}
         initial="rest"
         whileHover="hover"
         className="relative overflow-hidden rounded-xl border border-border bg-card transition-colors duration-300 landing-glow-hover"
       >
-        <div className={`absolute top-0 left-0 h-full w-[3px] ${accentClass}`} />
+        <div
+          className={`absolute top-0 left-0 h-full w-[3px] ${accentClass}`}
+        />
 
         <div
           className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"

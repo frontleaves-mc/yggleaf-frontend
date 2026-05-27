@@ -29,7 +29,12 @@ const McIconBox = forwardRef<HTMLDivElement, McIconBoxProps>(
       data-slot="mc-icon-box"
       data-variant={variant}
       data-size={size}
-      className={cn('icon-box inline-flex items-center justify-center', variantStyles[variant], sizeStyles[size], className)}
+      className={cn(
+        'icon-box inline-flex items-center justify-center',
+        variantStyles[variant],
+        sizeStyles[size],
+        className,
+      )}
       {...props}
     >
       {children}

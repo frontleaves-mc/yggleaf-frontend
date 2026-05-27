@@ -6,15 +6,20 @@
 import { McBadge } from '#/components/shared'
 import type { IssueStatus } from '#/api/types'
 
-const statusConfig: Record<IssueStatus, { label: string; variant: 'grass' | 'diamond' | 'nether' | 'gold' | 'default' }> =
+const statusConfig: Record<
+  IssueStatus,
   {
-    registered: { label: '已登记', variant: 'diamond' },
-    pending: { label: '待处理', variant: 'gold' },
-    processing: { label: '处理中', variant: 'diamond' },
-    resolved: { label: '已解决', variant: 'grass' },
-    unplanned: { label: '无计划', variant: 'default' },
-    closed: { label: '已关闭', variant: 'nether' },
+    label: string
+    variant: 'grass' | 'diamond' | 'nether' | 'gold' | 'default'
   }
+> = {
+  registered: { label: '已登记', variant: 'diamond' },
+  pending: { label: '待处理', variant: 'gold' },
+  processing: { label: '处理中', variant: 'diamond' },
+  resolved: { label: '已解决', variant: 'grass' },
+  unplanned: { label: '无计划', variant: 'default' },
+  closed: { label: '已关闭', variant: 'nether' },
+}
 
 interface IssueStatusBadgeProps {
   status: IssueStatus

@@ -7,7 +7,13 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useState } from 'react'
 import { motion } from 'motion/react'
-import { Search, ChevronLeft, ChevronRight, Eye, UserCircle } from 'lucide-react'
+import {
+  Search,
+  ChevronLeft,
+  ChevronRight,
+  Eye,
+  UserCircle,
+} from 'lucide-react'
 import { PageHeader } from '#/components/public/page-header'
 import type { ColumnDef } from '#/components/ui/tanstack-table'
 import {
@@ -182,7 +188,9 @@ function GameProfileListPage() {
             </TSTableHeader>
             <TSTableBody
               emptyContent={
-                <p className="text-sm text-muted-foreground">暂无游戏档案数据</p>
+                <p className="text-sm text-muted-foreground">
+                  暂无游戏档案数据
+                </p>
               }
             >
               {({ row }) => (

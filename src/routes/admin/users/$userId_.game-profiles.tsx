@@ -72,7 +72,9 @@ function ProfileCard({ profile }: { profile: AdminGameProfileListItem }) {
       <div className="p-4 space-y-3">
         <div className="flex items-center gap-3">
           <McIconBox variant="nether" size="md">
-            <span className="text-sm font-semibold">{profile.name.charAt(0).toUpperCase()}</span>
+            <span className="text-sm font-semibold">
+              {profile.name.charAt(0).toUpperCase()}
+            </span>
           </McIconBox>
           <div className="min-w-0 flex-1">
             <p className="text-sm font-medium truncate">{profile.name}</p>
@@ -245,88 +247,84 @@ function AdminUserGameProfilesPage() {
             </div>
           </McCard>
 
-            <McCard variant="solid" color="nether">
-              <div className="p-5 space-y-3">
-                <McSectionHeader
-                  title="调整配额"
-                  icon={Plus}
-                  variant="nether"
-                />
-                <div className="space-y-1.5">
-                  <span className="text-xs text-muted-foreground">
-                    变化量（正数增加，负数减少）
-                  </span>
-                  <div className="flex items-center gap-2">
-                    <Button
-                      variant="outline"
-                      size="icon-lg"
-                      className="shrink-0"
-                      onClick={() =>
-                        setDeltaInput((v) => String(Number(v || 0) - 1))
-                      }
-                    >
-                      <Minus className="h-3.5 w-3.5" />
-                    </Button>
-                    <Input
-                      type="number"
-                      className="text-center font-mono text-sm"
-                      value={deltaInput}
-                      onChange={(e) => setDeltaInput(e.target.value)}
-                      placeholder="0"
-                    />
-                    <Button
-                      variant="outline"
-                      size="icon-lg"
-                      className="shrink-0"
-                      onClick={() =>
-                        setDeltaInput((v) => String(Number(v || 0) + 1))
-                      }
-                    >
-                      <Plus className="h-3.5 w-3.5" />
-                    </Button>
-                  </div>
-                </div>
-                <div className="space-y-1.5">
-                  <span className="text-xs text-muted-foreground">
-                    备注（可选）
-                  </span>
-                  <Textarea
-                    rows={2}
-                    maxLength={255}
-                    className="resize-none text-sm"
-                    value={remark}
-                    onChange={(e) => setRemark(e.target.value)}
-                    placeholder="调整原因..."
+          <McCard variant="solid" color="nether">
+            <div className="p-5 space-y-3">
+              <McSectionHeader title="调整配额" icon={Plus} variant="nether" />
+              <div className="space-y-1.5">
+                <span className="text-xs text-muted-foreground">
+                  变化量（正数增加，负数减少）
+                </span>
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="icon-lg"
+                    className="shrink-0"
+                    onClick={() =>
+                      setDeltaInput((v) => String(Number(v || 0) - 1))
+                    }
+                  >
+                    <Minus className="h-3.5 w-3.5" />
+                  </Button>
+                  <Input
+                    type="number"
+                    className="text-center font-mono text-sm"
+                    value={deltaInput}
+                    onChange={(e) => setDeltaInput(e.target.value)}
+                    placeholder="0"
                   />
-                  <div className="text-right text-[11px] text-muted-foreground tabular-nums">
-                    {remark.length}/255
-                  </div>
+                  <Button
+                    variant="outline"
+                    size="icon-lg"
+                    className="shrink-0"
+                    onClick={() =>
+                      setDeltaInput((v) => String(Number(v || 0) + 1))
+                    }
+                  >
+                    <Plus className="h-3.5 w-3.5" />
+                  </Button>
                 </div>
-                <Button
-                  className="w-full"
-                  size="sm"
-                  onClick={handleAdjustQuota}
-                  disabled={
-                    quotaMutation.isPending ||
-                    !deltaInput ||
-                    isNaN(Number(deltaInput)) ||
-                    Number(deltaInput) === 0
-                  }
-                >
-                  {quotaMutation.isPending ? (
-                    <>
-                      <Loader2 className="h-4 w-4 mr-1.5 animate-spin" />
-                      处理中...
-                    </>
-                  ) : (
-                    <>
-                      <Save className="h-4 w-4 mr-1.5" />
-                      确认调整
-                    </>
-                  )}
-                </Button>
               </div>
-            </McCard>
+              <div className="space-y-1.5">
+                <span className="text-xs text-muted-foreground">
+                  备注（可选）
+                </span>
+                <Textarea
+                  rows={2}
+                  maxLength={255}
+                  className="resize-none text-sm"
+                  value={remark}
+                  onChange={(e) => setRemark(e.target.value)}
+                  placeholder="调整原因..."
+                />
+                <div className="text-right text-[11px] text-muted-foreground tabular-nums">
+                  {remark.length}/255
+                </div>
+              </div>
+              <Button
+                className="w-full"
+                size="sm"
+                onClick={handleAdjustQuota}
+                disabled={
+                  quotaMutation.isPending ||
+                  !deltaInput ||
+                  isNaN(Number(deltaInput)) ||
+                  Number(deltaInput) === 0
+                }
+              >
+                {quotaMutation.isPending ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-1.5 animate-spin" />
+                    处理中...
+                  </>
+                ) : (
+                  <>
+                    <Save className="h-4 w-4 mr-1.5" />
+                    确认调整
+                  </>
+                )}
+              </Button>
+            </div>
+          </McCard>
         </motion.aside>
       </div>
     </motion.div>

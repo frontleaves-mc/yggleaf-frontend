@@ -19,22 +19,27 @@ export const PLAYER_ONLINE_QUERY_KEY = ['player', 'online'] as const
 // ─── 端点函数 ──────────────────────────────────────────────
 
 /** 查询当前用户在线的游戏档案列表 */
-export async function getOnlineGameProfiles(): Promise<OnlineGameProfileResponse[]> {
+export async function getOnlineGameProfiles(): Promise<
+  OnlineGameProfileResponse[]
+> {
   return mcApiClient.get<OnlineGameProfileResponse[]>(
     '/servers/game-profiles/online/mine',
   )
 }
 
 /** 检查玩家是否在线 */
-export async function checkPlayerOnline(
-  params: { uuid?: string; username?: string },
-): Promise<PlayerOnlineResponse> {
+export async function checkPlayerOnline(params: {
+  uuid?: string
+  username?: string
+}): Promise<PlayerOnlineResponse> {
   const sp = new URLSearchParams()
   if (params.uuid) sp.set('uuid', params.uuid)
   if (params.username) sp.set('username', params.username)
   const qs = sp.toString()
   return mcApiClient.get<PlayerOnlineResponse>(
-    qs ? `/servers/players/online/check?${qs}` : '/servers/players/online/check',
+    qs
+      ? `/servers/players/online/check?${qs}`
+      : '/servers/players/online/check',
   )
 }
 
@@ -51,7 +56,10 @@ export function useOnlineGameProfiles(options?: { enabled?: boolean }) {
 }
 
 /** 检查玩家在线状态 Query */
-export function useCheckPlayerOnline(params: { uuid?: string; username?: string }) {
+export function useCheckPlayerOnline(params: {
+  uuid?: string
+  username?: string
+}) {
   return useQuery({
     queryKey: [...PLAYER_ONLINE_QUERY_KEY, 'check', params],
     queryFn: () => checkPlayerOnline(params),

@@ -26,10 +26,7 @@ import { DashboardWelcome } from '#/components/dashboard/dashboard-welcome'
 import { McCard } from '#/components/shared/mc-card'
 import { McIconBox } from '#/components/shared/mc-icon-box'
 import { McSectionHeader } from '#/components/shared/mc-section-header'
-import {
-  mcStaggerGrid,
-  mcStaggerGridItem,
-} from '#/lib/motion-presets'
+import { mcStaggerGrid, mcStaggerGridItem } from '#/lib/motion-presets'
 
 export const Route = createFileRoute('/user/dashboard')({
   component: DashboardPage,
@@ -39,9 +36,24 @@ export const Route = createFileRoute('/user/dashboard')({
 const DASHBOARD_ANNOUNCEMENT_LIMIT = 3
 
 const quickLinks = [
-  { title: '皮肤库', icon: Shirt, to: '/user/skins', variant: 'diamond' as const },
-  { title: '披风库', icon: Flag, to: '/user/capes', variant: 'nether' as const },
-  { title: '游戏档案', icon: Gamepad2, to: '/user/profiles', variant: 'grass' as const },
+  {
+    title: '皮肤库',
+    icon: Shirt,
+    to: '/user/skins',
+    variant: 'diamond' as const,
+  },
+  {
+    title: '披风库',
+    icon: Flag,
+    to: '/user/capes',
+    variant: 'nether' as const,
+  },
+  {
+    title: '游戏档案',
+    icon: Gamepad2,
+    to: '/user/profiles',
+    variant: 'grass' as const,
+  },
 ]
 
 function InfoItem({
@@ -93,8 +105,16 @@ function GameConfigGuide({
         </div>
 
         <div className="flex flex-col gap-3 px-6 pb-4">
-          <InfoItem icon={Mail} label="登录账号" value={user?.email ?? '加载中…'} />
-          <InfoItem icon={KeyRound} label="登录密码" value="在本平台设置的密码" />
+          <InfoItem
+            icon={Mail}
+            label="登录账号"
+            value={user?.email ?? '加载中…'}
+          />
+          <InfoItem
+            icon={KeyRound}
+            label="登录密码"
+            value="在本平台设置的密码"
+          />
         </div>
 
         <div className="border-t border-border/40 px-6 py-4">
@@ -158,7 +178,8 @@ function DashboardPage() {
                   </McCard>
                 ))}
               </div>
-            ) : servers.length > 0 && servers.some((s) => s.online && s.players.length > 0) ? (
+            ) : servers.length > 0 &&
+              servers.some((s) => s.online && s.players.length > 0) ? (
               servers
                 .filter((s) => s.online && s.players.length > 0)
                 .map((server) => (
@@ -170,7 +191,12 @@ function DashboardPage() {
                     )}
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                       {server.players.map((player) => (
-                        <McCard key={player.player_uuid} variant="glass" color="grass" className="group overflow-hidden">
+                        <McCard
+                          key={player.player_uuid}
+                          variant="glass"
+                          color="grass"
+                          className="group overflow-hidden"
+                        >
                           <div className="p-4">
                             <div className="flex items-center justify-between gap-2">
                               <h3 className="font-medium text-sm text-foreground truncate group-hover:text-mc-grass transition-colors">
@@ -187,8 +213,13 @@ function DashboardPage() {
                   </div>
                 ))
             ) : (
-              <McCard variant="glass" className="flex items-center justify-center py-8">
-                <span className="text-sm text-muted-foreground/60">当前无玩家在线</span>
+              <McCard
+                variant="glass"
+                className="flex items-center justify-center py-8"
+              >
+                <span className="text-sm text-muted-foreground/60">
+                  当前无玩家在线
+                </span>
               </McCard>
             )}
           </div>
@@ -223,7 +254,9 @@ function DashboardPage() {
                       </h3>
                       <span className="shrink-0 text-[11px] tabular-nums text-muted-foreground/50">
                         {item.published_at
-                          ? new Date(item.published_at).toLocaleDateString('zh-CN')
+                          ? new Date(item.published_at).toLocaleDateString(
+                              'zh-CN',
+                            )
                           : ''}
                       </span>
                     </div>
@@ -234,8 +267,13 @@ function DashboardPage() {
                 </Link>
               ))
             ) : (
-              <McCard variant="glass" className="flex items-center justify-center py-8">
-                <span className="text-sm text-muted-foreground/60">暂无公告</span>
+              <McCard
+                variant="glass"
+                className="flex items-center justify-center py-8"
+              >
+                <span className="text-sm text-muted-foreground/60">
+                  暂无公告
+                </span>
               </McCard>
             )}
           </div>
@@ -260,7 +298,11 @@ function DashboardPage() {
                 onClick={() => navigate({ to: link.to as any })}
                 className="group text-left transition-colors hover:opacity-90"
               >
-                <McCard variant="glass" color={link.variant} className="flex items-center gap-3 px-3.5 py-2.5">
+                <McCard
+                  variant="glass"
+                  color={link.variant}
+                  className="flex items-center gap-3 px-3.5 py-2.5"
+                >
                   <McIconBox variant={link.variant} size="sm">
                     <link.icon />
                   </McIconBox>

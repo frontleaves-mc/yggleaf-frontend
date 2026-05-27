@@ -89,10 +89,7 @@ export function ChatDMView({
       />
 
       {/* 输入框 */}
-      <ChatInput
-        onSend={onSend}
-        disabled={sendPending}
-      />
+      <ChatInput onSend={onSend} disabled={sendPending} />
     </div>
   )
 }

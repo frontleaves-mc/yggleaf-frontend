@@ -182,7 +182,11 @@ function ProfilePage() {
 
       {/* 用户信息卡片 */}
       <motion.div variants={fadeUpItem}>
-        <McCard variant="solid" color="diamond" className="px-6 py-6 sm:px-8 sm:py-7">
+        <McCard
+          variant="solid"
+          color="diamond"
+          className="px-6 py-6 sm:px-8 sm:py-7"
+        >
           <div className="flex items-center gap-5 sm:gap-6">
             <div className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-mc-diamond to-mc-diamond/80 text-white text-xl font-bold shadow-md sm:size-16 sm:text-2xl">
               {user?.username?.charAt(0)?.toUpperCase() ?? '?'}
@@ -220,7 +224,11 @@ function ProfilePage() {
       {/* 信息网格 */}
       <motion.div variants={fadeUpItem}>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          <InfoItem icon={UserIcon} label="用户名" value={user?.username ?? '--'} />
+          <InfoItem
+            icon={UserIcon}
+            label="用户名"
+            value={user?.username ?? '--'}
+          />
           <InfoItem icon={Mail} label="邮箱" value={user?.email ?? '--'} />
           <InfoItem icon={Phone} label="手机号" value={user?.phone || '--'} />
           <InfoItem
@@ -251,7 +259,11 @@ function ProfilePage() {
 
       {/* 修改密码卡片 */}
       <motion.div variants={fadeUpItem}>
-        <McCard variant="solid" color="nether" className="max-w-xl px-6 pt-6 pb-5 sm:px-8 sm:pt-7 sm:pb-6">
+        <McCard
+          variant="solid"
+          color="nether"
+          className="max-w-xl px-6 pt-6 pb-5 sm:px-8 sm:pt-7 sm:pb-6"
+        >
           <div className="mb-5 flex items-center gap-3.5">
             <McIconBox variant="nether" size="md">
               <Lock />
@@ -362,7 +374,11 @@ function ProfilePage() {
 
       {/* SSO 登录信息卡片 */}
       <motion.div variants={fadeUpItem}>
-        <McCard variant="glass" color="gold" className="max-w-xl px-5 py-4.5 sm:px-6 sm:py-5">
+        <McCard
+          variant="glass"
+          color="gold"
+          className="max-w-xl px-5 py-4.5 sm:px-6 sm:py-5"
+        >
           <div className="flex items-start gap-4">
             <McIconBox variant="gold" size="md">
               <Shield />

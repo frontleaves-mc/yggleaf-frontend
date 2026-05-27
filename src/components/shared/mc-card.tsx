@@ -34,7 +34,10 @@ const solidBaseStyles = [
 ]
 
 const McCard = forwardRef<HTMLDivElement, McCardProps>(
-  ({ variant = 'glass', color = 'default', className, children, ...props }, ref) => {
+  (
+    { variant = 'glass', color = 'default', className, children, ...props },
+    ref,
+  ) => {
     const baseStyles = variant === 'glass' ? glassBaseStyles : solidBaseStyles
 
     return (

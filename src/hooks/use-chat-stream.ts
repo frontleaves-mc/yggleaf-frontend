@@ -10,7 +10,11 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { authStore } from '#/stores/auth-store'
 import { MC_API_BASE_URL, ACCESS_TOKEN_KEY } from '#/config/constants'
 import { getCookie } from '#/lib/cookie'
-import type { ChatLogResponse, SSEChatMessage, SSEDirectMessage } from '#/api/types/api-mc/message'
+import type {
+  ChatLogResponse,
+  SSEChatMessage,
+  SSEDirectMessage,
+} from '#/api/types/api-mc/message'
 
 // ─── 类型定义 ──────────────────────────────────────────────
 
@@ -59,7 +63,10 @@ interface SSEEvent {
  * 从 SSE 文本流中解析出完整的事件。
  * SSE 格式：以 \n\n 分隔的事件块，每个块内 event: xxx / data: xxx 各占一行。
  */
-function parseSSEChunk(buffer: string): { events: SSEEvent[]; remaining: string } {
+function parseSSEChunk(buffer: string): {
+  events: SSEEvent[]
+  remaining: string
+} {
   const events: SSEEvent[] = []
   const parts = buffer.split('\n\n')
 
@@ -96,7 +103,9 @@ function getAccessToken(): string | null {
 
 // ─── Hook 实现 ──────────────────────────────────────────────
 
-export function useChatStream(options: UseChatStreamOptions): UseChatStreamReturn {
+export function useChatStream(
+  options: UseChatStreamOptions,
+): UseChatStreamReturn {
   const { enabled = true, onInit, onChat, onDm, onError } = options
 
   const [isConnected, setIsConnected] = useState(false)
@@ -211,7 +220,9 @@ export function useChatStream(options: UseChatStreamOptions): UseChatStreamRetur
       .catch((err: unknown) => {
         if (controller.signal.aborted) return
         setIsConnected(false)
-        onErrorRef.current?.(err instanceof Error ? err : new Error(String(err)))
+        onErrorRef.current?.(
+          err instanceof Error ? err : new Error(String(err)),
+        )
         scheduleReconnect()
       })
   }, [cleanup])

@@ -47,8 +47,10 @@ export async function getAdminMatrixWarnings(
   if (params?.end_time) sp.set('end_time', params.end_time)
 
   // 数值类型参数：0 是有效值，用 != null 检查
-  if (params?.risk_score_min != null) sp.set('risk_score_min', String(params.risk_score_min))
-  if (params?.risk_score_max != null) sp.set('risk_score_max', String(params.risk_score_max))
+  if (params?.risk_score_min != null)
+    sp.set('risk_score_min', String(params.risk_score_min))
+  if (params?.risk_score_max != null)
+    sp.set('risk_score_max', String(params.risk_score_max))
 
   const qs = sp.toString()
   return mcApiClient.get<MatrixWarningListResponse>(

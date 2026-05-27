@@ -120,13 +120,8 @@ export function useCreateServerMutation() {
 export function useUpdateServerMutation() {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: ({
-      id,
-      data,
-    }: {
-      id: string
-      data: UpdateServerRequest
-    }) => updateServer(id, data),
+    mutationFn: ({ id, data }: { id: string; data: UpdateServerRequest }) =>
+      updateServer(id, data),
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({
         queryKey: ADMIN_SERVER_LIST_QUERY_KEY,
@@ -155,13 +150,8 @@ export function useDeleteServerMutation() {
 export function useSetServerEnabledMutation() {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: ({
-      id,
-      data,
-    }: {
-      id: string
-      data: SetServerEnabledRequest
-    }) => setServerEnabled(id, data),
+    mutationFn: ({ id, data }: { id: string; data: SetServerEnabledRequest }) =>
+      setServerEnabled(id, data),
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({
         queryKey: ADMIN_SERVER_LIST_QUERY_KEY,
@@ -177,13 +167,8 @@ export function useSetServerEnabledMutation() {
 export function useSetServerPublicMutation() {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: ({
-      id,
-      data,
-    }: {
-      id: string
-      data: SetServerPublicRequest
-    }) => setServerPublic(id, data),
+    mutationFn: ({ id, data }: { id: string; data: SetServerPublicRequest }) =>
+      setServerPublic(id, data),
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({
         queryKey: ADMIN_SERVER_LIST_QUERY_KEY,

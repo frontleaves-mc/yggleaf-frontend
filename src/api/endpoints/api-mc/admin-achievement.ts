@@ -152,13 +152,8 @@ export function useDeleteAchievementMutation() {
 export function useGrantAchievementMutation() {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: ({
-      id,
-      data,
-    }: {
-      id: string
-      data: GrantAchievementRequest
-    }) => grantAchievement(id, data),
+    mutationFn: ({ id, data }: { id: string; data: GrantAchievementRequest }) =>
+      grantAchievement(id, data),
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({
         queryKey: ADMIN_ACHIEVEMENT_LIST_QUERY_KEY,

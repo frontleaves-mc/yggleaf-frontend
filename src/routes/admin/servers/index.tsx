@@ -396,9 +396,7 @@ function ServerManagementPage() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>创建服务器</DialogTitle>
-            <DialogDescription>
-              创建新的游戏服务器配置
-            </DialogDescription>
+            <DialogDescription>创建新的游戏服务器配置</DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-2">
             <div className="space-y-2">
@@ -484,9 +482,7 @@ function ServerManagementPage() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>编辑服务器</DialogTitle>
-            <DialogDescription>
-              修改服务器配置信息
-            </DialogDescription>
+            <DialogDescription>修改服务器配置信息</DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-2">
             <div className="space-y-2">
@@ -542,10 +538,7 @@ function ServerManagementPage() {
                   关闭后该服务器将停止响应查询
                 </p>
               </div>
-              <Switch
-                checked={editEnabled}
-                onCheckedChange={setEditEnabled}
-              />
+              <Switch checked={editEnabled} onCheckedChange={setEditEnabled} />
             </div>
             <div className="flex items-center justify-between rounded-lg border border-border/60 px-4 py-3">
               <div className="space-y-0.5">
@@ -554,10 +547,7 @@ function ServerManagementPage() {
                   公开后所有用户可见该服务器
                 </p>
               </div>
-              <Switch
-                checked={editPublic}
-                onCheckedChange={setEditPublic}
-              />
+              <Switch checked={editPublic} onCheckedChange={setEditPublic} />
             </div>
           </div>
           <DialogFooter>
@@ -566,9 +556,7 @@ function ServerManagementPage() {
             </Button>
             <Button
               onClick={handleEdit}
-              disabled={
-                updateMutation.isPending || !editDisplayName.trim()
-              }
+              disabled={updateMutation.isPending || !editDisplayName.trim()}
             >
               {updateMutation.isPending ? '保存中...' : '保存'}
             </Button>

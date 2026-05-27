@@ -62,18 +62,22 @@ function ConversationEntry({
           : 'border-r-2 border-transparent',
       )}
     >
-      <span className={cn(
-        'shrink-0 [&>svg]:size-4 transition-colors duration-150',
-        active ? 'text-mc-diamond' : 'text-muted-foreground/50',
-      )}>
+      <span
+        className={cn(
+          'shrink-0 [&>svg]:size-4 transition-colors duration-150',
+          active ? 'text-mc-diamond' : 'text-muted-foreground/50',
+        )}
+      >
         {icon}
       </span>
       <div className="flex-1 min-w-0">
         <div className="flex items-center justify-between gap-1">
-          <span className={cn(
-            'text-[13px] truncate transition-colors duration-150',
-            active ? 'text-foreground font-medium' : 'text-foreground/70',
-          )}>
+          <span
+            className={cn(
+              'text-[13px] truncate transition-colors duration-150',
+              active ? 'text-foreground font-medium' : 'text-foreground/70',
+            )}
+          >
             {name}
           </span>
           {badge}
@@ -158,9 +162,7 @@ export function ChatConversationList({
         ) : conversations.length === 0 ? (
           <div className="px-3 py-4 text-center">
             <MessageCircle className="size-4 text-muted-foreground/20 mx-auto mb-1" />
-            <p className="text-[11px] text-muted-foreground/40">
-              暂无私聊会话
-            </p>
+            <p className="text-[11px] text-muted-foreground/40">暂无私聊会话</p>
           </div>
         ) : (
           conversations.map((conv) => {

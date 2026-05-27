@@ -39,7 +39,10 @@ function AnnouncementCard({
         <p className="mt-2 line-clamp-3 text-sm leading-6 text-muted-foreground">
           {announcement.desc || announcement.content?.slice(0, 100) || ''}
         </p>
-        <div className="mt-auto pt-5 text-xs font-medium text-primary" aria-hidden="true">
+        <div
+          className="mt-auto pt-5 text-xs font-medium text-primary"
+          aria-hidden="true"
+        >
           阅读公告
         </div>
       </LandingCard>

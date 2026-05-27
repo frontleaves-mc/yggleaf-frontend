@@ -25,8 +25,15 @@ export interface AdminGameProfileListParams {
 
 // ─── Query Keys ────────────────────────────────────────────
 
-export const ADMIN_GAME_PROFILE_LIST_QUERY_KEY = ['admin', 'game-profiles'] as const
-export const ADMIN_GAME_PROFILE_DETAIL_QUERY_KEY = ['admin', 'game-profile', 'detail'] as const
+export const ADMIN_GAME_PROFILE_LIST_QUERY_KEY = [
+  'admin',
+  'game-profiles',
+] as const
+export const ADMIN_GAME_PROFILE_DETAIL_QUERY_KEY = [
+  'admin',
+  'game-profile',
+  'detail',
+] as const
 
 // ─── 端点函数 ──────────────────────────────────────────────
 
@@ -49,7 +56,9 @@ export async function getAdminGameProfiles(
 export async function getAdminGameProfileDetail(
   profileId: string,
 ): Promise<AdminGameProfileDetail> {
-  return authApiClient.get<AdminGameProfileDetail>(`/admin/game-profiles/${profileId}`)
+  return authApiClient.get<AdminGameProfileDetail>(
+    `/admin/game-profiles/${profileId}`,
+  )
 }
 
 /** 管理员强制设置档案皮肤 */
@@ -69,9 +78,7 @@ export async function forceSetGameProfileCape(
 }
 
 /** 管理员重置游戏档案 */
-export async function forceResetGameProfile(
-  profileId: string,
-): Promise<void> {
+export async function forceResetGameProfile(profileId: string): Promise<void> {
   return authApiClient.post(`/admin/game-profiles/${profileId}/reset`)
 }
 

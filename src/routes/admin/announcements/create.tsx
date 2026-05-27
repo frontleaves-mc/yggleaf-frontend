@@ -135,53 +135,53 @@ function CreateAnnouncementPage() {
         {/* 表单 */}
         <motion.div variants={fadeUpItem}>
           <McCard variant="glass" className="p-5">
-          <form
-            id="create-announcement-form"
-            onSubmit={handleSubmit}
-            className="space-y-5"
-          >
-            {/* 标题 + 类型同行 */}
-            <div className="flex items-end gap-3">
-              <div className="flex-1 space-y-2">
-                <Label htmlFor="announcement-title">公告标题 *</Label>
-                <Input
-                  id="announcement-title"
-                  placeholder="请输入公告标题"
-                  value={formTitle}
-                  onChange={(e) => setFormTitle(e.target.value)}
-                  required
+            <form
+              id="create-announcement-form"
+              onSubmit={handleSubmit}
+              className="space-y-5"
+            >
+              {/* 标题 + 类型同行 */}
+              <div className="flex items-end gap-3">
+                <div className="flex-1 space-y-2">
+                  <Label htmlFor="announcement-title">公告标题 *</Label>
+                  <Input
+                    id="announcement-title"
+                    placeholder="请输入公告标题"
+                    value={formTitle}
+                    onChange={(e) => setFormTitle(e.target.value)}
+                    required
+                    disabled={createMutation.isPending}
+                  />
+                </div>
+                <div className="w-36 space-y-2">
+                  <Label htmlFor="announcement-type">公告类型</Label>
+                  <Select
+                    value={formType}
+                    onValueChange={setFormType}
+                    disabled={createMutation.isPending}
+                  >
+                    <SelectTrigger id="announcement-type" className="w-full">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="1">站内公告</SelectItem>
+                      <SelectItem value="2">全局公告</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              {/* 内容编辑器 */}
+              <div className="space-y-2">
+                <Label>公告内容 *</Label>
+                <MarkdownSplitEditor
+                  value={formContent}
+                  onChange={setFormContent}
+                  placeholder="请输入公告内容..."
                   disabled={createMutation.isPending}
                 />
               </div>
-              <div className="w-36 space-y-2">
-                <Label htmlFor="announcement-type">公告类型</Label>
-                <Select
-                  value={formType}
-                  onValueChange={setFormType}
-                  disabled={createMutation.isPending}
-                >
-                  <SelectTrigger id="announcement-type" className="w-full">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="1">站内公告</SelectItem>
-                    <SelectItem value="2">全局公告</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-
-            {/* 内容编辑器 */}
-            <div className="space-y-2">
-              <Label>公告内容 *</Label>
-              <MarkdownSplitEditor
-                value={formContent}
-                onChange={setFormContent}
-                placeholder="请输入公告内容..."
-                disabled={createMutation.isPending}
-              />
-            </div>
-          </form>
+            </form>
           </McCard>
         </motion.div>
       </motion.div>

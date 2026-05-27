@@ -123,7 +123,11 @@ function GameInfoPage() {
       {!isLoading && data && (
         <motion.div variants={fadeUpItem}>
           <div className="grid grid-cols-3 gap-4">
-            <McCard variant="glass" color="grass" className="p-4 flex items-center gap-3">
+            <McCard
+              variant="glass"
+              color="grass"
+              className="p-4 flex items-center gap-3"
+            >
               <McIconBox variant="grass" size="md">
                 <Package />
               </McIconBox>
@@ -134,7 +138,11 @@ function GameInfoPage() {
                 </p>
               </div>
             </McCard>
-            <McCard variant="glass" color="diamond" className="p-4 flex items-center gap-3">
+            <McCard
+              variant="glass"
+              color="diamond"
+              className="p-4 flex items-center gap-3"
+            >
               <McIconBox variant="diamond" size="md">
                 <HardDrive />
               </McIconBox>
@@ -145,7 +153,11 @@ function GameInfoPage() {
                 </p>
               </div>
             </McCard>
-            <McCard variant="glass" color="gold" className="p-4 flex items-center gap-3">
+            <McCard
+              variant="glass"
+              color="gold"
+              className="p-4 flex items-center gap-3"
+            >
               <McIconBox variant="gold" size="md">
                 <Clock />
               </McIconBox>
@@ -213,8 +225,16 @@ function GameInfoPage() {
       {/* 空状态 */}
       {!isLoading && filteredMods.length === 0 && (
         <motion.div variants={fadeUpItem}>
-          <McCard variant="glass" color="default" className="border-dashed py-12 text-center">
-            <McIconBox variant="diamond" size="lg" className="mx-auto mb-4 text-muted-foreground/30 [&>svg]:text-muted-foreground/30">
+          <McCard
+            variant="glass"
+            color="default"
+            className="border-dashed py-12 text-center"
+          >
+            <McIconBox
+              variant="diamond"
+              size="lg"
+              className="mx-auto mb-4 text-muted-foreground/30 [&>svg]:text-muted-foreground/30"
+            >
               <Puzzle />
             </McIconBox>
             <h3 className="font-medium text-foreground">
@@ -262,9 +282,7 @@ function ModCard({
             <Puzzle />
           </McIconBox>
           <div className="flex-1 min-w-0">
-            <h3 className="font-medium text-foreground truncate">
-              {modName}
-            </h3>
+            <h3 className="font-medium text-foreground truncate">{modName}</h3>
             <p className="text-xs text-muted-foreground mt-0.5 truncate font-mono">
               {mod.name}
             </p>

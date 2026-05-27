@@ -4,12 +4,7 @@
  */
 
 import { AchievementType } from '#/api/types'
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '#/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
 import { Badge } from '#/components/ui/badge'
 import { Lightbulb } from 'lucide-react'
 
@@ -53,10 +48,7 @@ const TYPE_GUIDE_MAP: Record<
     thresholdRequired: false,
     thresholdHint: '',
     triggerMechanism: '即时完成：事件触发后 progress 直接设为 1',
-    tips: [
-      '事件类成就不需要设置条件阈值',
-      '适合"首次做某事"这类一次性目标',
-    ],
+    tips: ['事件类成就不需要设置条件阈值', '适合"首次做某事"这类一次性目标'],
   },
   [AchievementType.Special]: {
     label: '特殊条件',
@@ -77,10 +69,8 @@ const TYPE_GUIDE_MAP: Record<
   [AchievementType.Manual]: {
     label: '管理员手动',
     badgeClass: 'bg-rose-500/10 text-rose-600 dark:text-rose-400',
-    description:
-      '不参与自动触发，仅通过管理端手动授予给指定玩家。',
-    conditionKeyHint:
-      '仅作唯一标记，用于区分不同成就，无需与游戏事件对应。',
+    description: '不参与自动触发，仅通过管理端手动授予给指定玩家。',
+    conditionKeyHint: '仅作唯一标记，用于区分不同成就，无需与游戏事件对应。',
     conditionKeyExample: 'manual_contributor、manual_event_reward',
     thresholdRequired: false,
     thresholdHint: '',
@@ -120,9 +110,7 @@ export function AchievementTypeGuide({
         </p>
 
         <div className="space-y-1.5">
-          <h4 className="text-xs font-medium text-foreground">
-            条件键
-          </h4>
+          <h4 className="text-xs font-medium text-foreground">条件键</h4>
           <p className="text-[12px] text-muted-foreground leading-relaxed">
             {guide.conditionKeyHint}
           </p>
@@ -133,9 +121,7 @@ export function AchievementTypeGuide({
 
         {guide.thresholdRequired && (
           <div className="space-y-1.5">
-            <h4 className="text-xs font-medium text-foreground">
-              条件阈值
-            </h4>
+            <h4 className="text-xs font-medium text-foreground">条件阈值</h4>
             <p className="text-[12px] text-muted-foreground leading-relaxed">
               {guide.thresholdHint}
             </p>
@@ -143,28 +129,24 @@ export function AchievementTypeGuide({
         )}
 
         <div className="space-y-1.5">
-          <h4 className="text-xs font-medium text-foreground">
-            触发机制
-          </h4>
+          <h4 className="text-xs font-medium text-foreground">触发机制</h4>
           <p className="text-[12px] text-muted-foreground font-mono">
             {guide.triggerMechanism}
           </p>
         </div>
 
         <div className="space-y-1.5">
-          <h4 className="text-xs font-medium text-foreground">
-            注意事项
-          </h4>
+          <h4 className="text-xs font-medium text-foreground">注意事项</h4>
           <ul className="space-y-1">
-              {guide.tips.map((tip) => (
-                <li
-                  key={tip}
-                  className="text-[12px] text-muted-foreground leading-relaxed flex gap-1.5"
-                >
-                  <span className="shrink-0 text-muted-foreground/60">•</span>
-                  <span>{tip}</span>
-                </li>
-              ))}
+            {guide.tips.map((tip) => (
+              <li
+                key={tip}
+                className="text-[12px] text-muted-foreground leading-relaxed flex gap-1.5"
+              >
+                <span className="shrink-0 text-muted-foreground/60">•</span>
+                <span>{tip}</span>
+              </li>
+            ))}
           </ul>
         </div>
       </CardContent>

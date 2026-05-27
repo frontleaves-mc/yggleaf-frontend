@@ -13,7 +13,8 @@ export const MessageSource = {
   Web: 2,
 } as const
 
-export type MessageSourceValue = (typeof MessageSource)[keyof typeof MessageSource]
+export type MessageSourceValue =
+  (typeof MessageSource)[keyof typeof MessageSource]
 
 // ─── 响应类型 ──────────────────────────────────────────────
 

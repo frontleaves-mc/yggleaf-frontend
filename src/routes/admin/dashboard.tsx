@@ -49,23 +49,24 @@ function DashboardPage() {
   const skinCount = skins?.items?.length ?? 0
   const capeCount = capes?.items?.length ?? 0
 
-  const refreshButton = servers.length > 0 ? (
-    <button
-      type="button"
-      onClick={() => {
-        servers.forEach((s) => {
-          refreshMutation.mutate({ name: s.server_name })
-        })
-      }}
-      disabled={refreshMutation.isPending}
-      className="mt-1 inline-flex shrink-0 items-center gap-1.5 rounded-md border border-border/50 bg-transparent px-2.5 py-1.5 text-[12px] font-medium text-muted-foreground/60 transition-all hover:border-mc-nether/30 hover:text-mc-nether disabled:opacity-50 disabled:pointer-events-none"
-    >
-      <RefreshCw
-        className={`size-3 ${refreshMutation.isPending ? 'animate-spin' : ''}`}
-      />
-      刷新全部
-    </button>
-  ) : null
+  const refreshButton =
+    servers.length > 0 ? (
+      <button
+        type="button"
+        onClick={() => {
+          servers.forEach((s) => {
+            refreshMutation.mutate({ name: s.server_name })
+          })
+        }}
+        disabled={refreshMutation.isPending}
+        className="mt-1 inline-flex shrink-0 items-center gap-1.5 rounded-md border border-border/50 bg-transparent px-2.5 py-1.5 text-[12px] font-medium text-muted-foreground/60 transition-all hover:border-mc-nether/30 hover:text-mc-nether disabled:opacity-50 disabled:pointer-events-none"
+      >
+        <RefreshCw
+          className={`size-3 ${refreshMutation.isPending ? 'animate-spin' : ''}`}
+        />
+        刷新全部
+      </button>
+    ) : null
 
   const inlineStats = (
     <div className="flex items-baseline gap-5 pt-1">
@@ -176,7 +177,8 @@ function DashboardPage() {
                 </McCard>
               ))}
             </div>
-          ) : servers.length > 0 && servers.some((s) => s.online && s.players.length > 0) ? (
+          ) : servers.length > 0 &&
+            servers.some((s) => s.online && s.players.length > 0) ? (
             servers
               .filter((s) => s.online && s.players.length > 0)
               .map((server) => (
@@ -188,7 +190,12 @@ function DashboardPage() {
                   )}
                   <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
                     {server.players.map((player) => (
-                      <McCard key={player.player_uuid} variant="glass" color="nether" className="group overflow-hidden">
+                      <McCard
+                        key={player.player_uuid}
+                        variant="glass"
+                        color="nether"
+                        className="group overflow-hidden"
+                      >
                         <div className="p-4">
                           <div className="flex items-center justify-between gap-2">
                             <h3 className="font-medium text-sm text-foreground truncate group-hover:text-mc-nether transition-colors">
@@ -240,7 +247,9 @@ function DashboardPage() {
                   >
                     {card.value}
                   </p>
-                  <p className="text-xs text-muted-foreground">{card.subtitle}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {card.subtitle}
+                  </p>
                 </div>
                 <McIconBox variant={card.accent} size="md">
                   <card.icon />
@@ -252,11 +261,7 @@ function DashboardPage() {
       </motion.section>
 
       <motion.section variants={fadeUpItem} className="flex flex-col gap-4">
-        <McSectionHeader
-          label="Operations"
-          title="快捷操作"
-          variant="nether"
-        />
+        <McSectionHeader label="Operations" title="快捷操作" variant="nether" />
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {quickActions.map((action) => (
             <McCard

@@ -161,16 +161,17 @@ export function LandingNavbar() {
   return (
     <motion.header
       className={`fixed top-0 z-50 h-16 w-full transition-all duration-300 ${
-        scrolled
-          ? 'nav-glass'
-          : 'border-b border-transparent bg-transparent'
+        scrolled ? 'nav-glass' : 'border-b border-transparent bg-transparent'
       }`}
       variants={variants}
       animate={scrolled ? 'solid' : 'transparent'}
       transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] as const }}
     >
       <nav className="mx-auto flex h-full max-w-(--page-max) items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-        <Link to="/" className="flex cursor-pointer shrink-0 items-center gap-2.5">
+        <Link
+          to="/"
+          className="flex cursor-pointer shrink-0 items-center gap-2.5"
+        >
           <img
             src="/favicon.png"
             alt="锋楪游戏"
@@ -216,7 +217,11 @@ export function LandingNavbar() {
         <div className="flex items-center gap-2 md:hidden">
           {!isAuthenticated && (
             <Link to="/login" search={{ callback: '/user/dashboard' } as any}>
-              <Button variant="outline" size="sm" className="cursor-pointer gap-1.5 text-xs">
+              <Button
+                variant="outline"
+                size="sm"
+                className="cursor-pointer gap-1.5 text-xs"
+              >
                 <LogIn className="h-3.5 w-3.5" />
                 登录
               </Button>
@@ -225,7 +230,12 @@ export function LandingNavbar() {
 
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="cursor-pointer rounded-lg" aria-label="打开导航菜单">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="cursor-pointer rounded-lg"
+                aria-label="打开导航菜单"
+              >
                 <Menu className="size-5" />
                 <span className="sr-only">打开菜单</span>
               </Button>
@@ -285,7 +295,10 @@ export function LandingNavbar() {
                         search={{ callback: '/user/dashboard' } as any}
                         onClick={() => setMobileOpen(false)}
                       >
-                        <Button size="sm" className="w-full cursor-pointer gap-1.5">
+                        <Button
+                          size="sm"
+                          className="w-full cursor-pointer gap-1.5"
+                        >
                           <UserPlus className="h-3.5 w-3.5" />
                           注册
                         </Button>

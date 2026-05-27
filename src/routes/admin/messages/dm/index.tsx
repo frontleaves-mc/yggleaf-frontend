@@ -195,7 +195,10 @@ function AdminDMRecordsPage() {
 
       {/* 筛选栏 */}
       <motion.div variants={fadeUpItem}>
-        <McCard variant="glass" className="flex flex-wrap items-center gap-3 p-4">
+        <McCard
+          variant="glass"
+          className="flex flex-wrap items-center gap-3 p-4"
+        >
           <div className="relative flex-1 max-w-xs">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
@@ -214,10 +217,20 @@ function AdminDMRecordsPage() {
               className="pl-9 h-9"
             />
           </div>
-          <Button variant="gradient" size="sm" className="h-9" onClick={handleSearch}>
+          <Button
+            variant="gradient"
+            size="sm"
+            className="h-9"
+            onClick={handleSearch}
+          >
             搜索
           </Button>
-          <Button variant="outline" size="sm" className="h-9" onClick={handleReset}>
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-9"
+            onClick={handleReset}
+          >
             重置
           </Button>
         </McCard>

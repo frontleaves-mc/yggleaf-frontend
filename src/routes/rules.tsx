@@ -126,7 +126,10 @@ function RulesPage() {
             </FadeInUp>
 
             <FadeInUp delay={0.08}>
-              <LandingCard accent="grass" className="group/card overflow-hidden p-0">
+              <LandingCard
+                accent="grass"
+                className="group/card overflow-hidden p-0"
+              >
                 <div className="p-5 pb-4">
                   <div className="mb-4 flex size-10 items-center justify-center rounded-lg bg-mc-grass/10 text-mc-grass transition-colors duration-300 group-hover/card:bg-mc-grass/15">
                     <MessageSquareWarning className="size-5" />
@@ -146,8 +149,12 @@ function RulesPage() {
                         <Scale className="size-3.5" />
                       </div>
                       <div>
-                        <p className="text-sm font-medium text-foreground/90">公正裁决</p>
-                        <p className="text-xs leading-5 text-muted-foreground">结合日志与多方说明综合判断</p>
+                        <p className="text-sm font-medium text-foreground/90">
+                          公正裁决
+                        </p>
+                        <p className="text-xs leading-5 text-muted-foreground">
+                          结合日志与多方说明综合判断
+                        </p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
@@ -155,8 +162,12 @@ function RulesPage() {
                         <ClipboardList className="size-3.5" />
                       </div>
                       <div>
-                        <p className="text-sm font-medium text-foreground/90">工单申诉</p>
-                        <p className="text-xs leading-5 text-muted-foreground">对处罚有异议可通过工单系统提交</p>
+                        <p className="text-sm font-medium text-foreground/90">
+                          工单申诉
+                        </p>
+                        <p className="text-xs leading-5 text-muted-foreground">
+                          对处罚有异议可通过工单系统提交
+                        </p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
@@ -164,8 +175,12 @@ function RulesPage() {
                         <Handshake className="size-3.5" />
                       </div>
                       <div>
-                        <p className="text-sm font-medium text-foreground/90">理性沟通</p>
-                        <p className="text-xs leading-5 text-muted-foreground">遇到争议请通过官方渠道反馈</p>
+                        <p className="text-sm font-medium text-foreground/90">
+                          理性沟通
+                        </p>
+                        <p className="text-xs leading-5 text-muted-foreground">
+                          遇到争议请通过官方渠道反馈
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -269,8 +284,12 @@ function RulesPage() {
                       <ArrowLeft className="size-4 text-muted-foreground transition-colors group-hover:text-primary" />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-xs font-medium text-muted-foreground">返回首页</p>
-                      <p className="truncate text-sm font-medium text-foreground">回到锋楪首页</p>
+                      <p className="text-xs font-medium text-muted-foreground">
+                        返回首页
+                      </p>
+                      <p className="truncate text-sm font-medium text-foreground">
+                        回到锋楪首页
+                      </p>
                     </div>
                   </Link>
                 </motion.div>
@@ -284,8 +303,12 @@ function RulesPage() {
                       <ArrowRight className="size-4 text-muted-foreground transition-colors group-hover:text-primary" />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-xs font-medium text-muted-foreground">查看公告</p>
-                      <p className="truncate text-sm font-medium text-foreground">浏览服务器动态</p>
+                      <p className="text-xs font-medium text-muted-foreground">
+                        查看公告
+                      </p>
+                      <p className="truncate text-sm font-medium text-foreground">
+                        浏览服务器动态
+                      </p>
                     </div>
                   </Link>
                 </motion.div>

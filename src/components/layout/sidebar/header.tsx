@@ -36,7 +36,8 @@ export function SidebarHeader({ mode }: SidebarHeaderProps) {
       <div
         className="pointer-events-none absolute top-0 left-3 right-3 h-px"
         style={{
-          background: 'linear-gradient(90deg in oklch, transparent, var(--mc-grass), var(--mc-diamond), transparent)',
+          background:
+            'linear-gradient(90deg in oklch, transparent, var(--mc-grass), var(--mc-diamond), transparent)',
           opacity: 0.5,
         }}
         aria-hidden="true"
@@ -61,9 +62,11 @@ export function SidebarHeader({ mode }: SidebarHeaderProps) {
 
         {!isCollapsed && (
           <div className="min-w-0 flex-1">
-            <p className={cn(
-              'truncate font-heading text-base font-bold tracking-tight leading-tight mc-gradient-text',
-            )}>
+            <p
+              className={cn(
+                'truncate font-heading text-base font-bold tracking-tight leading-tight mc-gradient-text',
+              )}
+            >
               锋楪游戏
             </p>
             <p

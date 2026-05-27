@@ -55,7 +55,6 @@ import { McCard } from '#/components/shared/mc-card'
 import { PageHeader } from '#/components/public/page-header'
 import { McBadge } from '#/components/shared/mc-badge'
 
-
 export const Route = createFileRoute('/user/issues/')({
   component: UserIssuesPage,
 })
@@ -400,7 +399,11 @@ function UserIssuesPage() {
       </motion.div>
 
       <motion.div variants={fadeUpItem}>
-        <McCard variant="solid" color="diamond" className="p-0 overflow-hidden [&>div]:rounded-none [&>div]:border-0 [&>div]:shadow-none">
+        <McCard
+          variant="solid"
+          color="diamond"
+          className="p-0 overflow-hidden [&>div]:rounded-none [&>div]:border-0 [&>div]:shadow-none"
+        >
           <TableProvider columns={columns} data={issues}>
             <TSTableHeader>
               {({ headerGroup }) => (

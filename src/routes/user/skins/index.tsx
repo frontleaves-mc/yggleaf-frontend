@@ -11,10 +11,7 @@ import { Input } from '#/components/ui/input'
 import { Button } from '#/components/ui/button'
 import { SkinPreview } from '#/components/user/skin-preview'
 import { motion } from 'motion/react'
-import {
-  mcStaggerGrid,
-  mcStaggerGridItem,
-} from '#/lib/motion-presets'
+import { mcStaggerGrid, mcStaggerGridItem } from '#/lib/motion-presets'
 import { useSkins } from '#/api/endpoints/api-auth/skin-library'
 import { LoadingPage } from '#/components/public/loading-page'
 import type { SkinLibrary } from '#/api/types'
@@ -126,7 +123,11 @@ function SkinCard({
 }) {
   if (viewMode === 'list') {
     return (
-      <McCard variant="glass" color="grass" className="cursor-pointer overflow-hidden">
+      <McCard
+        variant="glass"
+        color="grass"
+        className="cursor-pointer overflow-hidden"
+      >
         <div className="flex items-center gap-4 p-4">
           <div className="size-14 rounded-lg overflow-hidden flex-shrink-0 bg-muted/30">
             <SkinPreview skinUrl={skin.texture_url} />
@@ -150,7 +151,11 @@ function SkinCard({
   }
 
   return (
-    <McCard variant="glass" color="grass" className="cursor-pointer overflow-hidden group">
+    <McCard
+      variant="glass"
+      color="grass"
+      className="cursor-pointer overflow-hidden group"
+    >
       <div className="p-4">
         <div className="aspect-[3/4] rounded-lg bg-gradient-to-br from-primary/5 to-primary/10 mb-3 flex items-center justify-center relative overflow-hidden">
           <SkinPreview skinUrl={skin.texture_url} />

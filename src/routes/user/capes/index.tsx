@@ -11,10 +11,7 @@ import { Input } from '#/components/ui/input'
 import { Button } from '#/components/ui/button'
 import { SkinPreview } from '#/components/user/skin-preview'
 import { motion } from 'motion/react'
-import {
-  mcStaggerGrid,
-  mcStaggerGridItem,
-} from '#/lib/motion-presets'
+import { mcStaggerGrid, mcStaggerGridItem } from '#/lib/motion-presets'
 import { useCapes } from '#/api/endpoints/api-auth/cape-library'
 import { LoadingPage } from '#/components/public/loading-page'
 import type { CapeLibrary } from '#/api/types'
@@ -126,7 +123,11 @@ function CapeCard({
 }) {
   if (viewMode === 'list') {
     return (
-      <McCard variant="glass" color="diamond" className="cursor-pointer overflow-hidden">
+      <McCard
+        variant="glass"
+        color="diamond"
+        className="cursor-pointer overflow-hidden"
+      >
         <div className="flex items-center gap-4 p-4">
           <div className="size-14 rounded-lg overflow-hidden flex-shrink-0 bg-muted/30">
             <SkinPreview capeUrl={cape.texture_url} />
@@ -147,7 +148,11 @@ function CapeCard({
   }
 
   return (
-    <McCard variant="glass" color="diamond" className="cursor-pointer overflow-hidden group">
+    <McCard
+      variant="glass"
+      color="diamond"
+      className="cursor-pointer overflow-hidden group"
+    >
       <div className="p-4">
         <div className="aspect-[2/3] rounded-lg bg-gradient-to-b from-chart-4/5 via-chart-4/8 to-chart-4/15 mb-3 flex items-center justify-center relative overflow-hidden">
           <SkinPreview capeUrl={cape.texture_url} />

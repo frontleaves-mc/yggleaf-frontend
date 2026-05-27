@@ -277,90 +277,100 @@ function AdminAnnouncementsPage() {
 
       {/* 筛选区域 */}
       <motion.div variants={fadeUpItem}>
-        <McCard variant="glass" className="flex flex-wrap items-center gap-4 p-4">
-        <div className="flex items-center gap-2">
-          <Label htmlFor="filter-type" className="text-sm whitespace-nowrap">
-            类型
-          </Label>
-          <Select
-            value={filterType}
-            onValueChange={(v) => {
-              setFilterType(v)
-              setPage(1)
-            }}
-          >
-            <SelectTrigger id="filter-type" className="w-[120px]">
-              <SelectValue placeholder="全部类型" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">全部</SelectItem>
-              <SelectItem value={String(AnnouncementType.InSite)}>
-                站内
-              </SelectItem>
-              <SelectItem value={String(AnnouncementType.Global)}>
-                全局
-              </SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+        <McCard
+          variant="glass"
+          className="flex flex-wrap items-center gap-4 p-4"
+        >
+          <div className="flex items-center gap-2">
+            <Label htmlFor="filter-type" className="text-sm whitespace-nowrap">
+              类型
+            </Label>
+            <Select
+              value={filterType}
+              onValueChange={(v) => {
+                setFilterType(v)
+                setPage(1)
+              }}
+            >
+              <SelectTrigger id="filter-type" className="w-[120px]">
+                <SelectValue placeholder="全部类型" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">全部</SelectItem>
+                <SelectItem value={String(AnnouncementType.InSite)}>
+                  站内
+                </SelectItem>
+                <SelectItem value={String(AnnouncementType.Global)}>
+                  全局
+                </SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
 
-        <div className="flex items-center gap-2">
-          <Label htmlFor="filter-status" className="text-sm whitespace-nowrap">
-            状态
-          </Label>
-          <Select
-            value={filterStatus}
-            onValueChange={(v) => {
-              setFilterStatus(v)
-              setPage(1)
-            }}
-          >
-            <SelectTrigger id="filter-status" className="w-[120px]">
-              <SelectValue placeholder="全部状态" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">全部</SelectItem>
-              <SelectItem value={String(AnnouncementStatus.Draft)}>
-                草稿
-              </SelectItem>
-              <SelectItem value={String(AnnouncementStatus.Published)}>
-                已发布
-              </SelectItem>
-              <SelectItem value={String(AnnouncementStatus.Offline)}>
-                已下线
-              </SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+          <div className="flex items-center gap-2">
+            <Label
+              htmlFor="filter-status"
+              className="text-sm whitespace-nowrap"
+            >
+              状态
+            </Label>
+            <Select
+              value={filterStatus}
+              onValueChange={(v) => {
+                setFilterStatus(v)
+                setPage(1)
+              }}
+            >
+              <SelectTrigger id="filter-status" className="w-[120px]">
+                <SelectValue placeholder="全部状态" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">全部</SelectItem>
+                <SelectItem value={String(AnnouncementStatus.Draft)}>
+                  草稿
+                </SelectItem>
+                <SelectItem value={String(AnnouncementStatus.Published)}>
+                  已发布
+                </SelectItem>
+                <SelectItem value={String(AnnouncementStatus.Offline)}>
+                  已下线
+                </SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </McCard>
       </motion.div>
 
       {/* 表格 */}
       <motion.div variants={fadeUpItem}>
-        <McCard variant="solid" color="gold" className="p-0 overflow-hidden [&>div]:rounded-none [&>div]:border-0 [&>div]:shadow-none">
-        <TableProvider columns={columns} data={announcements}>
-          <TSTableHeader>
-            {({ headerGroup }) => (
-              <TSTableHeaderGroup headerGroup={headerGroup}>
-                {({ header }) => <TSTableHead header={header} />}
-              </TSTableHeaderGroup>
-            )}
-          </TSTableHeader>
-          <TSTableBody
-            emptyContent={
-              <>
-                <Megaphone className="mx-auto h-8 w-8 text-muted-foreground/30 mb-3" />
-                <p className="text-sm text-muted-foreground">暂无公告</p>
-              </>
-            }
-          >
-            {({ row }) => (
-              <TSTableRow row={row}>
-                {({ cell }) => <TSTableCell cell={cell} />}
-              </TSTableRow>
-            )}
-          </TSTableBody>
-        </TableProvider>
+        <McCard
+          variant="solid"
+          color="gold"
+          className="p-0 overflow-hidden [&>div]:rounded-none [&>div]:border-0 [&>div]:shadow-none"
+        >
+          <TableProvider columns={columns} data={announcements}>
+            <TSTableHeader>
+              {({ headerGroup }) => (
+                <TSTableHeaderGroup headerGroup={headerGroup}>
+                  {({ header }) => <TSTableHead header={header} />}
+                </TSTableHeaderGroup>
+              )}
+            </TSTableHeader>
+            <TSTableBody
+              emptyContent={
+                <>
+                  <Megaphone className="mx-auto h-8 w-8 text-muted-foreground/30 mb-3" />
+                  <p className="text-sm text-muted-foreground">暂无公告</p>
+                </>
+              }
+            >
+              {({ row }) => (
+                <TSTableRow row={row}>
+                  {({ cell }) => <TSTableCell cell={cell} />}
+                </TSTableRow>
+              )}
+            </TSTableBody>
+          </TableProvider>
         </McCard>
       </motion.div>
 

@@ -9,7 +9,12 @@ import {
   Megaphone,
   ArrowUp,
 } from 'lucide-react'
-import { motion, useScroll, useMotionValueEvent, AnimatePresence } from 'motion/react'
+import {
+  motion,
+  useScroll,
+  useMotionValueEvent,
+  AnimatePresence,
+} from 'motion/react'
 import { useState, useCallback } from 'react'
 import { usePublicAnnouncementDetail } from '#/api/endpoints/api-mc/public-announcement'
 import { Skeleton } from '#/components/ui/skeleton'
@@ -81,12 +86,20 @@ function PublicAnnouncementDetailPage() {
           <div className="pointer-events-none absolute -top-24 left-1/2 h-96 w-[600px] -translate-x-1/2 rounded-full bg-primary/[0.04] blur-3xl" />
 
           <div className="relative mx-auto max-w-(--page-max) px-4 py-14 sm:px-6 lg:py-20 lg:px-8">
-            <motion.div variants={scrollRevealItem} initial="hidden" animate="visible">
+            <motion.div
+              variants={scrollRevealItem}
+              initial="hidden"
+              animate="visible"
+            >
               <Link
                 to="/announcements"
                 className="-ml-2 inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted/50 hover:text-foreground"
               >
-                <motion.span variants={arrowSlideVariants} initial="rest" whileHover="hover">
+                <motion.span
+                  variants={arrowSlideVariants}
+                  initial="rest"
+                  whileHover="hover"
+                >
                   <ArrowLeft data-icon="inline-start" className="size-4" />
                 </motion.span>
                 返回公告中心
@@ -104,11 +117,17 @@ function PublicAnnouncementDetailPage() {
               >
                 <motion.div variants={scrollRevealItem}>
                   <nav className="mb-6 flex items-center gap-1.5 text-sm text-muted-foreground/70">
-                    <Link to="/" className="transition-colors hover:text-foreground">
+                    <Link
+                      to="/"
+                      className="transition-colors hover:text-foreground"
+                    >
                       <Home className="size-3.5" />
                     </Link>
                     <ChevronRight className="size-3" />
-                    <Link to="/announcements" className="transition-colors hover:text-foreground">
+                    <Link
+                      to="/announcements"
+                      className="transition-colors hover:text-foreground"
+                    >
                       公告中心
                     </Link>
                     <ChevronRight className="size-3" />
@@ -135,16 +154,19 @@ function PublicAnnouncementDetailPage() {
                       <CalendarDays className="size-4 text-muted-foreground/60" />
                       发布于{' '}
                       {data.published_at
-                        ? new Date(data.published_at).toLocaleDateString('zh-CN', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                          })
+                        ? new Date(data.published_at).toLocaleDateString(
+                            'zh-CN',
+                            {
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric',
+                            },
+                          )
                         : '未知时间'}
                     </span>
                     <span className="inline-flex items-center gap-1.5">
-                      <Clock className="size-4 text-muted-foreground/60" />
-                      约 {estimateReadingTime(data.content)} 分钟阅读
+                      <Clock className="size-4 text-muted-foreground/60" />约{' '}
+                      {estimateReadingTime(data.content)} 分钟阅读
                     </span>
                   </div>
                 </motion.div>
@@ -206,8 +228,12 @@ function PublicAnnouncementDetailPage() {
                     <ArrowLeft className="size-4 text-muted-foreground transition-colors group-hover:text-primary" />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-xs font-medium text-muted-foreground">返回列表</p>
-                    <p className="truncate text-sm font-medium text-foreground">浏览全部公告</p>
+                    <p className="text-xs font-medium text-muted-foreground">
+                      返回列表
+                    </p>
+                    <p className="truncate text-sm font-medium text-foreground">
+                      浏览全部公告
+                    </p>
                   </div>
                 </Link>
                 <div className="hidden sm:block" />

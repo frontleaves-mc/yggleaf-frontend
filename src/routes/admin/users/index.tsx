@@ -53,7 +53,10 @@ import { formatTime } from '#/lib/format'
 
 const PAGE_SIZE = 20
 
-const roleConfig: Record<string, { label: string; variant: 'nether' | 'gold' | 'default'; Icon: typeof Shield }> = {
+const roleConfig: Record<
+  string,
+  { label: string; variant: 'nether' | 'gold' | 'default'; Icon: typeof Shield }
+> = {
   SUPER_ADMIN: { label: '超管', variant: 'nether', Icon: ShieldAlert },
   ADMIN: { label: '管理员', variant: 'gold', Icon: Shield },
   PLAYER: { label: '玩家', variant: 'default', Icon: User },
@@ -116,7 +119,9 @@ function AdminUserListPage() {
       cell: ({ row }) => (
         <div className="flex items-center gap-2.5">
           <McIconBox variant="nether" size="sm">
-            <span className="text-xs font-bold">{row.original.username.charAt(0).toUpperCase()}</span>
+            <span className="text-xs font-bold">
+              {row.original.username.charAt(0).toUpperCase()}
+            </span>
           </McIconBox>
           <div className="min-w-0">
             <Link

@@ -50,8 +50,7 @@ function getInitialOpen(): boolean {
 }
 
 const mcGradientMap = {
-  user:
-    'bg-[radial-gradient(ellipse_80%_60%_at_10%_0%,var(--mc-grass-soft),transparent),radial-gradient(ellipse_60%_50%_at_90%_100%,var(--mc-diamond-soft),transparent)]',
+  user: 'bg-[radial-gradient(ellipse_80%_60%_at_10%_0%,var(--mc-grass-soft),transparent),radial-gradient(ellipse_60%_50%_at_90%_100%,var(--mc-diamond-soft),transparent)]',
   admin:
     'bg-[radial-gradient(ellipse_80%_60%_at_100%_0%,var(--mc-nether-soft),transparent),radial-gradient(ellipse_60%_50%_at_0%_100%,var(--mc-gold-soft),transparent)]',
 } as const

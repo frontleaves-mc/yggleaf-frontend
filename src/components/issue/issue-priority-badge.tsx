@@ -8,7 +8,10 @@ import type { IssuePriority } from '#/api/types'
 
 const priorityConfig: Record<
   IssuePriority,
-  { label: string; variant: 'grass' | 'diamond' | 'nether' | 'gold' | 'default' }
+  {
+    label: string
+    variant: 'grass' | 'diamond' | 'nether' | 'gold' | 'default'
+  }
 > = {
   low: { label: '低', variant: 'default' },
   medium: { label: '中', variant: 'diamond' },

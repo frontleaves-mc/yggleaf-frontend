@@ -141,146 +141,147 @@ function AdminUserDetailPage() {
       <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_320px] xl:grid-cols-[minmax(0,1fr)_360px]">
         {/* 左侧：详细信息 */}
         <motion.div variants={fadeUpItem} className="space-y-4 min-w-0">
-            <McCard variant="solid" color="gold">
-              <div className="p-5 space-y-4">
-                <McSectionHeader
-                  title="资源库配额"
-                  icon={Shirt}
-                  variant="gold"
-                />
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="space-y-3">
-                    <p className="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
-                      <Shirt className="h-3.5 w-3.5" />
-                      皮肤配额
-                    </p>
-                    <QuotaBar
-                      label="私有"
-                      used={library_quota.skins_private_used}
-                      total={library_quota.skins_private_total}
-                    />
-                    <QuotaBar
-                      label="公开"
-                      used={library_quota.skins_public_used}
-                      total={library_quota.skins_public_total}
-                    />
-                  </div>
-                  <div className="space-y-3">
-                    <p className="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
-                      <Flag className="h-3.5 w-3.5" />
-                      披风配额
-                    </p>
-                    <QuotaBar
-                      label="私有"
-                      used={library_quota.capes_private_used}
-                      total={library_quota.capes_private_total}
-                    />
-                    <QuotaBar
-                      label="公开"
-                      used={library_quota.capes_public_used}
-                      total={library_quota.capes_public_total}
-                    />
-                  </div>
+          <McCard variant="solid" color="gold">
+            <div className="p-5 space-y-4">
+              <McSectionHeader title="资源库配额" icon={Shirt} variant="gold" />
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="space-y-3">
+                  <p className="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
+                    <Shirt className="h-3.5 w-3.5" />
+                    皮肤配额
+                  </p>
+                  <QuotaBar
+                    label="私有"
+                    used={library_quota.skins_private_used}
+                    total={library_quota.skins_private_total}
+                  />
+                  <QuotaBar
+                    label="公开"
+                    used={library_quota.skins_public_used}
+                    total={library_quota.skins_public_total}
+                  />
+                </div>
+                <div className="space-y-3">
+                  <p className="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
+                    <Flag className="h-3.5 w-3.5" />
+                    披风配额
+                  </p>
+                  <QuotaBar
+                    label="私有"
+                    used={library_quota.capes_private_used}
+                    total={library_quota.capes_private_total}
+                  />
+                  <QuotaBar
+                    label="公开"
+                    used={library_quota.capes_public_used}
+                    total={library_quota.capes_public_total}
+                  />
                 </div>
               </div>
-            </McCard>
+            </div>
+          </McCard>
 
-            <McCard variant="solid" color="nether">
-              <div className="p-5 space-y-4">
-                <McSectionHeader
-                  title={`皮肤列表 · ${skin_list.length} 个`}
-                  icon={Shirt}
-                  variant="nether"
-                />
-                {skin_list.length === 0 ? (
-                  <p className="py-6 text-center text-sm text-muted-foreground">
-                    暂无皮肤
-                  </p>
-                ) : (
-                  <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                    {skin_list.map((skin) => (
-                      <div
-                        key={skin.id}
-                        className="flex items-center gap-3 rounded-lg border border-border/60 p-3 bg-muted/30"
-                      >
-                        <div className="h-12 w-12 shrink-0 rounded-md overflow-hidden bg-muted">
-                          {skin.texture_url ? (
-                            <img
-                              src={skin.texture_url}
-                              alt={skin.name}
-                              className="h-full w-full object-cover"
-                            />
-                          ) : (
-                            <div className="flex h-full w-full items-center justify-center">
-                              <ImageIcon className="h-5 w-5 text-muted-foreground" />
-                            </div>
-                          )}
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <p className="text-sm font-medium truncate">
-                            {skin.name}
-                          </p>
-                          <div className="flex items-center gap-2 mt-0.5">
-                            <span className="text-[11px] text-muted-foreground">
-                              {skin.model}
-                            </span>
-                            <McBadge variant={skin.is_public ? 'gold' : 'default'}>
-                              {skin.is_public ? '公开' : '私有'}
-                            </McBadge>
+          <McCard variant="solid" color="nether">
+            <div className="p-5 space-y-4">
+              <McSectionHeader
+                title={`皮肤列表 · ${skin_list.length} 个`}
+                icon={Shirt}
+                variant="nether"
+              />
+              {skin_list.length === 0 ? (
+                <p className="py-6 text-center text-sm text-muted-foreground">
+                  暂无皮肤
+                </p>
+              ) : (
+                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                  {skin_list.map((skin) => (
+                    <div
+                      key={skin.id}
+                      className="flex items-center gap-3 rounded-lg border border-border/60 p-3 bg-muted/30"
+                    >
+                      <div className="h-12 w-12 shrink-0 rounded-md overflow-hidden bg-muted">
+                        {skin.texture_url ? (
+                          <img
+                            src={skin.texture_url}
+                            alt={skin.name}
+                            className="h-full w-full object-cover"
+                          />
+                        ) : (
+                          <div className="flex h-full w-full items-center justify-center">
+                            <ImageIcon className="h-5 w-5 text-muted-foreground" />
                           </div>
-                        </div>
+                        )}
                       </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </McCard>
-
-            <McCard variant="solid" color="gold">
-              <div className="p-5 space-y-4">
-                <McSectionHeader
-                  title={`披风列表 · ${cape_list.length} 个`}
-                  icon={Flag}
-                  variant="gold"
-                />
-                {cape_list.length === 0 ? (
-                  <p className="py-6 text-center text-sm text-muted-foreground">
-                    暂无披风
-                  </p>
-                ) : (
-                  <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                    {cape_list.map((cape) => (
-                      <div
-                        key={cape.id}
-                        className="flex items-center gap-3 rounded-lg border border-border/60 p-3 bg-muted/30"
-                      >
-                        <div className="h-12 w-12 shrink-0 rounded-md overflow-hidden bg-muted aspect-[2/3]">
-                          {cape.texture_url ? (
-                            <img
-                              src={cape.texture_url}
-                              alt={cape.name}
-                              className="h-full w-full object-cover"
-                            />
-                          ) : (
-                            <div className="flex h-full w-full items-center justify-center">
-                              <ImageIcon className="h-5 w-5 text-muted-foreground" />
-                            </div>
-                          )}
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <p className="text-sm font-medium truncate">
-                            {cape.name}
-                          </p>
-                          <McBadge variant={cape.is_public ? 'gold' : 'default'} className="mt-0.5">
-                            {cape.is_public ? '公开' : '私有'}
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm font-medium truncate">
+                          {skin.name}
+                        </p>
+                        <div className="flex items-center gap-2 mt-0.5">
+                          <span className="text-[11px] text-muted-foreground">
+                            {skin.model}
+                          </span>
+                          <McBadge
+                            variant={skin.is_public ? 'gold' : 'default'}
+                          >
+                            {skin.is_public ? '公开' : '私有'}
                           </McBadge>
                         </div>
                       </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </McCard>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </McCard>
+
+          <McCard variant="solid" color="gold">
+            <div className="p-5 space-y-4">
+              <McSectionHeader
+                title={`披风列表 · ${cape_list.length} 个`}
+                icon={Flag}
+                variant="gold"
+              />
+              {cape_list.length === 0 ? (
+                <p className="py-6 text-center text-sm text-muted-foreground">
+                  暂无披风
+                </p>
+              ) : (
+                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                  {cape_list.map((cape) => (
+                    <div
+                      key={cape.id}
+                      className="flex items-center gap-3 rounded-lg border border-border/60 p-3 bg-muted/30"
+                    >
+                      <div className="h-12 w-12 shrink-0 rounded-md overflow-hidden bg-muted aspect-[2/3]">
+                        {cape.texture_url ? (
+                          <img
+                            src={cape.texture_url}
+                            alt={cape.name}
+                            className="h-full w-full object-cover"
+                          />
+                        ) : (
+                          <div className="flex h-full w-full items-center justify-center">
+                            <ImageIcon className="h-5 w-5 text-muted-foreground" />
+                          </div>
+                        )}
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm font-medium truncate">
+                          {cape.name}
+                        </p>
+                        <McBadge
+                          variant={cape.is_public ? 'gold' : 'default'}
+                          className="mt-0.5"
+                        >
+                          {cape.is_public ? '公开' : '私有'}
+                        </McBadge>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </McCard>
         </motion.div>
 
         {/* 右侧：基本信息 */}
@@ -291,7 +292,9 @@ function AdminUserDetailPage() {
           <McCard variant="solid" color="nether" className="p-5">
             <div className="flex justify-center mb-4">
               <McIconBox variant="nether" size="lg">
-                <span className="text-xl font-bold">{user.username.charAt(0).toUpperCase()}</span>
+                <span className="text-xl font-bold">
+                  {user.username.charAt(0).toUpperCase()}
+                </span>
               </McIconBox>
             </div>
             <div className="space-y-1.5 text-sm">
@@ -317,11 +320,7 @@ function AdminUserDetailPage() {
           {/* 角色管理 */}
           {canChangeRole && (
             <McCard variant="solid" color="gold" className="p-5">
-              <McSectionHeader
-                title="角色管理"
-                icon={Shield}
-                variant="gold"
-              />
+              <McSectionHeader title="角色管理" icon={Shield} variant="gold" />
               <div className="mt-3 space-y-3">
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-muted-foreground">当前角色</span>

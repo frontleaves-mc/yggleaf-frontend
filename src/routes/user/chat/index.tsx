@@ -27,7 +27,11 @@ import {
   DM_MESSAGES_QUERY_KEY,
   DM_UNREAD_QUERY_KEY,
 } from '#/api/endpoints/api-mc/user-message'
-import type { ChatLogResponse, SSEChatMessage, SSEDirectMessage } from '#/api/types'
+import type {
+  ChatLogResponse,
+  SSEChatMessage,
+  SSEDirectMessage,
+} from '#/api/types'
 import { useGameProfileStore } from '#/hooks/use-game-profile-store'
 import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
@@ -89,28 +93,22 @@ function UserChatPage() {
 
   // ─── SSE 回调 ──────────────────────────────────────────
 
-  const handleInit = useCallback(
-    (initMessages: ChatLogResponse[]) => {
-      dispatch({ type: 'INIT', messages: initMessages })
-    },
-    [],
-  )
+  const handleInit = useCallback((initMessages: ChatLogResponse[]) => {
+    dispatch({ type: 'INIT', messages: initMessages })
+  }, [])
 
-  const handleChat = useCallback(
-    (msg: SSEChatMessage) => {
-      const chatMessage: ChatLogResponse = {
-        id: `sse-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-        player_uuid: '',
-        player_name: msg.player_name,
-        server_name: msg.server_name,
-        world_name: '',
-        message: msg.message,
-        source: msg.source,
-      }
-      dispatch({ type: 'ADD', message: chatMessage })
-    },
-    [],
-  )
+  const handleChat = useCallback((msg: SSEChatMessage) => {
+    const chatMessage: ChatLogResponse = {
+      id: `sse-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+      player_uuid: '',
+      player_name: msg.player_name,
+      server_name: msg.server_name,
+      world_name: '',
+      message: msg.message,
+      source: msg.source,
+    }
+    dispatch({ type: 'ADD', message: chatMessage })
+  }, [])
 
   const handleDm = useCallback(
     (dm: SSEDirectMessage) => {
@@ -198,11 +196,21 @@ function UserChatPage() {
       actions={<GameProfileSelector />}
     >
       {!uuid ? (
-        <McCard variant="glass" color="default" className="border-dashed py-12 text-center">
-          <McIconBox variant="diamond" size="lg" className="mx-auto mb-3 text-muted-foreground [&>svg]:text-muted-foreground">
+        <McCard
+          variant="glass"
+          color="default"
+          className="border-dashed py-12 text-center"
+        >
+          <McIconBox
+            variant="diamond"
+            size="lg"
+            className="mx-auto mb-3 text-muted-foreground [&>svg]:text-muted-foreground"
+          >
             <Gamepad2 />
           </McIconBox>
-          <p className="text-sm text-muted-foreground">请先选择游戏档案以连接聊天</p>
+          <p className="text-sm text-muted-foreground">
+            请先选择游戏档案以连接聊天
+          </p>
         </McCard>
       ) : (
         <ChatContainer
@@ -218,7 +226,10 @@ function UserChatPage() {
 
             {activeConversationId === 'public' ? (
               <>
-                <ChatMessageList messages={messages} currentPlayerName={playerName} />
+                <ChatMessageList
+                  messages={messages}
+                  currentPlayerName={playerName}
+                />
                 <ChatInput
                   onSend={handleSend}
                   disabled={sendMutation.isPending}

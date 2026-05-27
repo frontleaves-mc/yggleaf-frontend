@@ -24,9 +24,7 @@ import {
 } from '#/components/ui/tanstack-table'
 import { PageHeader } from '#/components/public/page-header'
 import { LoadingPage } from '#/components/public/loading-page'
-import {
-  useAdminCommandList,
-} from '#/api/endpoints/api-mc/admin-message'
+import { useAdminCommandList } from '#/api/endpoints/api-mc/admin-message'
 import type { CommandLogResponse } from '#/api/types'
 import { McCard } from '#/components/shared/mc-card'
 import { McIconBox } from '#/components/shared/mc-icon-box'
@@ -171,7 +169,10 @@ function AdminCommandRecordsPage() {
 
       {/* 筛选栏 */}
       <motion.div variants={fadeUpItem}>
-        <McCard variant="glass" className="flex flex-wrap items-center gap-3 p-4">
+        <McCard
+          variant="glass"
+          className="flex flex-wrap items-center gap-3 p-4"
+        >
           <div className="relative flex-1 max-w-xs">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
@@ -187,10 +188,20 @@ function AdminCommandRecordsPage() {
             onChange={(e) => setFilterServerName(e.target.value)}
             className="h-9 w-36"
           />
-          <Button variant="gradient" size="sm" className="h-9" onClick={handleSearch}>
+          <Button
+            variant="gradient"
+            size="sm"
+            className="h-9"
+            onClick={handleSearch}
+          >
             搜索
           </Button>
-          <Button variant="outline" size="sm" className="h-9" onClick={handleReset}>
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-9"
+            onClick={handleReset}
+          >
             重置
           </Button>
         </McCard>

@@ -15,9 +15,15 @@ import {
   Server,
 } from 'lucide-react'
 import { motion } from 'motion/react'
-import { useServerLoadRealtime, useServerLoadHistory } from '#/api/endpoints/api-mc/server-load'
+import {
+  useServerLoadRealtime,
+  useServerLoadHistory,
+} from '#/api/endpoints/api-mc/server-load'
 import { TpsTrendChart } from '#/components/admin/server-load/tps-trend-chart'
-import { ResourceTrendChart, formatBytes } from '#/components/admin/server-load/resource-trend-chart'
+import {
+  ResourceTrendChart,
+  formatBytes,
+} from '#/components/admin/server-load/resource-trend-chart'
 import { LoadingPage } from '#/components/public/loading-page'
 import { PageHeader } from '#/components/public/page-header'
 import { McCard } from '#/components/shared/mc-card'
@@ -74,10 +80,14 @@ function MetricBar({
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1.5">
           <Icon className="size-3.5 text-muted-foreground/50" />
-          <span className="text-xs font-medium text-muted-foreground">{label}</span>
+          <span className="text-xs font-medium text-muted-foreground">
+            {label}
+          </span>
         </div>
         <div className="flex items-center gap-2">
-          <span className={`text-sm font-bold tabular-nums ${usageTextColor(pct)}`}>
+          <span
+            className={`text-sm font-bold tabular-nums ${usageTextColor(pct)}`}
+          >
             {pct.toFixed(1)}%
           </span>
           <span className="text-[10px] text-muted-foreground/50 font-mono">
@@ -96,8 +106,15 @@ function MetricBar({
 }
 
 function ServerCard({ server }: { server: ServerRealtimeLoad }) {
-  const memInfo = server.memory_info ?? { total_bytes: 0, used_bytes: 0, free_bytes: 0 }
-  const jvmInfo = server.jvm_info ?? { max_memory_bytes: 0, used_memory_bytes: 0 }
+  const memInfo = server.memory_info ?? {
+    total_bytes: 0,
+    used_bytes: 0,
+    free_bytes: 0,
+  }
+  const jvmInfo = server.jvm_info ?? {
+    max_memory_bytes: 0,
+    used_memory_bytes: 0,
+  }
   const cpuInfo = server.cpu_info ?? { cores: 0, usage_percent: 0 }
 
   const memUsagePercent =
@@ -152,9 +169,13 @@ function ServerCard({ server }: { server: ServerRealtimeLoad }) {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Activity className="size-4 text-muted-foreground/50" />
-              <span className="text-sm font-medium text-muted-foreground">TPS</span>
+              <span className="text-sm font-medium text-muted-foreground">
+                TPS
+              </span>
             </div>
-            <span className={`text-2xl font-bold tabular-nums ${tpsColor(server.tps)}`}>
+            <span
+              className={`text-2xl font-bold tabular-nums ${tpsColor(server.tps)}`}
+            >
               {server.tps.toFixed(1)}
             </span>
           </div>
@@ -193,7 +214,12 @@ function ServerCard({ server }: { server: ServerRealtimeLoad }) {
 }
 
 function ServerLoadPage() {
-  const { data: servers, isLoading, refetch, isFetching } = useServerLoadRealtime()
+  const {
+    data: servers,
+    isLoading,
+    refetch,
+    isFetching,
+  } = useServerLoadRealtime()
   const [selectedServerId, setSelectedServerId] = useState<string | null>(null)
 
   const onlineServers = useMemo(
@@ -283,9 +309,7 @@ function ServerLoadPage() {
         />
         {(servers ?? []).length === 0 ? (
           <McCard variant="glass" className="border-dashed py-8 text-center">
-            <p className="text-sm text-muted-foreground/60">
-              暂无服务器数据
-            </p>
+            <p className="text-sm text-muted-foreground/60">暂无服务器数据</p>
           </McCard>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
@@ -330,9 +354,7 @@ function ServerLoadPage() {
             <HistoryCharts serverId={activeServerId} />
           ) : (
             <McCard variant="glass" className="border-dashed py-8 text-center">
-              <p className="text-sm text-muted-foreground/60">
-                暂无可用服务器
-              </p>
+              <p className="text-sm text-muted-foreground/60">暂无可用服务器</p>
             </McCard>
           )}
         </motion.section>
@@ -368,9 +390,7 @@ function HistoryCharts({ serverId }: { serverId: string }) {
   if (!historyData || historyData.records.length === 0) {
     return (
       <McCard variant="glass" className="border-dashed py-8 text-center">
-        <p className="text-sm text-muted-foreground/60">
-          近 1 小时无历史数据
-        </p>
+        <p className="text-sm text-muted-foreground/60">近 1 小时无历史数据</p>
       </McCard>
     )
   }

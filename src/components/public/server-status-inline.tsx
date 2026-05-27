@@ -55,9 +55,7 @@ export function ServerStatusBar({
 
   return (
     <div className="flex flex-wrap items-baseline gap-x-6 gap-y-1">
-      {serverName && (
-        <StatusItem label="SERVER" value={serverName} />
-      )}
+      {serverName && <StatusItem label="SERVER" value={serverName} />}
       <StatusItem
         label="STATUS"
         value={server.online ? 'ONLINE' : 'OFFLINE'}

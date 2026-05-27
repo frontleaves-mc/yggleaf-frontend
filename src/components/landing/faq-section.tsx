@@ -64,7 +64,10 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.2, ease: 'easeInOut' }}
+            transition={{
+              duration: prefersReducedMotion ? 0 : 0.2,
+              ease: 'easeInOut',
+            }}
             className="overflow-hidden"
           >
             <p className="pt-3 text-sm leading-6 text-muted-foreground">

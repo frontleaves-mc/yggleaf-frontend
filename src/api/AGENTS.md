@@ -34,15 +34,15 @@ src/api/
 
 ## WHERE TO LOOK
 
-| Task | Location |
-|------|----------|
-| Add new API endpoint | `endpoints/api-auth/` or `endpoints/api-mc/` (pick by backend) |
-| Add new type | `types/api-auth/` or `types/api-mc/`, then re-export in `types/index.ts` |
-| Change auth/token logic | `client.ts` (interceptors) + `stores/auth-store.ts` |
-| Change snowflake ID handling | `client.ts` → `UNSAFE_NUMBER_RE` regex + `safeParseJson()` |
-| Change error format | `types/response.ts` → `ApiError` class |
-| Fix 401 refresh flow | `client.ts` → `applyResponseInterceptor` + `refreshAccessToken()` |
-| Change timeout/base URL | `config/constants.ts` → `API_TIMEOUT`, `API_BASE_URL`, `MC_API_BASE_URL` |
+| Task                         | Location                                                                 |
+| ---------------------------- | ------------------------------------------------------------------------ |
+| Add new API endpoint         | `endpoints/api-auth/` or `endpoints/api-mc/` (pick by backend)           |
+| Add new type                 | `types/api-auth/` or `types/api-mc/`, then re-export in `types/index.ts` |
+| Change auth/token logic      | `client.ts` (interceptors) + `stores/auth-store.ts`                      |
+| Change snowflake ID handling | `client.ts` → `UNSAFE_NUMBER_RE` regex + `safeParseJson()`               |
+| Change error format          | `types/response.ts` → `ApiError` class                                   |
+| Fix 401 refresh flow         | `client.ts` → `applyResponseInterceptor` + `refreshAccessToken()`        |
+| Change timeout/base URL      | `config/constants.ts` → `API_TIMEOUT`, `API_BASE_URL`, `MC_API_BASE_URL` |
 
 ## CONVENTIONS
 

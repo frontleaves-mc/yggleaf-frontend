@@ -29,21 +29,34 @@ export function ThemeToggle() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="shrink-0 rounded-lg cursor-pointer">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="shrink-0 rounded-lg cursor-pointer"
+        >
           {icon}
           <span className="sr-only">切换主题</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-32">
-        <DropdownMenuItem onClick={() => changeMode('light')} className="cursor-pointer">
+        <DropdownMenuItem
+          onClick={() => changeMode('light')}
+          className="cursor-pointer"
+        >
           <Sun className="size-4" />
           浅色
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => changeMode('dark')} className="cursor-pointer">
+        <DropdownMenuItem
+          onClick={() => changeMode('dark')}
+          className="cursor-pointer"
+        >
           <Moon className="size-4" />
           深色
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => changeMode('auto')} className="cursor-pointer">
+        <DropdownMenuItem
+          onClick={() => changeMode('auto')}
+          className="cursor-pointer"
+        >
           <Monitor className="size-4" />
           跟随系统
         </DropdownMenuItem>

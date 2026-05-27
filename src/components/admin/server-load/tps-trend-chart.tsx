@@ -20,12 +20,8 @@ export function TpsTrendChart({
   title = 'TPS 趋势',
 }: TpsTrendChartProps) {
   const option: EChartsOption = useMemo(() => {
-    const times = records.map((r) =>
-      r.minute_time.slice(11, 16),
-    )
-    const tpsValues = records.map((r) =>
-      Number(r.tps_avg.toFixed(1)),
-    )
+    const times = records.map((r) => r.minute_time.slice(11, 16))
+    const tpsValues = records.map((r) => Number(r.tps_avg.toFixed(1)))
 
     return {
       title: {
@@ -90,7 +86,12 @@ export function TpsTrendChart({
           markLine: {
             silent: true,
             lineStyle: { color: '#f59e0b', type: 'dashed', width: 1 },
-            data: [{ yAxis: 20, label: { formatter: '理想 20', fontSize: 10, color: '#f59e0b' } }],
+            data: [
+              {
+                yAxis: 20,
+                label: { formatter: '理想 20', fontSize: 10, color: '#f59e0b' },
+              },
+            ],
           },
         },
       ],

@@ -25,7 +25,13 @@ interface ChatMessageItemProps {
   isSingleInGroup: boolean
 }
 
-function SourceIcon({ source, className }: { source: number; className?: string }) {
+function SourceIcon({
+  source,
+  className,
+}: {
+  source: number
+  className?: string
+}) {
   if (source === SOURCE_WEB) {
     return <Monitor className={cn('size-3', className)} />
   }
@@ -52,14 +58,16 @@ const S = '0.3rem'
 
 function getBubbleRadius(isSelf: boolean, pos: GroupPosition) {
   if (isSelf) {
-    const tl = R, bl = R // 左侧始终大圆角（对面侧）
-    const tr = (pos === 'middle' || pos === 'last') ? S : R
-    const br = (pos === 'single' || pos === 'first' || pos === 'middle') ? S : R
+    const tl = R,
+      bl = R // 左侧始终大圆角（对面侧）
+    const tr = pos === 'middle' || pos === 'last' ? S : R
+    const br = pos === 'single' || pos === 'first' || pos === 'middle' ? S : R
     return `rounded-tl-[${tl}] rounded-tr-[${tr}] rounded-br-[${br}] rounded-bl-[${bl}]`
   }
-  const tr = R, br = R // 右侧始终大圆角（对面侧）
-  const tl = (pos === 'middle' || pos === 'last') ? S : R
-  const bl = (pos === 'single' || pos === 'first' || pos === 'middle') ? S : R
+  const tr = R,
+    br = R // 右侧始终大圆角（对面侧）
+  const tl = pos === 'middle' || pos === 'last' ? S : R
+  const bl = pos === 'single' || pos === 'first' || pos === 'middle' ? S : R
   return `rounded-tl-[${tl}] rounded-tr-[${tr}] rounded-br-[${br}] rounded-bl-[${bl}]`
 }
 
@@ -86,16 +94,21 @@ export function ChatMessageItem({
   if (isSelf) {
     return (
       <div className={cn('flex justify-end px-4', gapClass)}>
-        <div className={cn(
-          'max-w-[70%] px-3.5 pb-1.5',
-          innerTop,
-          radiusClass,
-          'bg-mc-diamond/15 text-foreground/90',
-          'text-sm leading-relaxed break-words',
-        )}>
+        <div
+          className={cn(
+            'max-w-[70%] px-3.5 pb-1.5',
+            innerTop,
+            radiusClass,
+            'bg-mc-diamond/15 text-foreground/90',
+            'text-sm leading-relaxed break-words',
+          )}
+        >
           <p>{message.message}</p>
           <div className="flex justify-end mt-0.5">
-            <SourceIcon source={message.source} className="text-muted-foreground/25" />
+            <SourceIcon
+              source={message.source}
+              className="text-muted-foreground/25"
+            />
           </div>
         </div>
       </div>
@@ -108,23 +121,31 @@ export function ChatMessageItem({
         <div className="flex items-center gap-1.5 mb-0.5">
           <SourceIcon
             source={message.source}
-            className={message.source === SOURCE_WEB ? 'text-blue-400/50' : 'text-muted-foreground/35'}
+            className={
+              message.source === SOURCE_WEB
+                ? 'text-blue-400/50'
+                : 'text-muted-foreground/35'
+            }
           />
           <span className="text-xs leading-none">
             <PlayerName name={message.player_name} />
           </span>
           {message.server_name && (
-            <span className="text-[10px] text-muted-foreground/30">{message.server_name}</span>
+            <span className="text-[10px] text-muted-foreground/30">
+              {message.server_name}
+            </span>
           )}
         </div>
       )}
-      <div className={cn(
-        'max-w-[70%] px-3.5 pb-2',
-        isFirstInGroup ? 'pt-2' : 'pt-1.5',
-        radiusClass,
-        'bg-muted/40 text-foreground/85',
-        'text-sm leading-relaxed break-words',
-      )}>
+      <div
+        className={cn(
+          'max-w-[70%] px-3.5 pb-2',
+          isFirstInGroup ? 'pt-2' : 'pt-1.5',
+          radiusClass,
+          'bg-muted/40 text-foreground/85',
+          'text-sm leading-relaxed break-words',
+        )}
+      >
         {message.message}
       </div>
     </div>

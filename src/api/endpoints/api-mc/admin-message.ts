@@ -18,21 +18,13 @@ import type {
 
 // ─── Query Keys ────────────────────────────────────────────
 
-export const ADMIN_CHAT_LIST_QUERY_KEY = [
-  'admin',
-  'messages',
-  'chat',
-] as const
+export const ADMIN_CHAT_LIST_QUERY_KEY = ['admin', 'messages', 'chat'] as const
 export const ADMIN_COMMAND_LIST_QUERY_KEY = [
   'admin',
   'messages',
   'commands',
 ] as const
-export const ADMIN_DM_LIST_QUERY_KEY = [
-  'admin',
-  'messages',
-  'dm',
-] as const
+export const ADMIN_DM_LIST_QUERY_KEY = ['admin', 'messages', 'dm'] as const
 
 // ─── 端点函数 ──────────────────────────────────────────────
 

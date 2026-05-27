@@ -3,11 +3,7 @@
  * 查看成就详情、编辑属性、授予玩家
  */
 
-import {
-  createFileRoute,
-  Link,
-  useNavigate,
-} from '@tanstack/react-router'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import {
   useAdminAchievementDetail,
   useUpdateAchievementMutation,
@@ -50,7 +46,8 @@ function AchievementDetailPage() {
   const navigate = useNavigate()
   const setTitle = useSetPageTitle()
 
-  const { data: achievement, isLoading } = useAdminAchievementDetail(achievementId)
+  const { data: achievement, isLoading } =
+    useAdminAchievementDetail(achievementId)
   const updateMutation = useUpdateAchievementMutation()
   const deleteMutation = useDeleteAchievementMutation()
   const grantMutation = useGrantAchievementMutation()
@@ -96,8 +93,13 @@ function AchievementDetailPage() {
           description: formDesc.trim(),
           type: Number(formType) as AchievementType,
           condition_key: formConditionKey.trim(),
-          condition_params: formThreshold ? { threshold: Number(formThreshold) } : undefined,
-          reward_config: formTitleId && formTitleId !== '__none__' ? { title_id: formTitleId } : undefined,
+          condition_params: formThreshold
+            ? { threshold: Number(formThreshold) }
+            : undefined,
+          reward_config:
+            formTitleId && formTitleId !== '__none__'
+              ? { title_id: formTitleId }
+              : undefined,
           sort_order: formSortOrder ? Number(formSortOrder) : undefined,
           is_active: formIsActive,
         },
@@ -137,9 +139,7 @@ function AchievementDetailPage() {
 
   if (!achievement) {
     return (
-      <div className="text-center py-12 text-muted-foreground">
-        成就不存在
-      </div>
+      <div className="text-center py-12 text-muted-foreground">成就不存在</div>
     )
   }
 
@@ -169,157 +169,182 @@ function AchievementDetailPage() {
       <motion.div variants={fadeUpItem}>
         <div className="grid gap-6 lg:grid-cols-3">
           {/* 主表单 */}
-          <McCard variant="glass" color="gold" className="max-w-xl lg:col-span-2 p-6">
-              <form onSubmit={handleUpdate} className="space-y-5">
-                <div className="space-y-2">
-                  <Label htmlFor="edit-name">名称 *</Label>
-                  <Input
-                    id="edit-name"
-                    value={formName}
-                    onChange={(e) => setFormName(e.target.value)}
-                    required
-                    maxLength={64}
-                    disabled={updateMutation.isPending}
-                  />
-                </div>
+          <McCard
+            variant="glass"
+            color="gold"
+            className="max-w-xl lg:col-span-2 p-6"
+          >
+            <form onSubmit={handleUpdate} className="space-y-5">
+              <div className="space-y-2">
+                <Label htmlFor="edit-name">名称 *</Label>
+                <Input
+                  id="edit-name"
+                  value={formName}
+                  onChange={(e) => setFormName(e.target.value)}
+                  required
+                  maxLength={64}
+                  disabled={updateMutation.isPending}
+                />
+              </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="edit-desc">描述 *</Label>
-                  <Textarea
-                    id="edit-desc"
-                    value={formDesc}
-                    onChange={(e) => setFormDesc(e.target.value)}
-                    required
-                    maxLength={255}
-                    disabled={updateMutation.isPending}
-                  />
-                </div>
+              <div className="space-y-2">
+                <Label htmlFor="edit-desc">描述 *</Label>
+                <Textarea
+                  id="edit-desc"
+                  value={formDesc}
+                  onChange={(e) => setFormDesc(e.target.value)}
+                  required
+                  maxLength={255}
+                  disabled={updateMutation.isPending}
+                />
+              </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="edit-type">类型 *</Label>
-                  <Select value={formType} onValueChange={setFormType} disabled={updateMutation.isPending}>
-                    <SelectTrigger id="edit-type">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value={String(AchievementType.Stat)}>统计类</SelectItem>
-                      <SelectItem value={String(AchievementType.Event)}>事件类</SelectItem>
-                      <SelectItem value={String(AchievementType.Special)}>特殊条件</SelectItem>
-                      <SelectItem value={String(AchievementType.Manual)}>管理员手动</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+              <div className="space-y-2">
+                <Label htmlFor="edit-type">类型 *</Label>
+                <Select
+                  value={formType}
+                  onValueChange={setFormType}
+                  disabled={updateMutation.isPending}
+                >
+                  <SelectTrigger id="edit-type">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value={String(AchievementType.Stat)}>
+                      统计类
+                    </SelectItem>
+                    <SelectItem value={String(AchievementType.Event)}>
+                      事件类
+                    </SelectItem>
+                    <SelectItem value={String(AchievementType.Special)}>
+                      特殊条件
+                    </SelectItem>
+                    <SelectItem value={String(AchievementType.Manual)}>
+                      管理员手动
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="edit-key">条件键 *</Label>
-                  <Input
-                    id="edit-key"
-                    value={formConditionKey}
-                    onChange={(e) => setFormConditionKey(e.target.value)}
-                    required
-                    maxLength={64}
-                    disabled={updateMutation.isPending}
-                  />
-                  {selectedType === AchievementType.Manual && (
-                    <p className="text-[12px] text-muted-foreground">
-                      手动成就的条件标识仅作唯一标记
-                    </p>
-                  )}
-                </div>
+              <div className="space-y-2">
+                <Label htmlFor="edit-key">条件键 *</Label>
+                <Input
+                  id="edit-key"
+                  value={formConditionKey}
+                  onChange={(e) => setFormConditionKey(e.target.value)}
+                  required
+                  maxLength={64}
+                  disabled={updateMutation.isPending}
+                />
+                {selectedType === AchievementType.Manual && (
+                  <p className="text-[12px] text-muted-foreground">
+                    手动成就的条件标识仅作唯一标记
+                  </p>
+                )}
+              </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="edit-threshold">条件阈值</Label>
-                  <Input
-                    id="edit-threshold"
-                    type="number"
-                    value={formThreshold}
-                    onChange={(e) => setFormThreshold(e.target.value)}
-                    disabled={updateMutation.isPending}
-                  />
-                  {selectedType === AchievementType.Event && (
-                    <p className="text-[12px] text-muted-foreground">
-                      事件类成就无需条件参数
-                    </p>
-                  )}
-                </div>
+              <div className="space-y-2">
+                <Label htmlFor="edit-threshold">条件阈值</Label>
+                <Input
+                  id="edit-threshold"
+                  type="number"
+                  value={formThreshold}
+                  onChange={(e) => setFormThreshold(e.target.value)}
+                  disabled={updateMutation.isPending}
+                />
+                {selectedType === AchievementType.Event && (
+                  <p className="text-[12px] text-muted-foreground">
+                    事件类成就无需条件参数
+                  </p>
+                )}
+              </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="edit-title">奖励称号</Label>
-                  <Select value={formTitleId || '__none__'} onValueChange={setFormTitleId} disabled={updateMutation.isPending}>
-                    <SelectTrigger id="edit-title">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="__none__">无</SelectItem>
-                      {titles.map((title) => (
-                        <SelectItem key={title.id} value={String(title.id)}>
-                          {title.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
+              <div className="space-y-2">
+                <Label htmlFor="edit-title">奖励称号</Label>
+                <Select
+                  value={formTitleId || '__none__'}
+                  onValueChange={setFormTitleId}
+                  disabled={updateMutation.isPending}
+                >
+                  <SelectTrigger id="edit-title">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="__none__">无</SelectItem>
+                    {titles.map((title) => (
+                      <SelectItem key={title.id} value={String(title.id)}>
+                        {title.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="edit-sort">排序权重</Label>
-                  <Input
-                    id="edit-sort"
-                    type="number"
-                    value={formSortOrder}
-                    onChange={(e) => setFormSortOrder(e.target.value)}
-                    disabled={updateMutation.isPending}
-                  />
-                </div>
+              <div className="space-y-2">
+                <Label htmlFor="edit-sort">排序权重</Label>
+                <Input
+                  id="edit-sort"
+                  type="number"
+                  value={formSortOrder}
+                  onChange={(e) => setFormSortOrder(e.target.value)}
+                  disabled={updateMutation.isPending}
+                />
+              </div>
 
-                <div className="flex items-center justify-between rounded-lg border border-border p-3.5">
-                  <div className="space-y-0.5">
-                    <Label htmlFor="edit-active" className="text-sm">
-                      启用成就
-                    </Label>
-                    <p className="text-[12px] text-muted-foreground">
-                      禁用后玩家无法获取此成就
-                    </p>
-                  </div>
-                  <Switch
-                    id="edit-active"
-                    checked={formIsActive}
-                    onCheckedChange={setFormIsActive}
-                    disabled={updateMutation.isPending}
-                  />
+              <div className="flex items-center justify-between rounded-lg border border-border p-3.5">
+                <div className="space-y-0.5">
+                  <Label htmlFor="edit-active" className="text-sm">
+                    启用成就
+                  </Label>
+                  <p className="text-[12px] text-muted-foreground">
+                    禁用后玩家无法获取此成就
+                  </p>
                 </div>
+                <Switch
+                  id="edit-active"
+                  checked={formIsActive}
+                  onCheckedChange={setFormIsActive}
+                  disabled={updateMutation.isPending}
+                />
+              </div>
 
-                <div className="flex gap-3 pt-2">
-                  <Link to="/admin/achievements">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      type="button"
-                      disabled={updateMutation.isPending}
-                    >
-                      取消
-                    </Button>
-                  </Link>
+              <div className="flex gap-3 pt-2">
+                <Link to="/admin/achievements">
                   <Button
-                    type="submit"
+                    variant="outline"
                     size="sm"
-                    disabled={updateMutation.isPending || !formName.trim() || !formDesc.trim() || !formConditionKey.trim()}
-                    className="flex-1 sm:flex-none"
-                    variant="gradient"
+                    type="button"
+                    disabled={updateMutation.isPending}
                   >
-                    {updateMutation.isPending ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        保存中...
-                      </>
-                    ) : (
-                      <>
-                        <Save className="mr-2 h-4 w-4" />
-                        保存修改
-                      </>
-                    )}
+                    取消
                   </Button>
-                </div>
-              </form>
+                </Link>
+                <Button
+                  type="submit"
+                  size="sm"
+                  disabled={
+                    updateMutation.isPending ||
+                    !formName.trim() ||
+                    !formDesc.trim() ||
+                    !formConditionKey.trim()
+                  }
+                  className="flex-1 sm:flex-none"
+                  variant="gradient"
+                >
+                  {updateMutation.isPending ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      保存中...
+                    </>
+                  ) : (
+                    <>
+                      <Save className="mr-2 h-4 w-4" />
+                      保存修改
+                    </>
+                  )}
+                </Button>
+              </div>
+            </form>
           </McCard>
 
           {/* 侧边操作区 */}
@@ -334,11 +359,12 @@ function AchievementDetailPage() {
                 className="mb-4"
               />
               <div className="space-y-6">
-                <InfoRow label="条件键" value={achievement.condition_key} mono />
                 <InfoRow
-                  label="类型"
-                  value={getTypeLabel(achievement.type)}
+                  label="条件键"
+                  value={achievement.condition_key}
+                  mono
                 />
+                <InfoRow label="类型" value={getTypeLabel(achievement.type)} />
 
                 {/* 授予成就 */}
                 <div className="pt-4 border-t border-border space-y-3">
@@ -356,7 +382,9 @@ function AchievementDetailPage() {
                     <Button
                       size="sm"
                       className="w-full"
-                      disabled={grantMutation.isPending || !formPlayerUuid.trim()}
+                      disabled={
+                        grantMutation.isPending || !formPlayerUuid.trim()
+                      }
                       onClick={handleGrant}
                     >
                       {grantMutation.isPending ? (

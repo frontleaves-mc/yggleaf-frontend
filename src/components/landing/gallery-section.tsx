@@ -57,7 +57,10 @@ function GallerySection() {
     >
       <StaggerContainer className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {galleryImages.map((img, index) => (
-          <StaggerItem key={img.src} className={index === 0 ? 'sm:col-span-2 sm:row-span-2' : ''}>
+          <StaggerItem
+            key={img.src}
+            className={index === 0 ? 'sm:col-span-2 sm:row-span-2' : ''}
+          >
             <div className="group relative aspect-[4/3] overflow-hidden rounded-lg border border-border bg-card will-change-transform">
               <img
                 src={img.src}

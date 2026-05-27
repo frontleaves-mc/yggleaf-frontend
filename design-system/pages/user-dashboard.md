@@ -17,21 +17,21 @@
 
 ### 2.1 主色强调
 
-| 用途 | 色值 | 说明 |
-|------|------|------|
-| Primary 按钮 | `bg-primary text-primary-foreground` | 蓝色填充 + 白色文字 |
-| Primary 边框 | `border-primary/50` hover `border-primary` | 轮廓按钮 |
-| Active 状态 | `bg-primary/10` | 选中项背景 |
-| Sidebar Active | `bg-sidebar-primary text-sidebar-primary-foreground` | 侧栏活跃项 |
+| 用途           | 色值                                                 | 说明                |
+| -------------- | ---------------------------------------------------- | ------------------- |
+| Primary 按钮   | `bg-primary text-primary-foreground`                 | 蓝色填充 + 白色文字 |
+| Primary 边框   | `border-primary/50` hover `border-primary`           | 轮廓按钮            |
+| Active 状态    | `bg-primary/10`                                      | 选中项背景          |
+| Sidebar Active | `bg-sidebar-primary text-sidebar-primary-foreground` | 侧栏活跃项          |
 
 ### 2.2 状态色映射
 
-| 状态 | MC 色彩 | 使用场景 |
-|------|--------|---------|
-| 成功 / 在线 | `mc-grass` | 状态指示灯、成功提示 |
-| 信息 / 处理中 | `mc-diamond` | 加载提示、信息标签 |
-| 警告 / 待处理 | `mc-gold` | 警告提示、待办事项 |
-| 错误 / 离线 | `mc-nether` | 错误提示、危险操作 |
+| 状态          | MC 色彩      | 使用场景             |
+| ------------- | ------------ | -------------------- |
+| 成功 / 在线   | `mc-grass`   | 状态指示灯、成功提示 |
+| 信息 / 处理中 | `mc-diamond` | 加载提示、信息标签   |
+| 警告 / 待处理 | `mc-gold`    | 警告提示、待办事项   |
+| 错误 / 离线   | `mc-nether`  | 错误提示、危险操作   |
 
 ### 2.3 状态色 Badge 用法
 
@@ -63,11 +63,11 @@ bg-mc-nether/15 text-mc-nether border-mc-nether/30 -- 错误
 
 ### 3.2 网格系统
 
-| 场景 | 列配置 | 间距 |
-|------|--------|------|
+| 场景     | 列配置                                      | 间距    |
+| -------- | ------------------------------------------- | ------- |
 | 统计卡片 | `grid-cols-1 md:grid-cols-2 lg:grid-cols-4` | `gap-4` |
 | 功能模块 | `grid-cols-1 md:grid-cols-2 lg:grid-cols-3` | `gap-6` |
-| 双栏布局 | `grid-cols-1 lg:grid-cols-2` | `gap-6` |
+| 双栏布局 | `grid-cols-1 lg:grid-cols-2`                | `gap-6` |
 
 ### 3.3 内容区域
 
@@ -105,6 +105,7 @@ transition-all duration-200
 ### 4.3 卡片 Hover
 
 使用 `cardHoverVariants` 预设:
+
 - `y: -2` (微上浮)
 - `shadow` 增强 (elevation 层级切换)
 - `duration: 200ms`, `ease: [0.25, 0.46, 0.45, 0.94]`
@@ -116,17 +117,18 @@ transition-all duration-200
 ### 5.1 页面入场
 
 使用 `staggerContainer` + `fadeUpItem` 组合:
+
 - 容器: `staggerChildren: 80ms`, `delayChildren: 50ms`
 - 子项: `duration: 450ms`, `opacity: 0 -> 1`, `y: 16 -> 0`
 
 ### 5.2 交互反馈
 
-| 交互 | 动画 | 预设 |
-|------|------|------|
-| 卡片悬浮 | y: -2 + shadow | `cardHoverVariants` |
-| 图标放大 | scale: 1.1 | `iconScaleVariants` |
-| 箭头滑动 | x: 4 | `arrowSlideVariants` |
-| 装饰线 | opacity: 0 -> 1 | `decorationLineVariants` |
+| 交互     | 动画            | 预设                     |
+| -------- | --------------- | ------------------------ |
+| 卡片悬浮 | y: -2 + shadow  | `cardHoverVariants`      |
+| 图标放大 | scale: 1.1      | `iconScaleVariants`      |
+| 箭头滑动 | x: 4            | `arrowSlideVariants`     |
+| 装饰线   | opacity: 0 -> 1 | `decorationLineVariants` |
 
 ---
 
@@ -172,9 +174,9 @@ transition-all duration-200
 
 ## 9. 暗色模式特殊处理
 
-| 元素 | Light | Dark 调整 |
-|------|-------|----------|
-| 统计卡片数值 | `text-foreground` | 可增加字重 `font-semibold` |
-| 状态指示灯 | MC 色彩直接使用 | 增加 `ring-{mc-color}/30` 发光环 |
-| 表格行 hover | `bg-muted/30` | `bg-muted/20` (减少对比) |
-| 侧栏 active | `bg-sidebar-primary` | 确保与侧栏背景对比度 > 3:1 |
+| 元素         | Light                | Dark 调整                        |
+| ------------ | -------------------- | -------------------------------- |
+| 统计卡片数值 | `text-foreground`    | 可增加字重 `font-semibold`       |
+| 状态指示灯   | MC 色彩直接使用      | 增加 `ring-{mc-color}/30` 发光环 |
+| 表格行 hover | `bg-muted/30`        | `bg-muted/20` (减少对比)         |
+| 侧栏 active  | `bg-sidebar-primary` | 确保与侧栏背景对比度 > 3:1       |

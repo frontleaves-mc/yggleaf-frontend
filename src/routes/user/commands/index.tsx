@@ -21,9 +21,7 @@ import {
 } from '#/components/ui/tanstack-table'
 import { UserPageLayout } from '#/components/public/user-page-layout'
 import { LoadingPage } from '#/components/public/loading-page'
-import {
-  useUserCommandList,
-} from '#/api/endpoints/api-mc/user-message'
+import { useUserCommandList } from '#/api/endpoints/api-mc/user-message'
 import type { CommandLogResponse } from '#/api/types'
 import { McCard } from '#/components/shared/mc-card'
 import { McIconBox } from '#/components/shared/mc-icon-box'

@@ -36,10 +36,7 @@ import {
   TooltipTrigger,
 } from '#/components/ui/tooltip'
 import { useGameProfileStore } from '#/hooks/use-game-profile-store'
-import {
-  fadeUpItem,
-  staggerContainer,
-} from '#/lib/motion-presets'
+import { fadeUpItem, staggerContainer } from '#/lib/motion-presets'
 import { McCard } from '#/components/shared/mc-card'
 import { McIconBox } from '#/components/shared/mc-icon-box'
 import { McBadge } from '#/components/shared/mc-badge'
@@ -129,8 +126,16 @@ function MyTitlesPage() {
       {/* 内容区域 — 依状态分支渲染 */}
       {!uuid ? (
         <motion.div variants={fadeUpItem}>
-          <McCard variant="glass" color="default" className="border-dashed py-12 text-center">
-            <McIconBox variant="diamond" size="lg" className="mx-auto mb-3 text-muted-foreground [&>svg]:text-muted-foreground">
+          <McCard
+            variant="glass"
+            color="default"
+            className="border-dashed py-12 text-center"
+          >
+            <McIconBox
+              variant="diamond"
+              size="lg"
+              className="mx-auto mb-3 text-muted-foreground [&>svg]:text-muted-foreground"
+            >
               <Gamepad2 />
             </McIconBox>
             <p className="text-sm text-muted-foreground">请先选择游戏档案</p>
@@ -154,8 +159,18 @@ function MyTitlesPage() {
                     <div className="flex items-center gap-3.5">
                       {/* 图标区域 */}
                       {equippedTitle ? (
-                        <McIconBox variant="gold" size="md" style={eqColor ? { backgroundColor: `${eqColor}1A` } : undefined}>
-                          <Crown style={eqColor ? { color: eqColor } : undefined} />
+                        <McIconBox
+                          variant="gold"
+                          size="md"
+                          style={
+                            eqColor
+                              ? { backgroundColor: `${eqColor}1A` }
+                              : undefined
+                          }
+                        >
+                          <Crown
+                            style={eqColor ? { color: eqColor } : undefined}
+                          />
                         </McIconBox>
                       ) : (
                         <McIconBox variant="grass" size="md">
@@ -241,8 +256,16 @@ function MyTitlesPage() {
             </motion.div>
           ) : (
             <motion.div variants={fadeUpItem}>
-              <McCard variant="glass" color="default" className="border-dashed py-12 text-center">
-                <McIconBox variant="diamond" size="lg" className="mx-auto mb-3 text-muted-foreground [&>svg]:text-muted-foreground">
+              <McCard
+                variant="glass"
+                color="default"
+                className="border-dashed py-12 text-center"
+              >
+                <McIconBox
+                  variant="diamond"
+                  size="lg"
+                  className="mx-auto mb-3 text-muted-foreground [&>svg]:text-muted-foreground"
+                >
                   <Award />
                 </McIconBox>
                 <p className="text-sm text-muted-foreground">暂无称号</p>
@@ -282,8 +305,18 @@ function TitleCard({
         ? Shield
         : Award
 
-  const mcColor = title.type === TitleType.Exclusive ? 'gold' : title.type === TitleType.Group ? 'diamond' : 'grass'
-  const badgeVariant = title.type === TitleType.Exclusive ? 'gold' as const : title.type === TitleType.Group ? 'diamond' as const : 'grass' as const
+  const mcColor =
+    title.type === TitleType.Exclusive
+      ? 'gold'
+      : title.type === TitleType.Group
+        ? 'diamond'
+        : 'grass'
+  const badgeVariant =
+    title.type === TitleType.Exclusive
+      ? ('gold' as const)
+      : title.type === TitleType.Group
+        ? ('diamond' as const)
+        : ('grass' as const)
 
   return (
     <Tooltip>
@@ -333,7 +366,10 @@ function TitleCard({
                     className="flex size-9 shrink-0 items-center justify-center rounded-md transition-transform duration-200 group-hover:scale-110"
                     style={{ backgroundColor: `${titleColor}1A` }}
                   >
-                    <TypeIcon className="size-4" style={{ color: titleColor }} />
+                    <TypeIcon
+                      className="size-4"
+                      style={{ color: titleColor }}
+                    />
                   </div>
                 ) : (
                   <McIconBox variant={mcColor} size="md">
@@ -362,9 +398,7 @@ function TitleCard({
                   {style.label}
                 </McBadge>
 
-                {isEquipped && (
-                  <McBadge variant="grass">使用中</McBadge>
-                )}
+                {isEquipped && <McBadge variant="grass">使用中</McBadge>}
               </div>
             </div>
           </McCard>

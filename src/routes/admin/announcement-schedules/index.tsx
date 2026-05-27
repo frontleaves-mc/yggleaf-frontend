@@ -79,7 +79,9 @@ interface ScheduleFormItem {
 function getModeBadge(mode: number) {
   const label = MODE_LABEL_MAP[mode] ?? '未知'
   return (
-    <McBadge variant={mode === 1 ? 'diamond' : mode === 2 ? 'nether' : 'default'}>
+    <McBadge
+      variant={mode === 1 ? 'diamond' : mode === 2 ? 'nether' : 'default'}
+    >
       {label}
     </McBadge>
   )
@@ -433,32 +435,36 @@ function AdminAnnouncementSchedulesPage() {
       </motion.div>
 
       <motion.div variants={fadeUpItem}>
-        <McCard variant="solid" color="gold" className="p-0 overflow-hidden [&>div]:rounded-none [&>div]:border-0 [&>div]:shadow-none">
-        <TableProvider columns={columns} data={schedules}>
-          <TSTableHeader>
-            {({ headerGroup }) => (
-              <TSTableHeaderGroup headerGroup={headerGroup}>
-                {({ header }) => <TSTableHead header={header} />}
-              </TSTableHeaderGroup>
-            )}
-          </TSTableHeader>
-          <TSTableBody
-            emptyContent={
-              <>
-                <Clock className="mx-auto h-8 w-8 text-muted-foreground/30 mb-3" />
-                <p className="text-sm text-muted-foreground">
-                  暂无调度，点击右上角创建
-                </p>
-              </>
-            }
-          >
-            {({ row }) => (
-              <TSTableRow row={row}>
-                {({ cell }) => <TSTableCell cell={cell} />}
-              </TSTableRow>
-            )}
-          </TSTableBody>
-        </TableProvider>
+        <McCard
+          variant="solid"
+          color="gold"
+          className="p-0 overflow-hidden [&>div]:rounded-none [&>div]:border-0 [&>div]:shadow-none"
+        >
+          <TableProvider columns={columns} data={schedules}>
+            <TSTableHeader>
+              {({ headerGroup }) => (
+                <TSTableHeaderGroup headerGroup={headerGroup}>
+                  {({ header }) => <TSTableHead header={header} />}
+                </TSTableHeaderGroup>
+              )}
+            </TSTableHeader>
+            <TSTableBody
+              emptyContent={
+                <>
+                  <Clock className="mx-auto h-8 w-8 text-muted-foreground/30 mb-3" />
+                  <p className="text-sm text-muted-foreground">
+                    暂无调度，点击右上角创建
+                  </p>
+                </>
+              }
+            >
+              {({ row }) => (
+                <TSTableRow row={row}>
+                  {({ cell }) => <TSTableCell cell={cell} />}
+                </TSTableRow>
+              )}
+            </TSTableBody>
+          </TableProvider>
         </McCard>
       </motion.div>
 

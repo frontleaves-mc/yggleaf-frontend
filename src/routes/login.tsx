@@ -13,10 +13,7 @@ import brandMd from '#/content/login-brand.md?raw'
 import { ensureAuthenticated } from '#/hooks/use-auth-guard'
 import { normalizeAuthRedirect, stashAuthRedirect } from '#/lib/auth-redirect'
 import { SimpleMarkdown } from '#/lib/markdown'
-import {
-  hoverLiftTransition,
-  landingHeroVariants,
-} from '#/lib/motion-presets'
+import { hoverLiftTransition, landingHeroVariants } from '#/lib/motion-presets'
 
 export const Route = createFileRoute('/login')({
   validateSearch: (search: Record<string, unknown>) => ({

@@ -119,63 +119,60 @@ function ProfilesPage() {
                 绑定档案
               </Button>
             </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>绑定新档案</DialogTitle>
-                  <DialogDescription>
-                    输入你的 Minecraft 游戏内用户名来创建档案
-                  </DialogDescription>
-                </DialogHeader>
-                <Input
-                  placeholder="游戏内用户名"
-                  value={newProfileName}
-                  onChange={(e) => setNewProfileName(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' && newProfileName.trim()) {
-                      createMutation.mutate(
-                        { name: newProfileName.trim() },
-                        {
-                          onSuccess: handleCreateSuccess,
-                          onError: handleCreateError,
-                        },
-                      )
-                    }
-                  }}
-                />
-                <DialogFooter>
-                  <Button
-                    variant="outline"
-                    onClick={() => setDialogOpen(false)}
-                  >
-                    取消
-                  </Button>
-                  <Button
-                    variant="gradient"
-                    disabled={
-                      !newProfileName.trim() || createMutation.isPending
-                    }
-                    onClick={() =>
-                      createMutation.mutate(
-                        { name: newProfileName.trim() },
-                        {
-                          onSuccess: handleCreateSuccess,
-                          onError: handleCreateError,
-                        },
-                      )
-                    }
-                  >
-                    {createMutation.isPending ? '创建中...' : '确认绑定'}
-                  </Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-          </div>
-        </motion.div>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>绑定新档案</DialogTitle>
+                <DialogDescription>
+                  输入你的 Minecraft 游戏内用户名来创建档案
+                </DialogDescription>
+              </DialogHeader>
+              <Input
+                placeholder="游戏内用户名"
+                value={newProfileName}
+                onChange={(e) => setNewProfileName(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && newProfileName.trim()) {
+                    createMutation.mutate(
+                      { name: newProfileName.trim() },
+                      {
+                        onSuccess: handleCreateSuccess,
+                        onError: handleCreateError,
+                      },
+                    )
+                  }
+                }}
+              />
+              <DialogFooter>
+                <Button variant="outline" onClick={() => setDialogOpen(false)}>
+                  取消
+                </Button>
+                <Button
+                  variant="gradient"
+                  disabled={!newProfileName.trim() || createMutation.isPending}
+                  onClick={() =>
+                    createMutation.mutate(
+                      { name: newProfileName.trim() },
+                      {
+                        onSuccess: handleCreateSuccess,
+                        onError: handleCreateError,
+                      },
+                    )
+                  }
+                >
+                  {createMutation.isPending ? '创建中...' : '确认绑定'}
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        </div>
+      </motion.div>
 
-        {/* 档案列表 */}
+      {/* 档案列表 */}
       <motion.div variants={fadeUpItem} className="flex flex-col gap-4">
         {quota && (
-          <McBadge variant="grass">配额 {quota.used} / {quota.total}</McBadge>
+          <McBadge variant="grass">
+            配额 {quota.used} / {quota.total}
+          </McBadge>
         )}
         {isLoading ? (
           <div className="grid grid-cols-2 gap-4">
@@ -196,12 +193,24 @@ function ProfilesPage() {
         ) : profiles.length > 0 ? (
           <div className="grid grid-cols-2 gap-4">
             {profiles.map((profile) => (
-              <ProfileCard key={profile.id} profile={profile} onlineProfiles={onlineProfiles} />
+              <ProfileCard
+                key={profile.id}
+                profile={profile}
+                onlineProfiles={onlineProfiles}
+              />
             ))}
           </div>
         ) : (
-          <McCard variant="glass" color="default" className="border-dashed py-12 text-center">
-            <McIconBox variant="diamond" size="lg" className="mx-auto mb-4 text-muted-foreground/30 [&>svg]:text-muted-foreground/30">
+          <McCard
+            variant="glass"
+            color="default"
+            className="border-dashed py-12 text-center"
+          >
+            <McIconBox
+              variant="diamond"
+              size="lg"
+              className="mx-auto mb-4 text-muted-foreground/30 [&>svg]:text-muted-foreground/30"
+            >
               <Gamepad2 />
             </McIconBox>
             <h3 className="font-medium text-foreground">暂无游戏档案</h3>
@@ -225,7 +234,13 @@ function ProfilesPage() {
 
 // ─── 档案卡片组件 ─────────────────────────────────────────
 
-function ProfileCard({ profile, onlineProfiles }: { profile: GameProfile; onlineProfiles: OnlineGameProfileResponse[] }) {
+function ProfileCard({
+  profile,
+  onlineProfiles,
+}: {
+  profile: GameProfile
+  onlineProfiles: OnlineGameProfileResponse[]
+}) {
   const [detailOpen, setDetailOpen] = useState(false)
   const [skinDialogOpen, setSkinDialogOpen] = useState(false)
   const [capeDialogOpen, setCapeDialogOpen] = useState(false)
@@ -237,7 +252,9 @@ function ProfileCard({ profile, onlineProfiles }: { profile: GameProfile; online
       <McCard variant="glass" color="grass" className="overflow-hidden">
         <div className="p-5">
           <div className="flex items-center justify-between gap-3 mb-4">
-            <h3 className="text-lg font-semibold text-foreground">{profile.name}</h3>
+            <h3 className="text-lg font-semibold text-foreground">
+              {profile.name}
+            </h3>
             <Button
               variant="ghost"
               size="sm"
@@ -359,7 +376,10 @@ function LibrarySelectInner({
   config: (typeof LIBRARY_CONFIG)[LibraryType]
   items: LibrarySimpleItem[]
   isLoading: boolean
-  mutation: { mutate: (variables: any, options?: any) => void; isPending: boolean }
+  mutation: {
+    mutate: (variables: any, options?: any) => void
+    isPending: boolean
+  }
 }) {
   const [selectedId, setSelectedId] = useState<string>('')
   const hasCurrentValue = currentId != null

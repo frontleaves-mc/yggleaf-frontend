@@ -35,10 +35,7 @@ type AppMode = 'user' | 'admin'
 
 // ─── 工具函数：递归扁平化菜单项 ──────────────────────────
 
-function flattenItems(
-  items: MenuItem[],
-  groupLabel: string,
-): SearchItem[] {
+function flattenItems(items: MenuItem[], groupLabel: string): SearchItem[] {
   const result: SearchItem[] = []
 
   for (const item of items) {
