@@ -190,12 +190,6 @@ export const adminMenuSections: MenuSection[] = [
     label: 'Matrix',
     items: [
       {
-        key: 'matrix-statistics',
-        label: '玩家统计',
-        icon: BarChart3,
-        to: '/admin/matrix/statistics',
-      },
-      {
         key: 'matrix-warnings',
         label: '警告管理',
         icon: ShieldAlert,
@@ -388,7 +382,6 @@ export const breadcrumbLabels: Record<string, string> = {
 
   // ── 管理端 ──
   '/admin/dashboard': '仪表盘',
-  '/admin/matrix/statistics': '玩家统计',
   '/admin/matrix/warnings': '警告管理',
   '/admin/matrix/warnings/$warningId': '警告详情',
   '/admin/users': '用户管理',

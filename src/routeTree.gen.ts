@@ -66,7 +66,6 @@ import { Route as AdminMessagesDmIndexRouteImport } from './routes/admin/message
 import { Route as AdminMessagesCommandsIndexRouteImport } from './routes/admin/messages/commands/index'
 import { Route as AdminMessagesChatIndexRouteImport } from './routes/admin/messages/chat/index'
 import { Route as AdminMatrixWarningsIndexRouteImport } from './routes/admin/matrix/warnings/index'
-import { Route as AdminMatrixStatisticsIndexRouteImport } from './routes/admin/matrix/statistics/index'
 import { Route as AdminUsersUserIdGameProfilesRouteImport } from './routes/admin/users/$userId_.game-profiles'
 import { Route as AdminMatrixWarningsWarningIdRouteImport } from './routes/admin/matrix/warnings/$warningId'
 
@@ -365,12 +364,6 @@ const AdminMatrixWarningsIndexRoute =
     path: '/matrix/warnings/',
     getParentRoute: () => AdminRoute,
   } as any)
-const AdminMatrixStatisticsIndexRoute =
-  AdminMatrixStatisticsIndexRouteImport.update({
-    id: '/matrix/statistics/',
-    path: '/matrix/statistics/',
-    getParentRoute: () => AdminRoute,
-  } as any)
 const AdminUsersUserIdGameProfilesRoute =
   AdminUsersUserIdGameProfilesRouteImport.update({
     id: '/users/$userId_/game-profiles',
@@ -440,7 +433,6 @@ export interface FileRoutesByFullPath {
   '/user/skins/': typeof UserSkinsIndexRoute
   '/admin/matrix/warnings/$warningId': typeof AdminMatrixWarningsWarningIdRoute
   '/admin/users/$userId/game-profiles': typeof AdminUsersUserIdGameProfilesRoute
-  '/admin/matrix/statistics/': typeof AdminMatrixStatisticsIndexRoute
   '/admin/matrix/warnings/': typeof AdminMatrixWarningsIndexRoute
   '/admin/messages/chat/': typeof AdminMessagesChatIndexRoute
   '/admin/messages/commands/': typeof AdminMessagesCommandsIndexRoute
@@ -500,7 +492,6 @@ export interface FileRoutesByTo {
   '/user/skins': typeof UserSkinsIndexRoute
   '/admin/matrix/warnings/$warningId': typeof AdminMatrixWarningsWarningIdRoute
   '/admin/users/$userId/game-profiles': typeof AdminUsersUserIdGameProfilesRoute
-  '/admin/matrix/statistics': typeof AdminMatrixStatisticsIndexRoute
   '/admin/matrix/warnings': typeof AdminMatrixWarningsIndexRoute
   '/admin/messages/chat': typeof AdminMessagesChatIndexRoute
   '/admin/messages/commands': typeof AdminMessagesCommandsIndexRoute
@@ -563,7 +554,6 @@ export interface FileRoutesById {
   '/user/skins/': typeof UserSkinsIndexRoute
   '/admin/matrix/warnings/$warningId': typeof AdminMatrixWarningsWarningIdRoute
   '/admin/users/$userId_/game-profiles': typeof AdminUsersUserIdGameProfilesRoute
-  '/admin/matrix/statistics/': typeof AdminMatrixStatisticsIndexRoute
   '/admin/matrix/warnings/': typeof AdminMatrixWarningsIndexRoute
   '/admin/messages/chat/': typeof AdminMessagesChatIndexRoute
   '/admin/messages/commands/': typeof AdminMessagesCommandsIndexRoute
@@ -627,7 +617,6 @@ export interface FileRouteTypes {
     | '/user/skins/'
     | '/admin/matrix/warnings/$warningId'
     | '/admin/users/$userId/game-profiles'
-    | '/admin/matrix/statistics/'
     | '/admin/matrix/warnings/'
     | '/admin/messages/chat/'
     | '/admin/messages/commands/'
@@ -687,7 +676,6 @@ export interface FileRouteTypes {
     | '/user/skins'
     | '/admin/matrix/warnings/$warningId'
     | '/admin/users/$userId/game-profiles'
-    | '/admin/matrix/statistics'
     | '/admin/matrix/warnings'
     | '/admin/messages/chat'
     | '/admin/messages/commands'
@@ -749,7 +737,6 @@ export interface FileRouteTypes {
     | '/user/skins/'
     | '/admin/matrix/warnings/$warningId'
     | '/admin/users/$userId_/game-profiles'
-    | '/admin/matrix/statistics/'
     | '/admin/matrix/warnings/'
     | '/admin/messages/chat/'
     | '/admin/messages/commands/'
@@ -1170,13 +1157,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminMatrixWarningsIndexRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/admin/matrix/statistics/': {
-      id: '/admin/matrix/statistics/'
-      path: '/matrix/statistics'
-      fullPath: '/admin/matrix/statistics/'
-      preLoaderRoute: typeof AdminMatrixStatisticsIndexRouteImport
-      parentRoute: typeof AdminRoute
-    }
     '/admin/users/$userId_/game-profiles': {
       id: '/admin/users/$userId_/game-profiles'
       path: '/users/$userId/game-profiles'
@@ -1224,7 +1204,6 @@ interface AdminRouteChildren {
   AdminUsersIndexRoute: typeof AdminUsersIndexRoute
   AdminMatrixWarningsWarningIdRoute: typeof AdminMatrixWarningsWarningIdRoute
   AdminUsersUserIdGameProfilesRoute: typeof AdminUsersUserIdGameProfilesRoute
-  AdminMatrixStatisticsIndexRoute: typeof AdminMatrixStatisticsIndexRoute
   AdminMatrixWarningsIndexRoute: typeof AdminMatrixWarningsIndexRoute
   AdminMessagesChatIndexRoute: typeof AdminMessagesChatIndexRoute
   AdminMessagesCommandsIndexRoute: typeof AdminMessagesCommandsIndexRoute
@@ -1262,7 +1241,6 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminUsersIndexRoute: AdminUsersIndexRoute,
   AdminMatrixWarningsWarningIdRoute: AdminMatrixWarningsWarningIdRoute,
   AdminUsersUserIdGameProfilesRoute: AdminUsersUserIdGameProfilesRoute,
-  AdminMatrixStatisticsIndexRoute: AdminMatrixStatisticsIndexRoute,
   AdminMatrixWarningsIndexRoute: AdminMatrixWarningsIndexRoute,
   AdminMessagesChatIndexRoute: AdminMessagesChatIndexRoute,
   AdminMessagesCommandsIndexRoute: AdminMessagesCommandsIndexRoute,

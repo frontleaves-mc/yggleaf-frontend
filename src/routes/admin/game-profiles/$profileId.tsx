@@ -9,7 +9,12 @@ import { useEffect, useState } from 'react'
 import { motion } from 'motion/react'
 import {
   ArrowLeft,
+  Clock,
   Gamepad2,
+  Pickaxe,
+  Box,
+  Skull,
+  Sword,
   Shirt,
   Flag,
   RotateCcw,
@@ -17,6 +22,8 @@ import {
   Gift,
   X,
   RefreshCw,
+  User,
+  Fingerprint,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { McCard } from '#/components/shared/mc-card'
@@ -50,9 +57,65 @@ import {
 } from '#/api/endpoints/api-auth/admin-library'
 import { useSkinsList } from '#/api/endpoints/api-auth/skin-library'
 import { useCapesList } from '#/api/endpoints/api-auth/cape-library'
+import { useAdminMatrixStatistics } from '#/api/endpoints/api-mc/admin-matrix-statistics'
 import { useSetPageTitle } from '#/components/layout/page-title-context'
 import { staggerContainer, fadeUpItem } from '#/lib/motion-presets'
 import { formatTime } from '#/lib/format'
+
+function formatPlayTime(ms: number): string {
+  const totalMinutes = Math.floor(ms / 60000)
+  const hours = Math.floor(totalMinutes / 60)
+  const minutes = totalMinutes % 60
+  if (hours > 0 && minutes > 0) return `${hours}小时${minutes}分钟`
+  if (hours > 0) return `${hours}小时`
+  return `${minutes}分钟`
+}
+
+interface StatCardConfig {
+  label: string
+  Icon: typeof Clock
+  getValue: (d: NonNullable<ReturnType<typeof useAdminMatrixStatistics>['data']>) => string | number
+  color: 'grass' | 'diamond' | 'nether' | 'gold'
+}
+
+const statCards: StatCardConfig[] = [
+  {
+    label: '总游戏时长',
+    Icon: Clock,
+    getValue: (d) => formatPlayTime(d.total_play_time_ms),
+    color: 'grass',
+  },
+  {
+    label: '总会话数',
+    Icon: Gamepad2,
+    getValue: (d) => d.total_sessions,
+    color: 'diamond',
+  },
+  {
+    label: '总破坏方块',
+    Icon: Pickaxe,
+    getValue: (d) => d.total_blocks_broken.toLocaleString(),
+    color: 'nether',
+  },
+  {
+    label: '总放置方块',
+    Icon: Box,
+    getValue: (d) => d.total_blocks_placed.toLocaleString(),
+    color: 'gold',
+  },
+  {
+    label: '总死亡次数',
+    Icon: Skull,
+    getValue: (d) => d.total_deaths.toLocaleString(),
+    color: 'nether',
+  },
+  {
+    label: '总击杀实体',
+    Icon: Sword,
+    getValue: (d) => d.total_entities_killed.toLocaleString(),
+    color: 'grass',
+  },
+]
 
 // ─── Route 定义 ────────────────────────────────────────────
 
@@ -85,6 +148,9 @@ function GameProfileDetailPage() {
   const userId = detail?.user.id ?? ''
   const { data: skinsData } = useAdminUserSkins(userId)
   const { data: capesData } = useAdminUserCapes(userId)
+  const { data: matrixData, isLoading: matrixLoading, error: matrixError } = useAdminMatrixStatistics(
+    detail?.uuid ?? '',
+  )
   const giftSkinMutation = useGiftSkinMutation(userId)
   const revokeSkinMutation = useRevokeSkinMutation(userId)
   const giftCapeMutation = useGiftCapeMutation(userId)
@@ -291,6 +357,57 @@ function GameProfileDetailPage() {
               </div>
             </div>
           </McCard>
+
+          {/* Matrix 统计数据 */}
+          {detail.uuid && (
+            <McCard variant="solid" color="grass">
+              <div className="p-5 space-y-4">
+                <McSectionHeader title="游戏统计" icon={Gamepad2} variant="grass" />
+                {matrixLoading && !matrixData ? (
+                  <div className="flex items-center justify-center py-8">
+                    <RefreshCw className="h-5 w-5 animate-spin text-muted-foreground" />
+                  </div>
+                ) : matrixError && 'status' in matrixError && (matrixError as { status: number }).status === 404 ? (
+                  <div className="text-center py-6 text-muted-foreground">暂无统计数据</div>
+                ) : matrixData ? (
+                  <>
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6">
+                      <div className="flex items-center gap-3">
+                        <User className="h-5 w-5 text-mc-grass" />
+                        <span className="text-sm font-medium text-muted-foreground">玩家名称</span>
+                      </div>
+                      <span className="text-lg font-bold">{matrixData.player_name}</span>
+                      <div className="hidden sm:block h-6 w-px bg-border" />
+                      <div className="flex items-center gap-3">
+                        <Fingerprint className="h-5 w-5 text-mc-grass" />
+                        <span className="text-sm font-medium text-muted-foreground">玩家 UUID</span>
+                      </div>
+                      <code className="font-mono text-sm text-muted-foreground bg-muted px-2 py-0.5 rounded">
+                        {matrixData.player_uuid}
+                      </code>
+                    </div>
+                    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                      {statCards.map((card) => (
+                        <McCard key={card.label} variant="glass" color={card.color}>
+                          <div className="p-4 space-y-2">
+                            <div className="flex items-center gap-2">
+                              <card.Icon className="h-4 w-4 text-muted-foreground" />
+                              <span className="text-[12px] font-medium text-muted-foreground">
+                                {card.label}
+                              </span>
+                            </div>
+                            <p className="text-xl font-bold tabular-nums tracking-tight">
+                              {card.getValue(matrixData)}
+                            </p>
+                          </div>
+                        </McCard>
+                      ))}
+                    </div>
+                  </>
+                ) : null}
+              </div>
+            </McCard>
+          )}
         </motion.div>
 
         {/* 右侧：管理操作 */}
