@@ -119,6 +119,12 @@ export const adminMenuSections: MenuSection[] = [
           },
         ],
       },
+      {
+        key: 'matrix-warnings',
+        label: '警告管理',
+        icon: ShieldAlert,
+        to: '/admin/matrix/warnings',
+      },
     ],
   },
   {
@@ -185,18 +191,7 @@ export const adminMenuSections: MenuSection[] = [
       },
     ],
   },
-  {
-    key: 'matrix',
-    label: 'Matrix',
-    items: [
-      {
-        key: 'matrix-warnings',
-        label: '警告管理',
-        icon: ShieldAlert,
-        to: '/admin/matrix/warnings',
-      },
-    ],
-  },
+
   {
     key: 'system',
     label: '系统',

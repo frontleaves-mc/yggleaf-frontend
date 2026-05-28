@@ -9,6 +9,7 @@ import {
   AlertTriangle,
   ChevronLeft,
   ChevronRight,
+  Eye,
   RotateCcw,
 } from 'lucide-react'
 import { motion } from 'motion/react'
@@ -164,6 +165,27 @@ function AdminMatrixWarningsPage() {
         </span>
       ),
       size: 160,
+    },
+    {
+      id: 'actions',
+      header: () => <span className="text-[13px]">操作</span>,
+      cell: ({ row }) => (
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-8 gap-1.5 px-2 text-[13px]"
+          onClick={(e) => {
+            e.stopPropagation()
+            navigate({
+              to: `/admin/matrix/warnings/${row.original.id}`,
+            })
+          }}
+        >
+          <Eye className="size-3.5" />
+          详情
+        </Button>
+      ),
+      size: 100,
     },
   ]
 
