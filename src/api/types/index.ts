@@ -230,3 +230,17 @@ export type {
   ServerLoadHistoryResponse,
   ServerLoadHistoryParams,
 } from './api-mc/server-load'
+
+// ─── 经济系统模块 ──────────────────────────────────────────
+
+export { TransactionType } from './api-mc/economy'
+
+export type {
+  BalanceDTO,
+  TransactionDTO,
+  TransactionListResponse,
+  AdminEconomyBalanceParams,
+  AdminEconomyTransactionListParams,
+  AdminEconomyAuditLogListParams,
+  UserEconomyTransactionListParams,
+} from './api-mc/economy'

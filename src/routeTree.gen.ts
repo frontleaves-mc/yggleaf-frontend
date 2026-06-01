@@ -33,6 +33,7 @@ import { Route as UserMyTitlesIndexRouteImport } from './routes/user/my-titles/i
 import { Route as UserMatrixStatisticsIndexRouteImport } from './routes/user/matrix-statistics/index'
 import { Route as UserIssuesIndexRouteImport } from './routes/user/issues/index'
 import { Route as UserGameInfoIndexRouteImport } from './routes/user/game-info/index'
+import { Route as UserEconomyIndexRouteImport } from './routes/user/economy/index'
 import { Route as UserCommandsIndexRouteImport } from './routes/user/commands/index'
 import { Route as UserChatIndexRouteImport } from './routes/user/chat/index'
 import { Route as UserCapesIndexRouteImport } from './routes/user/capes/index'
@@ -45,6 +46,7 @@ import { Route as AdminPluginCredentialsIndexRouteImport } from './routes/admin/
 import { Route as AdminIssuesIndexRouteImport } from './routes/admin/issues/index'
 import { Route as AdminIssueTypesIndexRouteImport } from './routes/admin/issue-types/index'
 import { Route as AdminGameProfilesIndexRouteImport } from './routes/admin/game-profiles/index'
+import { Route as AdminEconomyIndexRouteImport } from './routes/admin/economy/index'
 import { Route as AdminCapesIndexRouteImport } from './routes/admin/capes/index'
 import { Route as AdminAnnouncementsIndexRouteImport } from './routes/admin/announcements/index'
 import { Route as AdminAnnouncementSchedulesIndexRouteImport } from './routes/admin/announcement-schedules/index'
@@ -190,6 +192,11 @@ const UserGameInfoIndexRoute = UserGameInfoIndexRouteImport.update({
   path: '/game-info/',
   getParentRoute: () => UserRoute,
 } as any)
+const UserEconomyIndexRoute = UserEconomyIndexRouteImport.update({
+  id: '/economy/',
+  path: '/economy/',
+  getParentRoute: () => UserRoute,
+} as any)
 const UserCommandsIndexRoute = UserCommandsIndexRouteImport.update({
   id: '/commands/',
   path: '/commands/',
@@ -249,6 +256,11 @@ const AdminIssueTypesIndexRoute = AdminIssueTypesIndexRouteImport.update({
 const AdminGameProfilesIndexRoute = AdminGameProfilesIndexRouteImport.update({
   id: '/game-profiles/',
   path: '/game-profiles/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminEconomyIndexRoute = AdminEconomyIndexRouteImport.update({
+  id: '/economy/',
+  path: '/economy/',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminCapesIndexRoute = AdminCapesIndexRouteImport.update({
@@ -411,6 +423,7 @@ export interface FileRoutesByFullPath {
   '/admin/announcement-schedules/': typeof AdminAnnouncementSchedulesIndexRoute
   '/admin/announcements/': typeof AdminAnnouncementsIndexRoute
   '/admin/capes/': typeof AdminCapesIndexRoute
+  '/admin/economy/': typeof AdminEconomyIndexRoute
   '/admin/game-profiles/': typeof AdminGameProfilesIndexRoute
   '/admin/issue-types/': typeof AdminIssueTypesIndexRoute
   '/admin/issues/': typeof AdminIssuesIndexRoute
@@ -423,6 +436,7 @@ export interface FileRoutesByFullPath {
   '/user/capes/': typeof UserCapesIndexRoute
   '/user/chat/': typeof UserChatIndexRoute
   '/user/commands/': typeof UserCommandsIndexRoute
+  '/user/economy/': typeof UserEconomyIndexRoute
   '/user/game-info/': typeof UserGameInfoIndexRoute
   '/user/issues/': typeof UserIssuesIndexRoute
   '/user/matrix-statistics/': typeof UserMatrixStatisticsIndexRoute
@@ -470,6 +484,7 @@ export interface FileRoutesByTo {
   '/admin/announcement-schedules': typeof AdminAnnouncementSchedulesIndexRoute
   '/admin/announcements': typeof AdminAnnouncementsIndexRoute
   '/admin/capes': typeof AdminCapesIndexRoute
+  '/admin/economy': typeof AdminEconomyIndexRoute
   '/admin/game-profiles': typeof AdminGameProfilesIndexRoute
   '/admin/issue-types': typeof AdminIssueTypesIndexRoute
   '/admin/issues': typeof AdminIssuesIndexRoute
@@ -482,6 +497,7 @@ export interface FileRoutesByTo {
   '/user/capes': typeof UserCapesIndexRoute
   '/user/chat': typeof UserChatIndexRoute
   '/user/commands': typeof UserCommandsIndexRoute
+  '/user/economy': typeof UserEconomyIndexRoute
   '/user/game-info': typeof UserGameInfoIndexRoute
   '/user/issues': typeof UserIssuesIndexRoute
   '/user/matrix-statistics': typeof UserMatrixStatisticsIndexRoute
@@ -532,6 +548,7 @@ export interface FileRoutesById {
   '/admin/announcement-schedules/': typeof AdminAnnouncementSchedulesIndexRoute
   '/admin/announcements/': typeof AdminAnnouncementsIndexRoute
   '/admin/capes/': typeof AdminCapesIndexRoute
+  '/admin/economy/': typeof AdminEconomyIndexRoute
   '/admin/game-profiles/': typeof AdminGameProfilesIndexRoute
   '/admin/issue-types/': typeof AdminIssueTypesIndexRoute
   '/admin/issues/': typeof AdminIssuesIndexRoute
@@ -544,6 +561,7 @@ export interface FileRoutesById {
   '/user/capes/': typeof UserCapesIndexRoute
   '/user/chat/': typeof UserChatIndexRoute
   '/user/commands/': typeof UserCommandsIndexRoute
+  '/user/economy/': typeof UserEconomyIndexRoute
   '/user/game-info/': typeof UserGameInfoIndexRoute
   '/user/issues/': typeof UserIssuesIndexRoute
   '/user/matrix-statistics/': typeof UserMatrixStatisticsIndexRoute
@@ -595,6 +613,7 @@ export interface FileRouteTypes {
     | '/admin/announcement-schedules/'
     | '/admin/announcements/'
     | '/admin/capes/'
+    | '/admin/economy/'
     | '/admin/game-profiles/'
     | '/admin/issue-types/'
     | '/admin/issues/'
@@ -607,6 +626,7 @@ export interface FileRouteTypes {
     | '/user/capes/'
     | '/user/chat/'
     | '/user/commands/'
+    | '/user/economy/'
     | '/user/game-info/'
     | '/user/issues/'
     | '/user/matrix-statistics/'
@@ -654,6 +674,7 @@ export interface FileRouteTypes {
     | '/admin/announcement-schedules'
     | '/admin/announcements'
     | '/admin/capes'
+    | '/admin/economy'
     | '/admin/game-profiles'
     | '/admin/issue-types'
     | '/admin/issues'
@@ -666,6 +687,7 @@ export interface FileRouteTypes {
     | '/user/capes'
     | '/user/chat'
     | '/user/commands'
+    | '/user/economy'
     | '/user/game-info'
     | '/user/issues'
     | '/user/matrix-statistics'
@@ -715,6 +737,7 @@ export interface FileRouteTypes {
     | '/admin/announcement-schedules/'
     | '/admin/announcements/'
     | '/admin/capes/'
+    | '/admin/economy/'
     | '/admin/game-profiles/'
     | '/admin/issue-types/'
     | '/admin/issues/'
@@ -727,6 +750,7 @@ export interface FileRouteTypes {
     | '/user/capes/'
     | '/user/chat/'
     | '/user/commands/'
+    | '/user/economy/'
     | '/user/game-info/'
     | '/user/issues/'
     | '/user/matrix-statistics/'
@@ -926,6 +950,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UserGameInfoIndexRouteImport
       parentRoute: typeof UserRoute
     }
+    '/user/economy/': {
+      id: '/user/economy/'
+      path: '/economy'
+      fullPath: '/user/economy/'
+      preLoaderRoute: typeof UserEconomyIndexRouteImport
+      parentRoute: typeof UserRoute
+    }
     '/user/commands/': {
       id: '/user/commands/'
       path: '/commands'
@@ -1008,6 +1039,13 @@ declare module '@tanstack/react-router' {
       path: '/game-profiles'
       fullPath: '/admin/game-profiles/'
       preLoaderRoute: typeof AdminGameProfilesIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/economy/': {
+      id: '/admin/economy/'
+      path: '/economy'
+      fullPath: '/admin/economy/'
+      preLoaderRoute: typeof AdminEconomyIndexRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/capes/': {
@@ -1193,6 +1231,7 @@ interface AdminRouteChildren {
   AdminAnnouncementSchedulesIndexRoute: typeof AdminAnnouncementSchedulesIndexRoute
   AdminAnnouncementsIndexRoute: typeof AdminAnnouncementsIndexRoute
   AdminCapesIndexRoute: typeof AdminCapesIndexRoute
+  AdminEconomyIndexRoute: typeof AdminEconomyIndexRoute
   AdminGameProfilesIndexRoute: typeof AdminGameProfilesIndexRoute
   AdminIssueTypesIndexRoute: typeof AdminIssueTypesIndexRoute
   AdminIssuesIndexRoute: typeof AdminIssuesIndexRoute
@@ -1230,6 +1269,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminAnnouncementSchedulesIndexRoute: AdminAnnouncementSchedulesIndexRoute,
   AdminAnnouncementsIndexRoute: AdminAnnouncementsIndexRoute,
   AdminCapesIndexRoute: AdminCapesIndexRoute,
+  AdminEconomyIndexRoute: AdminEconomyIndexRoute,
   AdminGameProfilesIndexRoute: AdminGameProfilesIndexRoute,
   AdminIssueTypesIndexRoute: AdminIssueTypesIndexRoute,
   AdminIssuesIndexRoute: AdminIssuesIndexRoute,
@@ -1267,6 +1307,7 @@ interface UserRouteChildren {
   UserCapesIndexRoute: typeof UserCapesIndexRoute
   UserChatIndexRoute: typeof UserChatIndexRoute
   UserCommandsIndexRoute: typeof UserCommandsIndexRoute
+  UserEconomyIndexRoute: typeof UserEconomyIndexRoute
   UserGameInfoIndexRoute: typeof UserGameInfoIndexRoute
   UserIssuesIndexRoute: typeof UserIssuesIndexRoute
   UserMatrixStatisticsIndexRoute: typeof UserMatrixStatisticsIndexRoute
@@ -1285,6 +1326,7 @@ const UserRouteChildren: UserRouteChildren = {
   UserCapesIndexRoute: UserCapesIndexRoute,
   UserChatIndexRoute: UserChatIndexRoute,
   UserCommandsIndexRoute: UserCommandsIndexRoute,
+  UserEconomyIndexRoute: UserEconomyIndexRoute,
   UserGameInfoIndexRoute: UserGameInfoIndexRoute,
   UserIssuesIndexRoute: UserIssuesIndexRoute,
   UserMatrixStatisticsIndexRoute: UserMatrixStatisticsIndexRoute,

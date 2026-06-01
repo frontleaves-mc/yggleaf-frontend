@@ -17,9 +17,11 @@ import {
   Megaphone,
   Shirt,
   Users,
+  Wallet,
 } from 'lucide-react'
 import { motion } from 'motion/react'
 import { useUserInfo } from '#/api/endpoints/api-auth/user'
+import { useUserEconomyBalance } from '#/api/endpoints/api-mc/player-economy'
 import { usePublicAnnouncements } from '#/api/endpoints/api-mc/public-announcement'
 import { useServerStatus } from '#/api/endpoints/api-mc/server-status'
 import { DashboardWelcome } from '#/components/dashboard/dashboard-welcome'
@@ -146,6 +148,7 @@ function DashboardPage() {
   const servers = serverStatusData ?? []
   const user = userInfo?.user
   const announcements = announcementsData?.list ?? []
+  const { data: balanceData, isLoading: balanceLoading } = useUserEconomyBalance()
 
   return (
     <motion.div
@@ -284,6 +287,39 @@ function DashboardPage() {
         className="flex flex-col gap-6 lg:col-span-4"
         variants={mcStaggerGridItem}
       >
+        {balanceLoading ? (
+          <motion.div variants={mcStaggerGridItem}>
+            <McCard variant="glass" className="p-4">
+              <div className="flex items-center gap-3">
+                <div className="size-10 rounded-lg bg-muted animate-pulse" />
+                <div className="space-y-2 flex-1">
+                  <div className="h-3 w-16 rounded bg-muted animate-pulse" />
+                  <div className="h-6 w-24 rounded bg-muted animate-pulse" />
+                </div>
+              </div>
+            </McCard>
+          </motion.div>
+        ) : balanceData ? (
+          <motion.div variants={mcStaggerGridItem}>
+            <Link to="/user/economy" className="block group">
+              <McCard variant="solid" color="gold" className="p-4 transition-all group-hover:ring-2 group-hover:ring-gold-500/50">
+                <div className="flex items-center gap-3">
+                  <McIconBox variant="diamond" size="md">
+                    <Wallet className="size-4" />
+                  </McIconBox>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs text-muted-foreground">账户余额</p>
+                    <p className="text-xl font-bold font-mono tabular-nums truncate">
+                      {balanceData.balance_display}
+                    </p>
+                    <p className="text-xs text-muted-foreground">{balanceData.currency}</p>
+                  </div>
+                </div>
+              </McCard>
+            </Link>
+          </motion.div>
+        ) : null}
+
         <GameConfigGuide user={user} />
 
         <section className="flex flex-col gap-3">

@@ -31,6 +31,7 @@ import {
   Trophy,
   UserCircle,
   Users,
+  Wallet,
 } from 'lucide-react'
 
 // ─── 类型定义 ────────────────────────────────────────────
@@ -124,6 +125,12 @@ export const adminMenuSections: MenuSection[] = [
         label: '警告管理',
         icon: ShieldAlert,
         to: '/admin/matrix/warnings',
+      },
+      {
+        key: 'economy',
+        label: '经济管理',
+        icon: Wallet,
+        to: '/admin/economy',
       },
     ],
   },
@@ -301,6 +308,12 @@ export const userMenuSections: MenuSection[] = [
         icon: BarChart3,
         to: '/user/matrix-statistics',
       },
+      {
+        key: 'economy',
+        label: '我的经济',
+        icon: Wallet,
+        to: '/user/economy',
+      },
     ],
   },
   {
@@ -372,6 +385,7 @@ export const breadcrumbLabels: Record<string, string> = {
   '/user/chat': '游戏聊天',
   '/user/commands': '命令记录',
   '/user/matrix-statistics': '游戏统计',
+  '/user/economy': '我的经济',
   '/setup': '账户设置',
   '/setup/password': '设置游戏密码',
 
@@ -402,6 +416,7 @@ export const breadcrumbLabels: Record<string, string> = {
   '/admin/server-load': '服务器负载',
   '/admin/messages/chat': '聊天记录',
   '/admin/messages/commands': '命令记录',
+  '/admin/economy': '经济管理',
 
   // ── 公告 ──
   '/admin/announcements': '公告管理',

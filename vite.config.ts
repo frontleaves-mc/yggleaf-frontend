@@ -55,6 +55,11 @@ const config = defineConfig({
               priority: 18,
             },
             {
+              name: 'vendor-echarts',
+              test: /node_modules[\\/](echarts|echarts-for-react)[\\/]/,
+              priority: 17,
+            },
+            {
               name: 'vendor-motion',
               test: /node_modules[\\/](motion|framer-motion)[\\/]/,
               priority: 16,
