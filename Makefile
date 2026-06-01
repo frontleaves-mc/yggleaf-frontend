@@ -3,6 +3,8 @@
 
 .PHONY: help dev build preview test lint format check prod-upload
 
+SCRIPT_DIR := ./script
+
 # 默认目标
 help:
 	@echo "YggLeaf Frontend - 可用命令："
@@ -13,7 +15,7 @@ help:
 	@echo "  make lint         - ESLint 检查"
 	@echo "  make format       - Prettier 格式化"
 	@echo "  make check        - 自动修复 + 格式化"
-	@echo "  make prod-upload  - 构建并上传到生产服务器"
+	@echo "  make prod-upload  - 交互式多环境部署"
 
 # 开发服务器
 dev:
@@ -43,7 +45,7 @@ format:
 check:
 	pnpm check
 
-# 生产环境部署（构建 + 上传）
-prod-upload: build
-	@echo "＼(^o^)／ 开始上传到生产服务器..."
-	@./script/upload.prod.sh
+# 交互式多环境部署（强制选择目标服务器）
+prod-upload:
+	@echo "＼(^o^)／ 启动交互式部署..."
+	@$(SCRIPT_DIR)/upload.prod.sh
