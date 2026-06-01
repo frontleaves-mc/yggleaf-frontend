@@ -29,7 +29,8 @@ import {
 import { useAuth } from '#/hooks/use-auth'
 import { checkIsAuthenticated } from '#/hooks/use-auth-guard'
 import { ThemeToggle } from '#/components/public/theme-toggle'
-import { NAV_LINKS, type NavLink } from '#/lib/nav-links'
+import { NAV_LINKS  } from '#/lib/nav-links'
+import type {NavLink} from '#/lib/nav-links';
 import { navVariants, navVariantsDark } from '#/lib/motion-presets'
 
 const CRAFTATAR_URL = (uuid: string) =>

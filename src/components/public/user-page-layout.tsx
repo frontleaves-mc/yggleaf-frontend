@@ -12,9 +12,10 @@ import { motion } from 'motion/react'
 import type { ReactNode } from 'react'
 
 import {
-  PageHeader,
-  type PageHeaderVariant,
+  PageHeader
+  
 } from '#/components/public/page-header'
+import type {PageHeaderVariant} from '#/components/public/page-header';
 import { mcStaggerGrid, mcStaggerGridItem } from '#/lib/motion-presets'
 import { cn } from '#/lib/utils'
 

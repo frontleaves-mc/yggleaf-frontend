@@ -19,8 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '#/components/ui/select'
-import { Loader2, Save } from 'lucide-react'
-import { Trophy } from 'lucide-react'
+import { Loader2, Save, Trophy  } from 'lucide-react'
 import { useState } from 'react'
 import { motion } from 'motion/react'
 import { toast } from 'sonner'

@@ -129,7 +129,7 @@ function AdminCommandRecordsPage() {
         <TableColumnHeader column={column} title="指令" />
       ),
       cell: ({ row }) => {
-        const command = row.getValue('command') as string
+        const command = row.getValue('command')
         if (!command) return <span className="text-muted-foreground">-</span>
         if (command.length <= 40) {
           return (

@@ -52,7 +52,7 @@ export function PageHeader({
   const colorVariant =
     variant === 'default'
       ? 'grass'
-      : (variant as Exclude<PageHeaderVariant, 'default'>)
+      : (variant)
 
   const isLarge = size === 'lg'
 

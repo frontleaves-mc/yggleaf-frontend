@@ -144,7 +144,7 @@ function AdminChatRecordsPage() {
         <TableColumnHeader column={column} title="消息内容" />
       ),
       cell: ({ row }) => {
-        const message = row.getValue('message') as string
+        const message = row.getValue('message')
         if (!message) return <span className="text-muted-foreground">-</span>
         if (message.length <= 50) {
           return <span className="text-sm">{message}</span>

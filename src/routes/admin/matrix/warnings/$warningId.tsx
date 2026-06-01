@@ -218,7 +218,11 @@ function WarningDetailPage() {
           </McCard>
 
           {/* 风险评分 */}
-          <McCard variant="solid" color={riskScoreVariant(warning.risk_score)} className="p-4">
+          <McCard
+            variant="solid"
+            color={riskScoreVariant(warning.risk_score)}
+            className="p-4"
+          >
             <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70 mb-3 flex items-center gap-1.5">
               <Shield className="h-3.5 w-3.5" />
               风险评分

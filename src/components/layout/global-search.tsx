@@ -18,9 +18,10 @@ import {
 } from '#/components/ui/command'
 import {
   adminMenuSections,
-  userMenuSections,
-  type MenuItem,
+  userMenuSections
+  
 } from '#/config/menu'
+import type {MenuItem} from '#/config/menu';
 
 // ─── 类型定义 ────────────────────────────────────────────
 

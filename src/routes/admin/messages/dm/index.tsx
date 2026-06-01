@@ -120,7 +120,7 @@ function AdminDMRecordsPage() {
         <TableColumnHeader column={column} title="消息内容" />
       ),
       cell: ({ row }) => {
-        const message = row.getValue('message') as string
+        const message = row.getValue('message')
         if (!message) return <span className="text-muted-foreground">-</span>
         if (message.length <= 50) {
           return <span className="text-sm">{message}</span>
@@ -161,7 +161,7 @@ function AdminDMRecordsPage() {
         <TableColumnHeader column={column} title="已读" />
       ),
       cell: ({ row }) => {
-        const isRead = row.getValue('is_read') as boolean
+        const isRead = row.getValue('is_read')
         return (
           <McBadge variant={isRead ? 'grass' : 'nether'}>
             {isRead ? '已读' : '未读'}
@@ -176,7 +176,7 @@ function AdminDMRecordsPage() {
       ),
       cell: ({ row }) => (
         <span className="text-sm text-muted-foreground tabular-nums">
-          {formatTime(row.getValue('created_at') as string)}
+          {formatTime(row.getValue('created_at'))}
         </span>
       ),
     },

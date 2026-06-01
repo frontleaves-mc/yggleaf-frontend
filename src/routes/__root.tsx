@@ -1,8 +1,9 @@
 import {
   Outlet,
-  createRootRouteWithContext,
-  type ErrorComponentProps,
+  createRootRouteWithContext
+  
 } from '@tanstack/react-router'
+import type {ErrorComponentProps} from '@tanstack/react-router';
 
 import { TooltipProvider } from '#/components/ui/tooltip'
 import { Toaster } from '#/components/ui/sonner'
