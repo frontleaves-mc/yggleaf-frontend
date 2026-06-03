@@ -13,17 +13,17 @@ interface LandingButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 }
 
 const landingButtonVariants: Record<LandingButtonVariant, string> = {
-  hero: 'landing-gradient text-white font-medium shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-200',
+  hero: 'landing-gradient text-white font-pixel font-medium pixel-border-raised pixel-shadow-sm hover:scale-[1.02] transition-none',
   outline:
-    'border-2 border-primary/50 text-primary hover:bg-primary/10 hover:border-primary transition-all duration-200',
+    'border-2 border-primary/50 text-primary font-pixel hover:bg-primary/10 hover:border-primary transition-none',
   ghost:
-    'text-foreground/80 hover:text-foreground hover:bg-muted/50 transition-all duration-200',
+    'text-foreground/80 font-pixel hover:text-foreground hover:bg-muted/50 transition-none',
 }
 
 const landingButtonSizes: Record<LandingButtonSize, string> = {
-  default: 'h-10 px-6 text-sm rounded-lg',
-  lg: 'h-12 px-8 text-base rounded-xl',
-  sm: 'h-8 px-4 text-xs rounded-md',
+  default: 'h-10 px-6 text-sm rounded-none',
+  lg: 'h-12 px-8 text-base rounded-none',
+  sm: 'h-8 px-4 text-xs rounded-none',
 }
 
 const LandingButton = forwardRef<HTMLButtonElement, LandingButtonProps>(
@@ -77,10 +77,10 @@ function LandingCard({
     <div
       data-slot="landing-card"
       className={cn(
-        'relative overflow-hidden rounded-xl',
-        'border border-border bg-card',
+        'relative overflow-hidden rounded-none',
+        'pixel-border-raised pixel-shadow-sm',
         'landing-glass-strong landing-glow-hover',
-        'transition-all duration-300',
+        'transition-none',
         'group/card',
         className,
       )}
@@ -119,9 +119,9 @@ function LandingBadge({
     <span
       data-slot="landing-badge"
       className={cn(
-        'inline-flex items-center gap-1 rounded-md px-2.5 py-0.5 text-xs font-medium',
+        'inline-flex items-center gap-1 rounded-none px-2.5 py-0.5 text-xs font-medium',
         'border transition-colors',
-        'shadow-sm',
+        'pixel-shadow-sm',
         badgeVariants[variant],
         className,
       )}

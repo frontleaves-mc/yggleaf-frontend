@@ -30,14 +30,14 @@ function CtaSection() {
         viewport={{ once: true, margin: '-100px' }}
         variants={landingHeroVariants}
       >
-        <h2 className="max-w-3xl font-heading text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl">
+        <h2 className="max-w-3xl font-pixel font-heading text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl">
           准备好进入锋楪了吗
         </h2>
         <p className="mt-4 max-w-2xl text-base leading-7 text-white/70">
           先加入社区完成白名单申请，再登录玩家中心配置账号和外观资源。管理员也可以从同一入口进入后台。
         </p>
 
-        <div className="mt-8 flex w-full max-w-md items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-5 py-4 text-left backdrop-blur-md">
+        <div className="mt-8 flex w-full max-w-md items-center gap-3 rounded-none border border-white/10 bg-white/5 px-5 py-4 text-left backdrop-blur-md">
           <span className="text-sm text-white/70">QQ 群</span>
           <span className="flex-1 font-mono text-lg font-semibold text-white">
             {QQ_GROUP}

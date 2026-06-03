@@ -1,0 +1,143 @@
+/* ═══════════════════════════════════════════
+   Minecraft Pixel Design — Table & TanStackTable
+   ═══════════════════════════════════════════ */
+
+/* ── Table wrapper ── */
+[data-slot="table"],
+table {
+  border-radius: 0;
+  border-collapse: collapse;
+}
+
+/* ── TableHeader ── */
+[data-slot="table-header"],
+thead {
+  border-radius: 0;
+}
+[data-slot="table-header"] tr,
+thead tr {
+  background-color: var(--pixel-border-dark);
+}
+
+.dark [data-slot="table-header"] tr,
+.dark thead tr {
+  background-color: #2A2A2A;
+}
+
+/* ── TableHead ── */
+[data-slot="table-head"],
+th {
+  border-radius: 0;
+  font-family: var(--pixel-font-heading);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  color: var(--foreground);
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--pixel-border-base);
+  border-top-color: var(--pixel-border-light);
+  border-left-color: var(--pixel-border-light);
+}
+
+/* ── TableRow ── */
+[data-slot="table-row"],
+tr {
+  border-radius: 0;
+  border-bottom: 1px solid var(--pixel-border-dark);
+}
+
+[data-slot="table-row"]:hover,
+tr:hover {
+  background-color: var(--pixel-border-light);
+}
+
+.dark [data-slot="table-row"]:hover,
+.dark tr:hover {
+  background-color: #3D3D3D;
+}
+
+/* ── TableCell ── */
+[data-slot="table-cell"],
+td {
+  border-radius: 0;
+  border: 1px solid var(--pixel-border-base);
+  border-top-color: var(--pixel-border-dark);
+  border-left-color: var(--pixel-border-dark);
+  border-right-color: var(--pixel-border-light);
+  border-bottom-color: var(--pixel-border-light);
+  padding: 0.5rem 1rem;
+}
+
+/* ── TableBody ── */
+[data-slot="table-body"],
+tbody {
+  border-radius: 0;
+}
+
+/* ── TableFooter ── */
+[data-slot="table-footer"],
+tfoot {
+  border-radius: 0;
+  border-top: 2px solid var(--pixel-border-base);
+}
+
+/* ── TableCaption ── */
+[data-slot="table-caption"] {
+  font-family: var(--pixel-font-heading);
+  letter-spacing: 0.03em;
+}
+
+/* ── Sort indicator — pixel arrows ── */
+[data-slot="table-head"] button,
+th button {
+  font-family: var(--pixel-font-heading);
+}
+/* Simple pixel arrows via text */
+[data-sort="asc"]::after {
+  content: ' ^';
+  font-family: var(--pixel-font-heading);
+}
+[data-sort="desc"]::after {
+  content: ' v';
+  font-family: var(--pixel-font-heading);
+}
+
+/* ── Empty state ── */
+[data-slot="table-empty"] {
+  font-family: var(--pixel-font-alt);
+  text-align: center;
+  padding: 2rem;
+  border: 2px dashed var(--pixel-border-base);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ── TanStackTable specific ── */
+.tanstack-table {
+  border-radius: 0;
+}
+.tanstack-table th {
+  border-radius: 0;
+}
+.tanstack-table td {
+  border-radius: 0;
+}
+
+/* ── Pagination ── */
+[data-slot="pagination"] button {
+  border-radius: 0;
+  font-family: var(--pixel-font-heading);
+  border: 2px solid var(--pixel-border-base);
+}
+
+[data-slot="pagination"] button[data-active="true"] {
+  border-top-color: var(--pixel-border-dark);
+  border-left-color: var(--pixel-border-dark);
+  border-right-color: var(--pixel-border-light);
+  border-bottom-color: var(--pixel-border-light);
+  background-color: var(--pixel-border-dark);
+}
+
+.dark [data-slot="pagination"] button[data-active="true"] {
+  background-color: #2A2A2A;
+}

@@ -44,7 +44,7 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="group flex w-full cursor-pointer items-center justify-between gap-4 rounded-lg px-4 py-3 -mx-4 text-left transition-colors hover:bg-muted/50"
+        className="group flex w-full cursor-pointer items-center justify-between gap-4 rounded-none px-4 py-3 -mx-4 text-left transition-colors hover:bg-muted/50"
         aria-expanded={open}
       >
         <span className="font-medium transition-colors duration-200 group-hover:text-primary">
@@ -87,7 +87,7 @@ function FaqSection() {
       title="常见问题"
       subtitle="加入前最容易卡住的几个点。"
     >
-      <div className="mx-auto max-w-3xl rounded-xl border border-border/50 bg-card/80 p-6 shadow-sm backdrop-blur-sm md:p-8">
+      <div className="mx-auto max-w-3xl rounded-none border border-border/50 bg-card/80 p-6 backdrop-blur-sm md:p-8">
         {faqs.map((faq) => (
           <FaqItem key={faq.q} question={faq.q} answer={faq.a} />
         ))}

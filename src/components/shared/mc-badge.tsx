@@ -22,7 +22,7 @@ const McBadge = forwardRef<HTMLSpanElement, McBadgeProps>(
       data-slot="mc-badge"
       data-variant={variant}
       className={cn(
-        'inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs font-medium border transition-colors',
+        'inline-flex items-center gap-1 rounded-none px-2 py-0.5 text-xs font-medium pixel-border-raised transition-colors',
         badgeVariants[variant],
         className,
       )}

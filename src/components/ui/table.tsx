@@ -54,7 +54,7 @@ export const TableRow = ({
 }: HTMLAttributes<HTMLTableRowElement>) => (
   <tr
     className={cn(
-      'border-b border-foreground/5 bg-card transition-colors duration-150 hover:bg-muted/40 data-[state=selected]:bg-muted/60',
+      'border-b border-foreground/5 bg-card transition-none hover:bg-muted/40 data-[state=selected]:bg-muted/60',
       className,
     )}
     {...props}

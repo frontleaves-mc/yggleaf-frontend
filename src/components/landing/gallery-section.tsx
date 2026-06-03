@@ -61,7 +61,7 @@ function GallerySection() {
             key={img.src}
             className={index === 0 ? 'sm:col-span-2 sm:row-span-2' : ''}
           >
-            <div className="group relative aspect-[4/3] overflow-hidden rounded-lg border border-border bg-card will-change-transform">
+            <div className="group relative aspect-[4/3] overflow-hidden rounded-none border border-border bg-card will-change-transform">
               <img
                 src={img.src}
                 alt={img.title}
@@ -70,7 +70,7 @@ function GallerySection() {
                 className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
               />
               <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/70 via-black/20 to-transparent p-5 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                <h3 className="font-heading text-sm font-semibold text-white">
+                <h3 className="font-pixel font-heading text-sm font-semibold text-white">
                   {img.title}
                 </h3>
                 <p className="mt-1 text-xs text-white/70">{img.desc}</p>

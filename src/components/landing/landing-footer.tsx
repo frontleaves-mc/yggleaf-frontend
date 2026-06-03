@@ -23,7 +23,7 @@ function FooterLink({ children, ...props }: React.ComponentProps<typeof Link>) {
   return (
     <li>
       <Link
-        className="group inline-flex items-center gap-1 text-sm text-muted-foreground transition-colors duration-200 hover:text-primary"
+        className="group inline-flex items-center gap-1 text-sm text-muted-foreground transition-none hover:text-primary"
         {...props}
       >
         {children}
@@ -34,7 +34,7 @@ function FooterLink({ children, ...props }: React.ComponentProps<typeof Link>) {
 
 export function LandingFooter() {
   return (
-    <footer className="border-t border-border/40 bg-muted/20">
+    <footer className="border-t border-border bg-muted/30">
       <div className="landing-section !py-12">
         <motion.div
           className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4"
@@ -48,9 +48,9 @@ export function LandingFooter() {
               <img
                 src="/favicon.png"
                 alt="锋楪游戏"
-                className="size-8 rounded-lg object-cover shadow-sm"
+                className="size-8 rounded-none object-cover pixel-shadow-sm"
               />
-              <span className="font-heading text-lg font-bold tracking-tight">
+              <span className="font-heading text-lg font-bold tracking-tight font-pixel">
                 锋楪游戏
               </span>
             </Link>
@@ -60,7 +60,7 @@ export function LandingFooter() {
           </motion.div>
 
           <motion.div variants={scrollRevealItem}>
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-foreground/80">
+            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-foreground/80 font-pixel">
               快速导航
             </h3>
             <ul className="flex flex-col gap-2.5">
@@ -73,7 +73,7 @@ export function LandingFooter() {
           </motion.div>
 
           <motion.div variants={scrollRevealItem}>
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-foreground/80">
+            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-foreground/80 font-pixel">
               资源
             </h3>
             <ul className="flex flex-col gap-2.5">
@@ -86,11 +86,11 @@ export function LandingFooter() {
           </motion.div>
 
           <motion.div variants={scrollRevealItem}>
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-foreground/80">
+            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-foreground/80 font-pixel">
               社区
             </h3>
             <ul className="flex flex-col gap-3">
-              <li className="rounded-lg border border-border/50 bg-card/50 px-3 py-2">
+              <li className="rounded-none border border-border/50 bg-card/50 px-3 py-2 pixel-shadow-sm">
                 <span className="inline-flex items-center gap-2 text-sm text-muted-foreground">
                   <MessageCircle className="size-4 text-primary/70" />
                   QQ 群：

@@ -20,16 +20,16 @@ const accentLineColors: Record<Exclude<McCardColor, 'default'>, string> = {
 }
 
 const glassBaseStyles = [
-  'group relative overflow-hidden rounded-xl',
-  'border border-border bg-card/80 backdrop-blur-[12px]',
-  'shadow-sm cursor-pointer',
+  'group relative overflow-hidden rounded-none',
+  'pixel-border-raised pixel-shadow-sm',
+  'bg-card/80 backdrop-blur-[12px]',
   'transition-colors duration-300',
 ]
 
 const solidBaseStyles = [
-  'group relative overflow-hidden rounded-xl',
+  'group relative overflow-hidden rounded-none',
+  'pixel-border-raised pixel-shadow-sm',
   'border border-border/60 bg-card',
-  'shadow-sm cursor-pointer',
   'transition-colors duration-300',
 ]
 
@@ -57,7 +57,7 @@ const McCard = forwardRef<HTMLDivElement, McCardProps>(
         {color !== 'default' && (
           <div
             className={cn(
-              'absolute left-0 top-5 bottom-5 w-[3px] rounded-full opacity-40 transition-opacity duration-300 group-hover:opacity-80',
+              'absolute left-0 top-5 bottom-5 w-[3px] opacity-40 transition-opacity duration-300 group-hover:opacity-80',
               accentLineColors[color],
             )}
           />

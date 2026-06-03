@@ -1,0 +1,245 @@
+/* ═══════════════════════════════════════════
+   Minecraft Pixel Design System — Foundations
+   Faithfully reproducing MC Java Edition UI
+   ═══════════════════════════════════════════ */
+
+/* ── 1. MC Java Edition Color System ── */
+:root {
+  /* MC Stone Panel — inventory / menu background */
+  --mc-bg-panel: #C6C6C6;
+  /* MC Item Slot — dark gray slot background */
+  --mc-bg-slot: #8B8B8B;
+  /* MC Slot Border — very dark slot border */
+  --mc-border-slot: #373737;
+  /* MC Bevel Highlight — top-left edge (white) */
+  --mc-border-highlight: #FFFFFF;
+  /* MC Bevel Shadow — bottom-right edge */
+  --mc-border-shadow: #555555;
+  /* MC Tooltip Background — very dark purple */
+  --mc-bg-tooltip: #100010;
+  /* MC Button Text — dark gray on stone */
+  --mc-text-dark: #404040;
+  /* MC Text Shadow — for white-on-dark text */
+  --mc-text-shadow-light: #3F3F3F;
+  /* MC Button press offset */
+  --mc-press-offset: 2px;
+
+  /* Pixel border system — mapped to MC bevel colors */
+  --pixel-border-light: #FFFFFF;        /* bevel highlight (top-left) */
+  --pixel-border-dark: #555555;         /* bevel shadow (bottom-right) */
+  --pixel-border-base: #373737;         /* base border / slot border */
+
+  /* Pixel hard shadow */
+  --pixel-shadow-offset: 4px;
+  --pixel-shadow-color: rgba(0, 0, 0, 0.6);
+  --pixel-shadow-inset: inset 2px 2px 0 0 rgba(255, 255, 255, 0.15);
+
+  /* Pixel focus ring — MC white outline with black gap */
+  --pixel-focus-color: #FFFFFF;
+  --pixel-focus-offset: 2px;
+  --pixel-focus-width: 2px;
+
+  /* Grass block decoration */
+  --pixel-grass-height: 6px;
+  --pixel-grass-color: #53A331;
+  --pixel-grass-color-dark: #3D7A22;
+  --pixel-dirt-color: #866043;
+  --pixel-dirt-height: 2px;
+
+  /* Pixel fonts */
+  --pixel-font-heading: 'Silkscreen', cursive;
+  --pixel-font-alt: 'Pixelify Sans', cursive;
+
+  /* Radius — globally zero for pixel aesthetic */
+  --radius: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-3xl: 0px;
+  --radius-4xl: 0px;
+}
+
+/* ── Dark mode MC colors ── */
+.dark {
+  --mc-bg-panel: #1E1E1E;
+  --mc-bg-slot: #2D2D2D;
+  --mc-border-slot: #0F0F0F;
+  --mc-border-highlight: #AAAAAA;
+  --mc-border-shadow: #1A1A1A;
+  --mc-text-dark: #C0C0C0;
+  --mc-text-shadow-light: #1A1A1A;
+
+  --pixel-border-light: #AAAAAA;
+  --pixel-border-dark: #1A1A1A;
+  --pixel-border-base: #0F0F0F;
+  --pixel-shadow-color: rgba(0, 0, 0, 0.8);
+  --pixel-shadow-inset: inset 2px 2px 0 0 rgba(255, 255, 255, 0.12);
+  --pixel-focus-color: #FFFFFF;
+  --pixel-grass-color: #63C741;
+  --pixel-grass-color-dark: #4A9A2E;
+  --pixel-dirt-color: #6B4D38;
+}
+
+/* ── Admin mode — nether red palette ── */
+[data-mode='admin'] {
+  --mc-bg-panel: #5C0000;
+  --pixel-grass-color: #FF5555;
+  --pixel-grass-color-dark: #CC3333;
+  --pixel-dirt-color: #4A1A1A;
+  --pixel-focus-color: #FF5555;
+}
+
+.dark [data-mode='admin'] {
+  --mc-bg-panel: #3A0000;
+  --pixel-grass-color: #FF7755;
+  --pixel-grass-color-dark: #DD4433;
+  --pixel-dirt-color: #3A1515;
+}
+
+/* ── Landing mode dark override — keep grass visible on dark bg ── */
+.dark [data-mode='landing'] {
+  --pixel-grass-color: #63C741;
+  --pixel-dirt-color: #6B4D38;
+}
+
+/* ── 2. Global radius reset (via :root variable, not !important) ── */
+/* The --radius: 0px in :root propagates to all shadcn components */
+
+/* ── 3. MC Bevel Border System ── */
+/* Classic Minecraft 3D bevel: top-left bright, bottom-right dark */
+
+.pixel-border-raised {
+  border: 2px solid var(--pixel-border-base);
+  border-top-color: var(--pixel-border-light);
+  border-left-color: var(--pixel-border-light);
+  border-right-color: var(--pixel-border-dark);
+  border-bottom-color: var(--pixel-border-dark);
+}
+
+.pixel-border-sunken {
+  border: 2px solid var(--pixel-border-base);
+  border-top-color: var(--pixel-border-dark);
+  border-left-color: var(--pixel-border-dark);
+  border-right-color: var(--pixel-border-light);
+  border-bottom-color: var(--pixel-border-light);
+}
+
+/* ── 4. Pixel Hard Shadow ── */
+.pixel-shadow {
+  box-shadow:
+    var(--pixel-shadow-offset) var(--pixel-shadow-offset) 0 0 var(--pixel-shadow-color),
+    var(--pixel-shadow-inset);
+}
+
+.pixel-shadow-sm {
+  box-shadow:
+    2px 2px 0 0 var(--pixel-shadow-color),
+    inset 1px 1px 0 0 rgba(255, 255, 255, 0.1);
+}
+
+.dark .pixel-shadow-sm {
+  box-shadow:
+    2px 2px 0 0 var(--pixel-shadow-color),
+    inset 1px 1px 0 0 rgba(255, 255, 255, 0.1);
+}
+
+.pixel-shadow-none {
+  box-shadow: none;
+}
+
+/* ── 5. Pixel Focus Ring — MC white outline with black gap ── */
+:focus-visible {
+  outline: var(--pixel-focus-width) solid var(--pixel-focus-color) !important;
+  outline-offset: var(--pixel-focus-offset) !important;
+  box-shadow: 0 0 0 0 transparent !important;
+}
+
+/* ── 6. Pixel Font Utilities ── */
+.font-pixel {
+  font-family: var(--pixel-font-heading);
+}
+
+.font-pixel-alt {
+  font-family: var(--pixel-font-alt);
+}
+
+/* ── 7. Grass Block Top Decoration ── */
+.pixel-grass-top {
+  position: relative;
+  overflow: hidden;
+}
+.pixel-grass-top::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--pixel-grass-height);
+  background: var(--pixel-grass-color);
+  /* Pixelated gradient simulating grass texture */
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      transparent 4px,
+      rgba(100, 200, 60, 0.5) 4px,
+      rgba(100, 200, 60, 0.5) 6px
+    );
+}
+
+.dark .pixel-grass-top::before {
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      transparent 4px,
+      rgba(80, 160, 40, 0.4) 4px,
+      rgba(80, 160, 40, 0.4) 6px
+    );
+}
+.pixel-grass-top::after {
+  content: '';
+  position: absolute;
+  top: var(--pixel-grass-height);
+  left: 0;
+  right: 0;
+  height: var(--pixel-dirt-height);
+  background: var(--pixel-dirt-color);
+}
+
+/* ── 8. Pixelated Scrollbar ── */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--pixel-border-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--pixel-border-light);
+  border: 1px solid var(--pixel-border-base);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #999999;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #555555;
+}
+
+/* ── 9. Pixel Transitions — instant ── */
+@media (prefers-reduced-motion: no-preference) {
+  .pixel-transition {
+    transition: none;
+  }
+}
+
+/* ── 10. Image Rendering — pixelated ── */
+img,
+video,
+canvas {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+}

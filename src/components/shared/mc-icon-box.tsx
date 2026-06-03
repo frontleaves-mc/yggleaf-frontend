@@ -17,9 +17,9 @@ const variantStyles: Record<McIconBoxVariant, string> = {
 }
 
 const sizeStyles: Record<McIconBoxSize, string> = {
-  sm: 'size-8 rounded-lg [&_svg]:size-4',
-  md: 'size-11 rounded-xl [&_svg]:size-5',
-  lg: 'size-14 rounded-xl [&_svg]:size-6',
+  sm: 'size-8 rounded-none [&_svg]:size-4',
+  md: 'size-11 rounded-none [&_svg]:size-5',
+  lg: 'size-14 rounded-none [&_svg]:size-6',
 }
 
 const McIconBox = forwardRef<HTMLDivElement, McIconBoxProps>(

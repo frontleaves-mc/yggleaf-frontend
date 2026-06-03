@@ -1,0 +1,756 @@
+/* --preset b1K8GUpp7w */
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/figtree';
+@import '@fontsource/silkscreen/400.css';
+@import '@fontsource/silkscreen/700.css';
+@import '@fontsource/pixelify-sans/400.css';
+@import '@fontsource/pixelify-sans/700.css';
+@plugin '@tailwindcss/typography';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: #F7F8FA;
+  --foreground: #1A1D23;
+  --card: #FFFFFF;
+  --card-foreground: #1A1D23;
+  --popover: #FFFFFF;
+  --popover-foreground: #1A1D23;
+  --primary: #5B7C28;
+  --primary-foreground: #FFFFFF;
+  --secondary: #E8EAE8;
+  --secondary-foreground: #2D3A1E;
+  --muted: #E8EAE8;
+  --muted-foreground: #6B7A5E;
+  --accent: #E8EAE8;
+  --accent-foreground: #2D3A1E;
+  --destructive: #D93025;
+  --border: #C8CCBA;
+  --input: #C8CCBA;
+  --ring: #5B7C28;
+  --chart-1: #5B7C28;
+  --chart-2: #1E6EE9;
+  --chart-3: #FFAA00;
+  --chart-4: #FF5555;
+  --chart-5: #86A349;
+  --radius: 0px;
+
+  --sidebar: #EFF1EC;
+  --sidebar-foreground: #1A1D23;
+  --sidebar-primary: #5B7C28;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #E0E4D8;
+  --sidebar-accent-foreground: #2D3A1E;
+  --sidebar-border: #C8CCBA;
+  --sidebar-ring: #5B7C28;
+
+  --mc-grass: #53A331;
+  --mc-grass-soft: rgba(83, 163, 49, 0.08);
+  --mc-diamond: #1E6EE9;
+  --mc-diamond-soft: rgba(30, 110, 233, 0.08);
+  --mc-nether: #FF481B;
+  --mc-nether-soft: rgba(255, 72, 27, 0.08);
+  --mc-gold: #FFAA00;
+  --mc-gold-soft: rgba(255, 170, 0, 0.1);
+
+  --grid-dot-color: rgba(91, 124, 40, 0.1);
+  --grid-line-color: rgba(91, 124, 40, 0.06);
+}
+
+/* Admin 模式红色主题覆盖 — data-mode 属性设置在 Layout 的 SidebarProvider 上 */
+[data-mode='admin'] {
+  --primary: #FF5555;
+  --primary-foreground: #FFFFFF;
+  --ring: #FF5555;
+  --sidebar-primary: #FF5555;
+  --sidebar-primary-foreground: #FFFFFF;
+
+  --mc-grass: #53A331;
+  --mc-grass-soft: rgba(83, 163, 49, 0.1);
+  --mc-diamond: #1E6EE9;
+  --mc-diamond-soft: rgba(30, 110, 233, 0.1);
+  --mc-nether: #FF481B;
+  --mc-nether-soft: rgba(255, 72, 27, 0.1);
+  --mc-gold: #FFC42C;
+  --mc-gold-soft: rgba(255, 196, 44, 0.12);
+
+  --grid-dot-color: rgba(80, 80, 80, 0.15);
+  --grid-line-color: rgba(60, 60, 60, 0.1);
+}
+
+.dark [data-mode='admin'] {
+  --primary: #FF7755;
+  --primary-foreground: #1A1A1A;
+  --ring: #FF7755;
+  --sidebar-primary: #FF7755;
+  --sidebar-primary-foreground: #1A1A1A;
+
+  --mc-grass: #63C741;
+  --mc-grass-soft: rgba(99, 199, 65, 0.15);
+  --mc-diamond: #3D8EF5;
+  --mc-diamond-soft: rgba(61, 142, 245, 0.15);
+  --mc-nether: #FF6B45;
+  --mc-nether-soft: rgba(255, 107, 69, 0.15);
+  --mc-gold: #FFD466;
+  --mc-gold-soft: rgba(255, 212, 102, 0.15);
+
+  --grid-dot-color: rgba(80, 80, 80, 0.1);
+  --grid-line-color: rgba(60, 60, 60, 0.12);
+}
+
+/* Landing 官网主题覆盖 — Minecraft 平衡系配色 */
+[data-mode='landing'] {
+  --primary: #5D8C3E;
+  --primary-foreground: #FFFFFF;
+  --secondary: #8B7355;
+  --secondary-foreground: #3F3F3F;
+  --ring: #5D8C3E;
+  --accent: #A0A0A0;
+  --accent-foreground: #3F3F3F;
+}
+
+.dark {
+  --background: #0F1419;
+  --foreground: #E8EAE8;
+  --card: #1A2030;
+  --card-foreground: #E8EAE8;
+  --popover: #1A2030;
+  --popover-foreground: #E8EAE8;
+  --primary: #86A349;
+  --primary-foreground: #0F1419;
+  --secondary: #1E2A1E;
+  --secondary-foreground: #C8D4B8;
+  --muted: #1E2A1E;
+  --muted-foreground: #7A8A6E;
+  --accent: #1E2A1E;
+  --accent-foreground: #C8D4B8;
+  --destructive: #FF6B6B;
+  --border: #2A3A2A;
+  --input: #0A1015;
+  --ring: #86A349;
+  --chart-1: #86A349;
+  --chart-2: #3D8EF5;
+  --chart-3: #FFD466;
+  --chart-4: #FF6B45;
+  --chart-5: #5B7C28;
+  --radius: 0px;
+
+  --sidebar: #151C22;
+  --sidebar-foreground: #E8EAE8;
+  --sidebar-primary: #86A349;
+  --sidebar-primary-foreground: #0F1419;
+  --sidebar-accent: #1E2A1E;
+  --sidebar-accent-foreground: #C8D4B8;
+  --sidebar-border: #2A3A2A;
+  --sidebar-ring: #86A349;
+
+  --mc-grass: #86A349;
+  --mc-grass-soft: rgba(134, 163, 73, 0.12);
+  --mc-diamond: #3D8EF5;
+  --mc-diamond-soft: rgba(61, 142, 245, 0.12);
+  --mc-nether: #FF6B45;
+  --mc-nether-soft: rgba(255, 107, 69, 0.12);
+  --mc-gold: #FFD466;
+  --mc-gold-soft: rgba(255, 212, 102, 0.12);
+
+  --grid-dot-color: rgba(134, 163, 73, 0.08);
+  --grid-line-color: rgba(134, 163, 73, 0.05);
+}
+
+.dark [data-mode='landing'] {
+  --primary: #63C741;
+  --primary-foreground: #1A1A1A;
+  --secondary: #5A4A30;
+  --secondary-foreground: #E0E0E0;
+  --ring: #63C741;
+  --background: #1A1A2E;
+  --card: #252535;
+  --foreground: #E0E0E0;
+  --card-foreground: #E0E0E0;
+  --muted: #303040;
+  --muted-foreground: #888888;
+  --border: #555555;
+  --input: #1A1A2E;
+}
+
+@theme inline {
+  --font-sans: 'Inter Variable', sans-serif;
+  --font-heading: 'Figtree Variable', sans-serif;
+  --font-pixel: 'Silkscreen', cursive;
+  --font-pixel-alt: 'Pixelify Sans', cursive;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+  --color-mc-grass: #53A331;
+  --color-mc-diamond: #1E6EE9;
+  --color-mc-nether: #FF481B;
+  --color-mc-gold: #FFC42C;
+  --color-mc-dark: #1A1D24;
+  --color-mc-brand: #5B7C28;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+  html {
+    @apply font-sans;
+  }
+}
+
+/* -- yggleaf custom utilities -- */
+@layer utilities {
+  /* subtle noise texture overlay for backgrounds */
+  .bg-noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  }
+
+  /* glass morphism */
+  .glass {
+    background: rgba(198, 198, 198, 0.85);
+    backdrop-filter: blur(4px);
+  }
+  .dark .glass {
+    background: rgba(45, 45, 45, 0.85);
+  }
+
+  /* gradient text effect */
+  .gradient-text {
+    background: linear-gradient(to right, #FFC42C, #FFAA00, #FFC42C);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .dark .gradient-text {
+    background: linear-gradient(to right, #FFD466, #FFC42C, #FFD466);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* dot grid pattern */
+  .dot-grid {
+    background-image: radial-gradient(
+      var(--grid-dot-color) 1px,
+      transparent 1px
+    );
+    background-size: 24px 24px;
+  }
+  .dark .dot-grid {
+    background-image: radial-gradient(
+      var(--grid-dot-color) 1px,
+      transparent 1px
+    );
+    background-size: 24px 24px;
+  }
+
+  /* section divider glow line */
+  .section-glow {
+    position: relative;
+  }
+  .section-glow::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 196, 44, 0.4),
+      transparent
+    );
+  }
+
+  /* focus glow ring */
+  .ring-glow {
+    box-shadow: 0 0 0 2px rgba(93, 140, 62, 0.15);
+  }
+  .dark .ring-glow {
+    box-shadow: 0 0 0 2px rgba(99, 199, 65, 0.2);
+  }
+
+  /* Minecraft gradient text */
+  .mc-gradient-text {
+    background: linear-gradient(to right, #FFC42C, #FFAA00, #FFC42C);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .dark .mc-gradient-text {
+    background: linear-gradient(to right, #FFD466, #FFC42C, #FFD466);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Minecraft pixel hard shadow (replaces soft glow) */
+  .mc-glow {
+    box-shadow: 2px 2px 0 0 var(--pixel-shadow-color);
+  }
+  .dark .mc-glow {
+    box-shadow: 2px 2px 0 0 var(--pixel-shadow-color);
+  }
+
+  .mc-glass {
+    background: rgba(198, 198, 198, 0.55);
+    backdrop-filter: blur(14px) saturate(170%);
+    border: 2px solid var(--pixel-border-base);
+    border-top-color: var(--pixel-border-light);
+    border-left-color: var(--pixel-border-light);
+    border-right-color: var(--pixel-border-dark);
+    border-bottom-color: var(--pixel-border-dark);
+    border-radius: 0;
+  }
+  .dark .mc-glass {
+    background: rgba(30, 30, 46, 0.4);
+  }
+  [data-mode='admin'] .mc-glass {
+    background: rgba(198, 198, 198, 0.55);
+  }
+  .dark [data-mode='admin'] .mc-glass {
+    background: rgba(30, 30, 46, 0.4);
+  }
+
+  .mc-card {
+    background: rgba(198, 198, 198, 0.55);
+    backdrop-filter: blur(14px) saturate(170%);
+    border: 2px solid var(--pixel-border-base);
+    border-top-color: var(--pixel-border-light);
+    border-left-color: var(--pixel-border-light);
+    border-right-color: var(--pixel-border-dark);
+    border-bottom-color: var(--pixel-border-dark);
+    border-radius: 0;
+    box-shadow: 3px 3px 0 0 var(--pixel-shadow-color);
+    position: relative;
+    overflow: hidden;
+  }
+  .mc-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--pixel-grass-height);
+    background: var(--pixel-grass-color);
+  }
+  .mc-card::after {
+    content: '';
+    position: absolute;
+    top: var(--pixel-grass-height);
+    left: 0;
+    right: 0;
+    height: var(--pixel-dirt-height);
+    background: var(--pixel-dirt-color);
+  }
+  .dark .mc-card {
+    background: rgba(30, 30, 46, 0.4);
+  }
+  .dark .mc-card::before {
+    opacity: 0.85;
+  }
+  [data-mode='admin'] .mc-card::before {
+    background: var(--pixel-grass-color);
+  }
+  [data-mode='admin'] .mc-card::after {
+    background: var(--pixel-dirt-color);
+  }
+  .dark [data-mode='admin'] .mc-card {
+    border: 2px solid var(--pixel-border-base);
+    border-top-color: var(--pixel-border-light);
+    border-left-color: var(--pixel-border-light);
+    border-right-color: var(--pixel-border-dark);
+    border-bottom-color: var(--pixel-border-dark);
+  }
+
+  /* Minecraft block grid pattern */
+  .mc-grid-pattern {
+    background-image:
+      linear-gradient(var(--grid-line-color) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line-color) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+  .dark .mc-grid-pattern {
+    background-image:
+      linear-gradient(var(--grid-line-color) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line-color) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  /* Landing section base */
+  .landing-section {
+    padding: 6rem 1.5rem;
+    max-width: 80rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  }
+
+  /* Glass card variant — landing sections */
+  .landing-glass {
+    background: rgba(198, 198, 198, 0.6);
+    backdrop-filter: blur(16px) saturate(180%);
+    border: 2px solid var(--pixel-border-base);
+    border-top-color: var(--pixel-border-light);
+    border-left-color: var(--pixel-border-light);
+    border-right-color: var(--pixel-border-dark);
+    border-bottom-color: var(--pixel-border-dark);
+    border-radius: 0;
+  }
+  .dark .landing-glass {
+    background: rgba(30, 30, 46, 0.45);
+  }
+
+  /* Glass card stronger variant */
+  .landing-glass-strong {
+    background: rgba(198, 198, 198, 0.92);
+    border: 2px solid var(--pixel-border-light, #FFFFFF);
+    border-bottom-color: var(--pixel-border-dark, #555555);
+    border-right-color: var(--pixel-border-dark, #555555);
+    border-radius: 0;
+  }
+  .dark .landing-glass-strong {
+    background: rgba(45, 45, 45, 0.92);
+  }
+
+  /* Accent glow — card hover state */
+  .landing-glow-hover {
+    transition:
+      box-shadow 0.2s ease,
+      border-color 0.2s ease;
+  }
+  .landing-glow-hover:hover {
+    box-shadow: 3px 3px 0 0 var(--pixel-shadow-color);
+  }
+  .dark .landing-glow-hover:hover {
+    box-shadow: 3px 3px 0 0 var(--pixel-shadow-color);
+  }
+
+  /* Section with subtle alternate background */
+  .landing-section-alt {
+    background: oklch(0.97 0.005 238);
+  }
+  .dark .landing-section-alt {
+    background: oklch(0.13 0.012 238);
+  }
+
+  /* Floating navbar glass */
+  .nav-glass {
+    background: rgba(247, 248, 250, 0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    border-radius: 0;
+  }
+  .dark .nav-glass {
+    background: rgba(15, 20, 25, 0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* Icon container with brand color tint */
+  .icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0;
+    border: 2px solid var(--pixel-border-base);
+    border-top-color: var(--pixel-border-light);
+    border-left-color: var(--pixel-border-light);
+    border-right-color: var(--pixel-border-dark);
+    border-bottom-color: var(--pixel-border-dark);
+  }
+  .icon-box-grass {
+    background: rgba(83, 163, 49, 0.1);
+    color: #53A331;
+  }
+  .dark .icon-box-grass {
+    background: rgba(99, 199, 65, 0.15);
+    color: #63C741;
+  }
+  .icon-box-diamond {
+    background: rgba(30, 110, 233, 0.1);
+    color: #1E6EE9;
+  }
+  .dark .icon-box-diamond {
+    background: rgba(61, 142, 245, 0.15);
+    color: #3D8EF5;
+  }
+  .icon-box-nether {
+    background: rgba(255, 72, 27, 0.1);
+    color: #FF481B;
+  }
+  .dark .icon-box-nether {
+    background: rgba(255, 107, 69, 0.15);
+    color: #FF6B45;
+  }
+  .icon-box-gold {
+    background: rgba(255, 196, 44, 0.12);
+    color: #E0A800;
+  }
+  .dark .icon-box-gold {
+    background: rgba(255, 212, 102, 0.15);
+    color: #FFD466;
+  }
+
+  /* Landing gradient background */
+  .landing-gradient {
+    background: linear-gradient(
+      135deg in oklch,
+      oklch(0.53 0.12 130),
+      oklch(0.55 0.19 260)
+    );
+  }
+}
+
+@layer base {
+  /* custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: oklch(0.7 0.01 214 / 30%);
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: oklch(0.7 0.01 214 / 50%);
+  }
+  .dark ::-webkit-scrollbar-thumb {
+    background: oklch(0.5 0.01 214 / 30%);
+  }
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background: oklch(0.5 0.01 214 / 50%);
+  }
+
+  /* scrollbar for firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: oklch(0.7 0.01 214 / 30%) transparent;
+  }
+  .dark * {
+    scrollbar-color: oklch(0.5 0.01 214 / 30%) transparent;
+  }
+}
+
+/* shimmer animation for skeleton */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* fade slide in */
+@keyframes fade-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Highlight.js custom theme (light/dark) ─────────────── */
+.hljs {
+  color: var(--foreground);
+  background: transparent;
+}
+.hljs-comment,
+.hljs-quote {
+  color: oklch(0.55 0.02 220);
+  font-style: italic;
+}
+.dark .hljs-comment,
+.dark .hljs-quote {
+  color: oklch(0.6 0.02 220);
+}
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-type {
+  color: oklch(0.5 0.15 280);
+}
+.dark .hljs-keyword,
+.dark .hljs-selector-tag,
+.dark .hljs-type {
+  color: oklch(0.7 0.15 280);
+}
+.hljs-string,
+.hljs-addition {
+  color: oklch(0.45 0.12 155);
+}
+.dark .hljs-string,
+.dark .hljs-addition {
+  color: oklch(0.7 0.14 155);
+}
+.hljs-number,
+.hljs-literal {
+  color: oklch(0.55 0.18 30);
+}
+.dark .hljs-number,
+.dark .hljs-literal {
+  color: oklch(0.75 0.15 30);
+}
+.hljs-built_in,
+.hljs-variable,
+.hljs-attr {
+  color: oklch(0.5 0.12 200);
+}
+.dark .hljs-built_in,
+.dark .hljs-variable,
+.dark .hljs-attr {
+  color: oklch(0.72 0.1 200);
+}
+.hljs-title,
+.hljs-function .hljs-title {
+  color: oklch(0.5 0.14 250);
+}
+.dark .hljs-title,
+.dark .hljs-function .hljs-title {
+  color: oklch(0.75 0.12 250);
+}
+.hljs-deletion {
+  color: oklch(0.55 0.2 25);
+}
+.dark .hljs-deletion {
+  color: oklch(0.7 0.18 25);
+}
+.hljs-meta {
+  color: oklch(0.5 0.08 60);
+}
+.dark .hljs-meta {
+  color: oklch(0.7 0.08 60);
+}
+
+/* ═══════════════════════════════════════════
+   Minecraft Pixel Design — Landing Page Overrides
+   ═══════════════════════════════════════════ */
+
+/* ── Landing sections ── */
+[data-mode='landing'] section {
+  border-radius: 0;
+}
+
+/* ── Landing hero buttons ── */
+[data-mode='landing'] .hero-section [data-slot="button"],
+[data-mode='landing'] [data-slot="landing-button"] {
+  font-family: var(--pixel-font-heading);
+}
+
+/* ── Landing section dividers ── */
+[data-mode='landing'] hr,
+[data-mode='landing'] [role="separator"] {
+  border-color: var(--pixel-border-dark);
+  border-style: solid;
+  border-width: 2px;
+}
+
+/* ── Landing cards ── */
+[data-mode='landing'] [data-slot="landing-card"] {
+  border: 2px solid var(--pixel-border-base);
+  border-top-color: var(--pixel-border-light);
+  border-left-color: var(--pixel-border-light);
+  border-right-color: var(--pixel-border-dark);
+  border-bottom-color: var(--pixel-border-dark);
+  box-shadow: 3px 3px 0 0 var(--pixel-shadow-color);
+}
+
+/* ── Landing feature grid cards ── */
+[data-mode='landing'] #features .group {
+  border-radius: 0;
+  border: 2px solid var(--pixel-border-base);
+  border-top-color: var(--pixel-border-light);
+  border-left-color: var(--pixel-border-light);
+  border-right-color: var(--pixel-border-dark);
+  border-bottom-color: var(--pixel-border-dark);
+}
+
+/* ── Landing hero metric cards ── */
+[data-mode='landing'] .landing-glass-strong {
+  border-radius: 0;
+  border: 2px solid var(--pixel-border-base);
+  border-top-color: var(--pixel-border-light);
+  border-left-color: var(--pixel-border-light);
+  border-right-color: var(--pixel-border-dark);
+  border-bottom-color: var(--pixel-border-dark);
+  box-shadow: 3px 3px 0 0 var(--pixel-shadow-color);
+}
+
+/* ── Landing footer ── */
+[data-mode='landing'] footer {
+  border-top: 2px solid var(--pixel-border-dark);
+  border-radius: 0;
+}
+
+/* ── Landing links ── */
+[data-mode='landing'] a:not([data-slot="button"]):not([data-slot="landing-button"]) {
+  border-radius: 0;
+}
+
+/* ── Landing heading pixel font ── */
+[data-mode='landing'] h1,
+[data-mode='landing'] h2,
+[data-mode='landing'] h3 {
+  font-family: var(--pixel-font-heading);
+  letter-spacing: 0.05em;
+}
+
+/* ── Pixel Component Styles ── */
+@import './pixel-foundations.css';
+@import './pixel-card.css';
+@import './pixel-button.css';
+@import './pixel-form.css';
+@import './pixel-table.css';
+@import './pixel-dialog.css';
+@import './pixel-badge.css';
+@import './pixel-navigation.css';
+@import './pixel-decorations.css';

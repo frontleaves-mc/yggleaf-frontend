@@ -32,7 +32,7 @@ function AnnouncementCard({
           </span>
         </div>
 
-        <h3 className="line-clamp-2 font-heading text-base font-semibold tracking-tight transition-colors group-hover/card:text-primary">
+        <h3 className="line-clamp-2 font-pixel font-heading text-base font-semibold tracking-tight transition-colors group-hover/card:text-primary">
           {announcement.title}
         </h3>
 
@@ -77,7 +77,7 @@ function AnnouncementsSkeleton() {
 
 function AnnouncementsEmpty() {
   return (
-    <div className="rounded-lg border border-dashed border-border bg-muted/30 py-12 text-center text-muted-foreground">
+    <div className="rounded-none border border-dashed border-border bg-muted/30 py-12 text-center text-muted-foreground">
       <Megaphone className="mx-auto mb-3 size-5 text-primary" />
       <p className="text-sm">暂无公告</p>
     </div>

@@ -61,7 +61,7 @@ function UserMenu() {
       <DropdownMenuTrigger asChild>
         <button
           type="button"
-          className="flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 text-sm font-medium transition-colors hover:bg-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="flex cursor-pointer items-center gap-2 rounded-none px-2 py-1.5 text-sm font-medium font-pixel transition-colors hover:bg-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           <Avatar size="sm">
             {avatarUrl && <AvatarImage src={avatarUrl} alt={displayUsername} />}
@@ -127,7 +127,7 @@ function MobileNavLink({ link, isActive, onClick }: MobileNavLinkProps) {
     <Link
       to={link.to}
       onClick={onClick}
-      className={`flex min-h-[44px] cursor-pointer items-center rounded-lg px-3 py-3 text-base font-medium transition-colors ${
+      className={`flex min-h-[44px] cursor-pointer items-center rounded-none px-3 py-3 text-base font-medium font-pixel transition-colors ${
         isActive
           ? 'bg-accent text-accent-foreground'
           : 'text-muted-foreground hover:bg-accent/50 hover:text-foreground'
@@ -161,12 +161,7 @@ export function LandingNavbar() {
 
   return (
     <motion.header
-      className={`fixed top-0 z-50 h-16 w-full transition-all duration-300 ${
-        scrolled ? 'nav-glass' : 'border-b border-transparent bg-transparent'
-      }`}
-      variants={variants}
-      animate={scrolled ? 'solid' : 'transparent'}
-      transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] as const }}
+      className="fixed top-0 z-50 h-16 w-full border-b border-border bg-background/95 backdrop-blur-sm"
     >
       <nav className="mx-auto flex h-full max-w-(--page-max) items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
         <Link
@@ -176,9 +171,9 @@ export function LandingNavbar() {
           <img
             src="/favicon.png"
             alt="锋楪游戏"
-            className="h-8 w-8 rounded-lg object-cover shadow-sm"
+            className="h-8 w-8 rounded-none object-cover pixel-shadow-sm"
           />
-          <span className="hidden text-base font-semibold tracking-tight text-foreground sm:block">
+          <span className="hidden text-base font-semibold tracking-tight text-foreground sm:block font-pixel">
             锋楪游戏
           </span>
         </Link>
@@ -188,7 +183,7 @@ export function LandingNavbar() {
             <Link
               key={link.to}
               to={link.to}
-              className={`relative cursor-pointer px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md ${
+              className={`relative cursor-pointer px-3 py-2 text-sm font-medium font-pixel transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-none ${
                 isActive(link.to)
                   ? 'text-foreground'
                   : 'text-muted-foreground hover:text-foreground'
@@ -198,7 +193,7 @@ export function LandingNavbar() {
               {isActive(link.to) && (
                 <motion.span
                   layoutId="landing-nav-active"
-                  className="absolute bottom-0 left-3 right-3 h-0.5 rounded-full bg-primary"
+                  className="absolute bottom-0 left-3 right-3 h-0.5 rounded-none bg-primary"
                   transition={{
                     type: 'spring',
                     stiffness: 350,
@@ -234,7 +229,7 @@ export function LandingNavbar() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="cursor-pointer rounded-lg"
+                className="cursor-pointer rounded-none"
                 aria-label="打开导航菜单"
               >
                 <Menu className="size-5" />

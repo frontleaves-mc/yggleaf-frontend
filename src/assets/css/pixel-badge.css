@@ -1,0 +1,114 @@
+/* ═══════════════════════════════════════════
+   Minecraft Pixel Design — Badge & McBadge
+   ═══════════════════════════════════════════ */
+
+/* ── shadcn Badge ── */
+[data-slot="badge"] {
+  border-radius: 0;
+  font-family: var(--pixel-font-heading);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.65rem;
+  border: 2px solid var(--pixel-border-base);
+  border-top-color: var(--pixel-border-light);
+  border-left-color: var(--pixel-border-light);
+  border-right-color: var(--pixel-border-dark);
+  border-bottom-color: var(--pixel-border-dark);
+  box-shadow: 2px 2px 0 0 var(--pixel-shadow-color);
+}
+
+/* Badge variants with MC colors */
+[data-slot="badge"][data-variant="default"] {
+  background-color: var(--mc-grass);
+  color: white;
+  border-color: var(--mc-grass);
+  border-top-color: #72C94E;
+  border-left-color: #72C94E;
+  border-right-color: #3D7A22;
+  border-bottom-color: #3D7A22;
+}
+
+[data-slot="badge"][data-variant="secondary"] {
+  background-color: var(--secondary);
+  color: var(--secondary-foreground);
+}
+
+[data-slot="badge"][data-variant="destructive"] {
+  background-color: var(--mc-nether);
+  color: white;
+  border-color: var(--mc-nether);
+  border-top-color: #FF7755;
+  border-left-color: #FF7755;
+  border-right-color: #CC3010;
+  border-bottom-color: #CC3010;
+}
+
+[data-slot="badge"][data-variant="outline"] {
+  background: transparent;
+  border: 2px solid var(--pixel-border-base);
+  border-top-color: var(--pixel-border-light);
+  border-left-color: var(--pixel-border-light);
+  border-right-color: var(--pixel-border-dark);
+  border-bottom-color: var(--pixel-border-dark);
+}
+
+/* ── McBadge — MC 主题色变体 ── */
+.mc-badge {
+  border-radius: 0;
+  font-family: var(--pixel-font-heading);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.65rem;
+  border: 2px solid var(--pixel-border-base);
+  box-shadow: 2px 2px 0 0 var(--pixel-shadow-color);
+}
+
+.mc-badge[data-color="grass"] {
+  background-color: var(--mc-grass);
+  color: white;
+  border-color: var(--mc-grass);
+  border-top-color: #72C94E;
+  border-left-color: #72C94E;
+  border-right-color: #3D7A22;
+  border-bottom-color: #3D7A22;
+}
+
+.mc-badge[data-color="diamond"] {
+  background-color: var(--mc-diamond);
+  color: white;
+  border-color: var(--mc-diamond);
+  border-top-color: #4DA0FF;
+  border-left-color: #4DA0FF;
+  border-right-color: #1458B5;
+  border-bottom-color: #1458B5;
+}
+
+.mc-badge[data-color="nether"] {
+  background-color: var(--mc-nether);
+  color: white;
+  border-color: var(--mc-nether);
+  border-top-color: #FF7755;
+  border-left-color: #FF7755;
+  border-right-color: #CC3010;
+  border-bottom-color: #CC3010;
+}
+
+.mc-badge[data-color="gold"] {
+  background-color: var(--mc-gold);
+  color: var(--mc-dark);
+  border-color: var(--mc-gold);
+  border-top-color: #FFE088;
+  border-left-color: #FFE088;
+  border-right-color: #D4A010;
+  border-bottom-color: #D4A010;
+}
+
+/* admin mode badge — nether red for default */
+[data-mode='admin'] [data-slot="badge"][data-variant="default"] {
+  background-color: var(--mc-nether);
+  border-color: var(--mc-nether);
+  border-top-color: #FF7755;
+  border-left-color: #FF7755;
+  border-right-color: #CC3010;
+  border-bottom-color: #CC3010;
+}

@@ -127,22 +127,22 @@ function FeatureCard({
   return (
     <div
       className={cn(
-        'group relative flex h-full gap-5 rounded-2xl border border-border/50 p-6',
+        'group relative flex h-full gap-5 rounded-none border border-border/50 p-6',
         'bg-card/60 backdrop-blur-sm',
-        'transition-all duration-300',
-        'hover:border-primary/20 hover:bg-card/80 hover:shadow-lg hover:shadow-primary/5',
+        'transition-none',
+        'hover:border-primary/20 hover:bg-card/80',
       )}
     >
       <div
-        className={cn(
-          'absolute left-0 top-6 bottom-6 w-[3px] rounded-full opacity-40 transition-opacity duration-300 group-hover:opacity-80',
+          className={cn(
+          'absolute left-0 top-6 bottom-6 w-[3px] rounded-none opacity-40 transition-opacity duration-300 group-hover:opacity-80',
           accentBar[accent],
         )}
       />
 
       <div
-        className={cn(
-          'flex size-12 shrink-0 items-center justify-center rounded-xl',
+          className={cn(
+          'flex size-12 shrink-0 items-center justify-center rounded-none',
           'bg-gradient-to-br',
           accentGradient[accent],
         )}
@@ -157,7 +157,7 @@ function FeatureCard({
       <div className="min-w-0 flex-1">
         <div className="mb-2 flex items-center gap-2.5">
           <Icon className={cn('size-4.5', accentText[accent])} />
-          <h3 className="font-heading text-[15px] font-semibold tracking-tight text-foreground">
+          <h3 className="font-pixel font-heading text-[15px] font-semibold tracking-tight text-foreground">
             {title}
           </h3>
         </div>

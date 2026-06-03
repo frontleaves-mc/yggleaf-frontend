@@ -44,7 +44,7 @@ function LandingSection({
       >
         {title && (
           <div className="mx-auto mb-12 max-w-3xl text-center">
-            <h2 className="font-heading text-3xl font-semibold tracking-tight md:text-4xl">
+            <h2 className="font-pixel font-heading text-3xl font-semibold tracking-tight md:text-4xl">
               {title}
             </h2>
             {subtitle && (
