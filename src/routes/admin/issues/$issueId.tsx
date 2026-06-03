@@ -138,7 +138,7 @@ function AdminIssueDetailPage() {
         >
           <Link
             to="/admin/issues"
-            className="group inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-border/60 bg-background/80 text-muted-foreground shadow-sm transition-colors hover:border-mc-nether/30 hover:text-mc-nether"
+            className="group inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-none border border-border/60 bg-background/80 text-muted-foreground mc-pixel-shadow-sm transition-colors hover:border-mc-nether/30 hover:text-mc-nether"
           >
             <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
           </Link>
@@ -157,7 +157,7 @@ function AdminIssueDetailPage() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-5 w-5 rounded-full hover:bg-mc-nether/10 hover:text-mc-nether transition-colors"
+                  className="h-5 w-5 rounded-none hover:bg-mc-nether/10 hover:text-mc-nether transition-colors"
                   onClick={() => setEditDialogOpen(true)}
                 >
                   <Pencil className="h-2.5 w-2.5" />
@@ -198,7 +198,7 @@ function AdminIssueDetailPage() {
                 <MessageSquare className="h-4 w-4" />
                 回复
                 {issueDetail.replies.length > 0 && (
-                  <span className="ml-0.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-primary/10 px-1.5 text-xs font-semibold tabular-nums text-primary">
+                  <span className="ml-0.5 inline-flex h-5 min-w-5 items-center justify-center rounded-none bg-primary/10 px-1.5 text-xs font-semibold tabular-nums text-primary">
                     {issueDetail.replies.length}
                   </span>
                 )}

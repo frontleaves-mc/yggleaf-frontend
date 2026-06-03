@@ -110,9 +110,9 @@ function MarkdownEditor({
     <div
       data-slot="markdown-editor"
       className={cn(
-        'group/markdown-editor rounded-xl border border-border/60 bg-card shadow-sm overflow-hidden transition-all duration-200 ease-out',
+        'group/markdown-editor rounded-none border border-border/60 bg-card mc-pixel-shadow-sm overflow-hidden transition-all duration-200 ease-out',
         'has-[[data-slot=markdown-textarea]:focus-visible]:border-primary/30',
-        'has-[[data-slot=markdown-textarea]:focus-visible]:shadow-md',
+        'has-[[data-slot=markdown-textarea]:focus-visible]:mc-pixel-shadow',
         'has-[[data-slot=markdown-textarea]:focus-visible]:ring-[3px]',
         'has-[[data-slot=markdown-textarea]:focus-visible]:ring-primary/10',
         disabled && 'opacity-50 pointer-events-none',

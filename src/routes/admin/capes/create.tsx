@@ -107,7 +107,7 @@ function CreateCapePage() {
                 </p>
               </div>
 
-              <div className="flex items-center justify-between rounded-lg border border-border p-3.5">
+              <div className="flex items-center justify-between rounded-none border border-border p-3.5">
                 <div className="space-y-0.5">
                   <Label htmlFor="cape-public" className="text-sm">
                     公开披风

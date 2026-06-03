@@ -6,12 +6,16 @@ import { Slot } from 'radix-ui'
 import { cn } from '#/lib/utils'
 
 const buttonVariants = cva(
-  "group/button inline-flex shrink-0 items-center justify-center rounded-none border-2 bg-clip-padding text-sm font-medium whitespace-nowrap transition-none outline-none select-none pixel-border-raised focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30 active:not-aria-[haspopup]:translate-y-px active:not-aria-[haspopup]:[&:active]:border-t-[var(--pixel-border-dark)] active:not-aria-[haspopup]:[&:active]:border-l-[var(--pixel-border-dark)] active:not-aria-[haspopup]:[&:active]:border-r-[var(--pixel-border-light)] active:not-aria-[haspopup]:[&:active]:border-b-[var(--pixel-border-light)] disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-2 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "group/button inline-flex shrink-0 items-center justify-center rounded-none border-2 bg-clip-padding text-sm font-medium whitespace-nowrap outline-none select-none focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-2 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
-        default:
-          'bg-primary text-primary-foreground hover:bg-primary/90',
+        default: 'bg-primary text-primary-foreground hover:bg-primary/90',
+        stone: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+        grass: 'bg-mc-grass text-white hover:bg-mc-grass/90',
+        diamond: 'bg-mc-diamond text-white hover:bg-mc-diamond/90',
+        gold: 'bg-mc-gold text-mc-dark hover:bg-mc-gold/90',
+        nether: 'bg-mc-nether text-white hover:bg-mc-nether/90',
         outline:
           'bg-transparent hover:bg-input/50 hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:bg-input/30',
         secondary:
@@ -21,8 +25,7 @@ const buttonVariants = cva(
         destructive:
           'bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40',
         link: 'border-transparent text-primary underline-offset-4 hover:underline',
-        gradient:
-          'bg-gradient-to-r from-primary to-primary text-white hover:opacity-90',
+        gradient: 'bg-primary text-primary-foreground hover:bg-primary/90',
       },
       size: {
         default:

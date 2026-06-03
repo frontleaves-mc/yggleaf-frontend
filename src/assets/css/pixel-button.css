@@ -1,183 +1,95 @@
-/* ═══════════════════════════════════════════
-   Minecraft Pixel Design — Button
-   ═══════════════════════════════════════════ */
+/* Minecraft buttons use material fills, dark outlines, and hard block shadows. */
 
-/* ── 基础重置 ── */
-[data-slot="button"],
-button[data-slot="button"] {
+[data-slot='button'] {
   border-radius: 0;
-  font-family: var(--pixel-font-heading);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  transition: none;
-  cursor: pointer;
+  transition:
+    transform 100ms ease,
+    box-shadow 100ms ease,
+    filter 100ms ease,
+    border-color 100ms ease;
 }
 
-/* ── 默认/Secondary — 像素伪法线高光 ── */
-[data-slot="button"][data-variant="default"],
-[data-slot="button"][data-variant="secondary"] {
-  border: 2px solid var(--pixel-border-base);
-  border-top-color: var(--pixel-border-light);
-  border-left-color: var(--pixel-border-light);
-  border-right-color: var(--pixel-border-dark);
-  border-bottom-color: var(--pixel-border-dark);
-  box-shadow: 2px 2px 0 0 var(--pixel-shadow-color);
+[data-slot='button']:not([data-variant='link']):not([data-variant='ghost']) {
+  border: 3px solid var(--mc-outline);
+  box-shadow: 3px 3px 0 var(--mc-shadow-color);
 }
 
-/* Hover — 按下感：边框反转 + 下移 */
-[data-slot="button"][data-variant="default"]:hover:not(:disabled),
-[data-slot="button"][data-variant="secondary"]:hover:not(:disabled) {
-  border-top-color: var(--pixel-border-dark);
-  border-left-color: var(--pixel-border-dark);
-  border-right-color: var(--pixel-border-light);
-  border-bottom-color: var(--pixel-border-light);
+[data-slot='button']:not([data-variant='link']):not(
+    [data-variant='ghost']
+  ):hover:not(:disabled) {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 var(--mc-shadow-strong);
+  filter: saturate(1.08);
+}
+
+[data-slot='button']:not([data-variant='link']):not(
+    [data-variant='ghost']
+  ):active:not(:disabled) {
   transform: translate(1px, 1px);
-  box-shadow: 1px 1px 0 0 var(--pixel-shadow-color);
+  box-shadow: 1px 1px 0 var(--mc-shadow-color);
+  filter: brightness(0.95);
 }
 
-/* Active — 完全按下 */
-[data-slot="button"][data-variant="default"]:active:not(:disabled),
-[data-slot="button"][data-variant="secondary"]:active:not(:disabled) {
-  border-top-color: var(--pixel-border-dark);
-  border-left-color: var(--pixel-border-dark);
-  border-right-color: var(--pixel-border-light);
-  border-bottom-color: var(--pixel-border-light);
-  transform: translate(2px, 2px);
-  box-shadow: 0 0 0 0 transparent;
+[data-slot='button'][data-variant='stone'],
+[data-slot='button'][data-variant='secondary'],
+[data-slot='button'][data-variant='outline'] {
+  background: var(--mc-texture-stone);
+  color: #ffffff;
 }
 
-/* ── Primary — MC grass green ── */
-[data-slot="button"][data-variant="primary"] {
-  background-color: var(--mc-grass);
-  color: white;
-  border: 2px solid var(--mc-grass);
-  border-top-color: #72C94E;
-  border-left-color: #72C94E;
-  border-right-color: #3D7A22;
-  border-bottom-color: #3D7A22;
-  box-shadow: 3px 3px 0 0 rgba(40, 80, 20, 0.6);
+[data-slot='button'][data-variant='default'],
+[data-slot='button'][data-variant='gradient'] {
+  background: var(--mc-accent);
+  color: var(--primary-foreground);
 }
 
-[data-slot="button"][data-variant="primary"]:hover:not(:disabled) {
-  background-color: #63B83C;
-  border-top-color: #3D7A22;
-  border-left-color: #3D7A22;
-  border-right-color: #72C94E;
-  border-bottom-color: #72C94E;
-  transform: translate(1px, 1px);
-  box-shadow: 2px 2px 0 0 rgba(40, 80, 20, 0.6);
+[data-mode='user'] [data-slot='button'][data-variant='default'],
+[data-mode='landing'] [data-slot='button'][data-variant='default'],
+[data-mode='user'] [data-slot='button'][data-variant='gradient'],
+[data-mode='landing'] [data-slot='button'][data-variant='gradient'],
+[data-slot='button'][data-variant='grass'] {
+  background: var(--mc-texture-grass-top);
+  color: #ffffff;
 }
 
-[data-slot="button"][data-variant="primary"]:active:not(:disabled) {
-  transform: translate(2px, 2px);
-  box-shadow: 0 0 0 0 transparent;
+[data-slot='button'][data-variant='diamond'] {
+  background: var(--mc-texture-diamond);
+  color: #06272d;
 }
 
-/* ── Destructive — nether red ── */
-[data-slot="button"][data-variant="destructive"] {
-  background-color: var(--mc-nether);
-  color: white;
-  border: 2px solid var(--mc-nether);
-  border-top-color: #FF7755;
-  border-left-color: #FF7755;
-  border-right-color: #CC3010;
-  border-bottom-color: #CC3010;
-  box-shadow: 3px 3px 0 0 rgba(120, 20, 10, 0.6);
+[data-mode='admin'] [data-slot='button'][data-variant='default'],
+[data-mode='admin'] [data-slot='button'][data-variant='gradient'],
+[data-slot='button'][data-variant='nether'],
+[data-slot='button'][data-variant='destructive'] {
+  background: var(--mc-texture-netherrack);
+  color: #ffffff;
 }
 
-[data-slot="button"][data-variant="destructive"]:hover:not(:disabled) {
-  background-color: #E8401A;
-  border-top-color: #CC3010;
-  border-left-color: #CC3010;
-  border-right-color: #FF7755;
-  border-bottom-color: #FF7755;
-  transform: translate(1px, 1px);
-  box-shadow: 2px 2px 0 0 rgba(120, 20, 10, 0.6);
+[data-slot='button'][data-variant='gold'] {
+  background: var(--mc-texture-gold);
+  color: var(--mc-text-dark);
 }
 
-[data-slot="button"][data-variant="destructive"]:active:not(:disabled) {
-  transform: translate(2px, 2px);
-  box-shadow: 0 0 0 0 transparent;
-}
-
-/* ── Outline — 透明背景 + 像素边框 ── */
-[data-slot="button"][data-variant="outline"] {
-  background: transparent;
-  border: 2px solid var(--pixel-border-base);
-  border-top-color: var(--pixel-border-light);
-  border-left-color: var(--pixel-border-light);
-  border-right-color: var(--pixel-border-dark);
-  border-bottom-color: var(--pixel-border-dark);
-  box-shadow: 2px 2px 0 0 var(--pixel-shadow-color);
-}
-
-[data-slot="button"][data-variant="outline"]:hover:not(:disabled) {
-  border-top-color: var(--pixel-border-dark);
-  border-left-color: var(--pixel-border-dark);
-  border-right-color: var(--pixel-border-light);
-  border-bottom-color: var(--pixel-border-light);
-  transform: translate(1px, 1px);
-  box-shadow: 1px 1px 0 0 var(--pixel-shadow-color);
-}
-
-/* ── Ghost ── */
-[data-slot="button"][data-variant="ghost"] {
-  background: transparent;
+[data-slot='button'][data-variant='ghost'] {
   border: 2px solid transparent;
   box-shadow: none;
 }
 
-[data-slot="button"][data-variant="ghost"]:hover:not(:disabled) {
-  border: 2px solid var(--pixel-border-base);
-  border-top-color: var(--pixel-border-light);
-  border-left-color: var(--pixel-border-light);
-  border-right-color: var(--pixel-border-dark);
-  border-bottom-color: var(--pixel-border-dark);
+[data-slot='button'][data-variant='ghost']:hover:not(:disabled) {
+  background:
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--mc-accent) 18%, transparent) 0 6px,
+      transparent 6px 12px
+    ),
+    var(--mc-accent-soft);
+  border-color: color-mix(in srgb, var(--mc-accent) 42%, transparent);
 }
 
-/* ── Disabled ── */
-[data-slot="button"]:disabled {
-  opacity: 0.5;
+[data-slot='button']:disabled {
   cursor: not-allowed;
-  border-style: dashed;
+  opacity: 0.55;
   box-shadow: none;
   transform: none;
-}
-
-/* ── Admin mode primary — nether red ── */
-[data-mode='admin'] [data-slot="button"][data-variant="primary"] {
-  background-color: var(--mc-nether);
-  border-color: var(--mc-nether);
-  border-top-color: #FF7755;
-  border-left-color: #FF7755;
-  border-right-color: #CC3010;
-  border-bottom-color: #CC3010;
-  box-shadow: 3px 3px 0 0 rgba(120, 20, 10, 0.6);
-}
-
-/* ── Dark admin button — brighter highlights for visibility ── */
-.dark [data-mode='admin'] [data-slot="button"][data-variant="primary"] {
-  border-top-color: #FF9977;
-  border-left-color: #FF9977;
-  border-right-color: #AA2010;
-  border-bottom-color: #AA2010;
-  box-shadow: 3px 3px 0 0 rgba(0, 0, 0, 0.7);
-}
-
-/* ── Dark admin default/secondary — use high-contrast bevels ── */
-.dark [data-mode='admin'] [data-slot="button"][data-variant="default"],
-.dark [data-mode='admin'] [data-slot="button"][data-variant="secondary"] {
-  box-shadow: 2px 2px 0 0 rgba(0, 0, 0, 0.7);
-}
-
-/* ── Dark admin outline — ensure border visible on dark red bg ── */
-.dark [data-mode='admin'] [data-slot="button"][data-variant="outline"] {
-  box-shadow: 2px 2px 0 0 rgba(0, 0, 0, 0.7);
-}
-
-/* ── Size adjustments for pixel border ── */
-/* Ensures text stays centered with 2px border */
-[data-slot="button"] {
-  padding-block: calc(var(--spacing, 0.5rem) - 2px);
-  padding-inline: calc(var(--spacing, 1rem) - 2px);
+  filter: grayscale(0.25);
 }

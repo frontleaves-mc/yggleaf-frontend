@@ -1,4 +1,5 @@
 import { forwardRef } from 'react'
+
 import { cn } from '#/lib/utils'
 
 type McIconBoxVariant = 'grass' | 'diamond' | 'nether' | 'gold'
@@ -10,16 +11,16 @@ interface McIconBoxProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const variantStyles: Record<McIconBoxVariant, string> = {
-  grass: 'icon-box-grass',
-  diamond: 'icon-box-diamond',
-  nether: 'icon-box-nether',
-  gold: 'icon-box-gold',
+  grass: 'bg-mc-grass-soft text-mc-grass',
+  diamond: 'bg-mc-diamond-soft text-mc-diamond',
+  nether: 'bg-mc-nether-soft text-mc-nether',
+  gold: 'bg-mc-gold-soft text-mc-gold',
 }
 
 const sizeStyles: Record<McIconBoxSize, string> = {
-  sm: 'size-8 rounded-none [&_svg]:size-4',
-  md: 'size-11 rounded-none [&_svg]:size-5',
-  lg: 'size-14 rounded-none [&_svg]:size-6',
+  sm: 'size-8 [&_svg:not([class*=size-])]:size-4',
+  md: 'size-11 [&_svg:not([class*=size-])]:size-5',
+  lg: 'size-14 [&_svg:not([class*=size-])]:size-6',
 }
 
 const McIconBox = forwardRef<HTMLDivElement, McIconBoxProps>(
@@ -29,8 +30,9 @@ const McIconBox = forwardRef<HTMLDivElement, McIconBoxProps>(
       data-slot="mc-icon-box"
       data-variant={variant}
       data-size={size}
+      data-mc-accent={variant}
       className={cn(
-        'icon-box inline-flex items-center justify-center',
+        'mc-slot inline-flex shrink-0 items-center justify-center',
         variantStyles[variant],
         sizeStyles[size],
         className,

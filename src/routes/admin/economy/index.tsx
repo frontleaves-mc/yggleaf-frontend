@@ -45,12 +45,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '#/components/ui/popover'
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '#/components/ui/tabs'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '#/components/ui/tabs'
 import {
   TableProvider,
   TableColumnHeader,
@@ -92,7 +87,7 @@ function PlayerCombobox({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="h-9 w-[260px] justify-between gap-2 shadow-sm cursor-pointer"
+          className="h-9 w-[260px] justify-between gap-2 mc-pixel-shadow-sm cursor-pointer"
         >
           <span className="truncate">
             {selected
@@ -164,20 +159,20 @@ function AdminEconomyPage() {
       player_uuid: selectedPlayerUuid,
     })
 
-  const { data: txData, isLoading: txLoading } =
-    useAdminEconomyTransactions({
-      page: txPage,
-      page_size: PAGE_SIZE,
-      player_uuid: selectedPlayerUuid,
-    })
+  const { data: txData, isLoading: txLoading } = useAdminEconomyTransactions({
+    page: txPage,
+    page_size: PAGE_SIZE,
+    player_uuid: selectedPlayerUuid,
+  })
 
-  const { data: auditData, isLoading: auditLoading } =
-    useAdminEconomyAuditLogs({
+  const { data: auditData, isLoading: auditLoading } = useAdminEconomyAuditLogs(
+    {
       page: auditPage,
       page_size: PAGE_SIZE,
       operator_uuid: auditOperatorUuid || undefined,
       player_uuid: auditPlayerUuid || undefined,
-    })
+    },
+  )
 
   const selectedProfile = profiles.find((p) => p.uuid === selectedPlayerUuid)
 

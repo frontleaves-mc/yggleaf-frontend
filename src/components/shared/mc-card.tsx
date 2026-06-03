@@ -1,6 +1,8 @@
 import { forwardRef } from 'react'
 import type { HTMLMotionProps } from 'motion/react'
 import { motion } from 'motion/react'
+
+import type { CardAccent, CardSurface } from '#/components/ui/card'
 import { cn } from '#/lib/utils'
 import { hoverLiftTransition, mcCardHover } from '#/lib/motion-presets'
 
@@ -10,35 +12,34 @@ type McCardColor = 'grass' | 'diamond' | 'nether' | 'gold' | 'default'
 interface McCardProps extends HTMLMotionProps<'div'> {
   variant?: McCardVariant
   color?: McCardColor
+  surface?: CardSurface
+  interactive?: boolean
 }
 
-const accentLineColors: Record<Exclude<McCardColor, 'default'>, string> = {
-  grass: 'bg-mc-grass',
-  diamond: 'bg-mc-diamond',
-  nether: 'bg-mc-nether',
-  gold: 'bg-mc-gold',
+function resolveAccent(color: McCardColor): CardAccent {
+  return color === 'default' ? 'none' : color
 }
 
-const glassBaseStyles = [
-  'group relative overflow-hidden rounded-none',
-  'pixel-border-raised pixel-shadow-sm',
-  'bg-card/80 backdrop-blur-[12px]',
-  'transition-colors duration-300',
-]
-
-const solidBaseStyles = [
-  'group relative overflow-hidden rounded-none',
-  'pixel-border-raised pixel-shadow-sm',
-  'border border-border/60 bg-card',
-  'transition-colors duration-300',
-]
+function resolveSurface(surface?: CardSurface) {
+  return surface ?? 'panel'
+}
 
 const McCard = forwardRef<HTMLDivElement, McCardProps>(
   (
-    { variant = 'glass', color = 'default', className, children, ...props },
+    {
+      variant = 'glass',
+      color = 'default',
+      surface,
+      interactive = true,
+      className,
+      children,
+      ...props
+    },
     ref,
   ) => {
-    const baseStyles = variant === 'glass' ? glassBaseStyles : solidBaseStyles
+    const resolvedSurface = resolveSurface(surface)
+    const resolvedAccent = resolveAccent(color)
+    const hasMaterialLayer = resolvedSurface === 'block'
 
     return (
       <motion.div
@@ -46,22 +47,28 @@ const McCard = forwardRef<HTMLDivElement, McCardProps>(
         data-slot="mc-card"
         data-variant={variant}
         data-color={color}
-        variants={mcCardHover}
-        initial="rest"
-        whileHover="hover"
-        whileTap={{ y: 0.5, scale: 0.995, transition: { duration: 0.1 } }}
+        data-mc-surface={resolvedSurface}
+        data-mc-accent={resolvedAccent}
+        data-mc-interactive={interactive ? 'true' : undefined}
+        variants={interactive ? mcCardHover : undefined}
+        initial={interactive ? 'rest' : undefined}
+        whileHover={interactive ? 'hover' : undefined}
+        whileTap={
+          interactive
+            ? { y: 0.5, scale: 0.995, transition: { duration: 0.1 } }
+            : undefined
+        }
         transition={hoverLiftTransition}
-        className={cn(...baseStyles, className)}
+        className={cn(
+          'group relative overflow-hidden rounded-none bg-card text-card-foreground',
+          resolvedSurface === 'block' ? 'pt-5' : '',
+          className,
+        )}
         {...props}
       >
-        {color !== 'default' && (
-          <div
-            className={cn(
-              'absolute left-0 top-5 bottom-5 w-[3px] opacity-40 transition-opacity duration-300 group-hover:opacity-80',
-              accentLineColors[color],
-            )}
-          />
-        )}
+        {hasMaterialLayer ? (
+          <span data-slot="mc-card-material" aria-hidden="true" />
+        ) : null}
         {children as React.ReactNode}
       </motion.div>
     )

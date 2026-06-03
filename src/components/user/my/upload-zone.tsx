@@ -78,7 +78,7 @@ export function UploadZone({
   return (
     <div
       className={cn(
-        'relative rounded-xl transition-all cursor-pointer',
+        'relative rounded-none transition-all cursor-pointer',
         aspectRatio,
         isDragging
           ? 'border-2 border-primary bg-primary/5'
@@ -104,19 +104,19 @@ export function UploadZone({
             <img
               src={previewUrl}
               alt={`${label}预览`}
-              className="max-h-full max-w-full rounded-lg object-contain"
+              className="max-h-full max-w-full rounded-none object-contain"
             />
           ) : (
-            <div className="flex h-16 w-16 items-center justify-center rounded-lg bg-primary/10">
+            <div className="flex h-16 w-16 items-center justify-center rounded-none bg-primary/10">
               <Image className="size-8 text-primary" />
             </div>
           )}
           {fileName && (
-            <div className="flex items-center gap-1.5 rounded-full bg-background/80 px-3 py-1 text-xs text-foreground backdrop-blur-sm">
+            <div className="flex items-center gap-1.5 rounded-none bg-background/80 px-3 py-1 text-xs text-foreground backdrop-blur-sm">
               <span className="max-w-[120px] truncate">{fileName}</span>
               <button
                 type="button"
-                className="rounded-full p-0.5 hover:bg-muted transition-colors"
+                className="rounded-none p-0.5 hover:bg-muted transition-colors"
                 onClick={(e) => {
                   e.stopPropagation()
                   handleClear()
@@ -129,7 +129,7 @@ export function UploadZone({
         </div>
       ) : (
         <div className="flex h-full flex-col items-center justify-center gap-2 p-4">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+          <div className="flex h-10 w-10 items-center justify-center rounded-none bg-primary/10">
             <Upload className="size-5 text-primary" />
           </div>
           <p className="text-xs text-muted-foreground text-center">

@@ -271,14 +271,14 @@ function AdminMatrixWarningsPage() {
         <div className="flex items-center gap-1.5">
           <input
             type="datetime-local"
-            className="flex h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors outline-none focus-visible:ring-[2px] focus-visible:ring-ring focus-visible:ring-offset-2"
+            className="flex h-9 rounded-none border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors outline-none focus-visible:ring-[2px] focus-visible:ring-ring focus-visible:ring-offset-2"
             value={startTime}
             onChange={onFilterChange(setStartTime)}
           />
           <span className="text-muted-foreground text-xs">至</span>
           <input
             type="datetime-local"
-            className="flex h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors outline-none focus-visible:ring-[2px] focus-visible:ring-ring focus-visible:ring-offset-2"
+            className="flex h-9 rounded-none border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors outline-none focus-visible:ring-[2px] focus-visible:ring-ring focus-visible:ring-offset-2"
             value={endTime}
             onChange={onFilterChange(setEndTime)}
           />

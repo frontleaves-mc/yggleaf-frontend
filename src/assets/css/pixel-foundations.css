@@ -1,56 +1,173 @@
-/* ═══════════════════════════════════════════
-   Minecraft Pixel Design System — Foundations
-   Faithfully reproducing MC Java Edition UI
-   ═══════════════════════════════════════════ */
+/* Minecraft UI foundations: material tokens, block outlines, and explicit surfaces. */
 
-/* ── 1. MC Java Edition Color System ── */
 :root {
-  /* MC Stone Panel — inventory / menu background */
-  --mc-bg-panel: #C6C6C6;
-  /* MC Item Slot — dark gray slot background */
-  --mc-bg-slot: #8B8B8B;
-  /* MC Slot Border — very dark slot border */
-  --mc-border-slot: #373737;
-  /* MC Bevel Highlight — top-left edge (white) */
-  --mc-border-highlight: #FFFFFF;
-  /* MC Bevel Shadow — bottom-right edge */
-  --mc-border-shadow: #555555;
-  /* MC Tooltip Background — very dark purple */
-  --mc-bg-tooltip: #100010;
-  /* MC Button Text — dark gray on stone */
-  --mc-text-dark: #404040;
-  /* MC Text Shadow — for white-on-dark text */
-  --mc-text-shadow-light: #3F3F3F;
-  /* MC Button press offset */
-  --mc-press-offset: 2px;
+  --mc-bg-panel: #e0ddd0;
+  --mc-bg-panel-strong: #c8c0a8;
+  --mc-bg-slot: #f1ead8;
+  --mc-bg-slot-dark: #c7b895;
+  --mc-outline: #1f1a14;
+  --mc-outline-soft: rgba(31, 26, 20, 0.72);
+  --mc-shadow-color: rgba(31, 26, 20, 0.34);
+  --mc-shadow-strong: rgba(31, 26, 20, 0.58);
+  --mc-text-dark: #2b2118;
+  --mc-slot-text: #211915;
+  --mc-slot-text-muted: #64704d;
 
-  /* Pixel border system — mapped to MC bevel colors */
-  --pixel-border-light: #FFFFFF;        /* bevel highlight (top-left) */
-  --pixel-border-dark: #555555;         /* bevel shadow (bottom-right) */
-  --pixel-border-base: #373737;         /* base border / slot border */
-
-  /* Pixel hard shadow */
+  --pixel-border-light: var(--mc-outline);
+  --pixel-border-dark: var(--mc-outline);
+  --pixel-border-base: var(--mc-outline);
   --pixel-shadow-offset: 4px;
-  --pixel-shadow-color: rgba(0, 0, 0, 0.6);
-  --pixel-shadow-inset: inset 2px 2px 0 0 rgba(255, 255, 255, 0.15);
-
-  /* Pixel focus ring — MC white outline with black gap */
-  --pixel-focus-color: #FFFFFF;
+  --pixel-shadow-color: var(--mc-shadow-color);
+  --pixel-shadow-inset: none;
+  --pixel-focus-color: var(--ring);
   --pixel-focus-offset: 2px;
   --pixel-focus-width: 2px;
 
-  /* Grass block decoration */
-  --pixel-grass-height: 6px;
-  --pixel-grass-color: #53A331;
-  --pixel-grass-color-dark: #3D7A22;
-  --pixel-dirt-color: #866043;
-  --pixel-dirt-height: 2px;
+  --pixel-grass-height: 14px;
+  --pixel-dirt-height: 8px;
+  --pixel-grass-color: #52a535;
+  --pixel-grass-color-light: #86d562;
+  --pixel-grass-color-dark: #3c8527;
+  --pixel-grass-blade-color: #6cc349;
+  --pixel-dirt-color: #805539;
+  --pixel-dirt-color-light: #976746;
+  --pixel-dirt-color-dark: #66412c;
+  --pixel-dirt-noise-color: rgba(73, 45, 31, 0.34);
 
-  /* Pixel fonts */
+  --mc-accent: var(--mc-grass);
+  --mc-accent-soft: var(--mc-grass-soft);
+  --mc-accent-2: var(--mc-diamond);
+  --mc-accent-2-soft: var(--mc-diamond-soft);
   --pixel-font-heading: 'Silkscreen', cursive;
   --pixel-font-alt: 'Pixelify Sans', cursive;
 
-  /* Radius — globally zero for pixel aesthetic */
+  --mc-texture-noise:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.08) 0 2px,
+      transparent 2px 8px
+    ),
+    repeating-linear-gradient(rgba(0, 0, 0, 0.06) 0 2px, transparent 2px 8px);
+  --mc-texture-panel:
+    var(--mc-texture-noise),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.18), transparent 42%),
+    var(--mc-bg-panel);
+  --mc-texture-stone:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.1) 0 4px,
+      transparent 4px 12px
+    ),
+    repeating-linear-gradient(rgba(0, 0, 0, 0.12) 0 3px, transparent 3px 10px),
+    linear-gradient(135deg, #8c8c8c, #6f6f6f 48%, #9a9a9a);
+  --mc-texture-slot:
+    repeating-linear-gradient(
+      90deg,
+      rgba(87, 65, 40, 0.09) 0 4px,
+      transparent 4px 12px
+    ),
+    repeating-linear-gradient(
+      rgba(255, 255, 255, 0.42) 0 3px,
+      transparent 3px 9px
+    ),
+    linear-gradient(135deg, var(--mc-bg-slot-dark), var(--mc-bg-slot));
+  --mc-texture-dirt:
+    linear-gradient(
+        90deg,
+        transparent 0 12px,
+        var(--pixel-dirt-noise-color) 12px 16px,
+        transparent 16px 32px
+      )
+      0 0 / 32px 16px repeat,
+    linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.14) 0 4px,
+        transparent 4px 20px,
+        rgba(0, 0, 0, 0.14) 20px 24px,
+        transparent 24px 32px
+      )
+      8px 4px / 32px 16px repeat,
+    linear-gradient(
+      180deg,
+      var(--pixel-dirt-color-light),
+      var(--pixel-dirt-color)
+    );
+  --mc-texture-grass-top:
+    linear-gradient(
+        90deg,
+        var(--pixel-grass-color-dark) 0 8px,
+        var(--pixel-grass-color) 8px 16px,
+        var(--pixel-grass-color-light) 16px 24px,
+        var(--pixel-grass-blade-color) 24px 32px
+      )
+      0 0 / 32px 8px repeat,
+    linear-gradient(
+        90deg,
+        var(--pixel-grass-color) 0 10px,
+        var(--pixel-grass-color-light) 10px 18px,
+        var(--pixel-grass-color-dark) 18px 28px,
+        var(--pixel-grass-color) 28px 32px
+      )
+      12px 8px / 32px 10px repeat,
+    var(--pixel-grass-color);
+  --mc-texture-grass-side:
+    linear-gradient(
+        90deg,
+        var(--pixel-grass-color-dark),
+        var(--pixel-grass-color-dark) 10px,
+        transparent 10px 48px
+      )
+      0 0 / 48px 10px repeat-x,
+    linear-gradient(
+        90deg,
+        var(--pixel-grass-color),
+        var(--pixel-grass-color) 18px,
+        transparent 18px 56px
+      )
+      14px 0 / 56px 9px repeat-x,
+    linear-gradient(
+        90deg,
+        var(--pixel-grass-color-light),
+        var(--pixel-grass-color-light) 8px,
+        transparent 8px 44px
+      )
+      34px 2px / 44px 7px repeat-x,
+    linear-gradient(
+      180deg,
+      var(--pixel-grass-color) 0 6px,
+      transparent 6px 100%
+    );
+  --mc-texture-netherrack:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 120, 90, 0.18) 0 5px,
+      transparent 5px 13px
+    ),
+    repeating-linear-gradient(rgba(0, 0, 0, 0.18) 0 4px, transparent 4px 10px),
+    linear-gradient(135deg, #7a1f1b, #4b1215 45%, #9b2f24);
+  --mc-texture-diamond:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.24) 0 5px,
+      transparent 5px 12px
+    ),
+    repeating-linear-gradient(
+      rgba(0, 40, 80, 0.18) 0 3px,
+      transparent 3px 10px
+    ),
+    linear-gradient(135deg, #83e4ee, #1f9fbd 52%, #a8fff4);
+  --mc-texture-gold:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.22) 0 5px,
+      transparent 5px 13px
+    ),
+    repeating-linear-gradient(
+      rgba(90, 55, 0, 0.16) 0 4px,
+      transparent 4px 11px
+    ),
+    linear-gradient(135deg, #ffe27a, #d99716 50%, #ffbf2e);
+
   --radius: 0px;
   --radius-sm: 0px;
   --radius-md: 0px;
@@ -61,102 +178,48 @@
   --radius-4xl: 0px;
 }
 
-/* ── Dark mode MC colors ── */
 .dark {
-  --mc-bg-panel: #1E1E1E;
-  --mc-bg-slot: #2D2D2D;
-  --mc-border-slot: #0F0F0F;
-  --mc-border-highlight: #AAAAAA;
-  --mc-border-shadow: #1A1A1A;
-  --mc-text-dark: #C0C0C0;
-  --mc-text-shadow-light: #1A1A1A;
-
-  --pixel-border-light: #AAAAAA;
-  --pixel-border-dark: #1A1A1A;
-  --pixel-border-base: #0F0F0F;
-  --pixel-shadow-color: rgba(0, 0, 0, 0.8);
-  --pixel-shadow-inset: inset 2px 2px 0 0 rgba(255, 255, 255, 0.12);
-  --pixel-focus-color: #FFFFFF;
-  --pixel-grass-color: #63C741;
-  --pixel-grass-color-dark: #4A9A2E;
-  --pixel-dirt-color: #6B4D38;
+  --mc-bg-panel: #28251e;
+  --mc-bg-panel-strong: #1d1a16;
+  --mc-bg-slot: #e7dfcb;
+  --mc-bg-slot-dark: #b7a786;
+  --mc-outline: #080604;
+  --mc-outline-soft: rgba(8, 6, 4, 0.82);
+  --mc-shadow-color: rgba(0, 0, 0, 0.72);
+  --mc-shadow-strong: rgba(0, 0, 0, 0.86);
+  --mc-slot-text: #211915;
+  --mc-slot-text-muted: #60704a;
+  --pixel-grass-color: #52a535;
+  --pixel-grass-color-light: #86d562;
+  --pixel-grass-color-dark: #3c8527;
+  --pixel-grass-blade-color: #6cc349;
+  --pixel-dirt-color: #805539;
+  --pixel-dirt-color-light: #976746;
+  --pixel-dirt-color-dark: #66412c;
+  --pixel-dirt-noise-color: rgba(0, 0, 0, 0.24);
 }
 
-/* ── Admin mode — nether red palette ── */
+[data-mode='user'],
+[data-mode='landing'] {
+  --mc-accent: var(--mc-grass);
+  --mc-accent-soft: var(--mc-grass-soft);
+  --mc-accent-2: var(--mc-diamond);
+  --mc-accent-2-soft: var(--mc-diamond-soft);
+}
+
 [data-mode='admin'] {
-  --mc-bg-panel: #5C0000;
-  --pixel-grass-color: #FF5555;
-  --pixel-grass-color-dark: #CC3333;
-  --pixel-dirt-color: #4A1A1A;
-  --pixel-focus-color: #FF5555;
+  --mc-accent: var(--mc-nether);
+  --mc-accent-soft: var(--mc-nether-soft);
+  --mc-accent-2: var(--mc-gold);
+  --mc-accent-2-soft: var(--mc-gold-soft);
+  --pixel-focus-color: var(--mc-nether);
 }
 
-.dark [data-mode='admin'] {
-  --mc-bg-panel: #3A0000;
-  --pixel-grass-color: #FF7755;
-  --pixel-grass-color-dark: #DD4433;
-  --pixel-dirt-color: #3A1515;
-}
-
-/* ── Landing mode dark override — keep grass visible on dark bg ── */
-.dark [data-mode='landing'] {
-  --pixel-grass-color: #63C741;
-  --pixel-dirt-color: #6B4D38;
-}
-
-/* ── 2. Global radius reset (via :root variable, not !important) ── */
-/* The --radius: 0px in :root propagates to all shadcn components */
-
-/* ── 3. MC Bevel Border System ── */
-/* Classic Minecraft 3D bevel: top-left bright, bottom-right dark */
-
-.pixel-border-raised {
-  border: 2px solid var(--pixel-border-base);
-  border-top-color: var(--pixel-border-light);
-  border-left-color: var(--pixel-border-light);
-  border-right-color: var(--pixel-border-dark);
-  border-bottom-color: var(--pixel-border-dark);
-}
-
-.pixel-border-sunken {
-  border: 2px solid var(--pixel-border-base);
-  border-top-color: var(--pixel-border-dark);
-  border-left-color: var(--pixel-border-dark);
-  border-right-color: var(--pixel-border-light);
-  border-bottom-color: var(--pixel-border-light);
-}
-
-/* ── 4. Pixel Hard Shadow ── */
-.pixel-shadow {
-  box-shadow:
-    var(--pixel-shadow-offset) var(--pixel-shadow-offset) 0 0 var(--pixel-shadow-color),
-    var(--pixel-shadow-inset);
-}
-
-.pixel-shadow-sm {
-  box-shadow:
-    2px 2px 0 0 var(--pixel-shadow-color),
-    inset 1px 1px 0 0 rgba(255, 255, 255, 0.1);
-}
-
-.dark .pixel-shadow-sm {
-  box-shadow:
-    2px 2px 0 0 var(--pixel-shadow-color),
-    inset 1px 1px 0 0 rgba(255, 255, 255, 0.1);
-}
-
-.pixel-shadow-none {
-  box-shadow: none;
-}
-
-/* ── 5. Pixel Focus Ring — MC white outline with black gap ── */
 :focus-visible {
-  outline: var(--pixel-focus-width) solid var(--pixel-focus-color) !important;
-  outline-offset: var(--pixel-focus-offset) !important;
-  box-shadow: 0 0 0 0 transparent !important;
+  outline: var(--pixel-focus-width) solid var(--pixel-focus-color);
+  outline-offset: var(--pixel-focus-offset);
 }
 
-/* ── 6. Pixel Font Utilities ── */
 .font-pixel {
   font-family: var(--pixel-font-heading);
 }
@@ -165,81 +228,108 @@
   font-family: var(--pixel-font-alt);
 }
 
-/* ── 7. Grass Block Top Decoration ── */
-.pixel-grass-top {
+.pixel-border-raised,
+.pixel-border-sunken,
+.mc-bevel-raised,
+.mc-bevel-sunken {
+  border: 3px solid var(--mc-outline);
+}
+
+.pixel-shadow,
+.mc-pixel-shadow {
+  box-shadow: var(--pixel-shadow-offset) var(--pixel-shadow-offset) 0
+    var(--mc-shadow-color);
+}
+
+.pixel-shadow-sm,
+.mc-pixel-shadow-sm {
+  box-shadow: 2px 2px 0 var(--mc-shadow-color);
+}
+
+.pixel-shadow-none {
+  box-shadow: none;
+}
+
+.mc-panel {
+  background: var(--mc-texture-panel);
+  color: var(--card-foreground);
+  border: 3px solid var(--mc-outline);
+  box-shadow: 4px 4px 0 var(--mc-shadow-color);
+}
+
+.mc-slot {
+  background: var(--mc-texture-slot);
+  border: 3px solid var(--mc-outline);
+  color: var(--mc-slot-text);
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.2);
+  text-shadow: none;
+}
+
+.mc-slot .text-muted-foreground,
+.mc-slot [class*='text-muted-foreground'] {
+  color: var(--mc-slot-text-muted);
+}
+
+.mc-slot .text-foreground,
+.mc-slot [class*='text-foreground'] {
+  color: var(--mc-slot-text);
+}
+
+.mc-inventory-grid {
+  background-image:
+    linear-gradient(var(--grid-line-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line-color) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.mc-block-strip {
   position: relative;
   overflow: hidden;
 }
-.pixel-grass-top::before {
+
+.mc-block-strip::before,
+.mc-block-strip::after {
   content: '';
   position: absolute;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+}
+
+.mc-block-strip::before {
   top: 0;
-  left: 0;
-  right: 0;
   height: var(--pixel-grass-height);
-  background: var(--pixel-grass-color);
-  /* Pixelated gradient simulating grass texture */
-  background-image:
-    repeating-linear-gradient(
-      90deg,
-      transparent 0px,
-      transparent 4px,
-      rgba(100, 200, 60, 0.5) 4px,
-      rgba(100, 200, 60, 0.5) 6px
-    );
+  background: var(--mc-texture-grass-top);
 }
 
-.dark .pixel-grass-top::before {
-  background-image:
-    repeating-linear-gradient(
-      90deg,
-      transparent 0px,
-      transparent 4px,
-      rgba(80, 160, 40, 0.4) 4px,
-      rgba(80, 160, 40, 0.4) 6px
-    );
-}
-.pixel-grass-top::after {
-  content: '';
-  position: absolute;
-  top: var(--pixel-grass-height);
-  left: 0;
-  right: 0;
+.mc-block-strip::after {
+  top: calc(var(--pixel-grass-height) - 3px);
   height: var(--pixel-dirt-height);
-  background: var(--pixel-dirt-color);
+  background: var(--mc-texture-grass-side);
 }
 
-/* ── 8. Pixelated Scrollbar ── */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-::-webkit-scrollbar-track {
-  background: var(--pixel-border-dark);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--pixel-border-light);
-  border: 1px solid var(--pixel-border-base);
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #999999;
+[data-mc-accent='grass'] {
+  --mc-local-accent: var(--mc-grass);
+  --mc-local-accent-soft: var(--mc-grass-soft);
 }
 
-.dark ::-webkit-scrollbar-thumb:hover {
-  background: #555555;
+[data-mc-accent='diamond'] {
+  --mc-local-accent: var(--mc-diamond);
+  --mc-local-accent-soft: var(--mc-diamond-soft);
 }
 
-/* ── 9. Pixel Transitions — instant ── */
-@media (prefers-reduced-motion: no-preference) {
-  .pixel-transition {
-    transition: none;
-  }
+[data-mc-accent='nether'] {
+  --mc-local-accent: var(--mc-nether);
+  --mc-local-accent-soft: var(--mc-nether-soft);
 }
 
-/* ── 10. Image Rendering — pixelated ── */
-img,
-video,
-canvas {
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
+[data-mc-accent='gold'] {
+  --mc-local-accent: var(--mc-gold);
+  --mc-local-accent-soft: var(--mc-gold-soft);
+}
+
+[data-mc-accent='none'],
+[data-mc-accent='default'] {
+  --mc-local-accent: var(--mc-accent);
+  --mc-local-accent-soft: var(--mc-accent-soft);
 }

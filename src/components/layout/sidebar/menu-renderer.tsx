@@ -231,9 +231,8 @@ function FlatMenuItem({
 }) {
   const Icon = item.icon
   const activeBg =
-    'bg-gradient-to-r from-[oklch(from_var(--mc-grass)_l_c_h/_0.14)] to-[oklch(from_var(--mc-diamond)_l_c_h/_0.07)] shadow-[inset_0_0_0_1px_oklch(from_var(--mc-diamond)_l_c_h_/_0.12)]'
-  const activeIcon =
-    'text-mc-grass drop-shadow-[0_0_6px_oklch(from_var(--mc-grass)_l_c_h_/_0.35)]'
+    'bg-[var(--mc-accent-soft)] shadow-[inset_3px_0_0_var(--mc-accent)]'
+  const activeIcon = 'text-[var(--mc-accent)]'
 
   return (
     <SidebarMenuItem>
@@ -242,15 +241,15 @@ function FlatMenuItem({
         isActive={active}
         tooltip={item.label}
         className={cn(
-          'relative rounded-lg my-[1px] transition-all duration-200 ease-out',
+          'relative my-[1px] rounded-none transition-colors duration-150',
           active && [activeBg, 'text-sidebar-foreground'],
-          '!hover:bg-sidebar-accent/80 !hover:shadow-sm',
+          'hover:bg-sidebar-accent/80',
         )}
       >
         <Link to={item.to}>
           <span
             className={cn(
-              'flex size-4 shrink-0 items-center justify-center rounded-md transition-all duration-200',
+              'flex size-4 shrink-0 items-center justify-center rounded-none transition-colors duration-150',
               active && activeIcon,
             )}
           >
@@ -282,8 +281,8 @@ function CollapsibleMenuItem({
   const isActivePath = (to?: string): boolean => matchPath(pathname, to)
   const hasActiveInChildren = checkActiveChildren(pathname, item.children)
   const parentActiveBg =
-    'bg-gradient-to-r from-[oklch(from_var(--mc-grass)_l_c_h/_0.09)] to-transparent'
-  const parentActiveIcon = 'text-mc-grass'
+    'bg-[var(--mc-accent-soft)] shadow-[inset_3px_0_0_var(--mc-accent)]'
+  const parentActiveIcon = 'text-[var(--mc-accent)]'
 
   return (
     <Collapsible
@@ -296,17 +295,17 @@ function CollapsibleMenuItem({
           <SidebarMenuButton
             tooltip={item.label}
             className={cn(
-              'relative rounded-lg my-[1px] transition-all duration-200 ease-out',
+              'relative my-[1px] rounded-none transition-colors duration-150',
               hasActiveInChildren && [
                 parentActiveBg,
                 'text-sidebar-foreground',
               ],
-              '!hover:bg-sidebar-accent/80 !hover:shadow-sm',
+              'hover:bg-sidebar-accent/80',
             )}
           >
             <span
               className={cn(
-                'flex size-4 shrink-0 items-center justify-center rounded-md transition-all duration-200',
+                'flex size-4 shrink-0 items-center justify-center rounded-none transition-colors duration-150',
                 hasActiveInChildren && parentActiveIcon,
               )}
             >
@@ -324,9 +323,9 @@ function CollapsibleMenuItem({
                   asChild
                   isActive={isActivePath(child.to)}
                   className={cn(
-                    'rounded-md transition-colors duration-150',
+                    'rounded-none transition-colors duration-150',
                     isActivePath(child.to) && [
-                      'bg-[oklch(from_var(--mc-grass)_l_c_h/_0.12)] text-sidebar-accent-foreground font-medium shadow-[inset_0_0_0_1px_oklch(from_var(--mc-diamond)_l_c_h/_0.10)]',
+                      'bg-[var(--mc-accent-soft)] text-sidebar-accent-foreground font-medium shadow-[inset_3px_0_0_var(--mc-accent)]',
                     ],
                   )}
                 >
@@ -334,7 +333,7 @@ function CollapsibleMenuItem({
                     <child.icon
                       className={cn(
                         'size-4 transition-all duration-200',
-                        isActivePath(child.to) && 'text-mc-grass',
+                        isActivePath(child.to) && 'text-[var(--mc-accent)]',
                       )}
                     />
                     <span>{child.label}</span>

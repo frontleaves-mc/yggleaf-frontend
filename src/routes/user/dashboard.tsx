@@ -28,6 +28,8 @@ import { DashboardWelcome } from '#/components/dashboard/dashboard-welcome'
 import { McCard } from '#/components/shared/mc-card'
 import { McIconBox } from '#/components/shared/mc-icon-box'
 import { McSectionHeader } from '#/components/shared/mc-section-header'
+import { McActionTile } from '#/components/shared/mc-action-tile'
+import { McEmptyState } from '#/components/shared/mc-empty-state'
 import { mcStaggerGrid, mcStaggerGridItem } from '#/lib/motion-presets'
 
 export const Route = createFileRoute('/user/dashboard')({
@@ -124,7 +126,7 @@ function GameConfigGuide({
             href="https://game-doc.frontleaves.com/docs/yggdrasil"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-border/60 bg-background/80 px-4 py-2.5 text-sm font-medium text-foreground shadow-sm transition-all hover:border-primary/20 hover:bg-primary/[0.04] hover:text-primary"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-none border border-border/60 bg-background/80 px-4 py-2.5 text-sm font-medium text-foreground mc-pixel-shadow-sm transition-all hover:border-primary/20 hover:bg-primary/[0.04] hover:text-primary"
           >
             <BookOpen className="size-4" />
             查看登录详细文档
@@ -148,7 +150,8 @@ function DashboardPage() {
   const servers = serverStatusData ?? []
   const user = userInfo?.user
   const announcements = announcementsData?.list ?? []
-  const { data: balanceData, isLoading: balanceLoading } = useUserEconomyBalance()
+  const { data: balanceData, isLoading: balanceLoading } =
+    useUserEconomyBalance()
 
   return (
     <motion.div
@@ -216,14 +219,7 @@ function DashboardPage() {
                   </div>
                 ))
             ) : (
-              <McCard
-                variant="glass"
-                className="flex items-center justify-center py-8"
-              >
-                <span className="text-sm text-muted-foreground/60">
-                  当前无玩家在线
-                </span>
-              </McCard>
+              <McEmptyState title="当前无玩家在线" />
             )}
           </div>
         </section>
@@ -270,14 +266,7 @@ function DashboardPage() {
                 </Link>
               ))
             ) : (
-              <McCard
-                variant="glass"
-                className="flex items-center justify-center py-8"
-              >
-                <span className="text-sm text-muted-foreground/60">
-                  暂无公告
-                </span>
-              </McCard>
+              <McEmptyState title="暂无公告" />
             )}
           </div>
         </section>
@@ -291,7 +280,7 @@ function DashboardPage() {
           <motion.div variants={mcStaggerGridItem}>
             <McCard variant="glass" className="p-4">
               <div className="flex items-center gap-3">
-                <div className="size-10 rounded-lg bg-muted animate-pulse" />
+                <div className="size-10 rounded-none bg-muted animate-pulse" />
                 <div className="space-y-2 flex-1">
                   <div className="h-3 w-16 rounded bg-muted animate-pulse" />
                   <div className="h-6 w-24 rounded bg-muted animate-pulse" />
@@ -302,7 +291,11 @@ function DashboardPage() {
         ) : balanceData ? (
           <motion.div variants={mcStaggerGridItem}>
             <Link to="/user/economy" className="block group">
-              <McCard variant="solid" color="gold" className="p-4 transition-all group-hover:ring-2 group-hover:ring-gold-500/50">
+              <McCard
+                variant="solid"
+                color="gold"
+                className="p-4 transition-all group-hover:ring-2 group-hover:ring-gold-500/50"
+              >
                 <div className="flex items-center gap-3">
                   <McIconBox variant="diamond" size="md">
                     <Wallet className="size-4" />
@@ -312,7 +305,9 @@ function DashboardPage() {
                     <p className="text-xl font-bold font-mono tabular-nums truncate">
                       {balanceData.balance_display}
                     </p>
-                    <p className="text-xs text-muted-foreground">{balanceData.currency}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {balanceData.currency}
+                    </p>
                   </div>
                 </div>
               </McCard>
@@ -328,41 +323,13 @@ function DashboardPage() {
           </p>
           <div className="flex flex-col gap-2">
             {quickLinks.map((link) => (
-              <button
+              <McActionTile
                 key={link.to}
-                type="button"
+                title={link.title}
+                icon={link.icon}
+                variant={link.variant}
                 onClick={() => navigate({ to: link.to as any })}
-                className="group text-left transition-colors hover:opacity-90"
-              >
-                <McCard
-                  variant="glass"
-                  color={link.variant}
-                  className="flex items-center gap-3 px-3.5 py-2.5"
-                >
-                  <McIconBox variant={link.variant} size="sm">
-                    <link.icon />
-                  </McIconBox>
-                  <span className="flex-1 text-sm font-medium text-foreground/90 transition-colors group-hover:text-foreground">
-                    {link.title}
-                  </span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="shrink-0 text-muted-foreground/30 transition-all group-hover:translate-x-0.5 group-hover:text-primary"
-                    aria-hidden="true"
-                  >
-                    <path d="M5 12h14" />
-                    <path d="m12 5 7 7-7 7" />
-                  </svg>
-                </McCard>
-              </button>
+              />
             ))}
           </div>
         </section>

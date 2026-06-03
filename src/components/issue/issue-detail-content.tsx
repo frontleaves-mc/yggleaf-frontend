@@ -81,7 +81,7 @@ export function IssueDetailContent({
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="ml-auto h-6 w-6 rounded-full hover:bg-primary/10 hover:text-primary transition-colors"
+                    className="ml-auto h-6 w-6 rounded-none hover:bg-primary/10 hover:text-primary transition-colors"
                     onClick={handleStartEdit}
                     disabled={isSaving}
                   >

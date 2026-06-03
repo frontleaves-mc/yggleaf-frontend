@@ -291,7 +291,7 @@ function AchievementDetailPage() {
                 />
               </div>
 
-              <div className="flex items-center justify-between rounded-lg border border-border p-3.5">
+              <div className="flex items-center justify-between rounded-none border border-border p-3.5">
                 <div className="space-y-0.5">
                   <Label htmlFor="edit-active" className="text-sm">
                     启用成就

@@ -127,21 +127,20 @@ function FeatureCard({
   return (
     <div
       className={cn(
-        'group relative flex h-full gap-5 rounded-none border border-border/50 p-6',
-        'bg-card/60 backdrop-blur-sm',
+        'mc-panel group relative flex h-full gap-5 p-6',
         'transition-none',
-        'hover:border-primary/20 hover:bg-card/80',
+        'hover:border-primary/20',
       )}
     >
       <div
-          className={cn(
+        className={cn(
           'absolute left-0 top-6 bottom-6 w-[3px] rounded-none opacity-40 transition-opacity duration-300 group-hover:opacity-80',
           accentBar[accent],
         )}
       />
 
       <div
-          className={cn(
+        className={cn(
           'flex size-12 shrink-0 items-center justify-center rounded-none',
           'bg-gradient-to-br',
           accentGradient[accent],

@@ -38,17 +38,16 @@ export function ViewSwitcher({ mode }: ViewSwitcherProps) {
         type="button"
         onClick={() => navigate({ to: target as any })}
         className={cn(
-          'flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left',
-          'text-xs font-semibold tracking-wide transition-all duration-200 ease-out',
-          'mc-glass border-0 shadow-sm',
+          'mc-panel flex w-full items-center gap-2.5 rounded-none px-3 py-2 text-left',
+          'text-xs font-semibold tracking-wide transition-colors duration-150',
           'text-sidebar-foreground/75',
-          'hover:shadow-[0_4px_16px_-4px_oklch(from_var(--mc-diamond)_l_c_h/0.14)] hover:border-oklch(from_var(--mc-diamond)_l_c_h/_0.20) hover:text-sidebar-foreground',
+          'hover:text-sidebar-foreground',
           'group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:py-2',
         )}
       >
         <span
           className={cn(
-            'flex size-6 shrink-0 items-center justify-center rounded-lg transition-colors duration-200',
+            'mc-slot flex size-6 shrink-0 items-center justify-center rounded-none transition-colors duration-150',
             'bg-mc-grass-soft text-mc-grass',
           )}
         >

@@ -56,14 +56,14 @@ function RulesPage() {
           <div className="absolute inset-0 mc-grid-pattern opacity-25" />
 
           <div
-            className="pointer-events-none absolute -top-40 left-1/2 h-[500px] w-[700px] -translate-x-1/2 rounded-full opacity-40"
+            className="pointer-events-none absolute -top-40 left-1/2 h-[500px] w-[700px] -translate-x-1/2 rounded-none opacity-40"
             style={{
               background:
                 'radial-gradient(circle at center, oklch(0.53 0.12 130 / 35%) 0%, oklch(0.53 0.12 130 / 10%) 45%, transparent 70%)',
             }}
           />
           <div
-            className="pointer-events-none absolute -top-20 right-0 h-[350px] w-[400px] rounded-full opacity-30"
+            className="pointer-events-none absolute -top-20 right-0 h-[350px] w-[400px] rounded-none opacity-30"
             style={{
               background:
                 'radial-gradient(circle at 60% 50%, oklch(0.65 0.14 146 / 25%) 0%, transparent 60%)',
@@ -72,16 +72,16 @@ function RulesPage() {
 
           <div className="relative mx-auto grid max-w-(--page-max) gap-8 px-4 py-20 sm:px-6 lg:grid-cols-[minmax(0,0.95fr)_minmax(320px,0.65fr)] lg:px-8">
             <FadeInUp>
-              <div className="mb-5 inline-flex items-center gap-2.5 rounded-full bg-background/80 px-4 py-1.5 shadow-sm backdrop-blur-sm ring-1 ring-border/60">
+              <div className="mb-5 inline-flex items-center gap-2.5 rounded-none bg-background/80 px-4 py-1.5 mc-pixel-shadow-sm backdrop-blur-sm ring-1 ring-border/60">
                 <span className="relative flex size-2">
-                  <span className="absolute inline-flex size-full animate-ping rounded-full bg-primary/40 opacity-75" />
-                  <span className="relative inline-flex size-2 rounded-full bg-primary" />
+                  <span className="absolute inline-flex size-full animate-ping rounded-none bg-primary/40 opacity-75" />
+                  <span className="relative inline-flex size-2 rounded-none bg-primary" />
                 </span>
                 <ShieldCheck className="size-3.5 text-primary" />
                 <span className="text-xs font-medium tracking-wide text-muted-foreground">
                   加入前请先阅读
                 </span>
-                <span className="ml-1 h-3 w-px rounded-full bg-gradient-to-b from-transparent via-primary/40 to-transparent" />
+                <span className="ml-1 h-3 w-px rounded-none bg-gradient-to-b from-transparent via-primary/40 to-transparent" />
               </div>
 
               <h1 className="font-heading text-4xl font-semibold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
@@ -116,7 +116,7 @@ function RulesPage() {
                   {['dot-a', 'dot-b', 'dot-c', 'dot-d'].map((id, i) => (
                     <span
                       key={id}
-                      className="size-1.5 rounded-full bg-primary/30"
+                      className="size-1.5 rounded-none bg-primary/30"
                       style={{ animationDelay: `${i * 150}ms` }}
                     />
                   ))}
@@ -131,7 +131,7 @@ function RulesPage() {
                 className="group/card overflow-hidden p-0"
               >
                 <div className="p-5 pb-4">
-                  <div className="mb-4 flex size-10 items-center justify-center rounded-lg bg-mc-grass/10 text-mc-grass transition-colors duration-300 group-hover/card:bg-mc-grass/15">
+                  <div className="mb-4 flex size-10 items-center justify-center rounded-none bg-mc-grass/10 text-mc-grass transition-colors duration-300 group-hover/card:bg-mc-grass/15">
                     <MessageSquareWarning className="size-5" />
                   </div>
                   <h2 className="font-heading text-base font-semibold tracking-tight">
@@ -145,7 +145,7 @@ function RulesPage() {
                 <div className="border-t border-border/50 bg-muted/20 px-5 py-4">
                   <div className="grid grid-cols-1 gap-3">
                     <div className="flex items-start gap-3">
-                      <div className="flex size-7 shrink-0 items-center justify-center rounded-md bg-background/80 text-muted-foreground shadow-sm ring-1 ring-border/40">
+                      <div className="flex size-7 shrink-0 items-center justify-center rounded-none bg-background/80 text-muted-foreground mc-pixel-shadow-sm ring-1 ring-border/40">
                         <Scale className="size-3.5" />
                       </div>
                       <div>
@@ -158,7 +158,7 @@ function RulesPage() {
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
-                      <div className="flex size-7 shrink-0 items-center justify-center rounded-md bg-background/80 text-muted-foreground shadow-sm ring-1 ring-border/40">
+                      <div className="flex size-7 shrink-0 items-center justify-center rounded-none bg-background/80 text-muted-foreground mc-pixel-shadow-sm ring-1 ring-border/40">
                         <ClipboardList className="size-3.5" />
                       </div>
                       <div>
@@ -171,7 +171,7 @@ function RulesPage() {
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
-                      <div className="flex size-7 shrink-0 items-center justify-center rounded-md bg-background/80 text-muted-foreground shadow-sm ring-1 ring-border/40">
+                      <div className="flex size-7 shrink-0 items-center justify-center rounded-none bg-background/80 text-muted-foreground mc-pixel-shadow-sm ring-1 ring-border/40">
                         <Handshake className="size-3.5" />
                       </div>
                       <div>
@@ -210,7 +210,7 @@ function RulesPage() {
                         <a
                           key={section.id}
                           href={`#${section.id}`}
-                          className="group/link flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 hover:bg-muted/60 hover:text-foreground"
+                          className="group/link flex items-center gap-2.5 rounded-none px-2.5 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 hover:bg-muted/60 hover:text-foreground"
                         >
                           <Icon className="size-4 shrink-0 transition-colors duration-200 group-hover/link:text-primary" />
                           <span>{section.label}</span>
@@ -235,7 +235,7 @@ function RulesPage() {
                       <a
                         key={section.id}
                         href={`#${section.id}`}
-                        className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-border bg-card/80 px-3 py-1.5 text-xs font-medium text-muted-foreground backdrop-blur-sm shadow-sm transition-colors duration-200 hover:border-primary/30 hover:text-foreground"
+                        className="inline-flex shrink-0 items-center gap-1.5 rounded-none border border-border bg-card/80 px-3 py-1.5 text-xs font-medium text-muted-foreground backdrop-blur-sm mc-pixel-shadow-sm transition-colors duration-200 hover:border-primary/30 hover:text-foreground"
                       >
                         <Icon className="size-3" />
                         {section.label}
@@ -246,7 +246,7 @@ function RulesPage() {
               </div>
 
               <LandingCard className="relative overflow-visible p-8 sm:p-12">
-                <div className="pointer-events-none absolute left-0 top-6 bottom-6 w-[2px] rounded-full bg-gradient-to-b from-primary via-primary/60 to-transparent" />
+                <div className="pointer-events-none absolute left-0 top-6 bottom-6 w-[2px] rounded-none bg-gradient-to-b from-primary via-primary/60 to-transparent" />
 
                 <MarkdownRenderer
                   content={rulesMd}
@@ -260,7 +260,7 @@ function RulesPage() {
                     [&_strong]:text-foreground
                     [&_hr]:my-8 [&_hr]:border-border/60 [&_hr]:bg-gradient-to-r [&_hr]:from-transparent [&_hr]:via-border/60 [&_hr]:to-transparent
                     [&_blockquote]:rounded-r-lg [&_blockquote]:border-l-2 [&_blockquote]:border-l-primary/30 [&_blockquote]:bg-muted/40 [&_blockquote]:py-1 [&_blockquote]:pl-4
-                    [&_code]:rounded-md [&_code]:bg-muted [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-[13px]
+                    [&_code]:rounded-none [&_code]:bg-muted [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-[13px]
                     [&_table]:text-sm
                     [&_th]:bg-muted [&_th]:font-semibold [&_th]:text-foreground [&_th]:py-2.5
                     [&_td]:border-border [&_td]:py-2
@@ -278,9 +278,9 @@ function RulesPage() {
                 <motion.div variants={scrollRevealItem}>
                   <Link
                     to="/"
-                    className="group flex items-center gap-3 rounded-xl border border-border bg-card p-5 transition-all duration-200 hover:border-primary/30 hover:shadow-md hover:shadow-primary/5"
+                    className="group flex items-center gap-3 rounded-none border border-border bg-card p-5 transition-all duration-200 hover:border-primary/30 hover:[box-shadow:4px_4px_0_var(--pixel-shadow-color)] hover:shadow-primary/5"
                   >
-                    <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-muted/60 transition-colors group-hover:bg-primary/10">
+                    <div className="flex size-9 shrink-0 items-center justify-center rounded-none bg-muted/60 transition-colors group-hover:bg-primary/10">
                       <ArrowLeft className="size-4 text-muted-foreground transition-colors group-hover:text-primary" />
                     </div>
                     <div className="min-w-0">
@@ -297,9 +297,9 @@ function RulesPage() {
                 <motion.div variants={scrollRevealItem}>
                   <Link
                     to="/announcements"
-                    className="group flex items-center gap-3 rounded-xl border border-border bg-card p-5 transition-all duration-200 hover:border-primary/30 hover:shadow-md hover:shadow-primary/5"
+                    className="group flex items-center gap-3 rounded-none border border-border bg-card p-5 transition-all duration-200 hover:border-primary/30 hover:[box-shadow:4px_4px_0_var(--pixel-shadow-color)] hover:shadow-primary/5"
                   >
-                    <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-muted/60 transition-colors group-hover:bg-primary/10">
+                    <div className="flex size-9 shrink-0 items-center justify-center rounded-none bg-muted/60 transition-colors group-hover:bg-primary/10">
                       <ArrowRight className="size-4 text-muted-foreground transition-colors group-hover:text-primary" />
                     </div>
                     <div className="min-w-0">

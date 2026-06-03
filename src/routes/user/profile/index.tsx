@@ -74,7 +74,7 @@ function InfoItem({
           {Icon ? (
             <Icon />
           ) : (
-            <div className="size-2 rounded-full bg-mc-diamond/50" />
+            <div className="size-2 rounded-none bg-mc-diamond/50" />
           )}
         </McIconBox>
         <div className="min-w-0 flex flex-col gap-0.5">
@@ -142,9 +142,9 @@ function ProfilePage() {
           <div className="h-7 w-32 rounded bg-muted" />
           <div className="h-4 w-48 rounded bg-muted/60" />
         </div>
-        <div className="max-w-xl rounded-xl border border-border/60 bg-card/90 p-6">
+        <div className="max-w-xl rounded-none border border-border/60 bg-card/90 p-6">
           <div className="flex items-center gap-4">
-            <div className="size-14 shrink-0 rounded-2xl bg-muted" />
+            <div className="size-14 shrink-0 rounded-none bg-muted" />
             <div className="space-y-2">
               <div className="h-5 w-28 rounded bg-muted" />
               <div className="h-3.5 w-20 rounded bg-muted/60" />
@@ -155,7 +155,7 @@ function ProfilePage() {
           {[...Array(6)].map((_, i) => (
             <div
               key={i}
-              className="h-[68px] rounded-xl border border-border/60 bg-card/80 p-3.5"
+              className="h-[68px] rounded-none border border-border/60 bg-card/80 p-3.5"
             />
           ))}
         </div>
@@ -188,7 +188,7 @@ function ProfilePage() {
           className="px-6 py-6 sm:px-8 sm:py-7"
         >
           <div className="flex items-center gap-5 sm:gap-6">
-            <div className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-mc-diamond to-mc-diamond/80 text-white text-xl font-bold shadow-md sm:size-16 sm:text-2xl">
+            <div className="flex size-14 shrink-0 items-center justify-center rounded-none bg-gradient-to-br from-mc-diamond to-mc-diamond/80 text-white text-xl font-bold mc-pixel-shadow sm:size-16 sm:text-2xl">
               {user?.username?.charAt(0)?.toUpperCase() ?? '?'}
             </div>
 

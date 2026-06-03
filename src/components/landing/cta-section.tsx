@@ -37,7 +37,7 @@ function CtaSection() {
           先加入社区完成白名单申请，再登录玩家中心配置账号和外观资源。管理员也可以从同一入口进入后台。
         </p>
 
-        <div className="mt-8 flex w-full max-w-md items-center gap-3 rounded-none border border-white/10 bg-white/5 px-5 py-4 text-left backdrop-blur-md">
+        <div className="mc-panel mt-8 flex w-full max-w-md items-center gap-3 px-5 py-4 text-left">
           <span className="text-sm text-white/70">QQ 群</span>
           <span className="flex-1 font-mono text-lg font-semibold text-white">
             {QQ_GROUP}

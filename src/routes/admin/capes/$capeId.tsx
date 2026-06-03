@@ -139,7 +139,7 @@ function EditCapePage() {
                   />
                 </div>
 
-                <div className="flex items-center justify-between rounded-lg border border-border p-3.5">
+                <div className="flex items-center justify-between rounded-none border border-border p-3.5">
                   <div className="space-y-0.5">
                     <Label className="text-sm">公开披风</Label>
                     <p className="text-[12px] text-muted-foreground">
@@ -271,7 +271,7 @@ function LoadingSkeleton() {
       {[...Array(3)].map((_, i) => (
         <div key={i} className="space-y-2">
           <div className="h-4 w-20 rounded bg-muted animate-pulse" />
-          <div className="h-10 w-full rounded-md border border-border bg-card animate-pulse" />
+          <div className="h-10 w-full rounded-none border border-border bg-card animate-pulse" />
         </div>
       ))}
     </div>

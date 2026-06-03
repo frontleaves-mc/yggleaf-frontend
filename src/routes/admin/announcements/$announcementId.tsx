@@ -261,14 +261,14 @@ function LoadingSkeleton() {
         <div className="flex gap-3">
           <div className="flex-1 space-y-2">
             <div className="h-4 w-20 rounded bg-muted animate-pulse" />
-            <div className="h-10 w-full rounded-md border border-border bg-card animate-pulse" />
+            <div className="h-10 w-full rounded-none border border-border bg-card animate-pulse" />
           </div>
           <div className="w-36 space-y-2">
             <div className="h-4 w-20 rounded bg-muted animate-pulse" />
-            <div className="h-10 w-full rounded-md border border-border bg-card animate-pulse" />
+            <div className="h-10 w-full rounded-none border border-border bg-card animate-pulse" />
           </div>
         </div>
-        <div className="h-[500px] rounded-lg border border-border bg-muted/30 animate-pulse" />
+        <div className="h-[500px] rounded-none border border-border bg-muted/30 animate-pulse" />
       </McCard>
     </div>
   )

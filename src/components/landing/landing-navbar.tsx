@@ -29,8 +29,8 @@ import {
 import { useAuth } from '#/hooks/use-auth'
 import { checkIsAuthenticated } from '#/hooks/use-auth-guard'
 import { ThemeToggle } from '#/components/public/theme-toggle'
-import { NAV_LINKS  } from '#/lib/nav-links'
-import type {NavLink} from '#/lib/nav-links';
+import { NAV_LINKS } from '#/lib/nav-links'
+import type { NavLink } from '#/lib/nav-links'
 import { navVariants, navVariantsDark } from '#/lib/motion-presets'
 
 const CRAFTATAR_URL = (uuid: string) =>
@@ -160,9 +160,7 @@ export function LandingNavbar() {
   }
 
   return (
-    <motion.header
-      className="fixed top-0 z-50 h-16 w-full border-b border-border bg-background/95 backdrop-blur-sm"
-    >
+    <motion.header className="fixed top-0 z-50 h-16 w-full border-b-[3px] border-[var(--mc-outline)] bg-background">
       <nav className="mx-auto flex h-full max-w-(--page-max) items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
         <Link
           to="/"
@@ -171,7 +169,7 @@ export function LandingNavbar() {
           <img
             src="/favicon.png"
             alt="锋楪游戏"
-            className="h-8 w-8 rounded-none object-cover pixel-shadow-sm"
+            className="h-8 w-8 rounded-none object-cover mc-pixel-shadow-sm"
           />
           <span className="hidden text-base font-semibold tracking-tight text-foreground sm:block font-pixel">
             锋楪游戏

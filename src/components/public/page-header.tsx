@@ -11,8 +11,7 @@
  *   description                        ← 另起一行，与标题文字左侧对齐
  */
 
-import { cn } from '#/lib/utils'
-import { McIconBox } from '#/components/shared/mc-icon-box'
+import { McPageHeader } from '#/components/shared/mc-page-header'
 
 type PageHeaderVariant = 'grass' | 'diamond' | 'nether' | 'gold' | 'default'
 
@@ -30,14 +29,6 @@ interface PageHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string
 }
 
-const accentGradientFrom: Record<PageHeaderVariant, string> = {
-  grass: 'from-[var(--color-mc-grass)]',
-  diamond: 'from-[var(--color-mc-diamond)]',
-  nether: 'from-[var(--color-mc-nether)]',
-  gold: 'from-[var(--color-mc-gold)]',
-  default: 'from-[var(--color-mc-grass)]',
-}
-
 export function PageHeader({
   title,
   subtitle,
@@ -49,77 +40,20 @@ export function PageHeader({
   className,
   ...props
 }: PageHeaderProps) {
-  const colorVariant =
-    variant === 'default'
-      ? 'grass'
-      : (variant)
-
-  const isLarge = size === 'lg'
-
   return (
-    <div
-      className={cn(
-        isLarge
-          ? 'mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between'
-          : 'flex flex-col gap-2',
-        className,
-      )}
+    <McPageHeader
+      title={title}
+      subtitle={subtitle}
+      description={description}
+      icon={Icon}
+      variant={variant}
+      size={size}
+      actions={children}
+      className={className}
       {...props}
     >
-      <div className={cn('min-w-0', isLarge ? 'flex flex-col' : '')}>
-        <div className="flex items-center gap-3">
-          {Icon && (
-            <McIconBox variant={colorVariant} size="md" className="shrink-0">
-              <Icon />
-            </McIconBox>
-          )}
-          <div className={cn(!Icon && 'w-full', 'flex flex-col gap-0.5')}>
-            <div className="flex items-start gap-2.5">
-              {title && isLarge && (
-                <h1 className="text-[22px] font-bold tracking-tight text-foreground sm:text-[24px]">
-                  {title}
-                </h1>
-              )}
-              {title && !isLarge && (
-                <h2 className="text-lg font-semibold tracking-tight text-foreground">
-                  {title}
-                </h2>
-              )}
-              {subtitle && (
-                <span className="mt-0.5 text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground/50">
-                  {subtitle}
-                </span>
-              )}
-            </div>
-            {title && (
-              <span
-                className={cn(
-                  'mt-1 block h-[2px] w-12 rounded-full bg-gradient-to-r to-transparent opacity-60',
-                  accentGradientFrom[variant],
-                )}
-              />
-            )}
-          </div>
-        </div>
-        {description && (
-          <p
-            className={cn(
-              isLarge
-                ? 'mt-1.5 text-[13px] leading-relaxed text-muted-foreground'
-                : 'mt-0 text-sm leading-relaxed text-muted-foreground/80',
-              Icon && 'pl-[calc(2.75rem+0.75rem)]',
-            )}
-          >
-            {description}
-          </p>
-        )}
-      </div>
-      {children && isLarge && (
-        <div className="flex items-center gap-2.5 shrink-0 mt-2 sm:mt-0">
-          {children}
-        </div>
-      )}
-    </div>
+      {children}
+    </McPageHeader>
   )
 }
 

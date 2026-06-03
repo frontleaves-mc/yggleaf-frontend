@@ -17,7 +17,7 @@ export function ChatConnectionStatus({
   return (
     <div className="flex items-center gap-2 px-3 py-1.5 border-b border-border/30 text-xs text-muted-foreground">
       <span
-        className={`size-2 rounded-full shrink-0 ${
+        className={`size-2 rounded-none shrink-0 ${
           isConnected
             ? 'bg-green-500 shadow-[0_0_4px_rgba(34,197,94,0.5)]'
             : reconnectCount > 0

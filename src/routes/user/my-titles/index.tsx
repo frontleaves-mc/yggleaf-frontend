@@ -352,7 +352,7 @@ function TitleCard({
 
             {/* 已装备状态 — 角标皇冠 */}
             {isEquipped && (
-              <div className="absolute right-2 top-2 flex size-5 items-center justify-center rounded-full bg-primary text-background shadow-sm">
+              <div className="absolute right-2 top-2 flex size-5 items-center justify-center rounded-none bg-primary text-background mc-pixel-shadow-sm">
                 <Crown className="size-3" />
               </div>
             )}
@@ -363,7 +363,7 @@ function TitleCard({
               <div className="flex items-center gap-2.5">
                 {titleColor ? (
                   <div
-                    className="flex size-9 shrink-0 items-center justify-center rounded-md transition-transform duration-200 group-hover:scale-110"
+                    className="flex size-9 shrink-0 items-center justify-center rounded-none transition-transform duration-200 group-hover:scale-110"
                     style={{ backgroundColor: `${titleColor}1A` }}
                   >
                     <TypeIcon

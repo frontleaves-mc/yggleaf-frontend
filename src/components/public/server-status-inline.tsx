@@ -66,13 +66,13 @@ export function ServerStatusBar({
         }
       >
         {server.online && (
-          <span className="mr-1.5 inline-block size-1.5 animate-pulse rounded-full bg-emerald-500 dark:bg-emerald-400" />
+          <span className="mr-1.5 inline-block size-1.5 animate-pulse rounded-none bg-emerald-500 dark:bg-emerald-400" />
         )}
       </StatusItem>
 
       <StatusItem label="PLAYERS" value={`${server.online_players} 在线`}>
         {server.online_players > 0 && (
-          <span className="mr-1.5 inline-block size-1.5 rounded-full bg-primary/60" />
+          <span className="mr-1.5 inline-block size-1.5 rounded-none bg-primary/60" />
         )}
       </StatusItem>
 

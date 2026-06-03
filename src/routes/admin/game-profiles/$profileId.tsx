@@ -214,7 +214,7 @@ function GameProfileDetailPage() {
       <motion.header variants={fadeUpItem} className="flex items-center gap-4">
         <Link
           to="/admin/game-profiles"
-          className="group inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-border/60 bg-background/80 text-muted-foreground shadow-sm transition-colors hover:border-mc-nether/30 hover:text-mc-nether"
+          className="group inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-none border border-border/60 bg-background/80 text-muted-foreground mc-pixel-shadow-sm transition-colors hover:border-mc-nether/30 hover:text-mc-nether"
         >
           <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
         </Link>
@@ -240,7 +240,7 @@ function GameProfileDetailPage() {
 
             {/* ─── 档案信息（扁平化） ─────────────── */}
             <TabsContent value="profile" className="mt-5 space-y-4">
-              <div className="rounded-xl border border-border/60 bg-card px-6 py-4">
+              <div className="rounded-none border border-border/60 bg-card px-6 py-4">
                 <div className="grid gap-x-8 sm:grid-cols-2">
                   <KVRow label="档案 ID" value={detail.id} mono />
                   <KVRow label="玩家名称" value={detail.name} />
@@ -264,7 +264,7 @@ function GameProfileDetailPage() {
               </div>
 
               {/* 关联用户 */}
-              <div className="flex items-center gap-4 rounded-xl border border-border/60 bg-card px-6 py-4">
+              <div className="flex items-center gap-4 rounded-none border border-border/60 bg-card px-6 py-4">
                 <McIconBox variant="gold" size="md">
                   <UserCircle />
                 </McIconBox>
@@ -287,13 +287,13 @@ function GameProfileDetailPage() {
                 ) : matrixError &&
                   'status' in matrixError &&
                   (matrixError as { status: number }).status === 404 ? (
-                  <div className="rounded-xl border border-border/60 bg-card p-8 text-center text-muted-foreground">
+                  <div className="rounded-none border border-border/60 bg-card p-8 text-center text-muted-foreground">
                     暂无统计数据
                   </div>
                 ) : matrixData ? (
                   <div className="space-y-5">
                     {/* 玩家标识 */}
-                    <div className="flex flex-wrap items-center gap-x-6 gap-y-2 rounded-xl border border-border/60 bg-card px-5 py-4">
+                    <div className="flex flex-wrap items-center gap-x-6 gap-y-2 rounded-none border border-border/60 bg-card px-5 py-4">
                       <div className="flex items-center gap-2">
                         <User className="h-4 w-4 text-mc-grass" />
                         <span className="text-sm font-medium">
@@ -314,7 +314,7 @@ function GameProfileDetailPage() {
                       {statCards.map((card) => (
                         <div
                           key={card.label}
-                          className="rounded-xl border border-border/60 bg-card p-4"
+                          className="rounded-none border border-border/60 bg-card p-4"
                         >
                           <div className="flex items-center gap-2 mb-2">
                             <card.Icon className="h-4 w-4 text-muted-foreground" />
@@ -344,7 +344,7 @@ function GameProfileDetailPage() {
                             <button
                               type="button"
                               onClick={() => toggleDetail(section.key)}
-                              className="flex w-full items-center justify-between rounded-lg border border-border/60 bg-background/40 px-4 py-3 transition-colors hover:bg-background/60 cursor-pointer"
+                              className="flex w-full items-center justify-between rounded-none border border-border/60 bg-background/40 px-4 py-3 transition-colors hover:bg-background/60 cursor-pointer"
                             >
                               <div className="flex items-center gap-2">
                                 <section.icon className="h-4 w-4 text-muted-foreground" />
@@ -382,7 +382,7 @@ function GameProfileDetailPage() {
                                       return (
                                         <div
                                           key={rawKey}
-                                          className="flex items-center justify-between rounded-lg border border-border/60 bg-background/40 px-3 py-2"
+                                          className="flex items-center justify-between rounded-none border border-border/60 bg-background/40 px-3 py-2"
                                         >
                                           <span className="text-[12px] font-mono text-muted-foreground">
                                             {displayKey}
@@ -412,7 +412,7 @@ function GameProfileDetailPage() {
           variants={fadeUpItem}
           className="lg:sticky lg:top-6 lg:self-start"
         >
-          <div className="rounded-xl border border-destructive/20 bg-card p-5 space-y-3">
+          <div className="rounded-none border border-destructive/20 bg-card p-5 space-y-3">
             <div className="flex items-center gap-2">
               <RotateCcw className="h-4 w-4 text-destructive" />
               <span className="text-sm font-semibold">危险操作</span>

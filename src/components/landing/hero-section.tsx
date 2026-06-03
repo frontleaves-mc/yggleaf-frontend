@@ -115,7 +115,7 @@ function HeroSection() {
           variants={landingHeroVariants}
           initial={motionState ?? 'hidden'}
           animate={motionState ?? 'visible'}
-          className="mt-10 flex w-full max-w-xl flex-col gap-3 rounded-none border border-border bg-card p-4 text-left sm:flex-row sm:items-center"
+          className="mc-panel mt-10 flex w-full max-w-xl flex-col gap-3 p-4 text-left sm:flex-row sm:items-center"
         >
           <div className="min-w-0 flex-1 px-1">
             <div className="text-xs text-muted-foreground">服务器地址</div>
@@ -192,7 +192,7 @@ function HeroSection() {
         <button
           type="button"
           onClick={scrollToFeatures}
-          className="mt-12 inline-flex cursor-pointer items-center gap-2 rounded-none border border-border bg-muted px-5 py-2 text-sm font-medium text-foreground transition-none hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="mc-panel mt-12 inline-flex cursor-pointer items-center gap-2 px-5 py-2 text-sm font-medium text-foreground transition-none hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           查看服务器内容
           <ArrowDown className="size-4" />
@@ -212,7 +212,7 @@ function HeroMetric({
   value: string
 }) {
   return (
-    <div className="landing-glass-strong rounded-none px-5 py-4 text-left transition-none">
+    <div className="mc-panel px-5 py-4 text-left transition-none">
       <div className="mb-2.5 flex items-center gap-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
         <Icon className="size-4 text-primary" />
         {label}

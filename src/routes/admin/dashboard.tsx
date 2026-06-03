@@ -29,6 +29,8 @@ import { fadeUpItem, staggerContainer } from '#/lib/motion-presets'
 import { McCard } from '#/components/shared/mc-card'
 import { McIconBox } from '#/components/shared/mc-icon-box'
 import { McSectionHeader } from '#/components/shared/mc-section-header'
+import { McActionTile } from '#/components/shared/mc-action-tile'
+import { McStatCard } from '#/components/shared/mc-stat-card'
 
 export const Route = createFileRoute('/admin/dashboard')({
   component: DashboardPage,
@@ -59,7 +61,7 @@ function DashboardPage() {
           })
         }}
         disabled={refreshMutation.isPending}
-        className="mt-1 inline-flex shrink-0 items-center gap-1.5 rounded-md border border-border/50 bg-transparent px-2.5 py-1.5 text-[12px] font-medium text-muted-foreground/60 transition-all hover:border-mc-nether/30 hover:text-mc-nether disabled:opacity-50 disabled:pointer-events-none"
+        className="mt-1 inline-flex shrink-0 items-center gap-1.5 rounded-none border border-border/50 bg-transparent px-2.5 py-1.5 text-[12px] font-medium text-muted-foreground/60 transition-all hover:border-mc-nether/30 hover:text-mc-nether disabled:opacity-50 disabled:pointer-events-none"
       >
         <RefreshCw
           className={`size-3 ${refreshMutation.isPending ? 'animate-spin' : ''}`}
@@ -231,31 +233,15 @@ function DashboardPage() {
         />
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {statCards.map((card) => (
-            <McCard
+            <McStatCard
               key={card.title}
-              variant="glass"
-              color={card.accent}
-              className={`p-5 sm:p-6 ${card.locked ? 'opacity-50' : ''}`}
-            >
-              <div className="flex items-center justify-between gap-4">
-                <div className="space-y-1.5 min-w-0">
-                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                    {card.title}
-                  </p>
-                  <p
-                    className={`text-2xl font-bold tracking-tight tabular-nums ${card.value === '...' ? 'opacity-50' : ''}`}
-                  >
-                    {card.value}
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    {card.subtitle}
-                  </p>
-                </div>
-                <McIconBox variant={card.accent} size="md">
-                  <card.icon />
-                </McIconBox>
-              </div>
-            </McCard>
+              title={card.title}
+              value={card.value}
+              description={card.subtitle}
+              icon={card.icon}
+              variant={card.accent}
+              className={card.locked ? 'opacity-50' : ''}
+            />
           ))}
         </div>
       </motion.section>
@@ -264,45 +250,14 @@ function DashboardPage() {
         <McSectionHeader label="Operations" title="快捷操作" variant="nether" />
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {quickActions.map((action) => (
-            <McCard
+            <McActionTile
               key={action.to}
-              variant="solid"
-              color={action.accent}
-              className="group cursor-pointer p-5 transition-all hover:shadow-md"
+              title={action.title}
+              description={action.description}
+              icon={action.icon}
+              variant={action.accent}
               onClick={() => navigate({ to: action.to as any })}
-            >
-              <div className="flex flex-col gap-4">
-                <div className="flex items-start justify-between gap-3">
-                  <McIconBox variant={action.accent} size="md">
-                    <action.icon />
-                  </McIconBox>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="text-muted-foreground/40 transition-all group-hover:translate-x-0.5 group-hover:text-mc-nether"
-                    aria-hidden="true"
-                  >
-                    <path d="M5 12h14" />
-                    <path d="m12 5 7 7-7 7" />
-                  </svg>
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <h3 className="text-base font-semibold text-foreground transition-colors group-hover:text-foreground/90">
-                    {action.title}
-                  </h3>
-                  <p className="text-[13px] leading-relaxed text-muted-foreground/75">
-                    {action.description}
-                  </p>
-                </div>
-              </div>
-            </McCard>
+            />
           ))}
         </div>
       </motion.section>

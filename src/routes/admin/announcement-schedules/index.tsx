@@ -580,7 +580,7 @@ function AdminAnnouncementSchedulesPage() {
               {formItems.map((item, index) => (
                 <div
                   key={item.uid}
-                  className="flex items-start gap-2 rounded-lg border p-3 space-x-2"
+                  className="flex items-start gap-2 rounded-none border p-3 space-x-2"
                 >
                   <div className="flex-1 min-w-0 space-y-2">
                     <Select

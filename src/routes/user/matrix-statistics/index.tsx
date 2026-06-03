@@ -123,7 +123,7 @@ function DetailSection({
               {entries.map(([key, value]) => (
                 <div
                   key={key}
-                  className="flex items-center justify-between rounded-lg border border-border/60 bg-background/40 px-3 py-2"
+                  className="flex items-center justify-between rounded-none border border-border/60 bg-background/40 px-3 py-2"
                 >
                   <span className="text-[12px] font-mono text-muted-foreground truncate mr-2">
                     {cleanMinecraftId(key)}

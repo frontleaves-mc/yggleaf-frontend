@@ -18,7 +18,7 @@ function ColorPicker({ value, onChange }: ColorPickerProps) {
       <PopoverTrigger asChild>
         <button
           type="button"
-          className="inline-flex h-8 items-center gap-2 rounded-md border border-input bg-input/20 px-3 text-sm transition-all duration-200 outline-none hover:border-ring hover:bg-input/30 focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/20"
+          className="inline-flex h-8 items-center gap-2 rounded-none border border-input bg-input/20 px-3 text-sm transition-all duration-200 outline-none hover:border-ring hover:bg-input/30 focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/20"
         >
           <span
             className="size-4 shrink-0 rounded-sm border border-foreground/10"

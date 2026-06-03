@@ -1,210 +1,36 @@
-/* ═══════════════════════════════════════════
-   Minecraft Pixel Design — Navigation Components
-   Tabs · Sidebar · MenuRenderer · Select · DropdownMenu
-   ═══════════════════════════════════════════ */
+/* Navigation uses material popovers and item-slot highlights in themed shells. */
 
-/* ── Tabs ── */
-[data-slot="tabs"] {
+[data-mode] [data-slot='tabs-list'],
+[data-mode] [data-slot='dropdown-menu-content'],
+[data-mode] [data-slot='select-content'],
+[data-mode] [data-slot='popover-content'],
+[data-mode] [data-slot='command-dialog'],
+[data-mode] [data-slot='command'] {
   border-radius: 0;
+  border: 3px solid var(--mc-outline);
+  background: var(--mc-texture-panel);
+  box-shadow: 5px 5px 0 var(--mc-shadow-color);
 }
 
-[data-slot="tabs-list"] {
-  border-radius: 0;
-  background-color: var(--pixel-border-dark);
-  border: 2px solid var(--pixel-border-base);
-  border-top-color: var(--pixel-border-dark);
-  border-left-color: var(--pixel-border-dark);
-  border-right-color: var(--pixel-border-light);
-  border-bottom-color: var(--pixel-border-light);
+[data-mode] [data-slot='tabs-trigger'][data-state='active'],
+[data-mode] [data-slot='dropdown-menu-item'][data-highlighted],
+[data-mode] [data-slot='select-item'][data-highlighted],
+[data-mode] [data-slot='command-item'][data-selected='true'] {
+  background:
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--mc-accent) 32%, transparent) 0 8px,
+      transparent 8px
+    ),
+    var(--mc-accent-soft);
+  color: var(--foreground);
 }
 
-[data-slot="tabs-trigger"] {
-  border-radius: 0;
-  font-family: var(--pixel-font-heading);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  font-size: 0.7rem;
-  border: none;
-  border-bottom: 3px solid transparent;
-  transition: none;
-}
-
-[data-slot="tabs-trigger"][data-state="active"] {
-  border-bottom-color: var(--pixel-grass-color);
-  background-color: transparent;
-  color: var(--pixel-grass-color);
-}
-
-[data-slot="tabs-content"] {
-  border-radius: 0;
-}
-
-/* ── Sidebar ── */
-[data-slot="sidebar"] {
-  border-radius: 0;
-}
-[data-slot="sidebar-menu"] {
-  border-radius: 0;
-}
-[data-slot="sidebar-menu-button"] {
-  border-radius: 0;
-  font-family: inherit;
-  border: 2px solid transparent;
-  transition: none;
-}
-
-[data-slot="sidebar-menu-button"]:hover {
-  border: 2px solid var(--pixel-border-base);
-  border-top-color: var(--pixel-border-light);
-  border-left-color: var(--pixel-border-light);
-  border-right-color: var(--pixel-border-dark);
-  border-bottom-color: var(--pixel-border-dark);
-  background-color: var(--pixel-border-light);
-}
-
-.dark [data-slot="sidebar-menu-button"]:hover {
-  background-color: #3D3D3D;
-}
-
-[data-slot="sidebar-menu-button"][data-active="true"],
-[data-slot="sidebar-menu-button"][aria-current="page"] {
-  border: 2px solid var(--pixel-border-base);
-  border-top-color: var(--pixel-border-dark);
-  border-left-color: var(--pixel-border-dark);
-  border-right-color: var(--pixel-border-light);
-  border-bottom-color: var(--pixel-border-light);
-  background-color: var(--pixel-border-dark);
-}
-
-.dark [data-slot="sidebar-menu-button"][data-active="true"],
-.dark [data-slot="sidebar-menu-button"][aria-current="page"] {
-  background-color: #2A2A2A;
-}
-
-[data-slot="sidebar-menu-sub"] {
-  border-radius: 0;
-}
-[data-slot="sidebar-menu-sub-button"] {
-  border-radius: 0;
-}
-[data-slot="sidebar-menu-sub-button"][data-state="open"] {
-  border-left: 3px solid var(--pixel-grass-color);
-}
-
-/* ── MenuRenderer / Navigation Menu ── */
-.menu-renderer a[aria-current="page"],
-.menu-renderer [data-active="true"] {
-  border: 2px solid var(--pixel-border-base);
-  border-top-color: var(--pixel-border-dark);
-  border-left-color: var(--pixel-border-dark);
-  border-right-color: var(--pixel-border-light);
-  border-bottom-color: var(--pixel-border-light);
-  background-color: var(--pixel-border-dark);
-  border-radius: 0;
-}
-
-.dark .menu-renderer a[aria-current="page"],
-.dark .menu-renderer [data-active="true"] {
-  background-color: #2A2A2A;
-}
-
-.menu-renderer a:hover:not([aria-current="page"]) {
-  border-radius: 0;
-  border: 2px solid var(--pixel-border-base);
-  border-top-color: var(--pixel-border-light);
-  border-left-color: var(--pixel-border-light);
-  border-right-color: var(--pixel-border-dark);
-  border-bottom-color: var(--pixel-border-dark);
-}
-
-/* ── Select ── */
-[data-slot="select-trigger"] {
-  border-radius: 0;
-  border: 2px solid var(--pixel-border-base);
-  border-top-color: var(--pixel-border-dark);
-  border-left-color: var(--pixel-border-dark);
-  border-right-color: var(--pixel-border-light);
-  border-bottom-color: var(--pixel-border-light);
-  background-color: var(--background);
-  font-family: inherit;
-}
-
-[data-slot="select-content"] {
-  border-radius: 0;
-  border: 2px solid var(--pixel-border-base);
-  border-top-color: var(--pixel-border-light);
-  border-left-color: var(--pixel-border-light);
-  border-right-color: var(--pixel-border-dark);
-  border-bottom-color: var(--pixel-border-dark);
-  box-shadow: 3px 3px 0 0 var(--pixel-shadow-color);
-}
-
-[data-slot="select-item"] {
-  border-radius: 0;
-  font-family: inherit;
-}
-
-[data-slot="select-item"][data-highlighted] {
-  background-color: var(--pixel-border-light);
-}
-
-.dark [data-slot="select-item"][data-highlighted] {
-  background-color: #3D3D3D;
-}
-
-[data-slot="select-item"][data-state="checked"] {
-  background-color: var(--mc-grass-soft);
-}
-
-/* ── DropdownMenu ── */
-[data-slot="dropdown-menu-content"] {
-  border-radius: 0;
-  border: 2px solid var(--pixel-border-base);
-  border-top-color: var(--pixel-border-light);
-  border-left-color: var(--pixel-border-light);
-  border-right-color: var(--pixel-border-dark);
-  border-bottom-color: var(--pixel-border-dark);
-  box-shadow: 3px 3px 0 0 var(--pixel-shadow-color);
-}
-
-[data-slot="dropdown-menu-item"] {
-  border-radius: 0;
-  font-family: inherit;
-  cursor: pointer;
-}
-
-[data-slot="dropdown-menu-item"][data-highlighted] {
-  background-color: var(--pixel-border-light);
-}
-
-.dark [data-slot="dropdown-menu-item"][data-highlighted] {
-  background-color: #3D3D3D;
-}
-
-[data-slot="dropdown-menu-separator"] {
-  border-radius: 0;
-  border-color: var(--pixel-border-dark);
-}
-
-[data-slot="dropdown-menu-checkbox-item"] {
-  border-radius: 0;
-}
-
-[data-slot="dropdown-menu-checkbox-item"][data-state="checked"] {
-  background-color: var(--mc-grass-soft);
-}
-
-[data-slot="dropdown-menu-label"] {
-  font-family: var(--pixel-font-heading);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  font-size: 0.65rem;
-}
-
-[data-slot="dropdown-menu-shortcut"] {
-  font-family: var(--pixel-font-heading);
-  letter-spacing: 0.03em;
-  font-size: 0.6rem;
-  border-radius: 0;
-  border: 1px solid var(--pixel-border-base);
+[data-mode] [data-slot='sidebar-menu-button'][data-active='true'],
+[data-mode] [data-slot='sidebar-menu-sub-button'][data-active='true'] {
+  background:
+    linear-gradient(90deg, var(--mc-accent) 0 6px, transparent 6px),
+    var(--mc-accent-soft);
+  color: var(--sidebar-accent-foreground);
+  box-shadow: none;
 }

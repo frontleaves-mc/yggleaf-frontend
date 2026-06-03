@@ -321,7 +321,7 @@ function UserIssuesPage() {
                     placeholder="请详细说明问题的现象、复现步骤、期望行为等信息，越详细有助于更快定位问题"
                     minRows={8}
                     maxLength={10000}
-                    className="border-0 shadow-none rounded-lg bg-transparent"
+                    className="border-0 shadow-none rounded-none bg-transparent"
                   />
                 </div>
               </div>

@@ -16,12 +16,8 @@ import {
   CommandItem,
   CommandSeparator,
 } from '#/components/ui/command'
-import {
-  adminMenuSections,
-  userMenuSections
-  
-} from '#/config/menu'
-import type {MenuItem} from '#/config/menu';
+import { adminMenuSections, userMenuSections } from '#/config/menu'
+import type { MenuItem } from '#/config/menu'
 
 // ─── 类型定义 ────────────────────────────────────────────
 

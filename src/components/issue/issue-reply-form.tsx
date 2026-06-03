@@ -116,9 +116,9 @@ export function IssueReplyForm({
     <form onSubmit={handleSubmit}>
       <InputGroup
         className={cn(
-          'w-full overflow-hidden rounded-xl border-border/60 bg-card shadow-sm',
+          'w-full overflow-hidden rounded-none border-border/60 bg-card mc-pixel-shadow-sm',
           'transition-all duration-200 ease-out',
-          'has-[[data-slot=input-group-control]:focus-visible]:shadow-md has-[[data-slot=input-group-control]:focus-visible]:border-primary/30',
+          'has-[[data-slot=input-group-control]:focus-visible]:mc-pixel-shadow has-[[data-slot=input-group-control]:focus-visible]:border-primary/30',
           'has-[[data-slot=input-group-control]:focus-visible]:ring-[3px] has-[[data-slot=input-group-control]:focus-visible]:ring-primary/10',
           isDisabled && 'opacity-50 pointer-events-none',
         )}
@@ -281,7 +281,7 @@ export function IssueReplyForm({
             type="button"
             onClick={() => setPreview(!preview)}
             className={cn(
-              'inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[11px] font-medium transition-colors',
+              'inline-flex items-center gap-1 rounded-none px-1.5 py-0.5 text-[11px] font-medium transition-colors',
               preview
                 ? 'text-primary bg-primary/10'
                 : 'text-muted-foreground hover:text-foreground hover:bg-muted/60',
@@ -310,7 +310,7 @@ export function IssueReplyForm({
             type="submit"
             size="sm"
             variant="default"
-            className="ml-3 gap-1.5 rounded-lg px-3 text-xs font-medium shadow-sm transition-all duration-200 hover:shadow-md active:scale-[0.97]"
+            className="ml-3 gap-1.5 rounded-none px-3 text-xs font-medium mc-pixel-shadow-sm transition-all duration-200 hover:[box-shadow:4px_4px_0_var(--pixel-shadow-color)] active:scale-[0.97]"
             disabled={isDisabled || !content.trim()}
           >
             {replyMutation.isPending ? (

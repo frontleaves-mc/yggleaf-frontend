@@ -114,7 +114,7 @@ function AdminUserDetailPage() {
       <motion.header variants={fadeUpItem} className="flex items-center gap-4">
         <Link
           to="/admin/users"
-          className="group inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-border/60 bg-background/80 text-muted-foreground shadow-sm transition-colors hover:border-mc-nether/30 hover:text-mc-nether"
+          className="group inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-none border border-border/60 bg-background/80 text-muted-foreground mc-pixel-shadow-sm transition-colors hover:border-mc-nether/30 hover:text-mc-nether"
         >
           <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
         </Link>
@@ -197,9 +197,9 @@ function AdminUserDetailPage() {
                   {skin_list.map((skin) => (
                     <div
                       key={skin.id}
-                      className="flex items-center gap-3 rounded-lg border border-border/60 p-3 bg-muted/30"
+                      className="flex items-center gap-3 rounded-none border border-border/60 p-3 bg-muted/30"
                     >
-                      <div className="h-12 w-12 shrink-0 rounded-md overflow-hidden bg-muted">
+                      <div className="h-12 w-12 shrink-0 rounded-none overflow-hidden bg-muted">
                         {skin.texture_url ? (
                           <img
                             src={skin.texture_url}
@@ -250,9 +250,9 @@ function AdminUserDetailPage() {
                   {cape_list.map((cape) => (
                     <div
                       key={cape.id}
-                      className="flex items-center gap-3 rounded-lg border border-border/60 p-3 bg-muted/30"
+                      className="flex items-center gap-3 rounded-none border border-border/60 p-3 bg-muted/30"
                     >
-                      <div className="h-12 w-12 shrink-0 rounded-md overflow-hidden bg-muted aspect-[2/3]">
+                      <div className="h-12 w-12 shrink-0 rounded-none overflow-hidden bg-muted aspect-[2/3]">
                         {cape.texture_url ? (
                           <img
                             src={cape.texture_url}

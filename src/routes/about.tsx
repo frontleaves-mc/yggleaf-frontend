@@ -81,7 +81,7 @@ function AboutPage() {
           <div className="absolute inset-0 mc-grid-pattern opacity-25" />
           <div className="relative mx-auto grid min-h-[520px] max-w-(--page-max) items-center gap-10 px-4 py-20 sm:px-6 lg:grid-cols-[minmax(0,0.95fr)_minmax(360px,0.75fr)] lg:px-8">
             <FadeInUp className="max-w-3xl">
-              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-border bg-background/80 px-3 py-1 text-xs font-medium text-muted-foreground shadow-sm backdrop-blur">
+              <div className="mb-5 inline-flex items-center gap-2 rounded-none border border-border bg-background/80 px-3 py-1 text-xs font-medium text-muted-foreground mc-pixel-shadow-sm">
                 <ShieldCheck className="size-3.5 text-primary" />
                 FrontLeaves Minecraft Community
               </div>
@@ -109,14 +109,14 @@ function AboutPage() {
             </FadeInUp>
 
             <FadeInUp delay={0.08}>
-              <div className="rounded-lg border border-border bg-card p-5 shadow-sm">
+              <LandingCard className="p-5">
                 <div className="grid gap-3">
                   <InfoRow label="服务器地址" value={SERVER_ADDRESS} />
                   <InfoRow label="游戏版本" value="Java Edition 1.21.1" />
                   <InfoRow label="社区群组" value={`QQ ${QQ_GROUP}`} />
                   <InfoRow label="站点能力" value="账号 / 外观 / 公告 / 工单" />
                 </div>
-              </div>
+              </LandingCard>
             </FadeInUp>
           </div>
         </section>
@@ -129,7 +129,7 @@ function AboutPage() {
             {VALUES.map((value) => (
               <StaggerItem key={value.title}>
                 <LandingCard className="h-full p-5">
-                  <div className="mb-4 flex size-10 items-center justify-center rounded-lg bg-muted text-primary">
+                  <div className="mb-4 flex size-10 items-center justify-center rounded-none bg-muted text-primary">
                     <value.icon className="size-5" />
                   </div>
                   <h3 className="font-heading text-base font-semibold tracking-tight">
@@ -153,7 +153,7 @@ function AboutPage() {
             {PLATFORM_FEATURES.map((feature) => (
               <StaggerItem key={feature.title}>
                 <LandingCard className="flex h-full gap-4 p-5">
-                  <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-muted text-primary">
+                  <div className="flex size-10 shrink-0 items-center justify-center rounded-none bg-muted text-primary">
                     <feature.icon className="size-5" />
                   </div>
                   <div>
@@ -198,7 +198,7 @@ function AboutPage() {
 
 function InfoRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between gap-4 rounded-md border border-border bg-background/60 px-4 py-3">
+    <div className="mc-slot flex items-center justify-between gap-4 px-4 py-3">
       <span className="text-sm text-muted-foreground">{label}</span>
       <span className="text-right text-sm font-medium text-foreground">
         {value}

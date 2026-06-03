@@ -95,7 +95,7 @@ function ConversationEntry({
 function UnreadBadge({ count }: { count: number }) {
   if (count <= 0) return null
   return (
-    <span className="shrink-0 inline-flex items-center justify-center min-w-[18px] h-[18px] rounded-full bg-mc-diamond text-[10px] font-bold text-white px-1">
+    <span className="shrink-0 inline-flex items-center justify-center min-w-[18px] h-[18px] rounded-none bg-mc-diamond text-[10px] font-bold text-white px-1">
       {count > 99 ? '99+' : count}
     </span>
   )
@@ -105,7 +105,7 @@ function ConnectionDot({ isConnected }: { isConnected: boolean }) {
   return (
     <span
       className={cn(
-        'size-2 rounded-full shrink-0',
+        'size-2 rounded-none shrink-0',
         isConnected
           ? 'bg-green-500 shadow-[0_0_4px_rgba(34,197,94,0.5)]'
           : 'bg-muted-foreground/40',
@@ -117,7 +117,7 @@ function ConnectionDot({ isConnected }: { isConnected: boolean }) {
 function ConversationSkeleton() {
   return (
     <div className="flex items-center gap-2.5 px-3 py-2">
-      <div className="size-4 rounded-full bg-muted/40 animate-pulse" />
+      <div className="size-4 rounded-none bg-muted/40 animate-pulse" />
       <div className="flex-1 space-y-1.5">
         <div className="h-3 w-20 rounded bg-muted/40 animate-pulse" />
         <div className="h-2.5 w-32 rounded bg-muted/30 animate-pulse" />

@@ -87,7 +87,7 @@ function FaqSection() {
       title="常见问题"
       subtitle="加入前最容易卡住的几个点。"
     >
-      <div className="mx-auto max-w-3xl rounded-none border border-border/50 bg-card/80 p-6 backdrop-blur-sm md:p-8">
+      <div className="mc-panel mx-auto max-w-3xl p-6 md:p-8">
         {faqs.map((faq) => (
           <FaqItem key={faq.q} question={faq.q} answer={faq.a} />
         ))}

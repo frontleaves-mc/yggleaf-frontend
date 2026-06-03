@@ -1,122 +1,25 @@
-/* ═══════════════════════════════════════════
-   Minecraft Pixel Design — Dialog & AlertDialog
-   ═══════════════════════════════════════════ */
+/* Dialogs use block material shells with a restrained texture strip. */
 
-/* ── DialogContent ── */
-[data-slot="dialog-content"] {
+[data-slot='dialog-content'],
+[data-slot='alert-dialog-content'],
+[data-slot='sheet-content'] {
   border-radius: 0;
-  border: 2px solid var(--pixel-border-base);
-  border-top-color: var(--pixel-border-light);
-  border-left-color: var(--pixel-border-light);
-  border-right-color: var(--pixel-border-dark);
-  border-bottom-color: var(--pixel-border-dark);
-  box-shadow:
-    var(--pixel-shadow-offset) var(--pixel-shadow-offset) 0 0 var(--pixel-shadow-color),
-    var(--pixel-shadow-inset);
-  overflow: hidden;
+  border: 3px solid var(--mc-outline);
+  background:
+    linear-gradient(var(--mc-accent) 0 8px, transparent 8px),
+    var(--mc-texture-panel);
+  box-shadow: 6px 6px 0 var(--mc-shadow-strong);
 }
 
-.dark [data-slot="dialog-content"] {
-  box-shadow:
-    var(--pixel-shadow-offset) var(--pixel-shadow-offset) 0 0 var(--pixel-shadow-color),
-    inset 2px 2px 0 0 rgba(255, 255, 255, 0.05);
+[data-slot='alert-dialog-content'] {
+  background:
+    linear-gradient(var(--mc-nether) 0 8px, transparent 8px),
+    var(--mc-texture-panel);
 }
 
-/* Dialog grass block top decoration */
-[data-slot="dialog-content"]::before {
-  content: '';
-  display: block;
-  height: 6px;
-  background: var(--pixel-grass-color);
-  background-image:
-    repeating-linear-gradient(
-      90deg,
-      transparent 0px,
-      transparent 4px,
-      rgba(255, 120, 85, 0.4) 4px,
-      rgba(255, 120, 85, 0.4) 6px
-    );
-}
-
-.dark [data-slot="dialog-content"]::before {
-  background-image:
-    repeating-linear-gradient(
-      90deg,
-      transparent 0px,
-      transparent 4px,
-      rgba(80, 160, 40, 0.4) 4px,
-      rgba(80, 160, 40, 0.4) 6px
-    );
-}
-[data-slot="dialog-content"]::after {
-  content: '';
-  display: block;
-  height: 2px;
-  background: var(--pixel-dirt-color);
-  margin-top: 0;
-}
-
-/* ── DialogTitle — pixel font ── */
-[data-slot="dialog-title"] {
-  font-family: var(--pixel-font-heading);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
-/* ── DialogClose — pixelized X button ── */
-[data-slot="dialog-close"] {
-  border-radius: 0;
-}
-[data-slot="dialog-close"]:hover {
-  border: 2px solid var(--pixel-border-base);
-}
-
-/* ── AlertDialog — nether red top bar ── */
-[data-slot="alert-dialog-content"] {
-  border-radius: 0;
-  border: 2px solid var(--pixel-border-base);
-  border-top-color: var(--pixel-border-light);
-  border-left-color: var(--pixel-border-light);
-  border-right-color: var(--pixel-border-dark);
-  border-bottom-color: var(--pixel-border-dark);
-  box-shadow:
-    var(--pixel-shadow-offset) var(--pixel-shadow-offset) 0 0 var(--pixel-shadow-color);
-  overflow: hidden;
-}
-
-/* AlertDialog nether red top */
-[data-slot="alert-dialog-content"]::before {
-  content: '';
-  display: block;
-  height: 6px;
-  background: var(--mc-nether);
-  background-image:
-    repeating-linear-gradient(
-      90deg,
-      transparent 0px,
-      transparent 4px,
-      rgba(255, 120, 85, 0.4) 4px,
-      rgba(255, 120, 85, 0.4) 6px
-    );
-}
-
-/* AlertDialog action buttons — pixel spacing */
-[data-slot="alert-dialog-footer"] {
-  gap: 0.5rem;
-}
-
-/* ── Admin mode dialog — nether red grass ── */
-[data-mode='admin'] [data-slot="dialog-content"]::before {
-  background: var(--pixel-grass-color);
-  background-image:
-    repeating-linear-gradient(
-      90deg,
-      transparent 0px,
-      transparent 4px,
-      rgba(255, 120, 85, 0.4) 4px,
-      rgba(255, 120, 85, 0.4) 6px
-    );
-}
-[data-mode='admin'] [data-slot="dialog-content"]::after {
-  background: var(--pixel-dirt-color);
+[data-slot='dialog-title'],
+[data-slot='alert-dialog-title'],
+[data-slot='sheet-title'] {
+  font-family: var(--font-heading);
+  letter-spacing: 0;
 }

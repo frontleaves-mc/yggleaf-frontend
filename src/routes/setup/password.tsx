@@ -92,7 +92,7 @@ function SetupPasswordPage() {
     <Card className="border-border/70 shadow-[0_16px_40px_-28px_oklch(0.18_0.025_195_/_0.18)]">
       <CardContent className="flex flex-col items-center pt-8 pb-8">
         {/* 图标 */}
-        <div className="flex size-14 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/15 to-primary/10 mb-5">
+        <div className="flex size-14 items-center justify-center rounded-none bg-gradient-to-br from-primary/15 to-primary/10 mb-5">
           <Lock className="size-7 text-primary" />
         </div>
 

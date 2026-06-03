@@ -1,154 +1,218 @@
-/* ═══════════════════════════════════════════
-   Minecraft Pixel Design — Card & McCard
-   ═══════════════════════════════════════════ */
+/* Card surfaces are explicit: plain cards stay clean, block cards become materials. */
 
-/* ── Card 基础 — 像素边框 + 硬阴影 ── */
-[data-slot='card'] {
+[data-slot='card'],
+[data-slot='mc-card'] {
   position: relative;
-  overflow: hidden;
-  box-shadow: var(--pixel-shadow-offset) var(--pixel-shadow-offset) 0 0
-    var(--pixel-shadow-color);
-  border: 2px solid var(--pixel-border-base);
-  border-top-color: var(--pixel-border-light);
-  border-left-color: var(--pixel-border-light);
-  border-right-color: var(--pixel-border-dark);
-  border-bottom-color: var(--pixel-border-dark);
 }
 
-/* ── Card 草方块顶部装饰 ── */
-[data-slot='card']::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: var(--pixel-grass-height);
-  background: var(--pixel-grass-color);
-  background-image: repeating-linear-gradient(
-    90deg,
-    transparent 0px,
-    transparent 4px,
-    rgba(100, 200, 60, 0.5) 4px,
-    rgba(100, 200, 60, 0.5) 6px
+[data-slot='card'][data-mc-surface='plain'] {
+  border: 1px solid var(--border);
+  box-shadow: none;
+}
+
+[data-slot='card'][data-mc-surface='panel'],
+[data-slot='mc-card'][data-mc-surface='panel'] {
+  background: var(--mc-texture-panel);
+  border: 3px solid var(--mc-outline);
+  box-shadow: 4px 4px 0 var(--mc-shadow-color);
+}
+
+[data-slot='card'][data-mc-surface='slot'],
+[data-slot='mc-card'][data-mc-surface='slot'] {
+  background: var(--mc-texture-slot);
+  border: 3px solid var(--mc-outline);
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.22);
+}
+
+[data-slot='card'][data-mc-surface='block'],
+[data-slot='mc-card'][data-mc-surface='block'] {
+  --mc-block-top: var(--mc-texture-grass-top);
+  --mc-block-fringe: var(--mc-texture-grass-side);
+  --mc-block-side: var(--mc-texture-dirt);
+  --mc-block-content: color-mix(
+    in srgb,
+    var(--card) 72%,
+    var(--mc-bg-panel) 28%
   );
-  z-index: 1;
+  isolation: isolate;
+  overflow: hidden;
+  color: var(--card-foreground);
+  background: linear-gradient(
+    180deg,
+    var(--mc-block-side) 0
+      calc(var(--pixel-grass-height) + var(--pixel-dirt-height)),
+    var(--mc-block-content) 0
+  );
+  border: 3px solid var(--mc-outline);
+  box-shadow:
+    inset 0 0 0 2px color-mix(in srgb, var(--mc-outline) 10%, transparent),
+    4px 4px 0 var(--mc-shadow-color);
+  padding-top: calc(var(--pixel-grass-height) + var(--pixel-dirt-height));
 }
-[data-slot='card']::after {
+
+[data-slot='card'][data-mc-surface='block'][data-mc-accent='diamond'],
+[data-slot='mc-card'][data-mc-surface='block'][data-mc-accent='diamond'] {
+  --mc-block-top: var(--mc-texture-diamond);
+  --mc-block-fringe: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  --mc-block-side: var(--mc-texture-stone);
+  --mc-block-content: color-mix(in srgb, var(--card) 76%, #d8fbff 24%);
+}
+
+[data-slot='card'][data-mc-surface='block'][data-mc-accent='gold'],
+[data-slot='mc-card'][data-mc-surface='block'][data-mc-accent='gold'] {
+  --mc-block-top: var(--mc-texture-gold);
+  --mc-block-fringe: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.24),
+    transparent
+  );
+  --mc-block-side: var(--mc-texture-gold);
+  --mc-block-content: color-mix(in srgb, var(--card) 74%, #fff0b8 26%);
+}
+
+[data-slot='card'][data-mc-surface='block'][data-mc-accent='nether'],
+[data-slot='mc-card'][data-mc-surface='block'][data-mc-accent='nether'] {
+  --mc-block-top: var(--mc-texture-netherrack);
+  --mc-block-fringe: linear-gradient(
+    180deg,
+    rgba(255, 115, 64, 0.28),
+    transparent
+  );
+  --mc-block-side: var(--mc-texture-netherrack);
+  --mc-block-content: color-mix(in srgb, var(--card) 78%, #4b1215 22%);
+}
+
+[data-slot='mc-card'][data-mc-surface='block'] > [data-slot='mc-card-material'],
+[data-slot='card'][data-mc-surface='block']::before,
+[data-slot='card'][data-mc-surface='block']::after {
   content: '';
+  display: block;
   position: absolute;
-  top: var(--pixel-grass-height);
   left: 0;
   right: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+[data-slot='mc-card'][data-mc-surface='block']
+  > [data-slot='mc-card-material'] {
+  top: 0;
+  z-index: 1;
+  height: calc(var(--pixel-grass-height) + var(--pixel-dirt-height));
+  background: var(--mc-block-side);
+}
+
+[data-slot='mc-card'][data-mc-surface='block']
+  > [data-slot='mc-card-material']::before,
+[data-slot='mc-card'][data-mc-surface='block']
+  > [data-slot='mc-card-material']::after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+}
+
+[data-slot='mc-card'][data-mc-surface='block']
+  > [data-slot='mc-card-material']::before {
+  top: 0;
+  height: var(--pixel-grass-height);
+  background: var(--mc-block-top);
+}
+
+[data-slot='mc-card'][data-mc-surface='block']
+  > [data-slot='mc-card-material']::after {
+  top: calc(var(--pixel-grass-height) - 2px);
   height: var(--pixel-dirt-height);
-  background: var(--pixel-dirt-color);
+  background: var(--mc-block-fringe);
+}
+
+[data-slot='card'][data-mc-surface='block']::before {
+  top: 0;
+  height: calc(var(--pixel-grass-height) + var(--pixel-dirt-height));
+  background: var(--mc-block-side);
+}
+
+[data-slot='card'][data-mc-surface='block']::after {
+  top: 0;
+  height: var(--pixel-grass-height);
+  background: var(--mc-block-top);
+}
+
+[data-slot='card'][data-mc-surface='block'] > *,
+[data-slot='mc-card'][data-mc-surface='block']
+  > :not([data-slot='mc-card-material']) {
+  position: relative;
   z-index: 1;
 }
 
-/* Card 内容区补偿草方块高度（6px grass + 2px dirt = 8px） */
-[data-slot='card'] {
-  padding-top: calc(var(--spacing, 1.5rem) + 8px);
+[data-slot='mc-card'][data-mc-surface='block']
+  > :not([data-slot='mc-card-material']) {
+  z-index: 2;
 }
 
-/* ── CardHeader 标题 — 像素字体 ── */
+[data-slot='card'][data-mc-surface='block'] > [data-slot^='card-'] {
+  margin-inline: 0.75rem;
+  background: transparent;
+}
+
+[data-slot='card'][data-mc-surface='block'] > [data-slot='card-header'] {
+  padding-top: 0.875rem;
+}
+
+[data-slot='card'][data-mc-surface='block'] > [data-slot='card-footer'] {
+  padding-bottom: 0.875rem;
+}
+
+[data-slot='card'][data-mc-accent]:not([data-mc-accent='none']),
+[data-slot='mc-card'][data-mc-accent]:not([data-mc-accent='none']) {
+  border-color: color-mix(
+    in srgb,
+    var(--mc-local-accent) 34%,
+    var(--mc-outline)
+  );
+}
+
+[data-slot='card'][data-mc-surface='plain'][data-mc-accent]:not(
+    [data-mc-accent='none']
+  ) {
+  border-color: color-mix(in srgb, var(--mc-local-accent) 44%, var(--border));
+  outline: none;
+}
+
+[data-slot='card'][data-mc-interactive='true'],
+[data-slot='mc-card'][data-mc-interactive='true'] {
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease,
+    border-color 120ms ease,
+    outline-color 120ms ease;
+}
+
+[data-slot='card'][data-mc-interactive='true']:hover,
+[data-slot='mc-card'][data-mc-interactive='true']:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 7px 7px 0 var(--mc-shadow-strong);
+}
+
+[data-slot='card'][data-mc-surface='plain'][data-mc-interactive='true']:hover {
+  box-shadow: 3px 3px 0 var(--mc-shadow-color);
+}
+
 [data-slot='card-header'] [data-slot='card-title'] {
-  font-family: var(--pixel-font-heading);
-  letter-spacing: 0.05em;
+  font-family: var(--font-heading);
+  letter-spacing: 0;
 }
 
-/* ── CardFooter — 像素分隔线 ── */
 [data-slot='card-footer'] {
-  border-top: 2px solid var(--pixel-border-dark);
-}
-
-/* ── CardDescription — 保持正文字体 ── */
-[data-slot='card-description'] {
-  font-family: inherit;
-}
-
-/* ── McCard (glass) — 保留毛玻璃 + 像素边框 + 草方块 ── */
-[data-slot='mc-card'][data-variant='glass'] {
-  position: relative;
-  overflow: hidden;
-  box-shadow: var(--pixel-shadow-offset) var(--pixel-shadow-offset) 0 0
-    var(--pixel-shadow-color);
-  border: 2px solid var(--pixel-border-base);
-  border-top-color: var(--pixel-border-light);
-  border-left-color: var(--pixel-border-light);
-  border-right-color: var(--pixel-border-dark);
-  border-bottom-color: var(--pixel-border-dark);
-}
-
-/* McCard Glass — 草方块顶部 */
-[data-slot='mc-card'][data-variant='glass']::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: var(--pixel-grass-height);
-  background: var(--pixel-grass-color);
-  background-image: repeating-linear-gradient(
-    90deg,
-    transparent 0px,
-    transparent 4px,
-    rgba(100, 200, 60, 0.5) 4px,
-    rgba(100, 200, 60, 0.5) 6px
+  border-block-start-color: color-mix(
+    in srgb,
+    var(--border) 80%,
+    var(--mc-outline)
   );
-  z-index: 1;
-}
-
-.dark [data-slot='mc-card'][data-variant='glass']::before {
-  background-image: repeating-linear-gradient(
-    90deg,
-    transparent 0px,
-    transparent 4px,
-    rgba(80, 160, 40, 0.4) 4px,
-    rgba(80, 160, 40, 0.4) 6px
-  );
-  z-index: 1;
-}
-
-.dark [data-slot='card']::before {
-  background-image: repeating-linear-gradient(
-    90deg,
-    transparent 0px,
-    transparent 4px,
-    rgba(80, 160, 40, 0.4) 4px,
-    rgba(80, 160, 40, 0.4) 6px
-  );
-}
-[data-slot='mc-card'][data-variant='glass']::after {
-  content: '';
-  position: absolute;
-  top: var(--pixel-grass-height);
-  left: 0;
-  right: 0;
-  height: var(--pixel-dirt-height);
-  background: var(--pixel-dirt-color);
-  z-index: 1;
-}
-
-/* ── McCard (solid) — 像素硬阴影替换柔阴影 ── */
-[data-slot='mc-card'][data-variant='solid'] {
-  box-shadow: var(--pixel-shadow-offset) var(--pixel-shadow-offset) 0 0
-    var(--pixel-shadow-color);
-  border: 2px solid var(--pixel-border-base);
-  border-top-color: var(--pixel-border-light);
-  border-left-color: var(--pixel-border-light);
-  border-right-color: var(--pixel-border-dark);
-  border-bottom-color: var(--pixel-border-dark);
-}
-
-/* ── McCard data-color — 主题色边框 ── */
-[data-slot='mc-card'][data-color='grass'] {
-  border-color: var(--mc-grass);
-}
-[data-slot='mc-card'][data-color='diamond'] {
-  border-color: var(--mc-diamond);
-}
-[data-slot='mc-card'][data-color='nether'] {
-  border-color: var(--mc-nether);
-}
-[data-slot='mc-card'][data-color='gold'] {
-  border-color: var(--mc-gold);
 }

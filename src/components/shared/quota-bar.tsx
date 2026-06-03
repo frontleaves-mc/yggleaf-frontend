@@ -19,10 +19,10 @@ export function QuotaBar({
           {used} / {total}
         </span>
       </div>
-      <div className="h-2 w-full overflow-hidden rounded-full bg-secondary">
+      <div className="h-2 w-full overflow-hidden rounded-none bg-secondary">
         <div
           className={cn(
-            'h-full rounded-full transition-all duration-500',
+            'h-full rounded-none transition-all duration-500',
             isWarning ? 'bg-mc-nether' : 'bg-mc-gold',
           )}
           style={{ width: `${pct}%` }}

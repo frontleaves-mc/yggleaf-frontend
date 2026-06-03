@@ -276,7 +276,7 @@ function ServerManagementPage() {
             <Button
               variant="ghost"
               size="sm"
-              className="h-8 px-2.5 text-xs rounded-md hover:bg-muted transition-colors"
+              className="h-8 px-2.5 text-xs rounded-none hover:bg-muted transition-colors"
               onClick={() => openEdit(server)}
             >
               <Pencil data-icon="inline-start" className="size-3.5" />
@@ -285,7 +285,7 @@ function ServerManagementPage() {
             <Button
               variant="ghost"
               size="sm"
-              className="h-8 px-2.5 text-xs text-destructive hover:text-destructive hover:bg-destructive/10 rounded-md transition-colors"
+              className="h-8 px-2.5 text-xs text-destructive hover:text-destructive hover:bg-destructive/10 rounded-none transition-colors"
               onClick={() => setDeleteTarget(server)}
             >
               <Trash2 data-icon="inline-start" className="size-3.5" />
@@ -357,7 +357,7 @@ function ServerManagementPage() {
       {totalPages > 1 && (
         <motion.div
           variants={fadeUpItem}
-          className="flex items-center justify-between rounded-lg border border-border/60 bg-muted/30 px-4 py-3"
+          className="flex items-center justify-between rounded-none border border-border/60 bg-muted/30 px-4 py-3"
         >
           <p className="text-[13px] text-muted-foreground">
             共 {data?.total ?? 0} 条记录，第 {page}/{totalPages} 页
@@ -487,7 +487,7 @@ function ServerManagementPage() {
           <div className="space-y-4 py-2">
             <div className="space-y-2">
               <Label>服务器标识</Label>
-              <p className="text-sm font-mono text-muted-foreground bg-muted/60 rounded-md px-3 py-2">
+              <p className="text-sm font-mono text-muted-foreground bg-muted/60 rounded-none px-3 py-2">
                 {editTarget?.name}
               </p>
             </div>
@@ -531,7 +531,7 @@ function ServerManagementPage() {
                 placeholder="0"
               />
             </div>
-            <div className="flex items-center justify-between rounded-lg border border-border/60 px-4 py-3">
+            <div className="flex items-center justify-between rounded-none border border-border/60 px-4 py-3">
               <div className="space-y-0.5">
                 <Label className="text-sm">启用状态</Label>
                 <p className="text-xs text-muted-foreground">
@@ -540,7 +540,7 @@ function ServerManagementPage() {
               </div>
               <Switch checked={editEnabled} onCheckedChange={setEditEnabled} />
             </div>
-            <div className="flex items-center justify-between rounded-lg border border-border/60 px-4 py-3">
+            <div className="flex items-center justify-between rounded-none border border-border/60 px-4 py-3">
               <div className="space-y-0.5">
                 <Label className="text-sm">公开可见</Label>
                 <p className="text-xs text-muted-foreground">

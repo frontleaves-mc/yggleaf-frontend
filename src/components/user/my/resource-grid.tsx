@@ -69,7 +69,7 @@ export function ResourceGrid({ type }: ResourceGridProps) {
             className="ring-0 border border-border/70 overflow-hidden"
           >
             <CardContent className="p-4">
-              <div className="aspect-[3/4] rounded-lg bg-muted/50 animate-pulse mb-3" />
+              <div className="aspect-[3/4] rounded-none bg-muted/50 animate-pulse mb-3" />
               <div className="h-4 w-2/3 rounded bg-muted/50 animate-pulse" />
               <div className="mt-2 h-5 w-1/3 rounded bg-muted/50 animate-pulse" />
             </CardContent>
@@ -180,7 +180,7 @@ function ResourceCard({
         initial="rest"
         whileHover="hover"
         transition={hoverLiftTransition}
-        className="cursor-pointer rounded-lg"
+        className="cursor-pointer rounded-none"
       >
         <Card className="ring-0 border border-border/70 overflow-hidden group relative">
           <CardContent className="p-4">
@@ -188,7 +188,7 @@ function ResourceCard({
             <div
               className={`${
                 isSkin ? 'aspect-[3/4]' : 'aspect-[2/3]'
-              } rounded-lg bg-gradient-to-br from-primary/5 to-primary/10 mb-3 flex items-center justify-center relative overflow-hidden`}
+              } rounded-none bg-gradient-to-br from-primary/5 to-primary/10 mb-3 flex items-center justify-center relative overflow-hidden`}
             >
               <SkinPreview
                 skinUrl={isSkin ? skin.texture_url : undefined}
@@ -196,11 +196,11 @@ function ResourceCard({
               />
 
               {/* 悬停操作 */}
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors rounded-lg flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100">
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors rounded-none flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100">
                 <Button
                   variant="secondary"
                   size="icon"
-                  className="size-8 rounded-full"
+                  className="size-8 rounded-none"
                   onClick={(e) => {
                     e.stopPropagation()
                     setEditOpen(true)
@@ -211,7 +211,7 @@ function ResourceCard({
                 <Button
                   variant="secondary"
                   size="icon"
-                  className="size-8 rounded-full"
+                  className="size-8 rounded-none"
                   onClick={(e) => {
                     e.stopPropagation()
                     setDeleteOpen(true)
@@ -350,7 +350,7 @@ function EditResourceDialog({
             </div>
           )}
 
-          <div className="flex items-center justify-between rounded-lg border border-border p-3.5">
+          <div className="flex items-center justify-between rounded-none border border-border p-3.5">
             <div className="space-y-0.5">
               <Label className="text-sm">公开{isSkin ? '皮肤' : '披风'}</Label>
               <p className="text-[12px] text-muted-foreground">

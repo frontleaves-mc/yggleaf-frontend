@@ -29,13 +29,13 @@ export function Sidebar({ mode, items, sections }: SidebarProps) {
           '--sidebar-mode-accent': 'oklch(from var(--sidebar-primary) l c h)',
         } as React.CSSProperties
       }
-      className="overflow-hidden rounded-tl-2xl group-data-[variant=floating]:shadow-[0_16px_40px_-28px_oklch(0.18_0.025_195_/_0.18)]"
+      className="overflow-hidden"
       data-mode={mode}
     >
       <SidebarHeader mode={mode} />
 
       <div className="px-4 pt-1 pb-3" aria-hidden="true">
-        <div className="h-px bg-gradient-to-r from-transparent via-sidebar-border/80 to-transparent" />
+        <div className="h-px bg-sidebar-border" />
       </div>
 
       <ViewSwitcher mode={mode} />

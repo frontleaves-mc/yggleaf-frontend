@@ -46,7 +46,7 @@ export function SidebarFooter({
 
       <SidebarFooterRoot className="p-3 pt-2 group-data-[collapsible=icon]:p-2">
         <div
-          className="mx-1 mb-2 h-px bg-gradient-to-r from-transparent via-sidebar-border/60 to-transparent"
+          className="mx-1 mb-2 h-px bg-sidebar-border/70"
           aria-hidden="true"
         />
         <SidebarMenu className="group-data-[collapsible=icon]:items-center">
@@ -56,9 +56,9 @@ export function SidebarFooter({
                 <SidebarMenuButton
                   size="lg"
                   className={cn(
-                    'mc-glass relative overflow-hidden rounded-xl transition-all duration-200 ease-out',
+                    'mc-panel relative overflow-hidden rounded-none transition-colors duration-150',
                     'data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground',
-                    'hover:shadow-[0_4px_16px_-4px_oklch(from_var(--mc-grass)_l_c_h/0.12)] hover:border-oklch(from_var(--mc-grass)_l_c_h/_0.20)',
+                    'hover:bg-sidebar-accent/80',
                   )}
                 >
                   <div
@@ -74,14 +74,13 @@ export function SidebarFooter({
                     <Avatar className="size-8">
                       <AvatarFallback
                         className={cn(
-                          'rounded-lg text-xs font-bold',
-                          'border border-oklch(from_var(--mc-diamond)_l_c_h/_0.20) bg-gradient-to-br from-mc-grass-soft via-[oklch(from_var(--mc-diamond)_l_c_h/_0.10)] to-mc-gold-soft text-sidebar-foreground',
+                          'mc-slot text-xs font-bold text-sidebar-foreground',
                         )}
                       >
                         {initials}
                       </AvatarFallback>
                     </Avatar>
-                    <span className="absolute bottom-0 right-0 size-2 rounded-full border-[1.5px] border-sidebar bg-emerald-500 dark:bg-emerald-400" />
+                    <span className="absolute bottom-0 right-0 size-2 border-[1.5px] border-sidebar bg-mc-grass" />
                   </div>
                   <div className="flex flex-1 flex-col min-w-0">
                     <span className="truncate text-sm font-semibold tracking-tight">

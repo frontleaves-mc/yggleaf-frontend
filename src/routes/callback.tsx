@@ -94,7 +94,7 @@ function CallbackPage() {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background">
         <div className="w-full max-w-sm space-y-4 px-6 text-center">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-destructive/10">
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-none bg-destructive/10">
             <span className="text-xl text-destructive">!</span>
           </div>
           <h2 className="text-lg font-semibold text-foreground">登录失败</h2>
@@ -102,7 +102,7 @@ function CallbackPage() {
           <Link
             to="/login"
             search={{ callback: stashAuthRedirect(retryRedirect) } as any}
-            className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-primary to-primary px-5 py-2.5 text-sm font-semibold text-white no-underline hover:opacity-90"
+            className="inline-flex items-center gap-2 rounded-none bg-gradient-to-r from-primary to-primary px-5 py-2.5 text-sm font-semibold text-white no-underline hover:opacity-90"
           >
             返回登录
           </Link>

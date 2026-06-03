@@ -48,7 +48,7 @@ export function LandingFooter() {
               <img
                 src="/favicon.png"
                 alt="锋楪游戏"
-                className="size-8 rounded-none object-cover pixel-shadow-sm"
+                className="size-8 rounded-none object-cover mc-pixel-shadow-sm"
               />
               <span className="font-heading text-lg font-bold tracking-tight font-pixel">
                 锋楪游戏
@@ -90,7 +90,7 @@ export function LandingFooter() {
               社区
             </h3>
             <ul className="flex flex-col gap-3">
-              <li className="rounded-none border border-border/50 bg-card/50 px-3 py-2 pixel-shadow-sm">
+              <li className="rounded-none border border-border/50 bg-card/50 px-3 py-2 mc-pixel-shadow-sm">
                 <span className="inline-flex items-center gap-2 text-sm text-muted-foreground">
                   <MessageCircle className="size-4 text-primary/70" />
                   QQ 群：

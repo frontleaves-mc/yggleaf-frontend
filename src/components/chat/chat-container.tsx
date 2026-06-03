@@ -20,9 +20,9 @@ export function ChatContainer({
     <div
       data-slot="chat-container"
       className={cn(
-        'relative overflow-hidden rounded-xl',
+        'relative overflow-hidden rounded-none',
         'border border-border/60 bg-card',
-        'shadow-sm',
+        'mc-pixel-shadow-sm',
         className,
       )}
       {...props}

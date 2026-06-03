@@ -95,9 +95,9 @@ function MetricBar({
           </span>
         </div>
       </div>
-      <div className="h-1.5 rounded-full bg-muted/40 overflow-hidden">
+      <div className="h-1.5 rounded-none bg-muted/40 overflow-hidden">
         <div
-          className={`h-full rounded-full transition-all duration-500 ${usageBarColor(pct)}`}
+          className={`h-full rounded-none transition-all duration-500 ${usageBarColor(pct)}`}
           style={{ width: `${pct}%` }}
         />
       </div>
@@ -149,7 +149,7 @@ function ServerCard({ server }: { server: ServerRealtimeLoad }) {
         </div>
         <div className="flex items-center gap-2 shrink-0">
           <span
-            className={`inline-block size-2 rounded-full ${server.online ? 'bg-emerald-500' : 'bg-zinc-500'}`}
+            className={`inline-block size-2 rounded-none ${server.online ? 'bg-emerald-500' : 'bg-zinc-500'}`}
           />
           <span className="text-xs text-muted-foreground">
             {server.online ? '在线' : '离线'}
@@ -289,7 +289,7 @@ function ServerLoadPage() {
               type="button"
               onClick={() => refetch()}
               disabled={isFetching}
-              className="inline-flex items-center gap-1.5 rounded-md border border-border/50 bg-transparent px-3 py-1.5 text-xs font-medium text-muted-foreground/60 transition-all hover:border-mc-nether/30 hover:text-mc-nether disabled:opacity-50 disabled:pointer-events-none"
+              className="inline-flex items-center gap-1.5 rounded-none border border-border/50 bg-transparent px-3 py-1.5 text-xs font-medium text-muted-foreground/60 transition-all hover:border-mc-nether/30 hover:text-mc-nether disabled:opacity-50 disabled:pointer-events-none"
             >
               <RefreshCw
                 className={`size-3.5 ${isFetching ? 'animate-spin' : ''}`}
@@ -337,7 +337,7 @@ function ServerLoadPage() {
                 key={s.server_id}
                 type="button"
                 onClick={() => setSelectedServerId(String(s.server_id))}
-                className={`rounded-md px-3 py-1.5 text-xs font-medium transition-all cursor-pointer ${
+                className={`rounded-none px-3 py-1.5 text-xs font-medium transition-all cursor-pointer ${
                   activeServerId === String(s.server_id)
                     ? 'bg-mc-nether/20 text-mc-nether border border-mc-nether/30'
                     : 'bg-card text-muted-foreground/60 border border-border/50 hover:border-mc-nether/20 hover:text-mc-nether'
@@ -381,8 +381,8 @@ function HistoryCharts({ serverId }: { serverId: string }) {
   if (isLoading) {
     return (
       <div className="flex flex-col gap-4">
-        <div className="h-[360px] rounded-xl bg-muted/20 animate-pulse" />
-        <div className="h-[360px] rounded-xl bg-muted/20 animate-pulse" />
+        <div className="h-[360px] rounded-none bg-muted/20 animate-pulse" />
+        <div className="h-[360px] rounded-none bg-muted/20 animate-pulse" />
       </div>
     )
   }

@@ -62,14 +62,14 @@ function PublicAnnouncementsPage() {
           <div className="absolute inset-0 mc-grid-pattern opacity-25" />
 
           <div
-            className="pointer-events-none absolute -top-40 left-1/2 h-[500px] w-[700px] -translate-x-1/2 rounded-full opacity-40"
+            className="pointer-events-none absolute -top-40 left-1/2 h-[500px] w-[700px] -translate-x-1/2 rounded-none opacity-40"
             style={{
               background:
                 'radial-gradient(circle at center, oklch(0.53 0.12 130 / 35%) 0%, oklch(0.53 0.12 130 / 10%) 45%, transparent 70%)',
             }}
           />
           <div
-            className="pointer-events-none absolute -top-20 right-0 h-[350px] w-[400px] rounded-full opacity-30"
+            className="pointer-events-none absolute -top-20 right-0 h-[350px] w-[400px] rounded-none opacity-30"
             style={{
               background:
                 'radial-gradient(circle at 60% 50%, oklch(0.65 0.14 146 / 25%) 0%, transparent 60%)',
@@ -83,15 +83,15 @@ function PublicAnnouncementsPage() {
               transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
               className="max-w-3xl"
             >
-              <div className="mb-5 inline-flex items-center gap-2.5 rounded-full bg-background/80 px-4 py-1.5 shadow-sm backdrop-blur-sm ring-1 ring-border/60">
+              <div className="mb-5 inline-flex items-center gap-2.5 rounded-none bg-background/80 px-4 py-1.5 mc-pixel-shadow-sm backdrop-blur-sm ring-1 ring-border/60">
                 <span className="relative flex size-2">
-                  <span className="absolute inline-flex size-full animate-ping rounded-full bg-primary/40 opacity-75" />
-                  <span className="relative inline-flex size-2 rounded-full bg-primary" />
+                  <span className="absolute inline-flex size-full animate-ping rounded-none bg-primary/40 opacity-75" />
+                  <span className="relative inline-flex size-2 rounded-none bg-primary" />
                 </span>
                 <span className="text-xs font-medium tracking-wide text-muted-foreground">
                   服务器动态与维护通知
                 </span>
-                <span className="ml-1 h-3 w-px rounded-full bg-gradient-to-b from-transparent via-primary/40 to-transparent" />
+                <span className="ml-1 h-3 w-px rounded-none bg-gradient-to-b from-transparent via-primary/40 to-transparent" />
               </div>
 
               <h1 className="font-heading text-4xl font-semibold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
@@ -111,7 +111,7 @@ function PublicAnnouncementsPage() {
                   {['dot-a', 'dot-b', 'dot-c', 'dot-d'].map((id, i) => (
                     <span
                       key={id}
-                      className="size-1 rounded-full bg-primary/30"
+                      className="size-1 rounded-none bg-primary/30"
                       style={{ animationDelay: `${i * 150}ms` }}
                     />
                   ))}
@@ -124,7 +124,7 @@ function PublicAnnouncementsPage() {
         <LandingSection>
           <div className="mb-10">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <div className="inline-flex items-center rounded-xl bg-muted/60 p-1 ring-1 ring-inset ring-border/50 backdrop-blur-sm">
+              <div className="inline-flex items-center rounded-none bg-muted/60 p-1 ring-1 ring-inset ring-border/50 backdrop-blur-sm">
                 {TYPE_TABS.map((tab) => {
                   const isActive = activeTab === tab.value
                   return (
@@ -133,18 +133,18 @@ function PublicAnnouncementsPage() {
                       type="button"
                       onClick={() => handleTypeChange(tab.value)}
                       className={`
-                        relative inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium
+                        relative inline-flex items-center gap-2 rounded-none px-4 py-2 text-sm font-medium
                         transition-all duration-200 ease-out cursor-pointer
                         ${
                           isActive
-                            ? 'bg-background text-foreground shadow-sm'
+                            ? 'bg-background text-foreground mc-pixel-shadow-sm'
                             : 'text-muted-foreground hover:text-foreground/80'
                         }
                       `}
                     >
                       {tab.label}
                       <span
-                        className={`inline-flex min-w-[20px] items-center justify-center rounded-md px-1.5 text-xs font-semibold tabular-nums transition-colors duration-200 ${
+                        className={`inline-flex min-w-[20px] items-center justify-center rounded-none px-1.5 text-xs font-semibold tabular-nums transition-colors duration-200 ${
                           isActive
                             ? 'bg-primary/10 text-primary'
                             : 'bg-muted/80 text-muted-foreground/70'
@@ -158,7 +158,7 @@ function PublicAnnouncementsPage() {
               </div>
 
               <p className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                <span className="inline-block size-1.5 rounded-full bg-primary/50" />
+                <span className="inline-block size-1.5 rounded-none bg-primary/50" />
                 共{' '}
                 <span className="font-medium tabular-nums text-foreground/80">
                   {total}
@@ -191,7 +191,7 @@ function PublicAnnouncementsPage() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="relative overflow-hidden rounded-2xl border border-dashed border-border/60 py-20 text-center"
+              className="relative overflow-hidden rounded-none border border-dashed border-border/60 py-20 text-center"
             >
               <div
                 className="absolute inset-0 opacity-50"
@@ -203,7 +203,7 @@ function PublicAnnouncementsPage() {
               <div className="absolute inset-0 dot-grid opacity-40" />
 
               <div className="relative">
-                <div className="mx-auto mb-5 flex size-16 items-center justify-center rounded-2xl bg-muted/60 ring-1 ring-inset ring-border/40">
+                <div className="mx-auto mb-5 flex size-16 items-center justify-center rounded-none bg-muted/60 ring-1 ring-inset ring-border/40">
                   <Inbox className="size-7 text-muted-foreground/50" />
                 </div>
                 <p className="text-sm font-medium text-muted-foreground">
@@ -226,7 +226,7 @@ function PublicAnnouncementsPage() {
                   size="sm"
                   disabled={page <= 1}
                   onClick={() => setPage((p) => p - 1)}
-                  className="rounded-full px-4"
+                  className="rounded-none px-4"
                 >
                   上一页
                 </Button>
@@ -245,11 +245,11 @@ function PublicAnnouncementsPage() {
                             onClick={() => setPage(pageNum)}
                             disabled={isActive}
                             className={`
-                              flex size-9 items-center justify-center rounded-full text-sm font-medium
+                              flex size-9 items-center justify-center rounded-none text-sm font-medium
                               transition-all duration-200 cursor-pointer
                               ${
                                 isActive
-                                  ? 'bg-primary text-primary-foreground shadow-md shadow-primary/25'
+                                  ? 'bg-primary text-primary-foreground mc-pixel-shadow shadow-primary/25'
                                   : 'text-muted-foreground hover:bg-muted hover:text-foreground hover:scale-105'
                               }
                             `}
@@ -278,11 +278,11 @@ function PublicAnnouncementsPage() {
                         onClick={() => setPage(pageNum)}
                         disabled={isActive}
                         className={`
-                          flex size-9 items-center justify-center rounded-full text-sm font-medium
+                          flex size-9 items-center justify-center rounded-none text-sm font-medium
                           transition-all duration-200 cursor-pointer
                           ${
                             isActive
-                              ? 'bg-primary text-primary-foreground shadow-md shadow-primary/25'
+                              ? 'bg-primary text-primary-foreground mc-pixel-shadow shadow-primary/25'
                               : 'text-muted-foreground hover:bg-muted hover:text-foreground hover:scale-105'
                           }
                         `}
@@ -298,7 +298,7 @@ function PublicAnnouncementsPage() {
                   size="sm"
                   disabled={page >= totalPages}
                   onClick={() => setPage((p) => p + 1)}
-                  className="rounded-full px-4"
+                  className="rounded-none px-4"
                 >
                   下一页
                 </Button>
@@ -343,7 +343,7 @@ function AnnouncementRow({
         variants={cardHoverVariants}
         initial="rest"
         whileHover="hover"
-        className="relative overflow-hidden rounded-xl border border-border bg-card transition-colors duration-300 landing-glow-hover"
+        className="relative overflow-hidden rounded-none border border-border bg-card transition-colors duration-300 landing-glow-hover"
       >
         <div
           className={`absolute top-0 left-0 h-full w-[3px] ${accentClass}`}
@@ -425,8 +425,8 @@ function AnnouncementsSkeleton() {
 
             <div className="min-w-0 flex-1 space-y-3">
               <div className="flex gap-2">
-                <Skeleton className="h-5 w-12 rounded-full" />
-                <Skeleton className="h-5 w-28 rounded-full" />
+                <Skeleton className="h-5 w-12 rounded-none" />
+                <Skeleton className="h-5 w-28 rounded-none" />
               </div>
               <Skeleton className="h-3 w-10" />
               <Skeleton className="h-6 w-2/3" />

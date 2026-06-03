@@ -154,7 +154,7 @@ function UserCommandsPage() {
 
       {/* 分页 */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-between rounded-lg border border-border/60 bg-muted/30 px-4 py-3">
+        <div className="flex items-center justify-between rounded-none border border-border/60 bg-muted/30 px-4 py-3">
           <p className="text-[13px] text-muted-foreground">
             共 {data?.total ?? 0} 条记录，第 {page}/{totalPages} 页
           </p>

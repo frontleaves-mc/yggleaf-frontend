@@ -1,203 +1,59 @@
-/* ═══════════════════════════════════════════
-   Minecraft Pixel Design — Decorations & Feedback
-   ═══════════════════════════════════════════ */
+/* Small Minecraft decorative primitives. */
 
-/* ── McIconBox ── */
+[data-slot='mc-icon-box'],
 .mc-icon-box,
-[class*="icon-box"] {
+.icon-box {
   border-radius: 0;
-  border: 2px solid var(--pixel-border-base);
-  border-top-color: var(--pixel-border-light);
-  border-left-color: var(--pixel-border-light);
-  border-right-color: var(--pixel-border-dark);
-  border-bottom-color: var(--pixel-border-dark);
-  box-shadow: 2px 2px 0 0 var(--pixel-shadow-color);
+  border: 3px solid var(--mc-outline);
+  background: var(--mc-texture-slot);
+  box-shadow: 3px 3px 0 var(--mc-shadow-color);
 }
 
-/* ── Separator ── */
-[data-slot="separator"] {
+[data-slot='separator'] {
   border-radius: 0;
-  border-color: var(--pixel-border-dark);
 }
 
-/* ── Avatar — square ── */
-[data-slot="avatar"],
-[data-slot="avatar-image"],
-[data-slot="avatar-fallback"] {
+[data-slot='avatar'],
+[data-slot='avatar-image'],
+[data-slot='avatar-fallback'] {
   border-radius: 0;
-}
-[data-slot="avatar"] {
-  border: 2px solid var(--pixel-border-base);
 }
 
-/* ── Skeleton — steps() pixel flicker ── */
-[data-slot="skeleton"] {
+[data-slot='skeleton'] {
   border-radius: 0;
-  animation: pixel-skeleton-flicker 1.5s steps(4) infinite;
+  animation: pixel-skeleton-flicker 1.4s steps(4) infinite;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.08) 0 8px,
+      transparent 8px 16px
+    ),
+    var(--mc-texture-stone);
 }
 
 @keyframes pixel-skeleton-flicker {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.6; }
+  0%,
+  100% {
+    opacity: 0.42;
+  }
+  50% {
+    opacity: 0.72;
+  }
 }
 
-/* ── Tooltip — square box ── */
-[data-slot="tooltip-content"] {
+[data-slot='tooltip-content'] {
   border-radius: 0;
-  border: 2px solid var(--pixel-border-base);
-  border-top-color: var(--pixel-border-light);
-  border-left-color: var(--pixel-border-light);
-  border-right-color: var(--pixel-border-dark);
-  border-bottom-color: var(--pixel-border-dark);
-  box-shadow: 2px 2px 0 0 var(--pixel-shadow-color);
-  font-family: var(--pixel-font-heading);
-  letter-spacing: 0.03em;
-  font-size: 0.7rem;
+  border: 3px solid var(--mc-outline);
+  background: var(--mc-texture-panel);
+  box-shadow: 3px 3px 0 var(--mc-shadow-color);
 }
 
-/* Remove Tooltip arrow or make it square */
-[data-slot="tooltip-arrow"] {
+[data-slot='tooltip-arrow'] {
   display: none;
 }
 
-/* ── Sonner / Toast ── */
-[data-sonner-toaster] [data-sonner-toast],
-[data-slot="toast"] {
-  border-radius: 0;
-  border: 2px solid var(--pixel-border-base);
-  border-top-color: var(--pixel-border-light);
-  border-left-color: var(--pixel-border-light);
-  border-right-color: var(--pixel-border-dark);
-  border-bottom-color: var(--pixel-border-dark);
-  box-shadow: 3px 3px 0 0 var(--pixel-shadow-color);
-}
-
-/* Toast actions */
-[data-slot="toast-action"] {
-  font-family: var(--pixel-font-heading);
-  text-transform: uppercase;
-  font-size: 0.65rem;
-}
-
-/* ── Sheet ── */
-[data-slot="sheet-content"] {
-  border-radius: 0;
-  border-left: 2px solid var(--pixel-border-base);
-  box-shadow: -4px 0 0 0 var(--pixel-shadow-color);
-}
-
-/* ── Breadcrumb ── */
-[data-slot="breadcrumb-link"] {
-  border-radius: 0;
-}
-
-/* ── Toggle ── */
-[data-slot="toggle"] {
-  border-radius: 0;
-}
-[data-slot="toggle"][data-state="on"] {
-  border: 2px solid var(--pixel-border-base);
-  border-top-color: var(--pixel-border-dark);
-  border-left-color: var(--pixel-border-dark);
-  border-right-color: var(--pixel-border-light);
-  border-bottom-color: var(--pixel-border-light);
-}
-
-/* ── ToggleGroup ── */
-[data-slot="toggle-group"] [data-slot="toggle-group-item"] {
-  border-radius: 0;
-}
-[data-slot="toggle-group"] [data-slot="toggle-group-item"][data-state="on"] {
-  border: 2px solid var(--pixel-border-base);
-  border-top-color: var(--pixel-border-dark);
-  border-left-color: var(--pixel-border-dark);
-  border-right-color: var(--pixel-border-light);
-  border-bottom-color: var(--pixel-border-light);
-}
-
-/* ── Collapsible ── */
-[data-slot="collapsible-trigger"] {
-  border-radius: 0;
-}
-
-/* ── ScrollArea ── */
-[data-slot="scroll-area-viewport"] {
-  border-radius: 0;
-}
-[data-slot="scroll-area-scrollbar"] {
-  border-radius: 0;
-}
-[data-slot="scroll-area-thumb"] {
-  border-radius: 0;
-}
-
-/* ── Command (CmdK / search palette) ── */
-[data-slot="command-input-wrapper"] {
-  border-radius: 0;
-}
-[data-slot="command-item"] {
-  border-radius: 0;
-}
-
-/* ── PageTransition — instant (no animation in pixel style) ── */
-[data-page-transition] {
-  transition: none;
-}
-
-/* ═══════════════════════════════════════════
-   Task 13: Refinements for Tooltip, Sonner, Skeleton
-   ═══════════════════════════════════════════ */
-
-/* ── Tooltip refinements ── */
-/* Ensure no tooltip arrow visible in any state */
-[data-slot="tooltip-arrow"] svg,
-[data-slot="tooltip-arrow"] * {
-  display: none;
-}
-
-/* Tooltip pixel border on all sides — no rounded corners on the arrow container */
-[data-slot="tooltip-content"] {
-  font-size: 0.7rem;
-  padding: 0.5rem 0.75rem;
-}
-
-/* ── Sonner toast stacking ── */
-/* Prevent stacked toasts from having overlapping shadows */
-[data-sonner-toaster] li + li [data-sonner-toast],
-[data-sonner-toaster] [data-sonner-toast] + [data-sonner-toast] {
-  margin-top: 0.5rem;
-}
-
-/* Individual toast — ensure shadow stays contained */
 [data-sonner-toast] {
-  position: relative;
-  overflow: visible;
-}
-
-/* Sonner close button pixelized */
-[data-sonner-close-button] {
   border-radius: 0;
-  border: 1px solid transparent;
-}
-[data-sonner-close-button]:hover {
-  border-color: var(--pixel-border-base);
-}
-
-/* ── Skeleton refinements ── */
-/* Force override any smooth shimmer animation with our steps() animation */
-[data-slot="skeleton"] {
-  animation: pixel-skeleton-flicker 1.5s steps(4) infinite !important;
-  background-image: none;
-  background-color: var(--pixel-border-dark);
-}
-
-/* Skeleton shape variants — all 0 radius */
-.skeleton-circle,
-[data-slot="skeleton"][class*="rounded-full"],
-[data-slot="skeleton"][class*="rounded"] {
-  border-radius: 0;
-}
-
-.skeleton-rect {
-  border-radius: 0;
+  border: 3px solid var(--mc-outline);
+  box-shadow: 4px 4px 0 var(--mc-shadow-color);
 }

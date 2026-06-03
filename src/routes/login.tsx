@@ -50,17 +50,17 @@ function LoginPage() {
         <div className="absolute inset-0 opacity-20 mc-grid-pattern" />
 
         <motion.div
-          className="pointer-events-none absolute -left-20 top-1/4 size-72 rounded-full bg-mc-grass/15 blur-[100px]"
+          className="pointer-events-none absolute -left-20 top-1/4 size-72 rounded-none bg-mc-grass/15 blur-[100px]"
           animate={{ y: [-12, 12, -12], x: [-4, 4, -4] }}
           transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
         />
         <motion.div
-          className="pointer-events-none absolute -right-16 bottom-1/3 size-60 rounded-full bg-mc-diamond/12 blur-[90px]"
+          className="pointer-events-none absolute -right-16 bottom-1/3 size-60 rounded-none bg-mc-diamond/12 blur-[90px]"
           animate={{ y: [-8, 8, -8] }}
           transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
         />
         <motion.div
-          className="pointer-events-none absolute left-1/3 bottom-10 size-48 rounded-full bg-mc-gold/10 blur-[80px]"
+          className="pointer-events-none absolute left-1/3 bottom-10 size-48 rounded-none bg-mc-gold/10 blur-[80px]"
           animate={{ y: [-10, 10, -10], x: [-3, 3, -3] }}
           transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
         />
@@ -75,7 +75,7 @@ function LoginPage() {
             <img
               src="/favicon.png"
               alt="Yggleaf"
-              className="size-12 rounded-xl object-cover shadow-lg"
+              className="size-12 rounded-none object-cover shadow-lg"
             />
             <div>
               <div className="font-heading text-lg font-semibold tracking-tight">
@@ -120,7 +120,7 @@ function LoginPage() {
             ].map((item) => (
               <div
                 key={item.label}
-                className="landing-glass group relative overflow-hidden rounded-lg border border-white/10 px-4 py-3 transition-all duration-300 hover:border-white/20"
+                className="landing-glass group relative overflow-hidden rounded-none border border-white/10 px-4 py-3 transition-all duration-300 hover:border-white/20"
               >
                 <div
                   className={`absolute top-0 left-0 h-0.5 w-full ${item.accent === 'grass' ? 'bg-mc-grass' : item.accent === 'diamond' ? 'bg-mc-diamond' : 'bg-mc-gold'}`}
@@ -155,7 +155,7 @@ function LoginPage() {
             <img
               src="/favicon.png"
               alt="Yggleaf"
-              className="size-11 rounded-xl object-cover shadow-lg shadow-primary/15"
+              className="size-11 rounded-none object-cover shadow-lg shadow-primary/15"
             />
             <div>
               <div className="font-heading text-base font-semibold tracking-tight">
@@ -184,7 +184,7 @@ function LoginPage() {
                   <img
                     src="/favicon.png"
                     alt="Yggleaf"
-                    className="size-10 rounded-xl object-cover shadow-lg shadow-primary/15"
+                    className="size-10 rounded-none object-cover shadow-lg shadow-primary/15"
                   />
                   <div className="text-sm font-medium text-muted-foreground">
                     统一登录
@@ -229,7 +229,7 @@ function LoginPage() {
                 </LandingButton>
               </motion.div>
 
-              <div className="mt-5 rounded-md bg-muted/50 px-3 py-2.5 text-xs leading-5 text-muted-foreground">
+              <div className="mt-5 rounded-none bg-muted/50 px-3 py-2.5 text-xs leading-5 text-muted-foreground">
                 若账号尚未完成初始化，登录后会自动进入账号设置流程。
               </div>
             </LandingCard>

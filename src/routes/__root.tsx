@@ -1,9 +1,5 @@
-import {
-  Outlet,
-  createRootRouteWithContext
-  
-} from '@tanstack/react-router'
-import type {ErrorComponentProps} from '@tanstack/react-router';
+import { Outlet, createRootRouteWithContext } from '@tanstack/react-router'
+import type { ErrorComponentProps } from '@tanstack/react-router'
 
 import { TooltipProvider } from '#/components/ui/tooltip'
 import { Toaster } from '#/components/ui/sonner'
@@ -23,7 +19,7 @@ function ErrorFallback({ error }: ErrorComponentProps) {
         <button
           type="button"
           onClick={() => window.location.reload()}
-          className="mt-4 rounded-lg bg-primary px-4 py-2 text-sm text-primary-foreground cursor-pointer"
+          className="mt-4 rounded-none bg-primary px-4 py-2 text-sm text-primary-foreground cursor-pointer"
         >
           刷新页面
         </button>

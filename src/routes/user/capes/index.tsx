@@ -48,7 +48,7 @@ function CapesPage() {
           icon={Flag}
           variant="nether"
         >
-          <div className="flex rounded-lg border border-border bg-muted/30">
+          <div className="flex rounded-none border border-border bg-muted/30">
             <Button
               variant={viewMode === 'grid' ? 'secondary' : 'ghost'}
               size="icon-sm"
@@ -97,7 +97,7 @@ function CapesPage() {
         <motion.div variants={mcStaggerGridItem}>
           <McCard variant="glass" className="border-dashed">
             <div className="py-12 text-center">
-              <div className="mx-auto mb-4 flex size-14 items-center justify-center rounded-xl bg-muted/50">
+              <div className="mx-auto mb-4 flex size-14 items-center justify-center rounded-none bg-muted/50">
                 <Flag className="size-7 text-muted-foreground/40" />
               </div>
               <h3 className="font-medium text-foreground">暂无披风</h3>
@@ -129,7 +129,7 @@ function CapeCard({
         className="cursor-pointer overflow-hidden"
       >
         <div className="flex items-center gap-4 p-4">
-          <div className="size-14 rounded-lg overflow-hidden flex-shrink-0 bg-muted/30">
+          <div className="size-14 rounded-none overflow-hidden flex-shrink-0 bg-muted/30">
             <SkinPreview capeUrl={cape.texture_url} />
           </div>
           <div className="flex-1 min-w-0">
@@ -154,9 +154,9 @@ function CapeCard({
       className="cursor-pointer overflow-hidden group"
     >
       <div className="p-4">
-        <div className="aspect-[2/3] rounded-lg bg-gradient-to-b from-chart-4/5 via-chart-4/8 to-chart-4/15 mb-3 flex items-center justify-center relative overflow-hidden">
+        <div className="aspect-[2/3] rounded-none bg-gradient-to-b from-chart-4/5 via-chart-4/8 to-chart-4/15 mb-3 flex items-center justify-center relative overflow-hidden">
           <SkinPreview capeUrl={cape.texture_url} />
-          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors rounded-lg" />
+          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors rounded-none" />
         </div>
 
         <h3 className="font-medium text-sm text-foreground truncate group-hover:text-[var(--color-mc-diamond)] transition-colors">

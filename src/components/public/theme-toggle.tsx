@@ -32,7 +32,7 @@ export function ThemeToggle() {
         <Button
           variant="ghost"
           size="icon"
-          className="shrink-0 rounded-lg cursor-pointer"
+          className="shrink-0 rounded-none cursor-pointer"
         >
           {icon}
           <span className="sr-only">切换主题</span>

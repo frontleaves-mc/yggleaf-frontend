@@ -183,7 +183,7 @@ function GameInfoPage() {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-        <div className="flex rounded-md border border-input">
+        <div className="flex rounded-none border border-input">
           <Button
             variant={viewMode === 'grid' ? 'secondary' : 'ghost'}
             size="icon-lg"

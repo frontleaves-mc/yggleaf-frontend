@@ -217,7 +217,7 @@ export function AdminIssueActions({ issue }: AdminIssueActionsProps) {
         </CardHeader>
         <CardContent className="space-y-3">
           {/* 当前状态 */}
-          <div className="flex items-center gap-2.5 rounded-lg border border-border/50 bg-muted/30 px-3 py-2.5">
+          <div className="flex items-center gap-2.5 rounded-none border border-border/50 bg-muted/30 px-3 py-2.5">
             <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground shrink-0">
               当前
             </span>
@@ -258,7 +258,7 @@ export function AdminIssueActions({ issue }: AdminIssueActionsProps) {
 
           {/* 终态提示 */}
           {isTerminal && terminalInfo && (
-            <div className="flex items-center gap-2.5 rounded-lg border border-border/40 bg-muted/20 px-3 py-2.5">
+            <div className="flex items-center gap-2.5 rounded-none border border-border/40 bg-muted/20 px-3 py-2.5">
               <Lock className="h-3.5 w-3.5 shrink-0 text-muted-foreground/60" />
               <span className="text-xs text-muted-foreground">
                 {terminalInfo.description}

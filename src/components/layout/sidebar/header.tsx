@@ -28,8 +28,8 @@ export function SidebarHeader({ mode }: SidebarHeaderProps) {
     <SidebarHeaderRoot className="relative overflow-hidden p-3">
       <div
         className={cn(
-          'pointer-events-none rounded-lg absolute inset-0',
-          'bg-[radial-gradient(ellipse_at_top_left,var(--mc-grass-soft),transparent_60%)]',
+          'pointer-events-none absolute inset-0',
+          'bg-[linear-gradient(90deg,var(--mc-accent-soft),transparent)]',
         )}
         aria-hidden="true"
       />
@@ -52,9 +52,8 @@ export function SidebarHeader({ mode }: SidebarHeaderProps) {
           src="/favicon.png"
           alt="Yggleaf"
           className={cn(
-            'shrink-0 rounded-lg object-cover',
-            'shadow-[0_2px_8px_-4px_oklch(from_var(--mc-grass)_l_c_h/0.30)]',
-            'ring-1 ring-oklch(from_var(--mc-grass)_l_c_h/_0.15)',
+            'shrink-0 rounded-none object-cover',
+            'mc-slot p-0.5',
             'transition-all duration-300 ease-out',
             isCollapsed ? 'mx-auto size-9' : 'size-10',
           )}

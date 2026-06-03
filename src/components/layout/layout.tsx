@@ -50,9 +50,9 @@ function getInitialOpen(): boolean {
 }
 
 const mcGradientMap = {
-  user: 'bg-[radial-gradient(ellipse_80%_60%_at_10%_0%,var(--mc-grass-soft),transparent),radial-gradient(ellipse_60%_50%_at_90%_100%,var(--mc-diamond-soft),transparent)]',
+  user: 'bg-[radial-gradient(ellipse_45%_35%_at_0%_0%,var(--mc-grass-soft),transparent),radial-gradient(ellipse_38%_30%_at_100%_100%,var(--mc-diamond-soft),transparent)]',
   admin:
-    'bg-[radial-gradient(ellipse_80%_60%_at_100%_0%,var(--mc-nether-soft),transparent),radial-gradient(ellipse_60%_50%_at_0%_100%,var(--mc-gold-soft),transparent)]',
+    'bg-[radial-gradient(ellipse_45%_35%_at_100%_0%,var(--mc-nether-soft),transparent),radial-gradient(ellipse_38%_30%_at_0%_100%,var(--mc-gold-soft),transparent)]',
 } as const
 
 // ─── 主组件 ──────────────────────────────────────────────
@@ -73,11 +73,11 @@ export function Layout({ children, mode, items, sections }: LayoutProps) {
   return (
     <SidebarProvider
       defaultOpen={getInitialOpen()}
-      className="relative bg-primary/[0.02]"
+      className="relative bg-background"
       data-mode={mode}
     >
       <div
-        className={`pointer-events-none fixed inset-0 transition-opacity duration-700 ${mcGradientMap[mode]}`}
+        className={`pointer-events-none fixed inset-0 opacity-80 transition-opacity duration-700 ${mcGradientMap[mode]}`}
         aria-hidden="true"
       />
 
@@ -96,7 +96,7 @@ export function Layout({ children, mode, items, sections }: LayoutProps) {
               />
 
               <div
-                className="dot-grid pointer-events-none absolute inset-0 opacity-[0.25]"
+                className="mc-inventory-grid pointer-events-none absolute inset-0 opacity-[0.12]"
                 aria-hidden="true"
               />
 

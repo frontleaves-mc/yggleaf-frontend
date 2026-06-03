@@ -45,6 +45,8 @@ import { toast } from 'sonner'
 import { isSuperAdmin } from '#/lib/permissions'
 import { McCard } from '#/components/shared/mc-card'
 import { McIconBox } from '#/components/shared/mc-icon-box'
+import { McDataTableShell } from '#/components/shared/mc-data-table-shell'
+import { McEmptyState } from '#/components/shared/mc-empty-state'
 import { staggerContainer, fadeUpItem } from '#/lib/motion-presets'
 
 // ─── 路由注册 ──────────────────────────────────────────────
@@ -174,7 +176,7 @@ function PluginCredentialsPage() {
         <TableColumnHeader column={column} title="密钥" />
       ),
       cell: ({ row }) => (
-        <div className="flex items-center gap-1.5 rounded-md bg-muted/60 px-2.5 py-1.5">
+        <div className="flex items-center gap-1.5 rounded-none bg-muted/60 px-2.5 py-1.5">
           <Lock className="size-3 text-muted-foreground shrink-0" />
           <span className="font-mono text-xs text-muted-foreground truncate max-w-[180px]">
             {row.original.secret_key}
@@ -223,7 +225,7 @@ function PluginCredentialsPage() {
             <Button
               variant="ghost"
               size="sm"
-              className="h-8 px-2.5 text-xs rounded-md hover:bg-muted transition-colors"
+              className="h-8 px-2.5 text-xs rounded-none hover:bg-muted transition-colors"
               asChild
             >
               <Link
@@ -237,7 +239,7 @@ function PluginCredentialsPage() {
             <Button
               variant="ghost"
               size="sm"
-              className="h-8 px-2.5 text-xs text-destructive hover:text-destructive hover:bg-destructive/10 rounded-md transition-colors"
+              className="h-8 px-2.5 text-xs text-destructive hover:text-destructive hover:bg-destructive/10 rounded-none transition-colors"
               onClick={() => setDeleteTarget(credential)}
             >
               <Trash2 data-icon="inline-start" className="size-3.5" />
@@ -269,7 +271,7 @@ function PluginCredentialsPage() {
       </motion.div>
 
       <motion.div variants={fadeUpItem}>
-        <McCard variant="solid" color="gold" className="overflow-hidden">
+        <McDataTableShell accent="gold">
           <TableProvider columns={columns} data={credentials}>
             <TSTableHeader>
               {({ headerGroup }) => (
@@ -280,19 +282,11 @@ function PluginCredentialsPage() {
             </TSTableHeader>
             <TSTableBody
               emptyContent={
-                <div className="flex flex-col items-center gap-3 py-8">
-                  <McIconBox variant="gold" size="lg" className="mx-auto">
-                    <KeyRound />
-                  </McIconBox>
-                  <div className="text-center space-y-1">
-                    <p className="text-sm font-medium text-muted-foreground">
-                      暂无插件凭证
-                    </p>
-                    <p className="text-xs text-muted-foreground/70">
-                      点击右上角「创建凭证」开始
-                    </p>
-                  </div>
-                </div>
+                <McEmptyState
+                  title="暂无插件凭证"
+                  description="点击右上角「创建凭证」开始"
+                  icon={KeyRound}
+                />
               }
             >
               {({ row }) => (
@@ -302,14 +296,14 @@ function PluginCredentialsPage() {
               )}
             </TSTableBody>
           </TableProvider>
-        </McCard>
+        </McDataTableShell>
       </motion.div>
 
       {/* 分页 */}
       {totalPages > 1 && (
         <motion.div
           variants={fadeUpItem}
-          className="flex items-center justify-between rounded-lg border border-border/60 bg-muted/30 px-4 py-3"
+          className="flex items-center justify-between rounded-none border border-border/60 bg-muted/30 px-4 py-3"
         >
           <p className="text-[13px] text-muted-foreground">
             共 {data?.total ?? 0} 条记录，第 {page}/{totalPages} 页

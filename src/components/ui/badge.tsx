@@ -10,8 +10,11 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        default:
-          'bg-primary text-primary-foreground [a]:hover:bg-primary/80',
+        default: 'bg-primary text-primary-foreground [a]:hover:bg-primary/80',
+        grass: 'bg-mc-grass text-white [a]:hover:bg-mc-grass/80',
+        diamond: 'bg-mc-diamond text-white [a]:hover:bg-mc-diamond/80',
+        nether: 'bg-mc-nether text-white [a]:hover:bg-mc-nether/80',
+        gold: 'bg-mc-gold text-mc-dark [a]:hover:bg-mc-gold/80',
         secondary:
           'bg-secondary text-secondary-foreground [a]:hover:bg-secondary/80',
         destructive:

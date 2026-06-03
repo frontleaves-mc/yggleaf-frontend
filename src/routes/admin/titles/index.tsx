@@ -300,7 +300,7 @@ function TitlesAdminPage() {
       ),
       cell: ({ row }) => (
         <div
-          className="size-6 rounded-full border"
+          className="size-6 rounded-none border"
           style={{ backgroundColor: row.original.color }}
         />
       ),

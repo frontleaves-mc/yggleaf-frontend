@@ -67,7 +67,8 @@ const txColumns: ColumnDef<TransactionDTO>[] = [
 // ─── 页面组件 ────────────────────────────────────────────────
 
 function EconomyPage() {
-  const { data: balanceData, isLoading: balanceLoading } = useUserEconomyBalance()
+  const { data: balanceData, isLoading: balanceLoading } =
+    useUserEconomyBalance()
   const [page, setPage] = useState(1)
   const PAGE_SIZE = 20
   const { data: txData } = useUserEconomyTransactions({
@@ -113,8 +114,12 @@ function EconomyPage() {
             </McIconBox>
             <div>
               <p className="text-sm text-muted-foreground">当前余额</p>
-              <p className="text-3xl font-bold">{balanceData.balance_display}</p>
-              <p className="text-sm text-muted-foreground">{balanceData.currency}</p>
+              <p className="text-3xl font-bold">
+                {balanceData.balance_display}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                {balanceData.currency}
+              </p>
             </div>
           </div>
         </McCard>

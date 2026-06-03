@@ -66,7 +66,7 @@ export function SecretKeyRevealDialog({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <div className="flex items-center gap-2.5">
-            <div className="flex size-9 items-center justify-center rounded-lg bg-primary/10 ring-1 ring-primary/15">
+            <div className="flex size-9 items-center justify-center rounded-none bg-primary/10 ring-1 ring-primary/15">
               <KeyRound className="size-4.5 text-primary" />
             </div>
             <div>
@@ -81,7 +81,7 @@ export function SecretKeyRevealDialog({
         </DialogHeader>
 
         {/* 警告提示 */}
-        <div className="rounded-lg border border-amber-500/25 bg-gradient-to-r from-amber-500/8 to-amber-500/3 p-3.5 space-y-1.5">
+        <div className="rounded-none border border-amber-500/25 bg-gradient-to-r from-amber-500/8 to-amber-500/3 p-3.5 space-y-1.5">
           <div className="flex items-center gap-2">
             <AlertTriangle className="size-4 text-amber-500 shrink-0" />
             <span className="text-[13px] font-medium text-amber-600 dark:text-amber-400">
@@ -94,17 +94,17 @@ export function SecretKeyRevealDialog({
         </div>
 
         {/* 密钥展示 - 核心区域 */}
-        <div className="relative overflow-hidden rounded-xl border border-primary/20 bg-muted/40 p-4">
+        <div className="relative overflow-hidden rounded-none border border-primary/20 bg-muted/40 p-4">
           {/* 背景装饰点阵 */}
           <div className="pointer-events-none absolute inset-0 opacity-[0.03] bg-[radial-gradient(circle,currentColor_1px,transparent_1px)] [background-size:12px_12px]" />
           <div className="relative">
             <div className="flex items-center gap-1.5 mb-2">
-              <div className="size-1.5 rounded-full bg-primary/60 animate-pulse" />
+              <div className="size-1.5 rounded-none bg-primary/60 animate-pulse" />
               <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
                 Secret Key
               </span>
             </div>
-            <p className="font-mono text-sm leading-relaxed break-all select-all text-foreground bg-background rounded-lg px-3.5 py-3 border border-border/50 shadow-sm">
+            <p className="font-mono text-sm leading-relaxed break-all select-all text-foreground bg-background rounded-none px-3.5 py-3 border border-border/50 mc-pixel-shadow-sm">
               {secretKey}
             </p>
           </div>

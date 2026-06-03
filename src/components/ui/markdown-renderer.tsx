@@ -29,7 +29,7 @@ const markdownComponents: Components = {
       return (
         <code
           className={cn(
-            'rounded-lg bg-muted/50 border border-border/30 p-4 overflow-x-auto text-sm font-mono',
+            'rounded-none bg-muted/50 border border-border/30 p-4 overflow-x-auto text-sm font-mono',
             className,
           )}
           {...props}
@@ -162,7 +162,7 @@ const markdownComponents: Components = {
   img({ src, alt, ...props }) {
     return (
       <img
-        className={cn('rounded-lg max-w-full')}
+        className={cn('rounded-none max-w-full')}
         src={src}
         alt={alt ?? ''}
         {...props}

@@ -586,7 +586,7 @@ function ProfileDetailDialog({
         {isLoading ? (
           /* 加载态：左右分栏骨架屏 */
           <div className="flex flex-col sm:flex-row gap-4">
-            <Skeleton className="h-80 w-full sm:w-50 rounded-lg shrink-0" />
+            <Skeleton className="h-80 w-full sm:w-50 rounded-none shrink-0" />
             <div className="flex-1 space-y-3">
               <Skeleton className="h-4 w-24" />
               <Skeleton className="h-4 w-48" />
@@ -598,7 +598,7 @@ function ProfileDetailDialog({
           /* 数据就绪：左侧 3D 预览 + 右侧信息 */
           <div className="flex flex-col sm:flex-row gap-4">
             {/* ====== 左侧：3D 角色预览 ====== */}
-            <div className="w-full sm:w-50 h-80 rounded-lg bg-linear-to-br from-primary/5 to-primary/10 overflow-hidden shrink-0">
+            <div className="w-full sm:w-50 h-80 rounded-none bg-linear-to-br from-primary/5 to-primary/10 overflow-hidden shrink-0">
               <SkinPreview
                 skinUrl={profile.skin?.texture_url}
                 capeUrl={profile.cape?.texture_url}

@@ -203,7 +203,7 @@ function SkinUploadCard() {
               </div>
             </div>
 
-            <div className="flex items-center justify-between rounded-lg border border-border p-3.5">
+            <div className="flex items-center justify-between rounded-none border border-border p-3.5">
               <div className="space-y-0.5">
                 <Label className="text-sm">公开皮肤</Label>
                 <p className="text-[12px] text-muted-foreground">
@@ -320,7 +320,7 @@ function CapeUploadCard() {
               </div>
             </div>
 
-            <div className="flex items-center justify-between rounded-lg border border-border p-3.5">
+            <div className="flex items-center justify-between rounded-none border border-border p-3.5">
               <div className="space-y-0.5">
                 <Label className="text-sm">公开披风</Label>
                 <p className="text-[12px] text-muted-foreground">
@@ -407,7 +407,7 @@ function MyResourcesSection() {
             <McCard key={i} variant="glass" className="animate-pulse">
               <div className="p-3.5">
                 <div className="h-3 w-16 rounded bg-muted/50" />
-                <div className="mt-2 h-1.5 w-full rounded-full bg-muted/50" />
+                <div className="mt-2 h-1.5 w-full rounded-none bg-muted/50" />
                 <div className="mt-1.5 h-3 w-10 rounded bg-muted/50" />
               </div>
             </McCard>
@@ -473,9 +473,9 @@ function QuotaCard({
           {icon}
           {label}
         </div>
-        <div className="mt-2 h-1.5 w-full rounded-full bg-muted">
+        <div className="mt-2 h-1.5 w-full rounded-none bg-muted">
           <div
-            className={`h-full rounded-full transition-all ${
+            className={`h-full rounded-none transition-all ${
               isFull
                 ? 'bg-destructive'
                 : pct > 80

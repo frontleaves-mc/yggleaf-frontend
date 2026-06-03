@@ -2,17 +2,31 @@ import * as React from 'react'
 
 import { cn } from '#/lib/utils'
 
+type CardSurface = 'plain' | 'panel' | 'block' | 'slot'
+type CardAccent = 'none' | 'grass' | 'diamond' | 'nether' | 'gold'
+
 function Card({
   className,
   size = 'default',
+  surface = 'plain',
+  accent = 'none',
+  interactive = false,
   ...props
-}: React.ComponentProps<'div'> & { size?: 'default' | 'sm' }) {
+}: React.ComponentProps<'div'> & {
+  size?: 'default' | 'sm'
+  surface?: CardSurface
+  accent?: CardAccent
+  interactive?: boolean
+}) {
   return (
     <div
       data-slot="card"
       data-size={size}
+      data-mc-surface={surface}
+      data-mc-accent={accent}
+      data-mc-interactive={interactive ? 'true' : undefined}
       className={cn(
-        'group/card flex flex-col gap-5 overflow-hidden rounded-none bg-card py-5 text-sm text-card-foreground pixel-border-raised pixel-shadow-sm ring-0 transition-none hover:pixel-shadow has-[>img:first-child]:pt-0 data-[size=sm]:gap-4 data-[size=sm]:py-4 *:[img:first-child]:rounded-none *:[img:last-child]:rounded-none',
+        'group/card flex flex-col gap-5 overflow-hidden rounded-none bg-card py-5 text-sm text-card-foreground ring-0 transition-colors has-[>img:first-child]:pt-0 data-[size=sm]:gap-4 data-[size=sm]:py-4 *:[img:first-child]:rounded-none *:[img:last-child]:rounded-none',
         className,
       )}
       {...props}
@@ -98,3 +112,4 @@ export {
   CardDescription,
   CardContent,
 }
+export type { CardSurface, CardAccent }

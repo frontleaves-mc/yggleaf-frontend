@@ -27,10 +27,11 @@ import {
   TSTableHeaderGroup,
   TSTableRow,
 } from '#/components/ui/tanstack-table'
-import { McCard } from '#/components/shared/mc-card'
 import { McIconBox } from '#/components/shared/mc-icon-box'
 import { PageHeader } from '#/components/public/page-header'
 import { McBadge } from '#/components/shared/mc-badge'
+import { McDataTableShell } from '#/components/shared/mc-data-table-shell'
+import { McEmptyState } from '#/components/shared/mc-empty-state'
 import { staggerContainer, fadeUpItem } from '#/lib/motion-presets'
 
 export const Route = createFileRoute('/admin/skins/')({
@@ -174,7 +175,7 @@ function SkinListPage() {
       </motion.div>
 
       <motion.div variants={fadeUpItem}>
-        <McCard variant="glass" color="nether" className="overflow-hidden">
+        <McDataTableShell accent="nether">
           <TableProvider columns={columns} data={skins ?? []}>
             <TSTableHeader>
               {({ headerGroup }) => (
@@ -185,9 +186,11 @@ function SkinListPage() {
             </TSTableHeader>
             <TSTableBody
               emptyContent={
-                <p className="text-sm text-muted-foreground">
-                  暂无皮肤数据，点击右上角新建
-                </p>
+                <McEmptyState
+                  title="暂无皮肤数据"
+                  description="点击右上角新建皮肤"
+                  icon={Shirt}
+                />
               }
             >
               {({ row }) => (
@@ -197,7 +200,7 @@ function SkinListPage() {
               )}
             </TSTableBody>
           </TableProvider>
-        </McCard>
+        </McDataTableShell>
       </motion.div>
 
       <ConfirmDialog

@@ -62,7 +62,7 @@ function BackToTop() {
           exit={{ opacity: 0, y: 16, scale: 0.9 }}
           transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 z-50 flex size-11 items-center justify-center rounded-full border border-border bg-background/90 text-foreground shadow-lg backdrop-blur-sm transition-colors hover:bg-muted/80 hover:text-primary"
+          className="fixed bottom-8 right-8 z-50 flex size-11 items-center justify-center rounded-none border border-border bg-background/90 text-foreground shadow-lg backdrop-blur-sm transition-colors hover:bg-muted/80 hover:text-primary"
           aria-label="回到顶部"
         >
           <ArrowUp className="size-4" />
@@ -83,7 +83,7 @@ function PublicAnnouncementDetailPage() {
         <section className="relative overflow-hidden border-b border-border bg-background">
           <div className="absolute inset-0 bg-noise opacity-40" />
           <div className="absolute inset-0 mc-grid-pattern opacity-15" />
-          <div className="pointer-events-none absolute -top-24 left-1/2 h-96 w-[600px] -translate-x-1/2 rounded-full bg-primary/[0.04] blur-3xl" />
+          <div className="pointer-events-none absolute -top-24 left-1/2 h-96 w-[600px] -translate-x-1/2 rounded-none bg-primary/[0.04] blur-3xl" />
 
           <div className="relative mx-auto max-w-(--page-max) px-4 py-14 sm:px-6 lg:py-20 lg:px-8">
             <motion.div
@@ -93,7 +93,7 @@ function PublicAnnouncementDetailPage() {
             >
               <Link
                 to="/announcements"
-                className="-ml-2 inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted/50 hover:text-foreground"
+                className="-ml-2 inline-flex items-center gap-2 rounded-none px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted/50 hover:text-foreground"
               >
                 <motion.span
                   variants={arrowSlideVariants}
@@ -136,8 +136,8 @@ function PublicAnnouncementDetailPage() {
                     </span>
                   </nav>
 
-                  <div className="mb-5 inline-flex items-center gap-2.5 rounded-full border border-border bg-background/80 px-3.5 py-1.5 text-xs font-medium text-muted-foreground shadow-sm backdrop-blur-sm">
-                    <span className="h-2 w-0.5 rounded-full bg-primary" />
+                  <div className="mb-5 inline-flex items-center gap-2.5 rounded-none border border-border bg-background/80 px-3.5 py-1.5 text-xs font-medium text-muted-foreground mc-pixel-shadow-sm backdrop-blur-sm">
+                    <span className="h-2 w-0.5 rounded-none bg-primary" />
                     <Megaphone className="size-3.5 text-primary" />
                     公告详情
                   </div>
@@ -194,7 +194,7 @@ function PublicAnnouncementDetailPage() {
               viewport={{ once: true, margin: '-80px' }}
             >
               <LandingCard className="relative overflow-visible p-8 sm:p-12">
-                <div className="pointer-events-none absolute left-0 top-6 bottom-6 w-[2px] rounded-full bg-gradient-to-b from-primary via-primary/60 to-transparent" />
+                <div className="pointer-events-none absolute left-0 top-6 bottom-6 w-[2px] rounded-none bg-gradient-to-b from-primary via-primary/60 to-transparent" />
 
                 <MarkdownRenderer
                   content={data.content}
@@ -208,7 +208,7 @@ function PublicAnnouncementDetailPage() {
                     [&_strong]:text-foreground
                     [&_hr]:my-8 [&_hr]:border-border/60 [&_hr]:bg-gradient-to-r [&_hr]:from-transparent [&_hr]:via-border/60 [&_hr]:to-transparent
                     [&_blockquote]:rounded-r-lg [&_blockquote]:border-l-2 [&_blockquote]:border-l-primary/30 [&_blockquote]:bg-muted/40 [&_blockquote]:py-1 [&_blockquote]:pl-4
-                    [&_code]:rounded-md [&_code]:bg-muted [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-[13px]
+                    [&_code]:rounded-none [&_code]:bg-muted [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-[13px]
                     [&_table]:text-sm
                     [&_th]:bg-muted [&_th]:font-semibold [&_th]:text-foreground [&_th]:py-2.5
                     [&_td]:border-border [&_td]:py-2
@@ -222,9 +222,9 @@ function PublicAnnouncementDetailPage() {
               >
                 <Link
                   to="/announcements"
-                  className="group flex items-center gap-3 rounded-xl border border-border bg-card p-5 transition-all duration-200 hover:border-primary/30 hover:shadow-md hover:shadow-primary/5"
+                  className="group flex items-center gap-3 rounded-none border border-border bg-card p-5 transition-all duration-200 hover:border-primary/30 hover:[box-shadow:4px_4px_0_var(--pixel-shadow-color)] hover:shadow-primary/5"
                 >
-                  <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-muted/60 transition-colors group-hover:bg-primary/10">
+                  <div className="flex size-9 shrink-0 items-center justify-center rounded-none bg-muted/60 transition-colors group-hover:bg-primary/10">
                     <ArrowLeft className="size-4 text-muted-foreground transition-colors group-hover:text-primary" />
                   </div>
                   <div className="min-w-0">
@@ -257,8 +257,8 @@ function EmptyState() {
       className="mx-auto max-w-md py-20 text-center"
     >
       <div className="relative mx-auto mb-6 flex size-20 items-center justify-center">
-        <div className="absolute inset-0 rounded-full bg-primary/[0.06]" />
-        <div className="absolute inset-2 rounded-full bg-primary/[0.04] animate-pulse" />
+        <div className="absolute inset-0 rounded-none bg-primary/[0.06]" />
+        <div className="absolute inset-2 rounded-none bg-primary/[0.04] animate-pulse" />
         <Megaphone className="relative size-8 text-primary/60" />
       </div>
       <h2 className="mb-2 font-heading text-xl font-semibold tracking-tight text-foreground">
@@ -269,7 +269,7 @@ function EmptyState() {
       </p>
       <Link
         to="/announcements"
-        className="group inline-flex items-center gap-2 rounded-lg border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground shadow-sm transition-all duration-200 hover:border-primary/30 hover:shadow-md"
+        className="group inline-flex items-center gap-2 rounded-none border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground mc-pixel-shadow-sm transition-all duration-200 hover:border-primary/30 hover:[box-shadow:4px_4px_0_var(--pixel-shadow-color)]"
       >
         返回公告中心
         <motion.span
@@ -296,14 +296,14 @@ function AnnouncementDetailSkeleton() {
         <Skeleton className="h-3 w-32" />
       </div>
 
-      <Skeleton className="h-7 w-28 rounded-full" />
+      <Skeleton className="h-7 w-28 rounded-none" />
       <div className="space-y-2.5">
         <Skeleton className="h-10 w-4/5" />
         <Skeleton className="h-10 w-2/3" />
       </div>
 
       <div className="flex items-center gap-3 pt-1">
-        <Skeleton className="h-6 w-14 rounded-full" />
+        <Skeleton className="h-6 w-14 rounded-none" />
         <Skeleton className="h-5 w-40" />
         <Skeleton className="h-5 w-28" />
       </div>

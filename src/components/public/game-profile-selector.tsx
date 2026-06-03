@@ -57,7 +57,7 @@ export function GameProfileSelector() {
   // 加载中
   if (isLoading) {
     return (
-      <div className="flex items-center gap-2 rounded-lg border bg-card p-3 shadow-sm">
+      <div className="flex items-center gap-2 rounded-none border bg-card p-3 mc-pixel-shadow-sm">
         <Gamepad2 className="h-4 w-4 text-muted-foreground" />
         <Skeleton className="h-5 w-[180px]" />
       </div>
@@ -67,7 +67,7 @@ export function GameProfileSelector() {
   // 无档案
   if (!profiles || profiles.length === 0) {
     return (
-      <div className="flex items-center gap-2 rounded-lg border bg-card p-3 text-sm text-muted-foreground shadow-sm">
+      <div className="flex items-center gap-2 rounded-none border bg-card p-3 text-sm text-muted-foreground mc-pixel-shadow-sm">
         <Gamepad2 className="h-4 w-4" />
         <span>暂无游戏档案，请先</span>
         <Link
@@ -87,7 +87,7 @@ export function GameProfileSelector() {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="h-9 w-[220px] justify-between gap-2 shadow-sm cursor-pointer"
+          className="h-9 w-[220px] justify-between gap-2 mc-pixel-shadow-sm cursor-pointer"
         >
           <span className="truncate">
             {selectedGameProfile ? selectedGameProfile.name : '选择游戏档案...'}

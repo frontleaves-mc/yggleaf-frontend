@@ -169,7 +169,7 @@ function CredentialDetailPage() {
               <div className="flex items-start justify-between gap-4">
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
-                    <div className="flex size-11 items-center justify-center rounded-xl bg-primary/10 ring-1 ring-primary/15">
+                    <div className="flex size-11 items-center justify-center rounded-none bg-primary/10 ring-1 ring-primary/15">
                       <KeyRound className="size-5 text-primary" />
                     </div>
                     <div>
@@ -252,12 +252,12 @@ function CredentialDetailPage() {
               </div>
 
               {/* 密钥（脱敏） - 安全展示区 */}
-              <div className="rounded-lg border border-border/60 bg-muted/30 p-4 space-y-2">
+              <div className="rounded-none border border-border/60 bg-muted/30 p-4 space-y-2">
                 <div className="flex items-center gap-1.5 text-[13px] text-muted-foreground">
                   <Lock className="size-3" />
                   密钥（脱敏）
                 </div>
-                <p className="font-mono text-xs text-muted-foreground bg-background rounded-md px-3 py-2 border border-border/40">
+                <p className="font-mono text-xs text-muted-foreground bg-background rounded-none px-3 py-2 border border-border/40">
                   {credential.secret_key}
                 </p>
               </div>
@@ -279,7 +279,7 @@ function CredentialDetailPage() {
               </div>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="rounded-md bg-destructive/5 border border-destructive/10 p-3 space-y-2">
+              <div className="rounded-none bg-destructive/5 border border-destructive/10 p-3 space-y-2">
                 <p className="text-[13px] text-muted-foreground leading-relaxed">
                   重置密钥将使当前密钥立即失效。重置后会生成新的密钥，请确保及时更新使用该密钥的插件配置。
                 </p>

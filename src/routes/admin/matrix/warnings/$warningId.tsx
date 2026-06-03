@@ -86,7 +86,7 @@ function WarningDetailPage() {
         {/* 返回按钮 */}
         <Link
           to="/admin/matrix/warnings"
-          className="group inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-border/60 bg-background/80 text-muted-foreground shadow-sm transition-colors hover:border-mc-nether/30 hover:text-mc-nether"
+          className="group inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-none border border-border/60 bg-background/80 text-muted-foreground mc-pixel-shadow-sm transition-colors hover:border-mc-nether/30 hover:text-mc-nether"
         >
           <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
         </Link>
@@ -174,7 +174,7 @@ function WarningDetailPage() {
                   {warning.context_data.map((item, idx) => (
                     <span
                       key={idx}
-                      className="inline-flex items-center rounded-md bg-muted px-2 py-0.5 text-xs font-mono text-muted-foreground border border-border/50"
+                      className="inline-flex items-center rounded-none bg-muted px-2 py-0.5 text-xs font-mono text-muted-foreground border border-border/50"
                     >
                       {item}
                     </span>
@@ -244,9 +244,9 @@ function WarningDetailPage() {
               </span>
             </div>
             {/* 进度条 */}
-            <div className="mt-3 h-1.5 w-full rounded-full bg-muted overflow-hidden">
+            <div className="mt-3 h-1.5 w-full rounded-none bg-muted overflow-hidden">
               <div
-                className={`h-full rounded-full transition-all duration-500 ${
+                className={`h-full rounded-none transition-all duration-500 ${
                   warning.risk_score >= 70
                     ? 'bg-mc-nether'
                     : warning.risk_score >= 30

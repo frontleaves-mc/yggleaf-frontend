@@ -85,7 +85,7 @@ function ImageThumbnail({
   const [loaded, setLoaded] = useState(false)
 
   return (
-    <div className="group relative aspect-square overflow-hidden rounded-lg border bg-[var(--surface)] transition-shadow duration-200 hover:shadow-md">
+    <div className="group relative aspect-square overflow-hidden rounded-none border bg-[var(--surface)] transition-shadow duration-200 hover:[box-shadow:4px_4px_0_var(--pixel-shadow-color)]">
       {/* 缩略图 */}
       <img
         src={attachment.file_url}
@@ -125,7 +125,7 @@ function ImageThumbnail({
         <Button
           variant="ghost"
           size="icon"
-          className="absolute right-1 top-1 z-10 h-6 w-6 rounded-full bg-black/50 text-white opacity-0 backdrop-blur-sm transition-opacity duration-200 hover:bg-destructive group-hover:opacity-100"
+          className="absolute right-1 top-1 z-10 h-6 w-6 rounded-none bg-black/50 text-white opacity-0 backdrop-blur-sm transition-opacity duration-200 hover:bg-destructive group-hover:opacity-100"
           onClick={(e) => {
             e.stopPropagation()
             onDelete(attachment)
@@ -155,9 +155,9 @@ function FileCard({
       href={attachment.file_url}
       target="_blank"
       rel="noopener noreferrer"
-      className="group flex aspect-square flex-col items-center justify-center gap-2 rounded-lg border bg-[var(--surface)] p-3 transition-colors duration-200 hover:border-[var(--lagoon)]/30 hover:bg-[var(--surface-strong)]"
+      className="group flex aspect-square flex-col items-center justify-center gap-2 rounded-none border bg-[var(--surface)] p-3 transition-colors duration-200 hover:border-[var(--lagoon)]/30 hover:bg-[var(--surface-strong)]"
     >
-      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--lagoon)]/8 text-[var(--lagoon)] transition-colors duration-200 group-hover:bg-[var(--lagoon)]/15">
+      <div className="flex h-10 w-10 items-center justify-center rounded-none bg-[var(--lagoon)]/8 text-[var(--lagoon)] transition-colors duration-200 group-hover:bg-[var(--lagoon)]/15">
         <Icon className="h-5 w-5" />
       </div>
       <div className="w-full text-center">
@@ -173,7 +173,7 @@ function FileCard({
         <Button
           variant="ghost"
           size="icon"
-          className="absolute right-1 top-1 z-10 h-6 w-6 rounded-full opacity-0 transition-opacity duration-200 hover:text-destructive group-hover:opacity-100"
+          className="absolute right-1 top-1 z-10 h-6 w-6 rounded-none opacity-0 transition-opacity duration-200 hover:text-destructive group-hover:opacity-100"
           onClick={(e) => {
             e.preventDefault()
             e.stopPropagation()

@@ -25,7 +25,7 @@ export function IssueReplyList({ replies }: IssueReplyListProps) {
       {replies.map((reply) => (
         <div
           key={reply.issue_reply.id}
-          className={`rounded-lg border p-4 ${
+          className={`rounded-none border p-4 ${
             reply.issue_reply.is_admin_reply
               ? 'border-primary/20 bg-primary/5'
               : 'border-border bg-card'

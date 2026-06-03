@@ -1,4 +1,7 @@
 import { forwardRef } from 'react'
+import { Slot } from 'radix-ui'
+import { Badge } from '#/components/ui/badge'
+import { Card } from '#/components/ui/card'
 import { cn } from '#/lib/utils'
 
 // ─── LandingButton ──────────────────────────────────────
@@ -13,7 +16,7 @@ interface LandingButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 }
 
 const landingButtonVariants: Record<LandingButtonVariant, string> = {
-  hero: 'landing-gradient text-white font-pixel font-medium pixel-border-raised pixel-shadow-sm hover:scale-[1.02] transition-none',
+  hero: 'landing-gradient text-white font-pixel font-medium pixel-border-raised mc-pixel-shadow-sm hover:scale-[1.02] transition-none',
   outline:
     'border-2 border-primary/50 text-primary font-pixel hover:bg-primary/10 hover:border-primary transition-none',
   ghost:
@@ -28,11 +31,20 @@ const landingButtonSizes: Record<LandingButtonSize, string> = {
 
 const LandingButton = forwardRef<HTMLButtonElement, LandingButtonProps>(
   (
-    { variant = 'hero', size = 'default', className, children, ...props },
+    {
+      variant = 'hero',
+      size = 'default',
+      asChild = false,
+      className,
+      children,
+      ...props
+    },
     ref,
   ) => {
+    const Comp = asChild ? Slot.Root : 'button'
+
     return (
-      <button
+      <Comp
         ref={ref}
         data-slot="landing-button"
         className={cn(
@@ -46,7 +58,7 @@ const LandingButton = forwardRef<HTMLButtonElement, LandingButtonProps>(
         {...props}
       >
         {children}
-      </button>
+      </Comp>
     )
   },
 )
@@ -60,13 +72,6 @@ interface LandingCardProps extends React.HTMLAttributes<HTMLDivElement> {
   accent?: LandingCardAccent
 }
 
-const accentColors: Record<Exclude<LandingCardAccent, 'none'>, string> = {
-  grass: 'bg-mc-grass',
-  diamond: 'bg-mc-diamond',
-  nether: 'bg-mc-nether',
-  gold: 'bg-mc-gold',
-}
-
 function LandingCard({
   accent = 'none',
   className,
@@ -74,23 +79,15 @@ function LandingCard({
   ...props
 }: LandingCardProps) {
   return (
-    <div
-      data-slot="landing-card"
-      className={cn(
-        'relative overflow-hidden rounded-none',
-        'pixel-border-raised pixel-shadow-sm',
-        'landing-glass-strong landing-glow-hover',
-        'transition-none',
-        'group/card',
-        className,
-      )}
+    <Card
+      surface="block"
+      accent={accent === 'none' ? 'none' : accent}
+      interactive
+      className={cn('relative overflow-hidden p-0', className)}
       {...props}
     >
-      {accent !== 'none' && (
-        <div className={cn('h-1 w-full', accentColors[accent])} />
-      )}
       {children}
-    </div>
+    </Card>
   )
 }
 
@@ -116,19 +113,18 @@ function LandingBadge({
   ...props
 }: LandingBadgeProps) {
   return (
-    <span
+    <Badge
       data-slot="landing-badge"
+      variant={variant}
       className={cn(
-        'inline-flex items-center gap-1 rounded-none px-2.5 py-0.5 text-xs font-medium',
-        'border transition-colors',
-        'pixel-shadow-sm',
+        'inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-medium',
         badgeVariants[variant],
         className,
       )}
       {...props}
     >
       {children}
-    </span>
+    </Badge>
   )
 }
 
