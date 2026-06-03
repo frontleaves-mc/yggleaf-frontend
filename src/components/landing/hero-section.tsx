@@ -67,7 +67,7 @@ function HeroSection() {
 
   return (
     <section className="relative flex min-h-[calc(100svh-4rem)] items-center overflow-hidden">
-      <div className="absolute inset-0 grid grid-cols-2 opacity-50 md:grid-cols-4">
+      <div className="absolute inset-0 grid grid-cols-2 opacity-0 sm:opacity-50 md:grid-cols-4">
         {heroImages.map((src) => (
           <img
             key={src}
@@ -79,7 +79,7 @@ function HeroSection() {
           />
         ))}
       </div>
-      <div className="absolute inset-0 bg-background/85" />
+      <div className="absolute inset-0 bg-background/92 sm:bg-background/85" />
 
       <div className="relative z-10 mx-auto flex w-full max-w-(--page-max) flex-col items-center px-4 py-16 text-center sm:px-6 lg:px-8">
         <motion.div

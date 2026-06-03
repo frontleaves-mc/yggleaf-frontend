@@ -1,17 +1,17 @@
 /* Minecraft UI foundations: material tokens, block outlines, and explicit surfaces. */
 
 :root {
-  --mc-bg-panel: #e0ddd0;
-  --mc-bg-panel-strong: #c8c0a8;
-  --mc-bg-slot: #f1ead8;
-  --mc-bg-slot-dark: #c7b895;
+  --mc-bg-panel: #d7c9a9;
+  --mc-bg-panel-strong: #b9a77f;
+  --mc-bg-slot: #f3e8c8;
+  --mc-bg-slot-dark: #bfa977;
   --mc-outline: #1f1a14;
   --mc-outline-soft: rgba(31, 26, 20, 0.72);
-  --mc-shadow-color: rgba(31, 26, 20, 0.34);
-  --mc-shadow-strong: rgba(31, 26, 20, 0.58);
+  --mc-shadow-color: rgba(31, 26, 20, 0.42);
+  --mc-shadow-strong: rgba(31, 26, 20, 0.64);
   --mc-text-dark: #2b2118;
   --mc-slot-text: #211915;
-  --mc-slot-text-muted: #64704d;
+  --mc-slot-text-muted: #6a5b41;
 
   --pixel-border-light: var(--mc-outline);
   --pixel-border-dark: var(--mc-outline);
@@ -25,13 +25,13 @@
 
   --pixel-grass-height: 14px;
   --pixel-dirt-height: 8px;
-  --pixel-grass-color: #52a535;
-  --pixel-grass-color-light: #86d562;
-  --pixel-grass-color-dark: #3c8527;
-  --pixel-grass-blade-color: #6cc349;
-  --pixel-dirt-color: #805539;
-  --pixel-dirt-color-light: #976746;
-  --pixel-dirt-color-dark: #66412c;
+  --pixel-grass-color: #4f8f2f;
+  --pixel-grass-color-light: #7fc957;
+  --pixel-grass-color-dark: #326a22;
+  --pixel-grass-blade-color: #63aa3d;
+  --pixel-dirt-color: #806047;
+  --pixel-dirt-color-light: #9a7653;
+  --pixel-dirt-color-dark: #5c432f;
   --pixel-dirt-noise-color: rgba(73, 45, 31, 0.34);
 
   --mc-accent: var(--mc-grass);
@@ -179,23 +179,23 @@
 }
 
 .dark {
-  --mc-bg-panel: #28251e;
-  --mc-bg-panel-strong: #1d1a16;
-  --mc-bg-slot: #e7dfcb;
-  --mc-bg-slot-dark: #b7a786;
+  --mc-bg-panel: #302d22;
+  --mc-bg-panel-strong: #242117;
+  --mc-bg-slot: #d7c49b;
+  --mc-bg-slot-dark: #a48c5f;
   --mc-outline: #080604;
   --mc-outline-soft: rgba(8, 6, 4, 0.82);
   --mc-shadow-color: rgba(0, 0, 0, 0.72);
   --mc-shadow-strong: rgba(0, 0, 0, 0.86);
   --mc-slot-text: #211915;
   --mc-slot-text-muted: #60704a;
-  --pixel-grass-color: #52a535;
+  --pixel-grass-color: #5aa13a;
   --pixel-grass-color-light: #86d562;
-  --pixel-grass-color-dark: #3c8527;
+  --pixel-grass-color-dark: #3d7a29;
   --pixel-grass-blade-color: #6cc349;
-  --pixel-dirt-color: #805539;
-  --pixel-dirt-color-light: #976746;
-  --pixel-dirt-color-dark: #66412c;
+  --pixel-dirt-color: #6f5037;
+  --pixel-dirt-color-light: #8a6747;
+  --pixel-dirt-color-dark: #4d3627;
   --pixel-dirt-noise-color: rgba(0, 0, 0, 0.24);
 }
 

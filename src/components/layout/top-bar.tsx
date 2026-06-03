@@ -41,7 +41,7 @@ export function TopBar() {
   const overrideTitle = usePageTitleOverride()
 
   return (
-    <header className="border-b border-border/60 bg-background/80 pt-2 backdrop-blur">
+    <header className="mc-topbar pt-2">
       <GlobalSearch />
       <div className="mx-auto flex max-w-(--page-max) items-center gap-3 p-3.5 sm:p-4">
         <SidebarTrigger className="shrink-0" />

@@ -13,167 +13,181 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #f7f8fa;
-  --foreground: #1a1d23;
-  --card: #ffffff;
-  --card-foreground: #1a1d23;
-  --popover: #ffffff;
-  --popover-foreground: #1a1d23;
-  --primary: #5b7c28;
+  --background: #e8dfc8;
+  --foreground: #211915;
+  --card: #f5eed8;
+  --card-foreground: #211915;
+  --popover: #f5eed8;
+  --popover-foreground: #211915;
+  --primary: #4f8f2f;
   --primary-foreground: #ffffff;
-  --secondary: #e8eae8;
-  --secondary-foreground: #2d3a1e;
-  --muted: #e8eae8;
-  --muted-foreground: #6b7a5e;
-  --accent: #e8eae8;
-  --accent-foreground: #2d3a1e;
-  --destructive: #d93025;
-  --border: #c8ccba;
-  --input: #c8ccba;
-  --ring: #5b7c28;
-  --chart-1: #5b7c28;
-  --chart-2: #1e6ee9;
-  --chart-3: #ffaa00;
-  --chart-4: #ff5555;
-  --chart-5: #86a349;
+  --secondary: #c8b894;
+  --secondary-foreground: #2f241b;
+  --muted: #d7c9a9;
+  --muted-foreground: #6a5b41;
+  --accent: #a3b76a;
+  --accent-foreground: #211915;
+  --destructive: #b73724;
+  --border: #7d6a4d;
+  --input: #9f8b66;
+  --ring: #5aa13a;
+  --chart-1: #4f8f2f;
+  --chart-2: #2aa6c9;
+  --chart-3: #d8951a;
+  --chart-4: #b73724;
+  --chart-5: #806047;
   --radius: 0px;
 
-  --sidebar: #eff1ec;
-  --sidebar-foreground: #1a1d23;
-  --sidebar-primary: #5b7c28;
+  --sidebar: #d3c29c;
+  --sidebar-foreground: #211915;
+  --sidebar-primary: #4f8f2f;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #e0e4d8;
-  --sidebar-accent-foreground: #2d3a1e;
-  --sidebar-border: #c8ccba;
-  --sidebar-ring: #5b7c28;
+  --sidebar-accent: #b9aa83;
+  --sidebar-accent-foreground: #211915;
+  --sidebar-border: #7d6a4d;
+  --sidebar-ring: #5aa13a;
 
-  --mc-grass: #53a331;
-  --mc-grass-soft: rgba(83, 163, 49, 0.08);
-  --mc-diamond: #1e6ee9;
-  --mc-diamond-soft: rgba(30, 110, 233, 0.08);
-  --mc-nether: #ff481b;
-  --mc-nether-soft: rgba(255, 72, 27, 0.08);
-  --mc-gold: #ffaa00;
-  --mc-gold-soft: rgba(255, 170, 0, 0.1);
+  --mc-grass: #4f8f2f;
+  --mc-grass-soft: rgba(79, 143, 47, 0.18);
+  --mc-diamond: #2aa6c9;
+  --mc-diamond-soft: rgba(42, 166, 201, 0.14);
+  --mc-nether: #c93e2a;
+  --mc-nether-soft: rgba(201, 62, 42, 0.16);
+  --mc-gold: #d8951a;
+  --mc-gold-soft: rgba(216, 149, 26, 0.18);
+  --mc-redstone: #b6201f;
+  --mc-redstone-soft: rgba(182, 32, 31, 0.16);
+  --mc-sky: #8fc7d3;
+  --mc-stone: #807f75;
+  --mc-deepslate: #373633;
+  --mc-dirt: #806047;
+  --mc-sand: #d7c28a;
 
-  --grid-dot-color: rgba(91, 124, 40, 0.1);
-  --grid-line-color: rgba(91, 124, 40, 0.06);
+  --grid-dot-color: rgba(71, 92, 44, 0.22);
+  --grid-line-color: rgba(71, 92, 44, 0.14);
 }
 
 /* Admin 模式红色主题覆盖 — data-mode 属性设置在 Layout 的 SidebarProvider 上 */
 [data-mode='admin'] {
-  --primary: #ff5555;
+  --primary: #b6201f;
   --primary-foreground: #ffffff;
-  --ring: #ff5555;
-  --sidebar-primary: #ff5555;
+  --ring: #d94b32;
+  --sidebar-primary: #b6201f;
   --sidebar-primary-foreground: #ffffff;
 
-  --mc-grass: #53a331;
-  --mc-grass-soft: rgba(83, 163, 49, 0.1);
-  --mc-diamond: #1e6ee9;
-  --mc-diamond-soft: rgba(30, 110, 233, 0.1);
-  --mc-nether: #ff481b;
-  --mc-nether-soft: rgba(255, 72, 27, 0.1);
-  --mc-gold: #ffc42c;
-  --mc-gold-soft: rgba(255, 196, 44, 0.12);
+  --mc-grass: #4f8f2f;
+  --mc-grass-soft: rgba(79, 143, 47, 0.14);
+  --mc-diamond: #2aa6c9;
+  --mc-diamond-soft: rgba(42, 166, 201, 0.12);
+  --mc-nether: #b6201f;
+  --mc-nether-soft: rgba(182, 32, 31, 0.2);
+  --mc-gold: #d8951a;
+  --mc-gold-soft: rgba(216, 149, 26, 0.2);
 
-  --grid-dot-color: rgba(80, 80, 80, 0.15);
-  --grid-line-color: rgba(60, 60, 60, 0.1);
+  --grid-dot-color: rgba(91, 52, 37, 0.24);
+  --grid-line-color: rgba(91, 52, 37, 0.16);
 }
 
 .dark [data-mode='admin'] {
-  --primary: #ff7755;
-  --primary-foreground: #1a1a1a;
-  --ring: #ff7755;
-  --sidebar-primary: #ff7755;
-  --sidebar-primary-foreground: #1a1a1a;
+  --primary: #e05a3a;
+  --primary-foreground: #160806;
+  --ring: #e05a3a;
+  --sidebar-primary: #e05a3a;
+  --sidebar-primary-foreground: #160806;
 
-  --mc-grass: #63c741;
-  --mc-grass-soft: rgba(99, 199, 65, 0.15);
-  --mc-diamond: #3d8ef5;
-  --mc-diamond-soft: rgba(61, 142, 245, 0.15);
-  --mc-nether: #ff6b45;
-  --mc-nether-soft: rgba(255, 107, 69, 0.15);
-  --mc-gold: #ffd466;
-  --mc-gold-soft: rgba(255, 212, 102, 0.15);
+  --mc-grass: #6fbf48;
+  --mc-grass-soft: rgba(111, 191, 72, 0.14);
+  --mc-diamond: #58d1e7;
+  --mc-diamond-soft: rgba(88, 209, 231, 0.14);
+  --mc-nether: #e05a3a;
+  --mc-nether-soft: rgba(224, 90, 58, 0.2);
+  --mc-gold: #f5c84b;
+  --mc-gold-soft: rgba(245, 200, 75, 0.2);
 
-  --grid-dot-color: rgba(80, 80, 80, 0.1);
-  --grid-line-color: rgba(60, 60, 60, 0.12);
+  --grid-dot-color: rgba(144, 82, 54, 0.2);
+  --grid-line-color: rgba(144, 82, 54, 0.16);
 }
 
 /* Landing 官网主题覆盖 — Minecraft 平衡系配色 */
 [data-mode='landing'] {
-  --primary: #5d8c3e;
+  --primary: #4f8f2f;
   --primary-foreground: #ffffff;
-  --secondary: #8b7355;
-  --secondary-foreground: #3f3f3f;
-  --ring: #5d8c3e;
-  --accent: #a0a0a0;
-  --accent-foreground: #3f3f3f;
+  --secondary: #806047;
+  --secondary-foreground: #fff6d7;
+  --ring: #5aa13a;
+  --accent: #d7c28a;
+  --accent-foreground: #211915;
 }
 
 .dark {
-  --background: #0f1419;
-  --foreground: #e8eae8;
-  --card: #1a2030;
-  --card-foreground: #e8eae8;
-  --popover: #1a2030;
-  --popover-foreground: #e8eae8;
-  --primary: #86a349;
-  --primary-foreground: #0f1419;
-  --secondary: #1e2a1e;
-  --secondary-foreground: #c8d4b8;
-  --muted: #1e2a1e;
-  --muted-foreground: #7a8a6e;
-  --accent: #1e2a1e;
-  --accent-foreground: #c8d4b8;
-  --destructive: #ff6b6b;
-  --border: #2a3a2a;
-  --input: #0a1015;
-  --ring: #86a349;
-  --chart-1: #86a349;
-  --chart-2: #3d8ef5;
-  --chart-3: #ffd466;
-  --chart-4: #ff6b45;
-  --chart-5: #5b7c28;
+  --background: #201f19;
+  --foreground: #efe8d3;
+  --card: #302d22;
+  --card-foreground: #efe8d3;
+  --popover: #302d22;
+  --popover-foreground: #efe8d3;
+  --primary: #6fbf48;
+  --primary-foreground: #15200f;
+  --secondary: #3a3427;
+  --secondary-foreground: #efe8d3;
+  --muted: #332f25;
+  --muted-foreground: #b4a987;
+  --accent: #415c32;
+  --accent-foreground: #efe8d3;
+  --destructive: #e05a3a;
+  --border: #5b513c;
+  --input: #171610;
+  --ring: #7fd159;
+  --chart-1: #6fbf48;
+  --chart-2: #58d1e7;
+  --chart-3: #f5c84b;
+  --chart-4: #e05a3a;
+  --chart-5: #a77a4e;
   --radius: 0px;
 
-  --sidebar: #151c22;
-  --sidebar-foreground: #e8eae8;
-  --sidebar-primary: #86a349;
-  --sidebar-primary-foreground: #0f1419;
-  --sidebar-accent: #1e2a1e;
-  --sidebar-accent-foreground: #c8d4b8;
-  --sidebar-border: #2a3a2a;
-  --sidebar-ring: #86a349;
+  --sidebar: #29261d;
+  --sidebar-foreground: #efe8d3;
+  --sidebar-primary: #6fbf48;
+  --sidebar-primary-foreground: #15200f;
+  --sidebar-accent: #3a3427;
+  --sidebar-accent-foreground: #efe8d3;
+  --sidebar-border: #5b513c;
+  --sidebar-ring: #7fd159;
 
-  --mc-grass: #86a349;
-  --mc-grass-soft: rgba(134, 163, 73, 0.12);
-  --mc-diamond: #3d8ef5;
-  --mc-diamond-soft: rgba(61, 142, 245, 0.12);
-  --mc-nether: #ff6b45;
-  --mc-nether-soft: rgba(255, 107, 69, 0.12);
-  --mc-gold: #ffd466;
-  --mc-gold-soft: rgba(255, 212, 102, 0.12);
+  --mc-grass: #6fbf48;
+  --mc-grass-soft: rgba(111, 191, 72, 0.16);
+  --mc-diamond: #58d1e7;
+  --mc-diamond-soft: rgba(88, 209, 231, 0.14);
+  --mc-nether: #e05a3a;
+  --mc-nether-soft: rgba(224, 90, 58, 0.16);
+  --mc-gold: #f5c84b;
+  --mc-gold-soft: rgba(245, 200, 75, 0.16);
+  --mc-redstone: #e0382e;
+  --mc-redstone-soft: rgba(224, 56, 46, 0.16);
+  --mc-sky: #31464d;
+  --mc-stone: #696860;
+  --mc-deepslate: #22211f;
+  --mc-dirt: #6f5037;
+  --mc-sand: #b9a66d;
 
-  --grid-dot-color: rgba(134, 163, 73, 0.08);
-  --grid-line-color: rgba(134, 163, 73, 0.05);
+  --grid-dot-color: rgba(126, 167, 82, 0.14);
+  --grid-line-color: rgba(126, 167, 82, 0.08);
 }
 
 .dark [data-mode='landing'] {
-  --primary: #63c741;
-  --primary-foreground: #1a1a1a;
-  --secondary: #5a4a30;
-  --secondary-foreground: #e0e0e0;
-  --ring: #63c741;
-  --background: #1a1a2e;
-  --card: #252535;
-  --foreground: #e0e0e0;
-  --card-foreground: #e0e0e0;
-  --muted: #303040;
-  --muted-foreground: #888888;
-  --border: #555555;
-  --input: #1a1a2e;
+  --primary: #6fbf48;
+  --primary-foreground: #15200f;
+  --secondary: #6f5037;
+  --secondary-foreground: #efe8d3;
+  --ring: #7fd159;
+  --background: #201f19;
+  --card: #302d22;
+  --foreground: #efe8d3;
+  --card-foreground: #efe8d3;
+  --muted: #332f25;
+  --muted-foreground: #b4a987;
+  --border: #5b513c;
+  --input: #171610;
 }
 
 @theme inline {
@@ -219,12 +233,12 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
-  --color-mc-grass: #53a331;
-  --color-mc-diamond: #1e6ee9;
-  --color-mc-nether: #ff481b;
-  --color-mc-gold: #ffc42c;
-  --color-mc-dark: #1a1d24;
-  --color-mc-brand: #5b7c28;
+  --color-mc-grass: var(--mc-grass);
+  --color-mc-diamond: var(--mc-diamond);
+  --color-mc-nether: var(--mc-nether);
+  --color-mc-gold: var(--mc-gold);
+  --color-mc-dark: var(--mc-deepslate);
+  --color-mc-brand: var(--primary);
 }
 
 @layer base {
@@ -244,6 +258,91 @@
   /* subtle noise texture overlay for backgrounds */
   .bg-noise {
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  }
+
+  .mc-world-bg {
+    background-color: var(--background);
+    background-image:
+      linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--mc-sky) 28%, transparent) 0 12rem,
+        transparent 24rem
+      ),
+      linear-gradient(var(--grid-line-color) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line-color) 1px, transparent 1px),
+      linear-gradient(
+        180deg,
+        transparent 0 58%,
+        color-mix(in srgb, var(--mc-grass) 12%, transparent) 58% 64%,
+        color-mix(in srgb, var(--mc-dirt) 16%, transparent) 64% 100%
+      );
+    background-size:
+      auto,
+      32px 32px,
+      32px 32px,
+      auto;
+  }
+
+  .mc-world-overlay-user,
+  .mc-world-overlay-admin {
+    background-repeat: repeat, repeat, no-repeat;
+    background-size:
+      64px 64px,
+      32px 32px,
+      auto;
+  }
+
+  .mc-world-overlay-user {
+    background-image:
+      linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--mc-grass) 14%, transparent) 0 16px,
+        transparent 16px 64px
+      ),
+      linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--mc-diamond) 9%, transparent) 0 8px,
+        transparent 8px 32px
+      ),
+      linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--mc-grass) 12%, transparent),
+        transparent 38%,
+        color-mix(in srgb, var(--mc-diamond) 10%, transparent)
+      );
+  }
+
+  .mc-world-overlay-admin {
+    background-image:
+      linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--mc-nether) 16%, transparent) 0 16px,
+        transparent 16px 64px
+      ),
+      linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--mc-gold) 10%, transparent) 0 8px,
+        transparent 8px 32px
+      ),
+      linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--mc-nether) 12%, transparent),
+        transparent 38%,
+        color-mix(in srgb, var(--mc-gold) 10%, transparent)
+      );
+  }
+
+  .mc-topbar {
+    background:
+      linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--mc-accent) 13%, transparent) 0 10px,
+        transparent 10px 32px
+      ),
+      var(--mc-texture-panel);
+    border-bottom: 3px solid var(--mc-outline);
+    box-shadow: 0 4px 0 var(--mc-shadow-color);
+    backdrop-filter: none;
   }
 
   /* glass morphism */
@@ -525,10 +624,18 @@
 
   /* Section with subtle alternate background */
   .landing-section-alt {
-    background: oklch(0.97 0.005 238);
+    background:
+      linear-gradient(var(--grid-line-color) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line-color) 1px, transparent 1px),
+      color-mix(in srgb, var(--background) 78%, var(--mc-bg-panel) 22%);
+    background-size: 32px 32px;
   }
   .dark .landing-section-alt {
-    background: oklch(0.13 0.012 238);
+    background:
+      linear-gradient(var(--grid-line-color) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line-color) 1px, transparent 1px),
+      color-mix(in srgb, var(--background) 78%, var(--mc-bg-panel) 22%);
+    background-size: 32px 32px;
   }
 
   /* Floating navbar glass */
@@ -587,11 +694,13 @@
 
   /* Landing gradient background */
   .landing-gradient {
-    background: linear-gradient(
-      135deg in oklch,
-      oklch(0.53 0.12 130),
-      oklch(0.55 0.19 260)
-    );
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.18),
+        rgba(0, 0, 0, 0.08)
+      ),
+      var(--mc-texture-grass-top);
   }
 }
 
@@ -605,26 +714,26 @@
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: oklch(0.7 0.01 214 / 30%);
-    border-radius: 9999px;
+    background: var(--mc-texture-stone);
+    border-radius: 0;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: oklch(0.7 0.01 214 / 50%);
+    background: var(--mc-texture-grass-top);
   }
   .dark ::-webkit-scrollbar-thumb {
-    background: oklch(0.5 0.01 214 / 30%);
+    background: var(--mc-texture-stone);
   }
   .dark ::-webkit-scrollbar-thumb:hover {
-    background: oklch(0.5 0.01 214 / 50%);
+    background: var(--mc-texture-grass-top);
   }
 
   /* scrollbar for firefox */
   * {
     scrollbar-width: thin;
-    scrollbar-color: oklch(0.7 0.01 214 / 30%) transparent;
+    scrollbar-color: var(--mc-stone) transparent;
   }
   .dark * {
-    scrollbar-color: oklch(0.5 0.01 214 / 30%) transparent;
+    scrollbar-color: var(--mc-stone) transparent;
   }
 }
 

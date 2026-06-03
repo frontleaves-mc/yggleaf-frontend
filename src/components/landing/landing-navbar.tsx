@@ -160,7 +160,7 @@ export function LandingNavbar() {
   }
 
   return (
-    <motion.header className="fixed top-0 z-50 h-16 w-full border-b-[3px] border-[var(--mc-outline)] bg-background">
+    <motion.header className="nav-glass fixed top-0 z-50 h-16 w-full">
       <nav className="mx-auto flex h-full max-w-(--page-max) items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
         <Link
           to="/"

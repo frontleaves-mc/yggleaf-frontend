@@ -12,7 +12,7 @@ interface LandingLayoutProps {
  */
 function LandingLayout({ children }: LandingLayoutProps) {
   return (
-    <div data-mode="landing" className="min-h-screen bg-background">
+    <div data-mode="landing" className="mc-world-bg min-h-screen bg-background">
       <main className="pt-16">{children ?? <Outlet />}</main>
     </div>
   )

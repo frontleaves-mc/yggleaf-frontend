@@ -169,6 +169,32 @@
   padding-bottom: 0.875rem;
 }
 
+[data-slot='mc-action-tile'] [data-mc-surface='block'] {
+  --mc-block-content: color-mix(in srgb, var(--mc-bg-slot) 88%, white 12%);
+  box-shadow:
+    inset 0 0 0 2px color-mix(in srgb, var(--mc-outline) 14%, transparent),
+    5px 5px 0 var(--mc-shadow-color);
+}
+
+[data-slot='mc-action-tile'] [data-mc-accent='nether'] {
+  --mc-block-top: repeating-linear-gradient(
+      90deg,
+      rgba(255, 122, 92, 0.2) 0 5px,
+      transparent 5px 13px
+    ),
+    repeating-linear-gradient(rgba(0, 0, 0, 0.12) 0 4px, transparent 4px 10px),
+    linear-gradient(135deg, #a93a2f, #7b241f 45%, #c04c38);
+  --mc-block-content: color-mix(in srgb, var(--mc-bg-slot) 84%, #f4d6c6 16%);
+}
+
+.dark [data-slot='mc-action-tile'] [data-mc-surface='block'] {
+  --mc-block-content: color-mix(
+    in srgb,
+    var(--mc-bg-panel) 82%,
+    var(--mc-bg-slot) 18%
+  );
+}
+
 [data-slot='card'][data-mc-accent]:not([data-mc-accent='none']),
 [data-slot='mc-card'][data-mc-accent]:not([data-mc-accent='none']) {
   border-color: color-mix(

@@ -50,9 +50,8 @@ function getInitialOpen(): boolean {
 }
 
 const mcGradientMap = {
-  user: 'bg-[radial-gradient(ellipse_45%_35%_at_0%_0%,var(--mc-grass-soft),transparent),radial-gradient(ellipse_38%_30%_at_100%_100%,var(--mc-diamond-soft),transparent)]',
-  admin:
-    'bg-[radial-gradient(ellipse_45%_35%_at_100%_0%,var(--mc-nether-soft),transparent),radial-gradient(ellipse_38%_30%_at_0%_100%,var(--mc-gold-soft),transparent)]',
+  user: 'mc-world-overlay-user',
+  admin: 'mc-world-overlay-admin',
 } as const
 
 // ─── 主组件 ──────────────────────────────────────────────
@@ -73,11 +72,11 @@ export function Layout({ children, mode, items, sections }: LayoutProps) {
   return (
     <SidebarProvider
       defaultOpen={getInitialOpen()}
-      className="relative bg-background"
+      className="mc-world-bg relative bg-background"
       data-mode={mode}
     >
       <div
-        className={`pointer-events-none fixed inset-0 opacity-80 transition-opacity duration-700 ${mcGradientMap[mode]}`}
+        className={`pointer-events-none fixed inset-0 opacity-70 transition-opacity duration-700 ${mcGradientMap[mode]}`}
         aria-hidden="true"
       />
 

@@ -23,6 +23,7 @@ function McActionTile({
   return (
     <button
       type="button"
+      data-slot="mc-action-tile"
       className={cn('block w-full text-left', className)}
       {...props}
     >
